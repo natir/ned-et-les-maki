@@ -1,0 +1,4 @@
+* Boxy-Bold.ttf
+
+License: CC0
+Author: cemkalyoncu, william.thompsonj, usr_share ( http://opengameart.org/content/boxy-bold-truetype-font )

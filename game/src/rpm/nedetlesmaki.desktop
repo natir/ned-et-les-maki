@@ -1,0 +1,10 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=${project.version}
+Type=Application
+Terminal=false
+Categories=Game;
+Exec=java -jar /opt/nedetlesmaki/nedetlesmaki-game.jar
+Name=Ned et les maki
+Comment=Ned et les maki
+Icon=/opt/nedetlesmaki/icon.png

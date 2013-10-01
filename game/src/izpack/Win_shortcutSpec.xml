@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<shortcuts>
+<skipIfNotSupported/>
+<programGroup defaultName="Ned et les maki" location="applications"/>
+<shortcut name="Ned et les maki"
+        target="$JAVA_HOME\bin\javaw.exe"
+	commandLine="-jar  &quot;$INSTALL_PATH\${nedetlesmaki_build_final_name}.jar &quot;"
+        description="Launch Ned et les maki"
+        workingDirectory="$INSTALL_PATH"
+        iconFile="$INSTALL_PATH\icon.ico"
+        initialState="normal"
+        programGroup="yes"
+        desktop="yes"
+        applications="no"
+        startMenu="no"
+        startup="no">
+	<createForPack name="Core"/>
+</shortcut>
+
+<shortcut
+ 		name="Uninstall Ned et les maki"
+		target="$JAVA_HOME\bin\javaw.exe"
+		workingDirectory=""
+		commandLine="-jar &quot;$INSTALL_PATH\Uninstaller\uninstaller.jar&quot;"
+ 		description="Run me with administrator privilege to uninstall Ned et les maki"
+ 		initialState="normal"
+		programGroup="yes"
+		desktop="no"
+		applications="no"
+		startMenu="no"
+		startup="no" >
+	<createForPack name="Core"/>
+</shortcut>
+
+
+</shortcuts>
