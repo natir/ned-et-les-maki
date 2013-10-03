@@ -62,18 +62,15 @@ public class Main {
 
         try {
             File nativeDir = new File(getApplicationDir() + File.separator + "natives");
-            if (nativeDir.exists()) {
+            if (nativeDir.exists() && nativeDir.isDirectory() && nativeDir.list().length > 0) {
                 String nativePath = nativeDir.getCanonicalPath();
                 System.setProperty("org.lwjgl.librarypath", nativePath);
                 System.setProperty("net.java.games.input.librarypath", nativePath);
-                return;
-            } else {
-                System.out.println("Cannot find 'natives' library folder, try system libraries");
             }
         } catch (IOException e) {
             Logger.getLogger(Main.class.getName()).log(Level.WARNING, "error", e);
         }
-        Logger.getLogger(Main.class.getName()).log(Level.WARNING, "Cannot find 'natives' library folder, try system libraries");
+        Logger.getLogger(Main.class.getName()).log(Level.INFO, "Cannot find 'natives' library folder, try system libraries");
     }
 
     public static String getApplicationDir() throws IOException {
