@@ -112,7 +112,6 @@ public class Main {
                     Controllers.poll();
                 }
             }
-
         } catch (Throwable e) {
             handleError(e, "Unexpected error during execution.\n");
         }
