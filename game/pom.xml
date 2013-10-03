@@ -408,7 +408,7 @@
 									<groupname>root</groupname>
 									<sources>
 										<source>
-											<location>${basedir}/src/rpm/run-nedetlesmaki.sh</location>
+											<location>${basedir}/src/rpm/run_nedetlesmaki.sh</location>
 											<destination>${project.name}</destination>
 										</source>
 									</sources>
