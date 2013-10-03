@@ -1,2 +1,2 @@
 #!/bin/sh
-java -jar netetlesmaki-${project.version}.jar
+java -jar nedetlesmaki-${project.version}.jar
