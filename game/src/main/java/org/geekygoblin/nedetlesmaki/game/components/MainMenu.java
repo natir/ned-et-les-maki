@@ -44,7 +44,7 @@ import im.bci.lwjgl.nuit.widgets.ControlsConfigurator;
 import im.bci.lwjgl.nuit.widgets.Root;
 import im.bci.lwjgl.nuit.widgets.Table;
 import im.bci.lwjgl.nuit.widgets.VideoConfigurator;
-import org.geekygoblin.nedetlesmaki.game.events.StartGameEvent;
+import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
 
 public class MainMenu extends Component implements AutoCloseable {
 
@@ -174,6 +174,6 @@ public class MainMenu extends Component implements AutoCloseable {
     }
 
     private void onStartGame() {
-        world.addEntity(world.createEntity().addComponent(new EventComponent(new StartGameEvent())));
+        world.addEntity(world.createEntity().addComponent(new Triggerable(new StartGameTrigger())));
     }
 }
