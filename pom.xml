@@ -13,7 +13,6 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	<modules>
-	            <module>artemis</module>
                 <module>game</module>
 	</modules>
 </project>

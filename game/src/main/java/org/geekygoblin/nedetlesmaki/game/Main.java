@@ -31,7 +31,6 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
-import im.bci.lwjgl.nuit.NuitBasic;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
 
 import java.io.File;
@@ -41,15 +40,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
-
 import org.lwjgl.input.Controllers;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
 
 public class Main {
+
     static void setupLibraryPath() {
         if (System.getProperty("javawebstart.version") != null) {
             return;
@@ -96,18 +94,17 @@ public class Main {
             Display.setFullscreen(false);
             Display.create();
             LwjglHelper.setResizable(true);
-            try (NuitBasic nuit = new NuitBasic()) {
-                while (!Display.isCloseRequested()) {
-                    nuit.update();
-                    GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-                    nuit.draw();
-                    Display.update(false);
-                    Display.sync(60);
-                    Display.processMessages();
-                    Mouse.poll();
-                    Keyboard.poll();
-                    Controllers.poll();
-                }
+
+            Game game = new Game();
+
+            while (!Display.isCloseRequested()) {
+                game.process();
+                Display.update(false);
+                Display.sync(60);
+                Display.processMessages();
+                Mouse.poll();
+                Keyboard.poll();
+                Controllers.poll();
             }
         } catch (Throwable e) {
             handleError(e, "Unexpected error during execution.\n");
