@@ -8,17 +8,17 @@ import com.artemis.Component;
  */
 public class StopOnPlate extends Component {
     
-    private bool stop;
+    private boolean stop;
 
-    public Rooted(bool stop) {
+    public StopOnPlate(boolean stop) {
 	this.stop = stop;
     }
 
-    public stop() {
+    public boolean stop() {
 	return this.stop;
     }
 
-    public int setStop(bool stop) {
+    public void setStop(boolean stop) {
        this.stop = stop;
     }
 }

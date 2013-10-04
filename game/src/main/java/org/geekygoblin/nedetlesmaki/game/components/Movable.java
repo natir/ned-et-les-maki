@@ -18,7 +18,7 @@ public class Movable extends Component {
 	return this.nbCase;
     }
 
-    public int setNbCase(int nbCase) {
+    public void setNbCase(int nbCase) {
        this.nbCase = nbCase;
     }
 }

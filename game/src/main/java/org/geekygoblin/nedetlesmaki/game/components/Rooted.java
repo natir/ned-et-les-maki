@@ -8,17 +8,17 @@ import com.artemis.Component;
  */
 public class Rooted extends Component {
     
-    private bool rooted;
+    private boolean rooted;
 
-    public Rooted(bool rooted) {
+    public Rooted(boolean rooted) {
 	this.rooted = rooted;
     }
 
-    public isRooted() {
+    public boolean isRooted() {
 	return this.rooted;
     }
 
-    public int setRooted(bool rooted) {
+    public void setRooted(boolean rooted) {
        this.rooted = rooted;
     }
 }

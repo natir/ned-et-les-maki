@@ -10,7 +10,7 @@ public class Position extends Component {
     
     private int x, y;
 
-    public Positon(int x, int y, String texture) {
+    public Position(int x, int y, String texture) {
 	this.x = x;
 	this.y = y;
     }
