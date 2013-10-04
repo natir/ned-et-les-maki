@@ -41,10 +41,10 @@ import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
  *
  * @author devnewton
  */
-public class StartGameEvent extends Event {
+public class StartGameTrigger extends Trigger {
 
     @Override
-    public void handle(Game game) {
+    public void process(Game game) {
         game.getMainMenu().disable();
         game.getIngameControls().enable();
         Entity level = game.createEntity();

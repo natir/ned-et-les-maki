@@ -31,13 +31,13 @@
  */
 package org.geekygoblin.nedetlesmaki.game.systems;
 
-import org.geekygoblin.nedetlesmaki.game.events.ShowMenuEvent;
+import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
 import com.artemis.Aspect;
 import com.artemis.Entity;
 import com.artemis.systems.EntityProcessingSystem;
-import org.geekygoblin.nedetlesmaki.game.components.EventComponent;
+import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
-import org.geekygoblin.nedetlesmaki.game.events.Event;
+import org.geekygoblin.nedetlesmaki.game.events.Trigger;
 
 /**
  *
@@ -55,7 +55,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
             IngameControls controls = e.getComponent(IngameControls.class);
             controls.getShowMenu().poll();
             if (controls.getShowMenu().isActivated()) {
-                world.addEntity(world.createEntity().addComponent(new EventComponent(new ShowMenuEvent())));
+                world.addEntity(world.createEntity().addComponent(new Triggerable(new ShowMenuTrigger())));
             }
         }
     }

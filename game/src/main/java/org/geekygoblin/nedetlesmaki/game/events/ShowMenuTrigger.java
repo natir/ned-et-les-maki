@@ -37,10 +37,10 @@ import org.geekygoblin.nedetlesmaki.game.Game;
  *
  * @author devnewton
  */
-public class ShowMenuEvent extends Event {
+public class ShowMenuTrigger extends Trigger {
 
     @Override
-    public void handle(Game game) {
+    public void process(Game game) {
         game.getMainMenu().enable();
         game.getIngameControls().disable();
     }

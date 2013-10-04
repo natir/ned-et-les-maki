@@ -35,22 +35,22 @@ import com.artemis.Aspect;
 import com.artemis.Entity;
 import com.artemis.systems.EntityProcessingSystem;
 import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.components.EventComponent;
+import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 
 /**
  *
  * @author devnewton
  */
-public class EventSystem  extends EntityProcessingSystem {
+public class TriggerSystem  extends EntityProcessingSystem {
     
-    public EventSystem() {
-        super(Aspect.getAspectForOne(EventComponent.class));
+    public TriggerSystem() {
+        super(Aspect.getAspectForOne(Triggerable.class));
     }   
 
     @Override
     protected void process(Entity e) {
         
-       e.getComponent(EventComponent.class).getEvent().handle((Game)world);
+       e.getComponent(Triggerable.class).getTrigger().process((Game)world);
        e.deleteFromWorld();
     }
 }

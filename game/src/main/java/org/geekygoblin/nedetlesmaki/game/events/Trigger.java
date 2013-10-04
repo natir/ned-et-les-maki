@@ -37,6 +37,6 @@ import org.geekygoblin.nedetlesmaki.game.Game;
  *
  * @author devnewton
  */
-public abstract class Event {
-    public abstract void handle(Game game);
+public abstract class Trigger {
+    public abstract void process(Game game);
 }
