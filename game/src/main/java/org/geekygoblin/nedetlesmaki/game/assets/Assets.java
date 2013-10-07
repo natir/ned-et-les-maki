@@ -33,18 +33,16 @@ package org.geekygoblin.nedetlesmaki.game.assets;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
+import im.bci.nanim.AnimationCollection;
+import im.bci.nanim.NanimParser.Nanim;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.ReferenceQueue;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
 import java.util.Date;
 import java.util.HashMap;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GLContext;
 
 /**
  *
@@ -54,7 +52,10 @@ public class Assets implements AutoCloseable {
 
     private VirtualFileSystem vfs;
     private HashMap<String/* name */, TextureWeakReference> textures = new HashMap<>();
-    private ReferenceQueue<Texture> referenceQueue = new ReferenceQueue<>();
+    private ReferenceQueue<Texture> texturesReferenceQueue = new ReferenceQueue<>();
+    private HashMap<String/* name */, AnimationCollectionWeakReference> animations = new HashMap<>();
+    private ReferenceQueue<AnimationCollection> animationsReferenceQueue = new ReferenceQueue<>();
+    
 
     Assets(VirtualFileSystem vfs) {
         this.vfs = vfs;
@@ -83,13 +84,32 @@ public class Assets implements AutoCloseable {
             throw new RuntimeException("Cannot load texture " + name, e);
         }
     }
-    
+
+    AnimationCollection getAnimations(String name) {
+        AnimationCollectionWeakReference animRef = animations.get(name);
+        if (null != animRef) {
+            AnimationCollection anim = animRef.get();
+            if (null != anim) {
+                return anim;
+            } else {
+                animations.remove(name);
+            }
+        }
+        try (InputStream is = vfs.open(name)) {
+            AnimationCollection anim = new AnimationCollection(Nanim.parseFrom(is));
+            putAnim(name, anim);
+            return anim;
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot load animation " + name, e);
+        }
+    }
+
     public Texture grabScreenToTexture() {
         int maxSize = GL11.glGetInteger(GL11.GL_MAX_TEXTURE_SIZE);
-        Texture texture = new Texture(Math.min(maxSize,LwjglHelper.getWidth()), Math.min(maxSize,LwjglHelper.getHeight()), false);
+        Texture texture = new Texture(Math.min(maxSize, LwjglHelper.getWidth()), Math.min(maxSize, LwjglHelper.getHeight()), false);
         putTexture("!screenCapture_" + new Date().getTime(), texture);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getId());
-        setupGLTextureParams();
+        LwjglHelper.setupGLTextureParams();
         GL11.glCopyTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, 0, 0, texture.getWidth(), texture.getHeight(), 0);
         return texture;
     }
@@ -125,7 +145,7 @@ public class Assets implements AutoCloseable {
             Texture texture = new Texture(texWidth, texHeight, hasAlpha);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getId());
             GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
-            setupGLTextureParams();
+            LwjglHelper.setupGLTextureParams();
             GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, pixelFormat, texWidth,
                     texHeight, 0, pixelFormat, GL11.GL_UNSIGNED_BYTE, buffer);
             return texture;
@@ -135,47 +155,35 @@ public class Assets implements AutoCloseable {
 
     }
 
-    private void setupGLTextureParams() {
-        if (GLContext.getCapabilities().OpenGL12) {
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
-        } else {
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
-            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
-        }
-        setupGLTextureQualityParams();
-        GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE,
-                GL11.GL_MODULATE);
-    }
-
-    private void setupGLTextureQualityParams() {
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-    }
-
-    private void deleteTexture(TextureWeakReference texture) {
-        ByteBuffer temp = ByteBuffer.allocateDirect(4);
-        temp.order(ByteOrder.nativeOrder());
-        IntBuffer intBuffer = temp.asIntBuffer();
-        intBuffer.put(texture.textureId);
-        GL11.glDeleteTextures(intBuffer);
-    }
-
-    private void putTexture(String name, Texture texture) {
-        textures.put(name, new TextureWeakReference(name, texture, referenceQueue));
-    }
-
     public void clearUseless() {
-        TextureWeakReference ref;
-        while ((ref = (TextureWeakReference) referenceQueue.poll()) != null) {
-            deleteTexture(ref);
+        TextureWeakReference tex;
+        while ((tex = (TextureWeakReference) texturesReferenceQueue.poll()) != null) {
+            tex.delete();
+        }
+        
+        AnimationCollectionWeakReference ani;
+        while ((ani = (AnimationCollectionWeakReference) animationsReferenceQueue.poll()) != null) {
+            ani.delete();
         }
     }
 
     private void clearAll() {
         for (TextureWeakReference ref : textures.values()) {
-            deleteTexture(ref);
+            ref.delete();
         }
         textures.clear();
+        
+        for (AnimationCollectionWeakReference ref : animations.values()) {
+            ref.delete();
+        }
+        animations.clear();
+    }
+
+    private void putAnim(String name, AnimationCollection anim) {
+        animations.put(name, new AnimationCollectionWeakReference(name, anim, animationsReferenceQueue));
+    }
+
+    private void putTexture(String name, Texture texture) {
+        textures.put(name, new TextureWeakReference(name, texture, texturesReferenceQueue));
     }
 }

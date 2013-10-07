@@ -31,36 +31,45 @@
  */
 package org.geekygoblin.nedetlesmaki.game.assets;
 
+import im.bci.nanim.AnimationCollection;
+import im.bci.nanim.AnimationImage;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 /**
  *
  * @author devnewton
  */
-public class TextureWeakReference extends WeakReference<Texture> {
+public class AnimationCollectionWeakReference extends WeakReference<AnimationCollection> {
 
-    Integer textureId;
+    IntBuffer textureIds;
     String name;
 
-    TextureWeakReference(String name, Texture texture, ReferenceQueue<Texture> queue) {
-        super(texture, queue);
-        textureId = texture.getId();
+    AnimationCollectionWeakReference(String name, AnimationCollection animations, ReferenceQueue<AnimationCollection> queue) {
+        super(animations, queue);
         this.name = name;
+        List<Integer> ids = new ArrayList<>();
+        for (AnimationImage image : animations.getImages().values()) {
+            ids.add(image.getId());
+        }
+        ByteBuffer temp = ByteBuffer.allocateDirect(ids.size() * Integer.SIZE);
+        temp.order(ByteOrder.nativeOrder());
+        textureIds = temp.asIntBuffer();
+        for (Integer id : ids) {
+            textureIds.put(id);
+        }
     }
 
     void delete() {
-        if (null != textureId) {
-            ByteBuffer temp = ByteBuffer.allocateDirect(4);
-            temp.order(ByteOrder.nativeOrder());
-            IntBuffer intBuffer = temp.asIntBuffer();
-            intBuffer.put(textureId);
-            GL11.glDeleteTextures(intBuffer);
-            textureId = null;
+        if (null != textureIds) {
+            GL11.glDeleteTextures(textureIds);
+            textureIds = null;
         }
     }
 }

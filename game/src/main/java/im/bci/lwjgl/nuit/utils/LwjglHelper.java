@@ -34,6 +34,9 @@ package im.bci.lwjgl.nuit.utils;
 import java.lang.reflect.Method;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GLContext;
 
 public class LwjglHelper {
 
@@ -99,5 +102,25 @@ public class LwjglHelper {
         } catch (Exception e) {
         }
         return Display.getDisplayMode().getHeight();
+    }
+    
+    
+    public static void setupGLTextureParams() {
+        if (GLContext.getCapabilities().OpenGL12) {
+            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+        } else {
+            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_CLAMP);
+            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_CLAMP);
+        }
+        setupGLTextureQualityParams();
+        GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE,
+                GL11.GL_MODULATE);
+    }
+    
+    
+    public static void setupGLTextureQualityParams() {
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
     }
 }

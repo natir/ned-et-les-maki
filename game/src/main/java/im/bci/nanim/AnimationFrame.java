@@ -29,38 +29,48 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.geekygoblin.nedetlesmaki.game.assets;
-
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
-import org.lwjgl.opengl.GL11;
+package im.bci.nanim;
 
 /**
  *
  * @author devnewton
  */
-public class TextureWeakReference extends WeakReference<Texture> {
+public class AnimationFrame {
 
-    Integer textureId;
-    String name;
+    private AnimationImage image;
+    private long duration;//milliseconds
+    long endTime;//milliseconds
+    float u1 = 0;
+    float v1 = 0;
+    float u2 = 1;
+    float v2 = 1;
 
-    TextureWeakReference(String name, Texture texture, ReferenceQueue<Texture> queue) {
-        super(texture, queue);
-        textureId = texture.getId();
-        this.name = name;
+    public AnimationFrame(AnimationImage image, long duration) {
+        this.image = image;
+        this.duration = duration;
     }
 
-    void delete() {
-        if (null != textureId) {
-            ByteBuffer temp = ByteBuffer.allocateDirect(4);
-            temp.order(ByteOrder.nativeOrder());
-            IntBuffer intBuffer = temp.asIntBuffer();
-            intBuffer.put(textureId);
-            GL11.glDeleteTextures(intBuffer);
-            textureId = null;
-        }
+    public long getDuration() {
+        return duration;
+    }
+
+    public AnimationImage getImage() {
+        return image;
+    }
+
+    public float getU1() {
+        return u1;
+    }
+
+    public float getV1() {
+        return v1;
+    }
+
+    public float getU2() {
+        return u2;
+    }
+
+    public float getV2() {
+        return v2;
     }
 }

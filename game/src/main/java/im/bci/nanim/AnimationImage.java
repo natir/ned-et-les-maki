@@ -29,10 +29,8 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.geekygoblin.nedetlesmaki.game.assets;
+package im.bci.nanim;
 
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
@@ -42,25 +40,24 @@ import org.lwjgl.opengl.GL11;
  *
  * @author devnewton
  */
-public class TextureWeakReference extends WeakReference<Texture> {
+public class AnimationImage {
+    private int id;
+    private boolean alpha;
 
-    Integer textureId;
-    String name;
-
-    TextureWeakReference(String name, Texture texture, ReferenceQueue<Texture> queue) {
-        super(texture, queue);
-        textureId = texture.getId();
-        this.name = name;
+    public AnimationImage(boolean alpha) {
+        ByteBuffer temp = ByteBuffer.allocateDirect(4);
+        temp.order(ByteOrder.nativeOrder());
+        IntBuffer intBuffer = temp.asIntBuffer();
+        GL11.glGenTextures(intBuffer);
+        id = intBuffer.get(0);
+        this.alpha = alpha;
     }
 
-    void delete() {
-        if (null != textureId) {
-            ByteBuffer temp = ByteBuffer.allocateDirect(4);
-            temp.order(ByteOrder.nativeOrder());
-            IntBuffer intBuffer = temp.asIntBuffer();
-            intBuffer.put(textureId);
-            GL11.glDeleteTextures(intBuffer);
-            textureId = null;
-        }
+    public int getId() {
+        return id;
+    }
+
+    public boolean hasAlpha() {
+        return alpha;
     }
 }
