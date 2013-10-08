@@ -36,12 +36,16 @@ import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.utils.ImmutableBag;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
+import im.bci.nanim.AnimationFrame;
+import im.bci.nanim.AnimationImage;
 import java.util.Comparator;
 import java.util.TreeSet;
+import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Color;
 
 /**
  *
@@ -57,7 +61,7 @@ public class DrawSystem extends EntitySystem {
     };
 
     public DrawSystem() {
-        super(Aspect.getAspectForAll(ZOrder.class).one(Level.class, MainMenu.class));
+        super(Aspect.getAspectForAll(ZOrder.class).one(Level.class, MainMenu.class, Sprite.class));
     }
 
     @Override
@@ -66,19 +70,23 @@ public class DrawSystem extends EntitySystem {
         TreeSet<Entity> entititesSortedByZ = new TreeSet<>(zComparator);
         for (int i = 0, n = entities.size(); i < n; ++i) {
             final Entity e = entities.get(i);
-            if(e.isEnabled()) {
+            if (e.isEnabled()) {
                 entititesSortedByZ.add(e);
             }
         }
 
         for (Entity e : entititesSortedByZ) {
             MainMenu mainMenu = e.getComponent(MainMenu.class);
-            if(null != mainMenu) {
+            if (null != mainMenu) {
                 mainMenu.draw();
             }
             Level level = e.getComponent(Level.class);
-            if(null != level) {
+            if (null != level) {
                 drawLevel(level);
+            }
+            Sprite sprite = e.getComponent(Sprite.class);
+            if (null != sprite) {
+                drawSprite(sprite);
             }
         }
 
@@ -109,8 +117,8 @@ public class DrawSystem extends EntitySystem {
         GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
 
         GL11.glBegin(GL11.GL_POINTS);
-        for(int x = 0; x<level.getWidth(); ++x) {
-            for(int y = 0; y<level.getWidth(); ++y) {
+        for (int x = 0; x < level.getWidth(); ++x) {
+            for (int y = 0; y < level.getWidth(); ++y) {
                 GL11.glVertex2f(x * 10, y * 10);
             }
         }
@@ -121,5 +129,58 @@ public class DrawSystem extends EntitySystem {
         GL11.glPopMatrix();
         GL11.glPopAttrib();
 
+    }
+
+    private void drawSprite(Sprite sprite) {
+        GL11.glPushMatrix();
+        GL11.glTranslatef(sprite.getPosition().getX(), sprite.getPosition().getY(),
+                sprite.getPosition().getZ());
+        GL11.glRotatef(sprite.getRotate(), 0, 0, 1.0f);
+        GL11.glScalef(sprite.getScale(), sprite.getScale(), 1);
+        final AnimationFrame frame = sprite.getPlay().getCurrentFrame();
+        final AnimationImage image = frame.getImage();
+        if (image.hasAlpha()) {
+            GL11.glEnable(GL11.GL_BLEND);
+        }
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, image.getId());
+
+        final float u1, u2;
+        if (sprite.isMirrorX()) {
+            u1 = frame.getU2();
+            u2 = frame.getU1();
+        } else {
+            u1 = frame.getU1();
+            u2 = frame.getU2();
+        }
+
+        final float v1, v2;
+        if (sprite.isMirrorY()) {
+            v1 = frame.getV1();
+            v2 = frame.getV2();
+        } else {
+            v1 = frame.getV2();
+            v2 = frame.getV1();
+        }
+        final Color color = sprite.getColor();
+        GL11.glColor4b(color.getRedByte(), color.getGreenByte(), color.getBlueByte(), color.getAlphaByte());
+        float x1 = -sprite.getWidth() / 2.0f;
+        float x2 = sprite.getWidth() / 2.0f;
+        float y1 = -sprite.getHeight() / 2.0f;
+        float y2 = sprite.getHeight() / 2.0f;
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glTexCoord2f(u1, v1);
+        GL11.glVertex2f(x1, y2);
+        GL11.glTexCoord2f(u2, v1);
+        GL11.glVertex2f(x2, y2);
+        GL11.glTexCoord2f(u2, v2);
+        GL11.glVertex2f(x2, y1);
+        GL11.glTexCoord2f(u1, v2);
+        GL11.glVertex2f(x1, y1);
+        GL11.glEnd();
+        GL11.glColor3f(1f, 1f, 1f);
+        if (image.hasAlpha()) {
+            GL11.glDisable(GL11.GL_BLEND);
+        }
+        GL11.glPopMatrix();
     }
 }
