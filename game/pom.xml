@@ -205,6 +205,11 @@
                     <artifactId>pngdecoder</artifactId>
                     <version>1.0</version>
                 </dependency>
+                <dependency>
+                    <groupId>org.geekygoblin</groupId>
+                    <artifactId>libtiled</artifactId>
+                    <version>0.9.1-SNAPSHOT</version>
+                </dependency>
 	</dependencies>
 	<profiles>
 		<profile>
@@ -631,6 +636,11 @@
                                     <groupId>org.l33tlabs.twl</groupId>
                                     <artifactId>pngdecoder</artifactId>
                                     <version>1.0</version>
+                                </dependency>
+                                <dependency>
+                                    <groupId>org.geekygoblin</groupId>
+                                    <artifactId>libtiled</artifactId>
+                                    <version>0.9.1-SNAPSHOT</version>
                                 </dependency>
 			</dependencies>
 		</profile>
