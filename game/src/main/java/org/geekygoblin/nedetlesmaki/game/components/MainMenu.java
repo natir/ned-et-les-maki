@@ -32,8 +32,8 @@
 package org.geekygoblin.nedetlesmaki.game.components;
 
 import com.artemis.Component;
-import com.artemis.World;
-import im.bci.lwjgl.nuit.*;
+import im.bci.lwjgl.nuit.NuitToolkit;
+import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import java.util.Arrays;
 
 import org.lwjgl.LWJGLException;
@@ -44,6 +44,13 @@ import im.bci.lwjgl.nuit.widgets.ControlsConfigurator;
 import im.bci.lwjgl.nuit.widgets.Root;
 import im.bci.lwjgl.nuit.widgets.Table;
 import im.bci.lwjgl.nuit.widgets.VideoConfigurator;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
 
 public class MainMenu extends Component implements AutoCloseable {
@@ -55,11 +62,17 @@ public class MainMenu extends Component implements AutoCloseable {
     private AudioConfigurator audioConfigurator;
     private Table optionsMenu;
     private ControlsConfigurator controls;
-    private final World world;
+    private final Game game;
 
-    public MainMenu(World world) throws LWJGLException {
-        this.world = world;
-        toolkit = new NuitToolkit();
+    public MainMenu(Game game) throws LWJGLException {
+        this.game = game;
+        toolkit = new NuitToolkit() {
+
+            @Override
+            protected TrueTypeFont createFont() {
+                return MainMenu.this.game.getAssets().getFont("Boxy-Bold.ttf");
+            }            
+        };
         root = new Root(toolkit);
         initVideo();
         initAudio();
@@ -174,6 +187,6 @@ public class MainMenu extends Component implements AutoCloseable {
     }
 
     private void onStartGame() {
-        world.addEntity(world.createEntity().addComponent(new Triggerable(new StartGameTrigger())));
+        game.addEntity(game.createEntity().addComponent(new Triggerable(new StartGameTrigger())));
     }
 }

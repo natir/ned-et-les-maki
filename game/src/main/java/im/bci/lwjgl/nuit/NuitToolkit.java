@@ -59,7 +59,6 @@ import com.esotericsoftware.tablelayout.Toolkit;
 public class NuitToolkit extends Toolkit<Widget, Table> implements AutoCloseable {
 
     private ActionActivatedDetector menuUp, menuDown, menuLeft, menuRight, menuOK, menuCancel;
-
     private TrueTypeFont font;
     private Vector2f oldMousePos;
     private Boolean oldIsMouseButtonDown;
@@ -71,22 +70,23 @@ public class NuitToolkit extends Toolkit<Widget, Table> implements AutoCloseable
         menuRight = new ActionActivatedDetector(new Action("menu right", new KeyControl(Keyboard.KEY_RIGHT)));
         menuOK = new ActionActivatedDetector(new Action("menu ok", new KeyControl(Keyboard.KEY_RETURN)));
         menuCancel = new ActionActivatedDetector(new Action("menu cancel", new KeyControl(Keyboard.KEY_ESCAPE)));
-        font = createFont();
     }
 
     protected TrueTypeFont createFont() {
-    	Font font;
-    	
-    	try(InputStream is = getClass().getClassLoader().getResourceAsStream("Boxy-Bold.ttf")) {
-    		font = Font.createFont(Font.TRUETYPE_FONT, is);
-    		font = font.deriveFont(Font.PLAIN, 48);
-    	} catch (IOException | FontFormatException e) {
-			font = new Font("monospaced", Font.BOLD, 24);
-		}
-        return new TrueTypeFont(font, true, new char[0], new HashMap<Character, BufferedImage>());
+        Font f;
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("Boxy-Bold.ttf")) {
+            f = Font.createFont(Font.TRUETYPE_FONT, is);
+            f = f.deriveFont(Font.PLAIN, 48);
+        } catch (IOException | FontFormatException e) {
+            f = new Font("monospaced", Font.BOLD, 24);
+        }
+        return new TrueTypeFont(f, true, new char[0], new HashMap<Character, BufferedImage>());
     }
 
     public TrueTypeFont getFont() {
+        if (null == font) {
+            font = createFont();
+        }
         return font;
     }
 
@@ -178,13 +178,11 @@ public class NuitToolkit extends Toolkit<Widget, Table> implements AutoCloseable
     @Override
     public void clearDebugRectangles(BaseTableLayout<Widget, Table> layout) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void addDebugRectangle(BaseTableLayout<Widget, Table> layout, Debug type, float x, float y, float w, float h) {
         // TODO Auto-generated method stub
-
     }
 
     public void update(Root root) {
@@ -243,7 +241,8 @@ public class NuitToolkit extends Toolkit<Widget, Table> implements AutoCloseable
 
     @Override
     public void close() throws Exception {
-        font.destroy();
-        
+        if (null != font) {
+            font.destroy();
+        }
     }
 }

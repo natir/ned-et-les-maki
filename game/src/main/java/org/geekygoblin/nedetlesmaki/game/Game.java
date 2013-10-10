@@ -33,6 +33,8 @@ package org.geekygoblin.nedetlesmaki.game;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.geekygoblin.nedetlesmaki.game.assets.VirtualFileSystem;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
@@ -49,9 +51,11 @@ import org.lwjgl.LWJGLException;
  */
 public class Game extends World {
 
+    private final Assets assets;
     private Entity mainMenu, ingameControls;
 
-    public Game() throws LWJGLException {
+    public Game(Assets assets) throws LWJGLException {
+        this.assets = assets;
         setSystem(new IngameInputSystem());
         setSystem(new DrawSystem());
         setSystem(new TriggerSystem());
@@ -75,5 +79,9 @@ public class Game extends World {
 
     public Entity getIngameControls() {
         return ingameControls;
+    }
+
+    public Assets getAssets() {
+        return assets;
     }
 }

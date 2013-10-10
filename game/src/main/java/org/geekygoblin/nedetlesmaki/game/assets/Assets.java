@@ -33,8 +33,12 @@ package org.geekygoblin.nedetlesmaki.game.assets;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
+import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import im.bci.nanim.AnimationCollection;
 import im.bci.nanim.NanimParser.Nanim;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,9 +59,8 @@ public class Assets implements AutoCloseable {
     private ReferenceQueue<Texture> texturesReferenceQueue = new ReferenceQueue<>();
     private HashMap<String/* name */, AnimationCollectionWeakReference> animations = new HashMap<>();
     private ReferenceQueue<AnimationCollection> animationsReferenceQueue = new ReferenceQueue<>();
-    
 
-    Assets(VirtualFileSystem vfs) {
+    public Assets(VirtualFileSystem vfs) {
         this.vfs = vfs;
     }
 
@@ -160,7 +163,7 @@ public class Assets implements AutoCloseable {
         while ((tex = (TextureWeakReference) texturesReferenceQueue.poll()) != null) {
             tex.delete();
         }
-        
+
         AnimationCollectionWeakReference ani;
         while ((ani = (AnimationCollectionWeakReference) animationsReferenceQueue.poll()) != null) {
             ani.delete();
@@ -172,7 +175,7 @@ public class Assets implements AutoCloseable {
             ref.delete();
         }
         textures.clear();
-        
+
         for (AnimationCollectionWeakReference ref : animations.values()) {
             ref.delete();
         }
@@ -185,5 +188,16 @@ public class Assets implements AutoCloseable {
 
     private void putTexture(String name, Texture texture) {
         textures.put(name, new TextureWeakReference(name, texture, texturesReferenceQueue));
+    }
+
+    public TrueTypeFont getFont(String name) {
+        Font f;
+        try (InputStream is = vfs.open(name)) {
+            f = Font.createFont(Font.TRUETYPE_FONT, is);
+            f = f.deriveFont(Font.PLAIN, 48);
+        } catch (IOException | FontFormatException e) {
+            f = new Font("monospaced", Font.BOLD, 24);
+        }
+        return new TrueTypeFont(f, true, new char[0], new HashMap<Character, BufferedImage>());
     }
 }

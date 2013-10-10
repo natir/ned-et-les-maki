@@ -40,6 +40,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
+import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.geekygoblin.nedetlesmaki.game.assets.VirtualFileSystem;
 import org.lwjgl.input.Controllers;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -59,7 +61,7 @@ public class Main {
         }
 
         try {
-            File nativeDir = new File(getApplicationDir() + File.separator + "natives");
+            File nativeDir = new File(getApplicationDir(), "natives");
             if (nativeDir.exists() && nativeDir.isDirectory() && nativeDir.list().length > 0) {
                 String nativePath = nativeDir.getCanonicalPath();
                 System.setProperty("org.lwjgl.librarypath", nativePath);
@@ -71,12 +73,12 @@ public class Main {
         Logger.getLogger(Main.class.getName()).log(Level.INFO, "Cannot find 'natives' library folder, try system libraries");
     }
 
-    public static String getApplicationDir() throws IOException {
+    public static File getApplicationDir() throws IOException {
         try {
-            return new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
+            return new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile();
         } catch (URISyntaxException uriEx) {
             Logger.getLogger(Main.class.getName()).log(Level.WARNING, "Cannot find application directory, try current", uriEx);
-            return new File(".").getCanonicalPath();
+            return new File(".");
         }
     }
 
@@ -94,8 +96,11 @@ public class Main {
             Display.setFullscreen(false);
             Display.create();
             LwjglHelper.setResizable(true);
-
-            Game game = new Game();
+            
+            File applicationDir = getApplicationDir();
+            VirtualFileSystem vfs = new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data"));
+            Assets assets = new Assets(vfs);
+            Game game = new Game(assets);
 
             while (!Display.isCloseRequested()) {
                 game.process();
