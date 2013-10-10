@@ -32,6 +32,7 @@
 package org.geekygoblin.nedetlesmaki.game.assets;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
+import im.bci.lwjgl.nuit.utils.IconLoader;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import im.bci.nanim.AnimationCollection;
@@ -46,6 +47,9 @@ import java.lang.ref.ReferenceQueue;
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.geekygoblin.nedetlesmaki.game.components.MainMenu;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -199,5 +203,17 @@ public class Assets implements AutoCloseable {
             f = new Font("monospaced", Font.BOLD, 24);
         }
         return new TrueTypeFont(f, true, new char[0], new HashMap<Character, BufferedImage>());
+    }
+
+    public InputStream getIcon(String name) throws FileNotFoundException {
+        return vfs.open(name);
+    }
+
+    public void setIcon() {
+        try(InputStream is = vfs.open("icon.png")) {
+            IconLoader.setIcon(is);
+        } catch (IOException ex) {
+            Logger.getLogger(Assets.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

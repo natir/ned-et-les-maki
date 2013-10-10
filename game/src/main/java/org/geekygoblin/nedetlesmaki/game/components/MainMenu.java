@@ -44,12 +44,6 @@ import im.bci.lwjgl.nuit.widgets.ControlsConfigurator;
 import im.bci.lwjgl.nuit.widgets.Root;
 import im.bci.lwjgl.nuit.widgets.Table;
 import im.bci.lwjgl.nuit.widgets.VideoConfigurator;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
 
@@ -83,6 +77,13 @@ public class MainMenu extends Component implements AutoCloseable {
 
     private void initVideo() throws LWJGLException {
         videoConfigurator = new VideoConfigurator(toolkit) {
+
+            @Override
+            protected void changeVideoSettings() {
+                super.changeVideoSettings();
+                game.getAssets().setIcon();
+            }
+            
             @Override
             protected void closeVideoSettings() {
                 root.show(optionsMenu);

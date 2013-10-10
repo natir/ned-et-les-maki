@@ -100,6 +100,7 @@ public class Main {
             File applicationDir = getApplicationDir();
             VirtualFileSystem vfs = new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data"));
             Assets assets = new Assets(vfs);
+            assets.setIcon();
             Game game = new Game(assets);
 
             while (!Display.isCloseRequested()) {
