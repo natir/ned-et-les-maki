@@ -32,6 +32,7 @@
 package im.bci.tmxloader;
 
 import java.util.EnumSet;
+import java.util.Objects;
 
 /**
  *
@@ -40,21 +41,44 @@ import java.util.EnumSet;
 public class TmxTileInstance {
 
     private TmxTile tile;
-    private EnumSet<TmxTileInstanceEffect> effect = EnumSet.noneOf(TmxTileInstanceEffect.class);
+    private EnumSet<TmxTileInstanceEffect> effect;
+
+    public TmxTileInstance(TmxTile tile, EnumSet<TmxTileInstanceEffect> effect) {
+        this.tile = tile;
+        this.effect = effect;
+    }
 
     public TmxTile getTile() {
         return tile;
-    }
-
-    public void setTile(TmxTile tile) {
-        this.tile = tile;
     }
 
     public EnumSet<TmxTileInstanceEffect> getEffect() {
         return effect;
     }
 
-    public void setEffect(EnumSet<TmxTileInstanceEffect> effect) {
-        this.effect = effect;
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.tile);
+        hash = 89 * hash + Objects.hashCode(this.effect);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TmxTileInstance other = (TmxTileInstance) obj;
+        if (!Objects.equals(this.tile, other.tile)) {
+            return false;
+        }
+        if (!Objects.equals(this.effect, other.effect)) {
+            return false;
+        }
+        return true;
     }
 }

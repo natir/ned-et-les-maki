@@ -35,6 +35,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.ListIterator;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -58,6 +60,7 @@ public class TmxLoader {
     }
 
     private void decodeLayerData(TmxMap map) {
+        HashMap<TmxTileInstance, TmxTileInstance> tileInstancePool = new HashMap<>();
         for (TmxLayer layer : map.getLayers()) {
             int[][] data = new int[layer.getWidth()][layer.getHeight()];
             layer.getData().decodeTo(data);
@@ -75,8 +78,14 @@ public class TmxLoader {
                     while (it.hasPrevious()) {
                         TmxTileset tileset = it.previous();
                         if (tileset.getFirstgid() <= gid) {
-                            TmxTileInstance instance = new TmxTileInstance();
-                            instance.setTile(tileset.getTileById(gid - tileset.getFirstgid()));
+                            TmxTileInstance instance = new TmxTileInstance(tileset.getTileById(gid - tileset.getFirstgid()), effects);
+                            TmxTileInstance pooledInstance = tileInstancePool.get(instance);
+                            if (null != pooledInstance) {
+                                instance = pooledInstance;
+                            } else {
+                                tileInstancePool.put(instance, instance);
+                            }
+                            layer.setTileAt(x, y, instance);
                         }
                     }
                 }
