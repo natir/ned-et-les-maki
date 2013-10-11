@@ -31,6 +31,7 @@
  */
 package im.bci.tmxloader;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -48,7 +49,7 @@ public class TmxLayer {
     private String name;
     private int width;
     private int height;
-    private List<TmxProperty> properties;
+    private List<TmxProperty> properties = new ArrayList<>();
     private TmxData data;
     private TmxTileInstance tiles[][];
 

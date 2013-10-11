@@ -31,58 +31,41 @@
  */
 package im.bci.tmxloader;
 
-import java.util.Scanner;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.xml.bind.JAXBException;
 
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "data")
-public class TmxData {
+public class TmxFileLoader extends TmxLoader {
+    private File parentDir;
 
-    private String encoding;
-    private String data;
+    public TmxMap load(File file) throws JAXBException, IOException {
+        parentDir = file.getParentFile();
+        try(FileInputStream is = new FileInputStream(file)) {
+            return load(is);
+        }        
+    }   
 
-    @XmlAttribute
-    public String getEncoding() {
-        return encoding;
-    }
-
-    public void setEncoding(String encoding) {
-        this.encoding = encoding;
-    }
-
-    @XmlValue
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public void decodeTo(int[][] data) {
-        switch (encoding) {
-            case "csv":
-                decodeCsvTo(data);
-                break;
-            default:
-                throw new RuntimeException("Unsupported tiled layer data encoding: " + encoding);
+    @Override
+    protected InputStream openExternalTileset(String source) {
+        try {
+            return new FileInputStream(new File(parentDir, source));
+        } catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
         }
     }
-
-    private void decodeCsvTo(int[][] gidArray) {
-        Scanner scanner = new Scanner(this.data.trim());
-        scanner.useDelimiter("[\\s]*,[\\s]*");
-        for(int x=0; x<gidArray.length; ++x) {
-            final int[] gidColumn = gidArray[x];
-            for(int y=0; y<gidColumn.length; ++y) {
-                String str = scanner.next();
-                gidColumn[y] = Integer.parseInt(str);
-            }
-        }
+    
+    
+    public static void main(String[] args) throws JAXBException, IOException {
+        TmxFileLoader loader = new TmxFileLoader();
+        TmxMap map = loader.load(new File("/home/bcolombi/dev/ned-et-les-maki/game/data/levels/test.tmx"));
+        System.out.println(map);
     }
+  
 }

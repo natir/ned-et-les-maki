@@ -34,8 +34,10 @@ package im.bci.tmxloader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.ListIterator;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -49,13 +51,18 @@ public class TmxLoader {
 
     private Unmarshaller unmarshaller;
 
-    public TmxMap load(InputStream is) throws JAXBException {
+    public TmxMap load(InputStream is) throws JAXBException, IOException {
         if (null == unmarshaller) {
-            unmarshaller = JAXBContext.newInstance(TmxMap.class).createUnmarshaller();
+            unmarshaller = JAXBContext.newInstance(TmxMap.class, TmxTile.class).createUnmarshaller();
         }
         TmxMap map = (TmxMap) unmarshaller.unmarshal(is);
+        unmarshalExternalTilesets(map);
         decodeLayerData(map);
         return map;
+    }
+
+    protected InputStream openExternalTileset(String source) {
+        throw new RuntimeException("Not implemented");
     }
 
     private void decodeLayerData(TmxMap map) {
@@ -92,11 +99,18 @@ public class TmxLoader {
         }
     }
 
-    public static void main(String[] args) throws JAXBException, IOException {
-        TmxLoader loader = new TmxLoader();
-        try (FileInputStream is = new FileInputStream("/home/bcolombi/dev/ned-et-les-maki/game/data/levels/test.tmx")) {
-            TmxMap map = loader.load(is);
-            System.out.println(map);
+    private void unmarshalExternalTilesets(TmxMap map) throws IOException, JAXBException {
+        List<TmxTileset> newTilesets = new ArrayList<>();
+        for (TmxTileset tileset : map.getTilesets()) {
+            if (null != tileset.getSource()) {
+                try (InputStream is = openExternalTileset(tileset.getSource())) {
+                    TmxTileset newTileset = (TmxTileset) unmarshaller.unmarshal(is);
+                    newTilesets.add(newTileset);
+                }
+            } else {
+                newTilesets.add(tileset);
+            }
         }
+        map.setTilesets(newTilesets);
     }
 }

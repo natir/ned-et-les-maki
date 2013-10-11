@@ -31,6 +31,7 @@
  */
 package im.bci.tmxloader;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -49,9 +50,9 @@ public class TmxMap {
     private int tilewidth;
     private int tileheight;
     private TmxMapOrientation orientation;
-    private List<TmxTileset> tilesets;
-    private List<TmxProperty> properties;
-    private List<TmxLayer> layers;
+    private List<TmxTileset> tilesets = new ArrayList<>();
+    private List<TmxProperty> properties = new ArrayList<>();
+    private List<TmxLayer> layers = new ArrayList<>();
 
     @XmlAttribute
     public TmxMapOrientation getOrientation() {

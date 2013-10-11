@@ -31,6 +31,7 @@
  */
 package im.bci.tmxloader;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeMap;
@@ -47,14 +48,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "tileset")
 public class TmxTileset {
 
+    private String source;
     private String name;
     private int tilewidth;
     private int tileheight;
     private int spacing, margin;
-    private List<TmxProperty> properties;
+    private List<TmxProperty> properties = new ArrayList<>();
     private TmxImage image;
     private int firstgid;
     private TreeMap<Integer/*id*/, TmxTile> tiles = new TreeMap<>();
+
+    @XmlAttribute
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     @XmlAttribute
     public int getFirstgid() {
@@ -140,19 +151,21 @@ public class TmxTileset {
     }
 
     public void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-        final int maxX = image.getWidth() - margin;
-        final int maxY = image.getHeight() - margin;
-        int id = 0;
-        for (int y = margin; y < maxY; y += tilewidth + spacing) {
-            for (int x = margin; x < maxX; x += tilewidth + spacing) {
-                TmxTile tile = tiles.get(id);
-                if (null == tile) {
-                    tile = new TmxTile();
-                    tile.setId(id);
-                    tiles.put(id, tile);
+        if (null == source) {
+            final int maxX = image.getWidth() - margin;
+            final int maxY = image.getHeight() - margin;
+            int id = 0;
+            for (int y = margin; y < maxY; y += tilewidth + spacing) {
+                for (int x = margin; x < maxX; x += tilewidth + spacing) {
+                    TmxTile tile = tiles.get(id);
+                    if (null == tile) {
+                        tile = new TmxTile();
+                        tile.setId(id);
+                        tiles.put(id, tile);
+                    }
+                    tile.setFrame(new TmxFrame(image, x, y, x + tilewidth, y + tileheight));
+                    ++id;
                 }
-                tile.setFrame(new TmxFrame(image, x, y, x+tilewidth, y+tileheight));
-                ++id;
             }
         }
     }

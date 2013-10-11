@@ -31,6 +31,7 @@
  */
 package im.bci.tmxloader;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -45,7 +46,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class TmxTile {
 
     private int id;
-    private List<TmxProperty> properties;
+    private List<TmxProperty> properties = new ArrayList<>();
     private TmxFrame frame;
 
     @XmlAttribute
