@@ -56,7 +56,20 @@ public class DrawSystem extends EntitySystem {
     private static final Comparator<Entity> zComparator = new Comparator<Entity>() {
         @Override
         public int compare(Entity o1, Entity o2) {
-            return Integer.compare(o1.getComponent(ZOrder.class).getZ(), o2.getComponent(ZOrder.class).getZ());
+            int result = Integer.compare(o1.getComponent(ZOrder.class).getZ(), o2.getComponent(ZOrder.class).getZ());
+            if (result == 0) {
+                Sprite s1 = o1.getComponent(Sprite.class);
+                Sprite s2 = o2.getComponent(Sprite.class);
+                if (null != s1 && null != s2) {
+                    result = Float.compare(s1.getPosition().z, s2.getPosition().z);
+                    if(result == 0) {
+                        float d1 = s1.getPosition().x + s1.getPosition().y;
+                        float d2 = s2.getPosition().x + s2.getPosition().y;
+                        result = Float.compare(d1, d2);
+                    }
+                }
+            }
+            return result;
         }
     };
 

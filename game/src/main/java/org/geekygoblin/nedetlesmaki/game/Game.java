@@ -33,8 +33,8 @@ package org.geekygoblin.nedetlesmaki.game;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.artemis.managers.GroupManager;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
-import org.geekygoblin.nedetlesmaki.game.assets.VirtualFileSystem;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
@@ -62,6 +62,7 @@ public class Game extends World {
         setSystem(new DrawSystem());
         setSystem(new TriggerSystem());
         setSystem(new MainMenuSystem());
+        setManager(new GroupManager());
         initialize();
 
         mainMenu = createEntity();
