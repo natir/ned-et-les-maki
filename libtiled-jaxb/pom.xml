@@ -29,10 +29,11 @@ SUCH DAMAGE. */ -->
         <version>0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>libtiled</artifactId>
+    <groupId>im.bci</groupId>
+    <artifactId>libtiled-jaxb</artifactId>
     <packaging>jar</packaging>
-    <name>libtiled</name>
-    <version>0.9.1-SNAPSHOT</version>
+    <name>libtiled-jaxb</name>
+    <version>0.1-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

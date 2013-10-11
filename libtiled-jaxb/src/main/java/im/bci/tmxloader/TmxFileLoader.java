@@ -59,13 +59,5 @@ public class TmxFileLoader extends TmxLoader {
         } catch (FileNotFoundException ex) {
             throw new RuntimeException(ex);
         }
-    }
-    
-    
-    public static void main(String[] args) throws JAXBException, IOException {
-        TmxFileLoader loader = new TmxFileLoader();
-        TmxMap map = loader.load(new File("/home/bcolombi/dev/ned-et-les-maki/game/data/levels/test.tmx"));
-        System.out.println(map);
-    }
-  
+    } 
 }

@@ -14,7 +14,7 @@
 	</properties>
 	<modules>
                 <module>game</module>
-		<module>libtiled</module>
+		<module>libtiled-jaxb</module>
 	</modules>
 </project>
 

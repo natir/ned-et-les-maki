@@ -206,9 +206,9 @@
                     <version>1.0</version>
                 </dependency>
                 <dependency>
-                    <groupId>org.geekygoblin</groupId>
-                    <artifactId>libtiled</artifactId>
-                    <version>0.9.1-SNAPSHOT</version>
+                    <groupId>im.bci</groupId>
+                    <artifactId>libtiled-jaxb</artifactId>
+                    <version>0.1-SNAPSHOT</version>
                 </dependency>
 	</dependencies>
 	<profiles>
@@ -638,9 +638,9 @@
                                     <version>1.0</version>
                                 </dependency>
                                 <dependency>
-                                    <groupId>org.geekygoblin</groupId>
+                                    <groupId>im.bci</groupId>
                                     <artifactId>libtiled</artifactId>
-                                    <version>0.9.1-SNAPSHOT</version>
+                                    <version>0.1-SNAPSHOT</version>
                                 </dependency>
 			</dependencies>
 		</profile>
