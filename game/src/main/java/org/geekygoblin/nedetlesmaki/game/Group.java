@@ -31,58 +31,12 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
-import com.artemis.Entity;
-import com.artemis.World;
-import com.artemis.managers.GroupManager;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
-import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
-import org.geekygoblin.nedetlesmaki.game.components.MainMenu;
-import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
-import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
-import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.TriggerSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
-import org.lwjgl.LWJGLException;
-
 /**
  *
  * @author devnewton
  */
-public class Game extends World {
-
-    private final Assets assets;
-    private Entity mainMenu, ingameControls;
-
-    public Game(Assets assets) throws LWJGLException {
-        this.assets = assets;
-        setSystem(new IngameInputSystem());
-        setSystem(new DrawSystem());
-        setSystem(new TriggerSystem());
-        setSystem(new MainMenuSystem());
-        setManager(new GroupManager());
-        initialize();
-
-        mainMenu = createEntity();
-        mainMenu.addComponent(new MainMenu(this));
-        mainMenu.addComponent(new ZOrder(ZOrders.MENU));
-        addEntity(mainMenu);
-
-        ingameControls = createEntity();
-        ingameControls.addComponent(new IngameControls());
-        ingameControls.disable();
-        addEntity(ingameControls);
-    }
-
-    public Entity getMainMenu() {
-        return mainMenu;
-    }
-
-    public Entity getIngameControls() {
-        return ingameControls;
-    }
-
-    public Assets getAssets() {
-        return assets;
-    }
+public class Group {
+    
+    public static final String DECORATIONS = "DECORATIONS";
+    
 }
