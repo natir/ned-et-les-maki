@@ -50,6 +50,7 @@ public class TmxTileset {
     private String name;
     private int tilewidth;
     private int tileheight;
+    private int spacing, margin;
     private List<TmxProperty> properties;
     private TmxImage image;
     private int firstgid;
@@ -91,6 +92,24 @@ public class TmxTileset {
         this.tileheight = tileheight;
     }
 
+    @XmlAttribute
+    public int getSpacing() {
+        return spacing;
+    }
+
+    public void setSpacing(int spacing) {
+        this.spacing = spacing;
+    }
+
+    @XmlAttribute
+    public int getMargin() {
+        return margin;
+    }
+
+    public void setMargin(int margin) {
+        this.margin = margin;
+    }
+
     @XmlElementWrapper(name = "properties")
     @XmlElement(name = "property")
     public List<TmxProperty> getProperties() {
@@ -115,21 +134,25 @@ public class TmxTileset {
     }
 
     public void setTiles(Collection<TmxTile> tiles) {
-        for(TmxTile tile : tiles) {
+        for (TmxTile tile : tiles) {
             this.tiles.put(tile.getId(), tile);
         }
     }
-    
+
     public void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
-        int row = image.getWidth() / tilewidth;
-        int column = image.getHeight() / tileheight;
-        int nbTiles = row * column;
-        for(int i=1; i<=nbTiles; ++i) {
-            TmxTile tile = tiles.get(i);
-            if(null == tile) {
-                tile = new TmxTile();
-                tile.setId(i);
-                tiles.put(i, tile);
+        final int maxX = image.getWidth() - margin;
+        final int maxY = image.getHeight() - margin;
+        int id = 0;
+        for (int y = margin; y < maxY; y += tilewidth + spacing) {
+            for (int x = margin; x < maxX; x += tilewidth + spacing) {
+                TmxTile tile = tiles.get(id);
+                if (null == tile) {
+                    tile = new TmxTile();
+                    tile.setId(id);
+                    tiles.put(id, tile);
+                }
+                tile.setFrame(new TmxFrame(image, x, y, x+tilewidth, y+tileheight));
+                ++id;
             }
         }
     }

@@ -31,47 +31,40 @@
  */
 package im.bci.tmxloader;
 
-import java.util.List;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "tile")
-public class TmxTile {
+public class TmxFrame {
 
-    private int id;
-    private List<TmxProperty> properties;
-    private TmxFrame frame;
+    private TmxImage image;
+    private int x1, y1, x2, y2;
 
-    @XmlAttribute
-    public int getId() {
-        return id;
+    public TmxFrame(TmxImage image, int x1, int y1, int x2, int y2) {
+        this.image = image;
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public TmxImage getImage() {
+        return image;
     }
 
-    @XmlElementWrapper(name = "properties")
-    @XmlElement(name = "property")
-    public List<TmxProperty> getProperties() {
-        return properties;
+    public int getX1() {
+        return x1;
     }
 
-    public void setProperties(List<TmxProperty> properties) {
-        this.properties = properties;
+    public int getY1() {
+        return y1;
     }
 
-    public TmxFrame getFrame() {
-        return frame;
+    public int getX2() {
+        return x2;
     }
 
-    public void setFrame(TmxFrame frame) {
-        this.frame = frame;
+    public int getY2() {
+        return y2;
     }
 }
