@@ -38,11 +38,13 @@ import org.geekygoblin.nedetlesmaki.game.assets.VirtualFileSystem;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
+import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.TriggerSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
+import org.geekygoblin.nedetlesmaki.game.systems.EntityPosIndexSystem;
 import org.lwjgl.LWJGLException;
 
 /**
@@ -52,7 +54,7 @@ import org.lwjgl.LWJGLException;
 public class Game extends World {
 
     private final Assets assets;
-    private Entity mainMenu, ingameControls;
+    private Entity mainMenu, ingameControls, indexPosEntity;
 
     public Game(Assets assets) throws LWJGLException {
         this.assets = assets;
@@ -71,6 +73,12 @@ public class Game extends World {
         ingameControls.addComponent(new IngameControls());
         ingameControls.disable();
         addEntity(ingameControls);
+	
+	indexPosEntity = createEntity();
+	indexPosEntity.addComponent(new EntityPosIndex());
+	EntityPosIndexSystem s = new EntityPosIndexSystem();
+	s.setIndex(indexPosEntity);
+	setSystem(s);
     }
 
     public Entity getMainMenu() {
