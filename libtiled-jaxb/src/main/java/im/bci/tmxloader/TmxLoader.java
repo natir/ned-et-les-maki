@@ -31,7 +31,6 @@
  */
 package im.bci.tmxloader;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -102,10 +101,14 @@ public class TmxLoader {
     private void unmarshalExternalTilesets(TmxMap map) throws IOException, JAXBException {
         List<TmxTileset> newTilesets = new ArrayList<>();
         for (TmxTileset tileset : map.getTilesets()) {
-            if (null != tileset.getSource()) {
-                try (InputStream is = openExternalTileset(tileset.getSource())) {
+            final String source = tileset.getSource();
+            if (null != source) {
+                try (InputStream is = openExternalTileset(source)) {
                     TmxTileset newTileset = (TmxTileset) unmarshaller.unmarshal(is);
-                    newTilesets.add(newTileset);
+                    newTileset.setSource(source);
+                    String tilesetDir = source.substring(0,source.lastIndexOf('/')+1);
+                    newTileset.getImage().setSource(tilesetDir + newTileset.getImage().getSource());
+                    newTilesets.add(newTileset);                    
                 }
             } else {
                 newTilesets.add(tileset);

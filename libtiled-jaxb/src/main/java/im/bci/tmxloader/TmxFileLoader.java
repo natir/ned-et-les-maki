@@ -43,14 +43,15 @@ import javax.xml.bind.JAXBException;
  * @author devnewton
  */
 public class TmxFileLoader extends TmxLoader {
+
     private File parentDir;
 
     public TmxMap load(File file) throws JAXBException, IOException {
         parentDir = file.getParentFile();
-        try(FileInputStream is = new FileInputStream(file)) {
+        try (FileInputStream is = new FileInputStream(file)) {
             return load(is);
-        }        
-    }   
+        }
+    }
 
     @Override
     protected InputStream openExternalTileset(String source) {
@@ -59,5 +60,10 @@ public class TmxFileLoader extends TmxLoader {
         } catch (FileNotFoundException ex) {
             throw new RuntimeException(ex);
         }
-    } 
+    }
+    /* public static void main(String[] args) throws Exception {
+     TmxFileLoader f = new TmxFileLoader();
+     TmxMap lol = f.load(new File("/home/tralala/dev/ned-et-les-maki/game/data/levels/test.tmx"));
+     System.out.print(lol);
+     }*/
 }
