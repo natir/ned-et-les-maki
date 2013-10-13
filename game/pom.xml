@@ -48,6 +48,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
+                                        <!--<compilerArgument>-Xlint:unchecked</compilerArgument>-->
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
@@ -178,37 +179,34 @@
 		<dependency>
 			<groupId>org.lwjgl.lwjgl</groupId>
 			<artifactId>lwjgl</artifactId>
-			<version>2.9.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.lwjgl.lwjgl</groupId>
 			<artifactId>lwjgl_util</artifactId>
-			<version>2.9.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jcraft</groupId>
 			<artifactId>jorbis</artifactId>
-			<version>0.0.17</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
-			<version>2.4.1</version>
 		</dependency>
                 <dependency>
                     <groupId>net.onedaybeard.artemis</groupId>
                     <artifactId>artemis-odb</artifactId>
-                    <version>0.4.0</version>
                 </dependency>
                 <dependency>
                     <groupId>org.l33tlabs.twl</groupId>
                     <artifactId>pngdecoder</artifactId>
-                    <version>1.0</version>
                 </dependency>
                 <dependency>
                     <groupId>im.bci</groupId>
                     <artifactId>libtiled-jaxb</artifactId>
-                    <version>0.1-SNAPSHOT</version>
+                </dependency>
+                <dependency>
+                    <groupId>im.bci</groupId>
+                    <artifactId>lwjgl-nuit</artifactId>
                 </dependency>
 	</dependencies>
 	<profiles>
@@ -352,7 +350,7 @@
 									<groupname>root</groupname>
 									<sources>
 										<source>
-											<location>${basedir}/src/main/resources/icon.png</location>
+											<location>${basedir}/data/icon.png</location>
 										</source>
 									</sources>
 								</mapping>
@@ -479,13 +477,6 @@
 		</profile>
 		<profile>
 			<id>deb</id>
-			<properties>
-				<lwjgl.jar.path>/usr/share/java/lwjgl.jar</lwjgl.jar.path>
-				<lwjgl_util.jar.path>/usr/share/java/lwjgl_util.jar</lwjgl_util.jar.path>
-				<jorbis.jar.path>/usr/share/java/jorbis.jar</jorbis.jar.path>
-				<jogg.jar.path>/usr/share/java/jogg.jar</jogg.jar.path>
-				<protobuf.jar.path>/usr/share/java/protobuf-java.jar</protobuf.jar.path>
-			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -543,7 +534,7 @@
 											</mapper>
 										</data>
 										<data>
-											<src>${basedir}/src/main/resources/icon.png</src>
+											<src>${basedir}/data/icon.png</src>
 											<type>file</type>
 											<mapper>
 												<type>perm</type>
@@ -591,58 +582,6 @@
 					</plugin>
 				</plugins>
 			</build>
-			<dependencies>
-				<dependency>
-					<groupId>org.lwjgl.lwjgl</groupId>
-					<artifactId>lwjgl</artifactId>
-					<version>2.7.1</version>
-					<scope>system</scope>
-					<systemPath>${lwjgl.jar.path}</systemPath>
-				</dependency>
-				<dependency>
-					<groupId>org.lwjgl.lwjgl</groupId>
-					<artifactId>lwjgl_util</artifactId>
-					<version>2.7.1</version>
-					<scope>system</scope>
-					<systemPath>${lwjgl_util.jar.path}</systemPath>
-				</dependency>
-				<dependency>
-					<groupId>org.jcraft</groupId>
-					<artifactId>jorbis</artifactId>
-					<version>0.0.17</version>
-					<scope>system</scope>
-					<systemPath>${jorbis.jar.path}</systemPath>
-				</dependency>
-				<dependency>
-					<groupId>org.jcraft</groupId>
-					<artifactId>jogg</artifactId>
-					<version>0.0.17</version>
-					<scope>system</scope>
-					<systemPath>${jogg.jar.path}</systemPath>
-				</dependency>
-				<dependency>
-					<groupId>com.google.protobuf</groupId>
-					<artifactId>protobuf-java</artifactId>
-					<version>2.4.1</version>
-					<scope>system</scope>
-					<systemPath>${protobuf.jar.path}</systemPath>
-				</dependency>
-				<dependency>
-                                    <groupId>net.onedaybeard.artemis</groupId>
-                                    <artifactId>artemis-odb</artifactId>
-                                    <version>0.4.0</version>
-				</dependency>
-                                <dependency>
-                                    <groupId>org.l33tlabs.twl</groupId>
-                                    <artifactId>pngdecoder</artifactId>
-                                    <version>1.0</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>im.bci</groupId>
-                                    <artifactId>libtiled</artifactId>
-                                    <version>0.1-SNAPSHOT</version>
-                                </dependency>
-			</dependencies>
 		</profile>
 	</profiles>
 </project>
