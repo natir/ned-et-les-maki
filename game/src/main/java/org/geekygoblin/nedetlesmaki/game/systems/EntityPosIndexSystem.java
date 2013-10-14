@@ -5,7 +5,9 @@ import com.artemis.Entity;
 import com.artemis.systems.EntityProcessingSystem;
 
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
+import org.geekygoblin.nedetlesmaki.game.components.Indexed;
 import org.geekygoblin.nedetlesmaki.game.components.Position;
+
 /**
  *
  * @author natir
@@ -16,7 +18,7 @@ public class EntityPosIndexSystem extends EntityProcessingSystem {
 
     public EntityPosIndexSystem()
 	{
-	    super(Aspect.getAspectForOne(Position.class));
+	    super(Aspect.getAspectForAll(Position.class, Indexed.class));
 	}
 
     public void setIndex(Entity index)
