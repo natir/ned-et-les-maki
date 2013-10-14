@@ -74,12 +74,6 @@ public class Game extends World {
         ingameControls.addComponent(new IngameControls());
         ingameControls.disable();
         addEntity(ingameControls);
-	
-	indexPosEntity = createEntity();
-	indexPosEntity.addComponent(new EntityPosIndex());
-	EntityPosIndexSystem s = new EntityPosIndexSystem();
-	s.setIndex(indexPosEntity);
-	setSystem(s);
     }
 
     public Entity getMainMenu() {
