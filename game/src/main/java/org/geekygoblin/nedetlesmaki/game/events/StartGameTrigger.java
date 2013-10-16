@@ -34,9 +34,12 @@ package org.geekygoblin.nedetlesmaki.game.events;
 import com.artemis.Entity;
 import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.NanimationCollection;
+import im.bci.nanim.PlayMode;
 import im.bci.tmxloader.TmxLayer;
 import im.bci.tmxloader.TmxMap;
 import im.bci.tmxloader.TmxTileInstance;
+import im.bci.tmxloader.TmxTileInstanceEffect;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import org.geekygoblin.nedetlesmaki.game.Game;
@@ -45,7 +48,9 @@ import org.geekygoblin.nedetlesmaki.game.assets.Texture;
 import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
+import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
+import org.lwjgl.util.vector.Vector3f;
 
     
 /**
@@ -69,7 +74,18 @@ public class StartGameTrigger extends Trigger {
             TmxLayer layer = tmx.getLayers().get(l);
             for(int x=0, lw=layer.getWidth(); x<lw; ++x) {
                 for(int y=0, lh=layer.getHeight(); y<lh; ++y) {
-                    //TODO créer les sprites IAnimationCollection animationCollection = tmx.getTileAnimationCollection(l, x, y);
+                    final TmxTileInstance tile = layer.getTileAt(x, y);
+                    final EnumSet<TmxTileInstanceEffect> effect = tile.getEffect();
+                    Entity decoration = game.createEntity();
+                    Sprite sprite = new Sprite();
+                    sprite.setPosition(new Vector3f(x, y, l));
+                    sprite.setWidth(tmx.getMap().getTilewidth());
+                    sprite.setHeight(tmx.getMap().getTileheight());
+                    sprite.setPlay(tmx.getTileAnimationCollection(tile).getFirst().start(PlayMode.LOOP));
+                    sprite.setMirrorX(effect.contains(TmxTileInstanceEffect.FLIPPED_HORIZONTALLY));
+                    sprite.setMirrorX(layer.getTileAt(x, y).getEffect().contains(TmxTileInstanceEffect.FLIPPED_VERTICALLY));
+                    decoration.addComponent(sprite);
+                    game.addEntity(decoration);
                 }                
             }
         }

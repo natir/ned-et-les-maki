@@ -36,8 +36,8 @@ import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.utils.ImmutableBag;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
-import im.bci.nanim.NanimationFrame;
-import im.bci.nanim.NanimationImage;
+import im.bci.nanim.IAnimationFrame;
+import im.bci.nanim.IAnimationImage;
 import java.util.Comparator;
 import java.util.TreeSet;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
@@ -150,8 +150,8 @@ public class DrawSystem extends EntitySystem {
                 sprite.getPosition().getZ());
         GL11.glRotatef(sprite.getRotate(), 0, 0, 1.0f);
         GL11.glScalef(sprite.getScale(), sprite.getScale(), 1);
-        final NanimationFrame frame = sprite.getPlay().getCurrentFrame();
-        final NanimationImage image = frame.getImage();
+        final IAnimationFrame frame = sprite.getPlay().getCurrentFrame();
+        final IAnimationImage image = frame.getImage();
         if (image.hasAlpha()) {
             GL11.glEnable(GL11.GL_BLEND);
         }

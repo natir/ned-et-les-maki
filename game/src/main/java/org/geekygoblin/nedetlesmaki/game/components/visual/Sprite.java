@@ -32,6 +32,7 @@
 package org.geekygoblin.nedetlesmaki.game.components.visual;
 
 import com.artemis.Component;
+import im.bci.nanim.IPlay;
 import im.bci.nanim.Nanimation;
 import org.lwjgl.util.Color;
 import org.lwjgl.util.vector.Vector3f;
@@ -42,7 +43,7 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public final class Sprite extends Component {
 
-    private Nanimation.Play play;
+    private IPlay play;
     private Vector3f position;
     private float width, height;
     private float scale = 1.0f, rotate = 0.0f;
@@ -65,11 +66,11 @@ public final class Sprite extends Component {
         this.mirrorY = mirrorY;
     }
 
-    public Nanimation.Play getPlay() {
+    public IPlay getPlay() {
         return play;
     }
 
-    public void setPlay(Nanimation.Play play) {
+    public void setPlay(IPlay play) {
         this.play = play;
     }
 

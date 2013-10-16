@@ -58,11 +58,7 @@ public class TmxAsset {
         return map;
     }
     
-    public IAnimationCollection getTileAnimationCollection(int layer, int x, int y) {
-        return getAnimationCollectionForTile(getLayers().get(layer).getTileAt(x, y));
-    }
-
-    private IAnimationCollection getAnimationCollectionForTile(TmxTileInstance tile) {
+    public IAnimationCollection getTileAnimationCollection(TmxTileInstance tile) {
         IAnimationCollection animationCollection = tileAnimations.get(tile);
         if (null == animationCollection) {
             animationCollection = createAnimationFromTile(tile);
