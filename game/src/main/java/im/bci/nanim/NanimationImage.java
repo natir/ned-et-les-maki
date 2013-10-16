@@ -29,49 +29,37 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.geekygoblin.nedetlesmaki.game.events;
+package im.bci.nanim;
 
-import com.artemis.Entity;
-import im.bci.nanim.IAnimationCollection;
-import im.bci.nanim.NanimationCollection;
-import im.bci.tmxloader.TmxLayer;
-import im.bci.tmxloader.TmxMap;
-import im.bci.tmxloader.TmxTileInstance;
-import java.util.HashMap;
-import java.util.List;
-import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
-import org.geekygoblin.nedetlesmaki.game.assets.Texture;
-import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
-import org.geekygoblin.nedetlesmaki.game.components.Level;
-import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
-import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+import org.lwjgl.opengl.GL11;
 
-    
 /**
  *
  * @author devnewton
  */
-public class StartGameTrigger extends Trigger {
+public class NanimationImage implements IAnimationImage {
+    private int id;
+    private boolean alpha;
+
+    public NanimationImage(boolean alpha) {
+        ByteBuffer temp = ByteBuffer.allocateDirect(4);
+        temp.order(ByteOrder.nativeOrder());
+        IntBuffer intBuffer = temp.asIntBuffer();
+        GL11.glGenTextures(intBuffer);
+        id = intBuffer.get(0);
+        this.alpha = alpha;
+    }
 
     @Override
-    public void process(Game game) {
-        game.getMainMenu().disable();
-        game.getIngameControls().enable();
-        Entity level = game.createEntity();
-        level.addComponent(new Level());
-        level.addComponent(new ZOrder(ZOrders.LEVEL));
-        game.addEntity(level);
-        
-        TmxAsset tmx = game.getAssets().getTmx("levels/test.tmx");
-        final List<TmxLayer> layers = tmx.getLayers();
-        for(int l = 0, n = layers.size(); l<n; ++l) {
-            TmxLayer layer = tmx.getLayers().get(l);
-            for(int x=0, lw=layer.getWidth(); x<lw; ++x) {
-                for(int y=0, lh=layer.getHeight(); y<lh; ++y) {
-                    //TODO créer les sprites IAnimationCollection animationCollection = tmx.getTileAnimationCollection(l, x, y);
-                }                
-            }
-        }
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public boolean hasAlpha() {
+        return alpha;
     }
 }

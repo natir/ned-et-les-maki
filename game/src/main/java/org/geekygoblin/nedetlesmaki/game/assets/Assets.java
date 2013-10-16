@@ -35,8 +35,9 @@ import de.matthiasmann.twl.utils.PNGDecoder;
 import im.bci.lwjgl.nuit.utils.IconLoader;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
-import im.bci.nanim.AnimationCollection;
+import im.bci.nanim.NanimationCollection;
 import im.bci.nanim.NanimParser.Nanim;
+import im.bci.tmxloader.TmxMap;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.image.BufferedImage;
@@ -49,7 +50,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.geekygoblin.nedetlesmaki.game.components.MainMenu;
+import javax.xml.bind.JAXBException;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -62,15 +63,25 @@ public class Assets implements AutoCloseable {
     private HashMap<String/* name */, TextureWeakReference> textures = new HashMap<>();
     private ReferenceQueue<Texture> texturesReferenceQueue = new ReferenceQueue<>();
     private HashMap<String/* name */, AnimationCollectionWeakReference> animations = new HashMap<>();
-    private ReferenceQueue<AnimationCollection> animationsReferenceQueue = new ReferenceQueue<>();
+    private ReferenceQueue<NanimationCollection> animationsReferenceQueue = new ReferenceQueue<>();
+    private TmxAssetLoader tmxLoader;
 
     public Assets(VirtualFileSystem vfs) {
         this.vfs = vfs;
+        tmxLoader = new TmxAssetLoader(this);
     }
 
     public void setVfs(VirtualFileSystem vfs) {
         clearAll();
         this.vfs = vfs;
+    }
+    
+    public TmxAsset getTmx(String name) {
+        try {        
+            return tmxLoader.load(name);
+        } catch (JAXBException | IOException e) {
+            throw new RuntimeException("Cannot load map " + name, e);
+        }
     }
 
     public Texture getTexture(String name) {
@@ -92,10 +103,10 @@ public class Assets implements AutoCloseable {
         }
     }
 
-    AnimationCollection getAnimations(String name) {
+    NanimationCollection getAnimations(String name) {
         AnimationCollectionWeakReference animRef = animations.get(name);
         if (null != animRef) {
-            AnimationCollection anim = animRef.get();
+            NanimationCollection anim = animRef.get();
             if (null != anim) {
                 return anim;
             } else {
@@ -103,7 +114,7 @@ public class Assets implements AutoCloseable {
             }
         }
         try (InputStream is = vfs.open(name)) {
-            AnimationCollection anim = new AnimationCollection(Nanim.parseFrom(is));
+            NanimationCollection anim = new NanimationCollection(Nanim.parseFrom(is));
             putAnim(name, anim);
             return anim;
         } catch (IOException e) {
@@ -157,9 +168,6 @@ public class Assets implements AutoCloseable {
                     texHeight, 0, pixelFormat, GL11.GL_UNSIGNED_BYTE, buffer);
             return texture;
         }
-
-
-
     }
 
     public void clearUseless() {
@@ -186,7 +194,11 @@ public class Assets implements AutoCloseable {
         animations.clear();
     }
 
-    private void putAnim(String name, AnimationCollection anim) {
+    InputStream open(String name) throws FileNotFoundException {
+        return vfs.open(name);
+    }
+
+    private void putAnim(String name, NanimationCollection anim) {
         animations.put(name, new AnimationCollectionWeakReference(name, anim, animationsReferenceQueue));
     }
 
@@ -210,7 +222,7 @@ public class Assets implements AutoCloseable {
     }
 
     public void setIcon() {
-        try(InputStream is = vfs.open("icon.png")) {
+        try (InputStream is = vfs.open("icon.png")) {
             IconLoader.setIcon(is);
         } catch (IOException ex) {
             Logger.getLogger(Assets.class.getName()).log(Level.SEVERE, null, ex);

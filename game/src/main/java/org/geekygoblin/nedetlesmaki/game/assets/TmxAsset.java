@@ -29,49 +29,61 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.geekygoblin.nedetlesmaki.game.events;
+package org.geekygoblin.nedetlesmaki.game.assets;
 
-import com.artemis.Entity;
 import im.bci.nanim.IAnimationCollection;
-import im.bci.nanim.NanimationCollection;
+import im.bci.tmxloader.TmxFrame;
 import im.bci.tmxloader.TmxLayer;
 import im.bci.tmxloader.TmxMap;
 import im.bci.tmxloader.TmxTileInstance;
 import java.util.HashMap;
 import java.util.List;
-import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
-import org.geekygoblin.nedetlesmaki.game.assets.Texture;
-import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
-import org.geekygoblin.nedetlesmaki.game.components.Level;
-import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
-import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 
-    
 /**
  *
  * @author devnewton
  */
-public class StartGameTrigger extends Trigger {
+public class TmxAsset {
 
-    @Override
-    public void process(Game game) {
-        game.getMainMenu().disable();
-        game.getIngameControls().enable();
-        Entity level = game.createEntity();
-        level.addComponent(new Level());
-        level.addComponent(new ZOrder(ZOrders.LEVEL));
-        game.addEntity(level);
-        
-        TmxAsset tmx = game.getAssets().getTmx("levels/test.tmx");
-        final List<TmxLayer> layers = tmx.getLayers();
-        for(int l = 0, n = layers.size(); l<n; ++l) {
-            TmxLayer layer = tmx.getLayers().get(l);
-            for(int x=0, lw=layer.getWidth(); x<lw; ++x) {
-                for(int y=0, lh=layer.getHeight(); y<lh; ++y) {
-                    //TODO créer les sprites IAnimationCollection animationCollection = tmx.getTileAnimationCollection(l, x, y);
-                }                
-            }
+    private final Assets assets;
+    private final TmxMap map;
+    private final HashMap<TmxTileInstance, IAnimationCollection> tileAnimations = new HashMap<>();
+
+    public TmxAsset(Assets assets, TmxMap map) {
+        this.assets = assets;
+        this.map = map;
+    }
+
+    public TmxMap getMap() {
+        return map;
+    }
+    
+    public IAnimationCollection getTileAnimationCollection(int layer, int x, int y) {
+        return getAnimationCollectionForTile(getLayers().get(layer).getTileAt(x, y));
+    }
+
+    private IAnimationCollection getAnimationCollectionForTile(TmxTileInstance tile) {
+        IAnimationCollection animationCollection = tileAnimations.get(tile);
+        if (null == animationCollection) {
+            animationCollection = createAnimationFromTile(tile);
+            tileAnimations.put(tile, animationCollection);
         }
+        return animationCollection;
+    }
+
+    private IAnimationCollection createAnimationFromTile(TmxTileInstance tile) {
+        final TmxFrame frame = tile.getTile().getFrame();
+        Texture texture = assets.getTexture(frame.getImage().getSource());
+        final float width = texture.getWidth();
+        final float height = texture.getHeight();
+        final float u1 = frame.getX1() / width;
+        final float v1 = frame.getY1() / height;
+        final float u2 = frame.getX2() / width;
+        final float v2 = frame.getY2() / height;
+        return new TextureAnimationCollectionWrapper(texture, u1, v1, u2, v2);
+    }
+
+    public List<TmxLayer> getLayers() {
+        return map.getLayers();
     }
 }

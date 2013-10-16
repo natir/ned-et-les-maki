@@ -31,33 +31,14 @@
  */
 package im.bci.nanim;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
-import org.lwjgl.opengl.GL11;
-
 /**
  *
  * @author devnewton
  */
-public class AnimationImage {
-    private int id;
-    private boolean alpha;
+public interface IAnimationCollection {
 
-    public AnimationImage(boolean alpha) {
-        ByteBuffer temp = ByteBuffer.allocateDirect(4);
-        temp.order(ByteOrder.nativeOrder());
-        IntBuffer intBuffer = temp.asIntBuffer();
-        GL11.glGenTextures(intBuffer);
-        id = intBuffer.get(0);
-        this.alpha = alpha;
-    }
+    IAnimation getAnimationByName(String name);
 
-    public int getId() {
-        return id;
-    }
-
-    public boolean hasAlpha() {
-        return alpha;
-    }
+    IAnimation getFirst();
+    
 }

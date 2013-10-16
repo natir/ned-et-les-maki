@@ -29,49 +29,16 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.geekygoblin.nedetlesmaki.game.events;
+package im.bci.nanim;
 
-import com.artemis.Entity;
-import im.bci.nanim.IAnimationCollection;
-import im.bci.nanim.NanimationCollection;
-import im.bci.tmxloader.TmxLayer;
-import im.bci.tmxloader.TmxMap;
-import im.bci.tmxloader.TmxTileInstance;
-import java.util.HashMap;
-import java.util.List;
-import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
-import org.geekygoblin.nedetlesmaki.game.assets.Texture;
-import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
-import org.geekygoblin.nedetlesmaki.game.components.Level;
-import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
-import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
-
-    
 /**
  *
  * @author devnewton
  */
-public class StartGameTrigger extends Trigger {
+public interface IAnimationImage {
 
-    @Override
-    public void process(Game game) {
-        game.getMainMenu().disable();
-        game.getIngameControls().enable();
-        Entity level = game.createEntity();
-        level.addComponent(new Level());
-        level.addComponent(new ZOrder(ZOrders.LEVEL));
-        game.addEntity(level);
-        
-        TmxAsset tmx = game.getAssets().getTmx("levels/test.tmx");
-        final List<TmxLayer> layers = tmx.getLayers();
-        for(int l = 0, n = layers.size(); l<n; ++l) {
-            TmxLayer layer = tmx.getLayers().get(l);
-            for(int x=0, lw=layer.getWidth(); x<lw; ++x) {
-                for(int y=0, lh=layer.getHeight(); y<lh; ++y) {
-                    //TODO créer les sprites IAnimationCollection animationCollection = tmx.getTileAnimationCollection(l, x, y);
-                }                
-            }
-        }
-    }
+    int getId();
+
+    boolean hasAlpha();
+    
 }

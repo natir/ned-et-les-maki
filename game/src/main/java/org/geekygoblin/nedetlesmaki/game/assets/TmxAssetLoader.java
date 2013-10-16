@@ -29,48 +29,55 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package im.bci.nanim;
+package org.geekygoblin.nedetlesmaki.game.assets;
+
+import im.bci.tmxloader.TmxLoader;
+import im.bci.tmxloader.TmxMap;
+import im.bci.tmxloader.TmxTileset;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import javax.xml.bind.JAXBException;
 
 /**
  *
  * @author devnewton
  */
-public class AnimationFrame {
+public class TmxAssetLoader extends TmxLoader {
 
-    private AnimationImage image;
-    private long duration;//milliseconds
-    long endTime;//milliseconds
-    float u1 = 0;
-    float v1 = 0;
-    float u2 = 1;
-    float v2 = 1;
+    private final Assets assets;
+    private String parentDir;
 
-    public AnimationFrame(AnimationImage image, long duration) {
-        this.image = image;
-        this.duration = duration;
+    public TmxAssetLoader(Assets assets) {
+        this.assets = assets;
     }
 
-    public long getDuration() {
-        return duration;
+    public TmxAsset load(String name) throws JAXBException, IOException {
+        try (InputStream is = assets.open(name)) {
+            parentDir = name.substring(0, name.lastIndexOf('/') + 1);
+            TmxMap map = load(is);
+            adjustImagesSource(map);
+            return new TmxAsset(assets, map);
+        }
     }
 
-    public AnimationImage getImage() {
-        return image;
+    @Override
+    protected InputStream openExternalTileset(String source) {
+        try {
+            return assets.open(parentDir + source);
+        } catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
     }
+    /* public static void main(String[] args) throws Exception {
+     TmxFileLoader f = new TmxFileLoader();
+     TmxMap lol = f.load(new File("/home/tralala/dev/ned-et-les-maki/game/data/levels/test.tmx"));
+     System.out.print(lol);
+     }*/
 
-    public float getU1() {
-        return u1;
-    }
-
-    public float getV1() {
-        return v1;
-    }
-
-    public float getU2() {
-        return u2;
-    }
-
-    public float getV2() {
-        return v2;
+    private void adjustImagesSource(TmxMap map) {
+        for(TmxTileset tileset : map.getTilesets()) {
+            tileset.getImage().setSource(parentDir + tileset.getImage().getSource());
+        }
     }
 }

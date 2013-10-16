@@ -31,8 +31,8 @@
  */
 package org.geekygoblin.nedetlesmaki.game.assets;
 
-import im.bci.nanim.AnimationCollection;
-import im.bci.nanim.AnimationImage;
+import im.bci.nanim.NanimationCollection;
+import im.bci.nanim.NanimationImage;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
@@ -46,16 +46,16 @@ import org.lwjgl.opengl.GL11;
  *
  * @author devnewton
  */
-public class AnimationCollectionWeakReference extends WeakReference<AnimationCollection> {
+public class AnimationCollectionWeakReference extends WeakReference<NanimationCollection> {
 
     IntBuffer textureIds;
     String name;
 
-    AnimationCollectionWeakReference(String name, AnimationCollection animations, ReferenceQueue<AnimationCollection> queue) {
+    AnimationCollectionWeakReference(String name, NanimationCollection animations, ReferenceQueue<NanimationCollection> queue) {
         super(animations, queue);
         this.name = name;
         List<Integer> ids = new ArrayList<>();
-        for (AnimationImage image : animations.getImages().values()) {
+        for (NanimationImage image : animations.getImages().values()) {
             ids.add(image.getId());
         }
         ByteBuffer temp = ByteBuffer.allocateDirect(ids.size() * Integer.SIZE);

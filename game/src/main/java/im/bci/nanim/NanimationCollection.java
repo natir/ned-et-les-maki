@@ -10,33 +10,33 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import org.lwjgl.opengl.GL11;
 
-public class AnimationCollection {
+public class NanimationCollection implements IAnimationCollection {
 
-    LinkedHashMap<String/*animation name*/, Animation> animations;
-    private final Map<String, AnimationImage> images;
+    LinkedHashMap<String/*animation name*/, Nanimation> animations;
+    private final Map<String, NanimationImage> images;
 
-    public AnimationCollection(Nanim nanim) {
+    public NanimationCollection(Nanim nanim) {
         images = loadImages(nanim);
         animations = new LinkedHashMap<>(nanim.getAnimationsCount());
         for (im.bci.nanim.NanimParser.Animation nanimation : nanim.getAnimationsList()) {
-            addAnimation(new Animation(nanimation, images));
+            addAnimation(new Nanimation(nanimation, images));
         }
     }
 
-    private static Map<String, AnimationImage> loadImages(Nanim nanim) {
+    private static Map<String, NanimationImage> loadImages(Nanim nanim) {
 
-        Map<String, AnimationImage> images = new HashMap<>();
+        Map<String, NanimationImage> images = new HashMap<>();
         for (im.bci.nanim.NanimParser.Image nimage : nanim.getImagesList()) {
-            AnimationImage image = loadImage(nimage);
+            NanimationImage image = loadImage(nimage);
             images.put(nimage.getName(), image);
         }
         return images;
     }
 
-    private static AnimationImage loadImage(im.bci.nanim.NanimParser.Image nimage) {
+    private static NanimationImage loadImage(im.bci.nanim.NanimParser.Image nimage) {
         int texWidth = nimage.getWidth();
         int texHeight = nimage.getHeight();
-        AnimationImage texture = new AnimationImage(nimage.getFormat().equals(NanimParser.PixelFormat.RGBA_8888));
+        NanimationImage texture = new NanimationImage(nimage.getFormat().equals(NanimParser.PixelFormat.RGBA_8888));
 
         ByteBuffer imageBuffer = ByteBuffer.allocateDirect(nimage.getPixels().size());
         imageBuffer.order(ByteOrder.nativeOrder());
@@ -54,19 +54,21 @@ public class AnimationCollection {
         return texture;
     }
 
-    private void addAnimation(Animation animation) {
+    private void addAnimation(Nanimation animation) {
         animations.put(animation.getName(), animation);
     }
 
-    public Animation getFirst() {
+    @Override
+    public Nanimation getFirst() {
         return animations.values().iterator().next();
     }
 
-    public Animation getAnimationByName(String name) {
+    @Override
+    public Nanimation getAnimationByName(String name) {
         return animations.get(name);
     }
 
-    public Map<String, AnimationImage> getImages() {
+    public Map<String, NanimationImage> getImages() {
         return images;
     }
 }
