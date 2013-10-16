@@ -72,25 +72,27 @@ public class TmxLoader {
             for (int x = 0; x < map.getWidth(); ++x) {
                 for (int y = 0; y < map.getHeight(); ++y) {
                     int gid = data[x][y];
-                    EnumSet<TmxTileInstanceEffect> effects = EnumSet.noneOf(TmxTileInstanceEffect.class);
-                    for (TmxTileInstanceEffect effect : TmxTileInstanceEffect.values()) {
-                        if ((gid & effect.gidFlag) != 0) {
-                            effects.add(effect);
-                        }
-                        gid &= ~effect.gidFlag;
-                    }
-                    ListIterator<TmxTileset> it = map.getTilesets().listIterator(map.getTilesets().size());
-                    while (it.hasPrevious()) {
-                        TmxTileset tileset = it.previous();
-                        if (tileset.getFirstgid() <= gid) {
-                            TmxTileInstance instance = new TmxTileInstance(tileset.getTileById(gid - tileset.getFirstgid()), effects);
-                            TmxTileInstance pooledInstance = tileInstancePool.get(instance);
-                            if (null != pooledInstance) {
-                                instance = pooledInstance;
-                            } else {
-                                tileInstancePool.put(instance, instance);
+                    if (0 != gid) {
+                        EnumSet<TmxTileInstanceEffect> effects = EnumSet.noneOf(TmxTileInstanceEffect.class);
+                        for (TmxTileInstanceEffect effect : TmxTileInstanceEffect.values()) {
+                            if ((gid & effect.gidFlag) != 0) {
+                                effects.add(effect);
                             }
-                            layer.setTileAt(x, y, instance);
+                            gid &= ~effect.gidFlag;
+                        }
+                        ListIterator<TmxTileset> it = map.getTilesets().listIterator(map.getTilesets().size());
+                        while (it.hasPrevious()) {
+                            TmxTileset tileset = it.previous();
+                            if (tileset.getFirstgid() <= gid) {
+                                TmxTileInstance instance = new TmxTileInstance(tileset.getTileById(gid - tileset.getFirstgid()), effects);
+                                TmxTileInstance pooledInstance = tileInstancePool.get(instance);
+                                if (null != pooledInstance) {
+                                    instance = pooledInstance;
+                                } else {
+                                    tileInstancePool.put(instance, instance);
+                                }
+                                layer.setTileAt(x, y, instance);
+                            }
                         }
                     }
                 }
@@ -106,9 +108,9 @@ public class TmxLoader {
                 try (InputStream is = openExternalTileset(source)) {
                     TmxTileset newTileset = (TmxTileset) unmarshaller.unmarshal(is);
                     newTileset.setSource(source);
-                    String tilesetDir = source.substring(0,source.lastIndexOf('/')+1);
+                    String tilesetDir = source.substring(0, source.lastIndexOf('/') + 1);
                     newTileset.getImage().setSource(tilesetDir + newTileset.getImage().getSource());
-                    newTilesets.add(newTileset);                    
+                    newTilesets.add(newTileset);
                 }
             } else {
                 newTilesets.add(tileset);

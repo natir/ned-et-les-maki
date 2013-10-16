@@ -4,6 +4,11 @@
   <property name="debug" value="false"/>
  </properties>
  <image source="test.png" width="280" height="285"/>
+ <tile id="2">
+  <properties>
+   <property name="type" value="maki"/>
+  </properties>
+ </tile>
  <tile id="3">
   <properties>
    <property name="type" value="maki_vert"/>
@@ -12,6 +17,11 @@
  <tile id="5">
   <properties>
    <property name="type" value="ned"/>
+  </properties>
+ </tile>
+ <tile id="6">
+  <properties>
+   <property name="type" value="plateau_rouge"/>
   </properties>
  </tile>
  <tile id="8">

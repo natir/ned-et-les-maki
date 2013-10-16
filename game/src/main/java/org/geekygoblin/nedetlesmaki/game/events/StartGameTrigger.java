@@ -32,19 +32,13 @@
 package org.geekygoblin.nedetlesmaki.game.events;
 
 import com.artemis.Entity;
-import im.bci.nanim.IAnimationCollection;
-import im.bci.nanim.NanimationCollection;
 import im.bci.nanim.PlayMode;
 import im.bci.tmxloader.TmxLayer;
-import im.bci.tmxloader.TmxMap;
 import im.bci.tmxloader.TmxTileInstance;
 import im.bci.tmxloader.TmxTileInstanceEffect;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.List;
 import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
-import org.geekygoblin.nedetlesmaki.game.assets.Texture;
 import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
@@ -52,7 +46,6 @@ import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.lwjgl.util.vector.Vector3f;
 
-    
 /**
  *
  * @author devnewton
@@ -67,27 +60,38 @@ public class StartGameTrigger extends Trigger {
         level.addComponent(new Level());
         level.addComponent(new ZOrder(ZOrders.LEVEL));
         game.addEntity(level);
-        
+
         TmxAsset tmx = game.getAssets().getTmx("levels/test.tmx");
         final List<TmxLayer> layers = tmx.getLayers();
-        for(int l = 0, n = layers.size(); l<n; ++l) {
+        for (int l = 0, n = layers.size(); l < n; ++l) {
             TmxLayer layer = tmx.getLayers().get(l);
-            for(int x=0, lw=layer.getWidth(); x<lw; ++x) {
-                for(int y=0, lh=layer.getHeight(); y<lh; ++y) {
+            for (int x = 0, lw = layer.getWidth(); x < lw; ++x) {
+                for (int y = 0, lh = layer.getHeight(); y < lh; ++y) {
                     final TmxTileInstance tile = layer.getTileAt(x, y);
-                    final EnumSet<TmxTileInstanceEffect> effect = tile.getEffect();
-                    Entity decoration = game.createEntity();
-                    Sprite sprite = new Sprite();
-                    sprite.setPosition(new Vector3f(x, y, l));
-                    sprite.setWidth(tmx.getMap().getTilewidth());
-                    sprite.setHeight(tmx.getMap().getTileheight());
-                    sprite.setPlay(tmx.getTileAnimationCollection(tile).getFirst().start(PlayMode.LOOP));
-                    sprite.setMirrorX(effect.contains(TmxTileInstanceEffect.FLIPPED_HORIZONTALLY));
-                    sprite.setMirrorX(layer.getTileAt(x, y).getEffect().contains(TmxTileInstanceEffect.FLIPPED_VERTICALLY));
-                    decoration.addComponent(sprite);
-                    game.addEntity(decoration);
-                }                
+                    if (null != tile) {
+                        final EnumSet<TmxTileInstanceEffect> effect = tile.getEffect();
+                        Entity decoration = game.createEntity();
+                        Sprite sprite = new Sprite();
+                        //sprite.setPosition(new Vector3f(x * tmx.getMap().getTilewidth(), y * tmx.getMap().getTileheight(), l));
+                        sprite.setPosition(tileToScreenPos(tmx, x, y, l));
+                        sprite.setWidth(tile.getTile().getFrame().getX2() - tile.getTile().getFrame().getX1());
+                        sprite.setHeight(tile.getTile().getFrame().getY2() - tile.getTile().getFrame().getY1());
+                        sprite.setPlay(tmx.getTileAnimationCollection(tile).getFirst().start(PlayMode.LOOP));
+                        sprite.setMirrorX(effect.contains(TmxTileInstanceEffect.FLIPPED_HORIZONTALLY));
+                        sprite.setMirrorX(layer.getTileAt(x, y).getEffect().contains(TmxTileInstanceEffect.FLIPPED_VERTICALLY));
+                        decoration.addComponent(sprite);
+                        decoration.addComponent(new ZOrder(ZOrders.LEVEL));
+                        game.addEntity(decoration);
+                    }
+                }
             }
         }
+    }
+
+    private Vector3f tileToScreenPos(TmxAsset tmx, int y, int x, int layer) {
+        float tileWidth = tmx.getMap().getTilewidth();
+        float tileHeight = tmx.getMap().getTileheight();
+        float originX = tmx.getMap().getHeight() * tileWidth / 2;
+        return new Vector3f((x - y) * tileWidth / 2 + originX,(x + y) * tileHeight / 2,  layer);
     }
 }

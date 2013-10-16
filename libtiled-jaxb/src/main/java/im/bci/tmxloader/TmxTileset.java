@@ -56,7 +56,8 @@ public class TmxTileset {
     private List<TmxProperty> properties = new ArrayList<>();
     private TmxImage image;
     private int firstgid;
-    private TreeMap<Integer/*id*/, TmxTile> tiles = new TreeMap<>();
+    private TreeMap<Integer/*id*/, TmxTile> tilesById = new TreeMap<>();
+    private List<TmxTile> tiles = new ArrayList<>();
 
     @XmlAttribute
     public String getSource() {
@@ -140,28 +141,31 @@ public class TmxTileset {
         this.image = image;
     }
 
-    public Collection<TmxTile> getTiles() {
-        return tiles.values();
+    @XmlElement(name = "tile")
+    public List<TmxTile> getTiles() {
+        return tiles;
     }
 
-    public void setTiles(Collection<TmxTile> tiles) {
-        for (TmxTile tile : tiles) {
-            this.tiles.put(tile.getId(), tile);
-        }
+    public void setTiles(List<TmxTile> tiles) {
+        this.tiles = tiles;
     }
 
     public void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+        this.tilesById.clear();
+        for (TmxTile tile : tiles) {
+            this.tilesById.put(tile.getId(), tile);
+        }
         if (null == source) {
             final int maxX = image.getWidth() - margin;
             final int maxY = image.getHeight() - margin;
-            int id = 0;
+            int id = 1;
             for (int y = margin; y < maxY; y += tilewidth + spacing) {
                 for (int x = margin; x < maxX; x += tilewidth + spacing) {
-                    TmxTile tile = tiles.get(id);
+                    TmxTile tile = tilesById.get(id);
                     if (null == tile) {
                         tile = new TmxTile();
                         tile.setId(id);
-                        tiles.put(id, tile);
+                        tilesById.put(id, tile);
                     }
                     tile.setFrame(new TmxFrame(image, x, y, x + tilewidth, y + tileheight));
                     ++id;
@@ -171,6 +175,6 @@ public class TmxTileset {
     }
 
     TmxTile getTileById(int i) {
-        return tiles.get(i);
+        return tilesById.get(i);
     }
 }
