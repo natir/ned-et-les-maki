@@ -50,4 +50,8 @@ public class EntityPosIndexSystem {
 	
 	return true;
     }
+
+    public Entity getLastWorld() {
+	return this.oldStack.peek();
+    }
 }
