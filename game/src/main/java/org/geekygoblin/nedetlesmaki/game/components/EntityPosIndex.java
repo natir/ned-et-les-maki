@@ -9,17 +9,17 @@ import com.artemis.Entity;
  */
 public class EntityPosIndex extends Component {
     
-    private int[][] index;
+    private Entity[][] index;
 
     public EntityPosIndex() {
-	this.index = new int[15][15];
+	this.index = new Entity[15][15];
     }
 
-    public int getEntityWithPos(int x, int y) {
+    public Entity getEntityWithPos(int x, int y) {
 	return index[x][y];
     }
 
-    public void setEntityWithPos(int x, int y, int eId) {
+    public void setEntityWithPos(int x, int y, Entity eId) {
 	index[x][y] = eId;
     }
 }
