@@ -1,6 +1,6 @@
 package org.geekygoblin.nedetlesmaki.game.systems;
 
-import java.util.Vector; 
+import java.util.Stack;
 
 import com.artemis.Aspect;
 import com.artemis.Entity;
@@ -16,11 +16,11 @@ import org.geekygoblin.nedetlesmaki.game.components.Position;
 public class EntityPosIndexSystem {
     
     private Entity index;
-    private Vector<Entity> oldIndex;
+    private Stack<Entity> oldIndex;
 
     public EntityPosIndexSystem(Entity index) {
 	    this.index = index;
-	    this.oldIndex = new Vector<Entity>();
+	    this.oldIndex = new Stack<Entity>();
 	}
 
     public boolean saveWorld() {
@@ -28,19 +28,23 @@ public class EntityPosIndexSystem {
 	return true;
     }
 
-    public boolean addEntity(int x, int y, int eId) {
+    public boolean addEntity(int x, int y, Entity eId) {
         index.getComponent(EntityPosIndex.class).setEntityWithPos(x, y, eId);
 	return true;
     }
 
     public boolean removeEntity(int x, int y) {
-	/*0 probabily no good value*/
-	index.getComponent(EntityPosIndex.class).setEntityWithPos(x, y, 0);
+	
+	index.getComponent(EntityPosIndex.class).getEntityWithPos(x, y).deleteFromWorld();
 	return true;
     }
 
+    public Entity getEntity(int x, int y) {
+	return index.getComponent(EntityPosIndex.class).getEntityWithPos(x, y);
+    }
+
     public boolean moveEntity(int x1, int y1, int x2, int y2) {
-	int tmpE = index.getComponent(EntityPosIndex.class).getEntityWithPos(x1, y1);
+	Entity tmpE = index.getComponent(EntityPosIndex.class).getEntityWithPos(x1, y1);
 	this.removeEntity(x1, y1);
 	this.addEntity(x2, y2, tmpE);
 	
