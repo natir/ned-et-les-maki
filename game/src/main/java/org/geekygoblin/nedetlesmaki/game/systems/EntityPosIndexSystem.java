@@ -52,6 +52,10 @@ public class EntityPosIndexSystem {
     }
 
     public Entity getLastWorld() {
-	return this.oldStack.peek();
+	return this.oldIndex.peek();
+    }
+
+    public Entity getThisWorld() {
+	return this.index;
     }
 }
