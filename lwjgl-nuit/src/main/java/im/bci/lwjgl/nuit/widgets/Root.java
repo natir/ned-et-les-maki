@@ -35,15 +35,21 @@ import im.bci.lwjgl.nuit.NuitToolkit;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.Color;
 
 public class Root extends Stack {
     
     private NuitToolkit toolkit;
+    private Color backgroundColor = new Color(0, 0, 0, 127);
 
     public Root(NuitToolkit tk) {
         this.toolkit = tk;
         setWidth(1280);
         setHeight(800);
+    }
+
+    public void setBackgroundColor(Color backgroundColor) {
+        this.backgroundColor = backgroundColor;
     }
 
     @Override
@@ -57,7 +63,6 @@ public class Root extends Stack {
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -65,6 +70,15 @@ public class Root extends Stack {
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
+        
+        if(null != backgroundColor) {
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glColor4ub(backgroundColor.getRedByte(), backgroundColor.getGreenByte(), backgroundColor.getBlueByte(), backgroundColor.getAlphaByte());
+            GL11.glRectf(getX(), getY(), getWidth(), getHeight());
+            GL11.glColor4ub(Color.WHITE.getRedByte(), Color.WHITE.getGreenByte(), Color.WHITE.getBlueByte(), Color.WHITE.getAlphaByte());
+        }
+        
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
 
         super.draw();
 
@@ -74,6 +88,7 @@ public class Root extends Stack {
         GL11.glPopAttrib();
     }
 
+    @Override
     public void update() {
         toolkit.update(this);
         for(Widget child : getChildren()) {
