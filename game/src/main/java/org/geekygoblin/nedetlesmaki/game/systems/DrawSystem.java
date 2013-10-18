@@ -77,7 +77,9 @@ public class DrawSystem extends EntitySystem {
                     if (result == 0) {
                         float d1 = s1.getPosition().x + s1.getPosition().y;
                         float d2 = s2.getPosition().x + s2.getPosition().y;
-                        result = Float.compare(d1, d2);
+                        if(Math.abs(d2-d1) < 1e-6f) {
+                            result = Float.compare(d1, d2);
+                        }
                     }
                 }
             }
