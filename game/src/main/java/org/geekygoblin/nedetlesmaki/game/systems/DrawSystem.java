@@ -106,7 +106,7 @@ public class DrawSystem extends EntitySystem {
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
-        GL11.glOrtho(-1280 / 2, 1280 / 2, 800 / 2, -800 / 2, -1.0, 1.0);
+        GL11.glOrtho(0, 1280, 800, 0, -1.0, 1.0);
         //GL11.glOrtho(0, 1280, 0, 800, -1.0, 1.0);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glPushMatrix();

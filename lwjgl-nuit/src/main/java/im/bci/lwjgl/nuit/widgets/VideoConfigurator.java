@@ -32,7 +32,6 @@
 package im.bci.lwjgl.nuit.widgets;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import org.lwjgl.LWJGLException;
@@ -41,17 +40,72 @@ import org.lwjgl.opengl.DisplayMode;
 
 import im.bci.lwjgl.nuit.NuitToolkit;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
+import java.util.TreeSet;
 
 public class VideoConfigurator extends Table {
 
-    private Select<DisplayMode> mode;
+    private Select<VideoResolution> mode;
     private Toggle fullscreen;
+
+    private static class VideoResolution implements Comparable<VideoResolution> {
+
+        private int width, height;
+
+        public VideoResolution(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 71 * hash + this.width;
+            hash = 71 * hash + this.height;
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final VideoResolution other = (VideoResolution) obj;
+            if (this.width != other.width) {
+                return false;
+            }
+            if (this.height != other.height) {
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        public int compareTo(VideoResolution o) {
+            return Integer.compare(width * height, o.width * o.height);
+        }
+
+        @Override
+        public String toString() {
+            return width + " x " + height;
+        }
+    }
 
     public VideoConfigurator(NuitToolkit toolkit) throws LWJGLException {
         super(toolkit);
         defaults().expand();
         cell(new Label(toolkit, "Mode"));
-        mode = new Select<DisplayMode>(toolkit, getDisplayModes());
+        mode = new Select<>(toolkit, getDisplayModes());
         cell(mode);
         row();
         cell(new Label(toolkit, "Fullscreen"));
@@ -67,6 +121,7 @@ public class VideoConfigurator extends Table {
         }).colspan(2);
         row();
         cell(new Button(toolkit, "Back") {
+            @Override
             public void onOK() {
                 closeVideoSettings();
             }
@@ -74,7 +129,8 @@ public class VideoConfigurator extends Table {
     }
 
     protected void changeVideoSettings() {
-        DisplayMode chosenMode = mode.getSelected();
+        VideoResolution chosenResolution = mode.getSelected();
+        DisplayMode chosenMode = new DisplayMode(chosenResolution.getWidth(), chosenResolution.getHeight());
         try {
             if (fullscreen.isEnabled()) {
                 Display.setDisplayModeAndFullscreen(chosenMode);
@@ -98,27 +154,15 @@ public class VideoConfigurator extends Table {
 
     @Override
     public void onShow() {
-        mode.setSelected(Display.getDisplayMode());
+        mode.setSelected(new VideoResolution(Display.getDisplayMode().getWidth(), Display.getDisplayMode().getHeight()));
         fullscreen.setEnabled(Display.isFullscreen());
     }
 
-    private List<DisplayMode> getDisplayModes() throws LWJGLException {
-        ArrayList<DisplayMode> modes = new ArrayList<DisplayMode>(java.util.Arrays.asList(Display.getAvailableDisplayModes()));
-        java.util.Collections.sort(modes, new Comparator<DisplayMode>() {
-            @Override
-            public int compare(DisplayMode o1, DisplayMode o2) {
-                int result = Integer.compare(o1.getWidth() * o1.getHeight(), o2.getWidth() * o2.getHeight());
-                if(result == 0) {
-                    result = Integer.compare(o1.getBitsPerPixel(), o2.getBitsPerPixel());
-                }
-                if(result == 0) {
-                    result = Integer.compare(o1.getFrequency(), o2.getFrequency());
-                }
-                return result;
-            }
-        });
-        modes.add(0, Display.getDisplayMode());
-        return modes;
+    private List<VideoResolution> getDisplayModes() throws LWJGLException {
+        TreeSet<VideoResolution> resolutions = new TreeSet<>();
+        for (DisplayMode m : Display.getAvailableDisplayModes()) {
+            resolutions.add(new VideoResolution(m.getWidth(), m.getHeight()));
+        }
+        return new ArrayList<>(resolutions);
     }
-
 }

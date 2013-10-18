@@ -116,7 +116,7 @@ public class NuitToolkit extends Toolkit<Widget, Table> implements AutoCloseable
 
     @Override
     public Cell<Widget, Table> obtainCell(BaseTableLayout<Widget, Table> layout) {
-        Cell<Widget, Table> cell = new Cell<Widget, Table>();
+        Cell<Widget, Table> cell = new Cell<>();
         cell.setLayout(layout);
         return cell;
     }

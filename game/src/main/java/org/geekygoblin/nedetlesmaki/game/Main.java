@@ -38,10 +38,12 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 
 import javax.swing.JOptionPane;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.assets.VirtualFileSystem;
+import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controllers;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -92,10 +94,7 @@ public class Main {
         }
 
         try {
-            Display.setDisplayMode(new DisplayMode(800, 600));
-            Display.setFullscreen(false);
-            Display.create();
-            LwjglHelper.setResizable(true);
+            setVideoMode();
             
             File applicationDir = getApplicationDir();
             VirtualFileSystem vfs = new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data"));
@@ -103,7 +102,7 @@ public class Main {
             assets.setIcon();
             Game game = new Game(assets);
 
-            while (!Display.isCloseRequested()) {
+            while (!game.isCloseRequested()) {
                 game.process();
                 Display.update(false);
                 Display.sync(60);
@@ -112,6 +111,7 @@ public class Main {
                 Keyboard.poll();
                 Controllers.poll();
             }
+            saveVideoModePreferences();
         } catch (Throwable e) {
             handleError(e, "Unexpected error during execution.\n");
         }
@@ -120,5 +120,29 @@ public class Main {
     public static void handleError(Throwable e, final String defaultMessage) {
         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, defaultMessage, e);
         JOptionPane.showMessageDialog(null, defaultMessage + "\n" + e.getMessage() + (e.getCause() != null ? "\nCause: " + e.getCause().getMessage() : ""), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private static void saveVideoModePreferences() {
+        Preferences pref = Game.getPreferences().node("video");
+        pref.putInt("width", Display.getDisplayMode().getWidth());
+        pref.putInt("height", Display.getDisplayMode().getHeight());
+        pref.putBoolean("fullscreen", Display.isFullscreen());
+        
+    }
+
+    private static void setVideoMode() throws LWJGLException {
+        Preferences pref = Game.getPreferences().node("video");
+        DisplayMode mode = new DisplayMode(pref.getInt("width", 800), pref.getInt("height", 600));
+        if (pref.getBoolean("fullscreen", false)) {
+            Display.setDisplayModeAndFullscreen(mode);
+        } else {
+            Display.setFullscreen(false);
+            Display.setDisplayMode(mode);
+        }
+        LwjglHelper.setResizable(true);
+        Display.setTitle("Ned et les maki");
+        if (!Display.isCreated()) {
+            Display.create();
+        }
     }
 }

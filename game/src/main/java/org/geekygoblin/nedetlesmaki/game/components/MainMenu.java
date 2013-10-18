@@ -123,7 +123,7 @@ public class MainMenu extends Component implements AutoCloseable {
         mainMenu.cell(new Button(toolkit, "QUIT") {
             @Override
             public void onOK() {
-                System.exit(0);
+                game.setCloseRequested(true);
             }
         });
         mainMenu.row();
