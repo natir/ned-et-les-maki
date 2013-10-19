@@ -36,11 +36,16 @@ package org.geekygoblin.nedetlesmaki.game.components.visual;
  * @author devnewton
  *
  */
-public abstract class SpriteUpdater {
-	public void update(float elapsedTime) {
+public class SpriteStopAnimation extends SpriteUpdater {
+
+	private Sprite sprite;
+
+	SpriteStopAnimation(Sprite sprite) {
+		this.sprite = sprite;
 	}
-	
-	public boolean isFinished() {
-		return true;
+
+	@Override
+	public void update(float elapsedTime) {
+		sprite.getPlay().stop();
 	}
 }

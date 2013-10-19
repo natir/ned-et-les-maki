@@ -31,16 +31,27 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components.visual;
 
+import im.bci.nanim.IAnimation;
+import im.bci.nanim.PlayMode;
+
 /**
  * 
  * @author devnewton
- *
+ * 
  */
-public abstract class SpriteUpdater {
+public class SpriteStartAnimation extends SpriteUpdater {
+
+	private Sprite sprite;
+	private IAnimation animation;
+
+	SpriteStartAnimation(Sprite sprite, IAnimation animation) {
+		this.sprite = sprite;
+		this.animation = animation;
+	}
+
+	@Override
 	public void update(float elapsedTime) {
+		sprite.setPlay(animation.start(PlayMode.LOOP));
 	}
-	
-	public boolean isFinished() {
-		return true;
-	}
+
 }

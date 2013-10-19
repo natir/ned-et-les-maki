@@ -57,6 +57,7 @@ public class SpriteUpdateSystem extends EntityProcessingSystem {
     @Override
     protected void process(Entity entity) {
         Sprite sprite = spriteMapper.get(entity);
+        sprite.getPlay().update((long)(world.getDelta() * 1000L));
 		ArrayList<SpriteUpdater> updaters = sprite.getUpdaters();
         	if(!updaters.isEmpty()) {
         		SpriteUpdater updater = updaters.get(0);

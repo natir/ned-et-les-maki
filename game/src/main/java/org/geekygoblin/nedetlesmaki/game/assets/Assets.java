@@ -102,7 +102,7 @@ public class Assets implements AutoCloseable {
         }
     }
 
-    NanimationCollection getAnimations(String name) {
+    public NanimationCollection getAnimations(String name) {
         AnimationCollectionWeakReference animRef = animations.get(name);
         if (null != animRef) {
             NanimationCollection anim = animRef.get();
