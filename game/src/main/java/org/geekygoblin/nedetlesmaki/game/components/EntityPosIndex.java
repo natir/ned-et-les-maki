@@ -1,6 +1,7 @@
 package org.geekygoblin.nedetlesmaki.game.components;
 
 import com.artemis.Component;
+import com.artemis.Entity;
 
 /**
  * 
