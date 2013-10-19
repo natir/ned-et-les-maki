@@ -29,27 +29,41 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.geekygoblin.nedetlesmaki.game.components.visual;
+package org.geekygoblin.nedetlesmaki.game.systems;
 
-import com.artemis.Component;
-import im.bci.timed.OneShotTimedAction;
-import im.bci.timed.TimedAction;
-import java.util.List;
-import org.lwjgl.util.vector.Vector2f;
+import java.util.ArrayList;
+
+import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
+import com.artemis.Entity;
+import com.artemis.annotations.Mapper;
+import com.artemis.systems.EntityProcessingSystem;
+
+import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import org.geekygoblin.nedetlesmaki.game.components.visual.SpriteUpdater;
 
 /**
  *
  * @author devnewton
  */
-public class SpriteMovement extends Component{
-    
-    public List<Vector2f> path;
-    public TimedAction action;
-    public Vector2f previousPos;
+public class SpriteUpdateSystem extends EntityProcessingSystem {
+    @Mapper
+    ComponentMapper<Sprite> spriteMapper;
 
-    public SpriteMovement(Sprite sprite, List<Vector2f> path, float duration) {
-        this.path = path;
-        this.action = new OneShotTimedAction(duration / path.size());
-        previousPos = new Vector2f(sprite.getPosition().getX(), sprite.getPosition().getY());
+    public SpriteUpdateSystem() {
+        super(Aspect.getAspectForAll(Sprite.class));
+    }
+
+    @Override
+    protected void process(Entity entity) {
+        Sprite sprite = spriteMapper.get(entity);
+		ArrayList<SpriteUpdater> updaters = sprite.getUpdaters();
+        	if(!updaters.isEmpty()) {
+        		SpriteUpdater updater = updaters.get(0);
+        		updater.update(world.getDelta());
+        		if(updater.isFinished()) {
+        			updaters.remove(0);
+        		}
+        	}
     }
 }

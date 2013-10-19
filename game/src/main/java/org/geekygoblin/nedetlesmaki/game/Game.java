@@ -43,7 +43,7 @@ import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.TriggerSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.SpriteMovementSystem;
+import org.geekygoblin.nedetlesmaki.game.systems.SpriteUpdateSystem;
 import org.lwjgl.LWJGLException;
 
 /**
@@ -58,7 +58,7 @@ public class Game extends World {
     public Game(Assets assets) throws LWJGLException {
         this.assets = assets;
         setSystem(new IngameInputSystem());
-        setSystem(new SpriteMovementSystem());
+        setSystem(new SpriteUpdateSystem());
         setSystem(new DrawSystem());
         setSystem(new TriggerSystem());
         setSystem(new MainMenuSystem());

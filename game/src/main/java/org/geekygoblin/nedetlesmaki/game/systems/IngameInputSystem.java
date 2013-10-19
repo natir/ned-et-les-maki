@@ -32,18 +32,19 @@
 package org.geekygoblin.nedetlesmaki.game.systems;
 
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
+
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import java.util.ArrayList;
+
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
-import org.geekygoblin.nedetlesmaki.game.components.visual.SpriteMovement;
-import org.lwjgl.util.vector.Vector2f;
+import org.geekygoblin.nedetlesmaki.game.components.visual.SpriteMoveTo;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
@@ -71,10 +72,8 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 Game game = (Game)world;
                 Entity ned = game.getNed();
                 Sprite sprite = spriteMapper.get(ned);
-                ArrayList<Vector2f> path = new ArrayList<>();
-                path.add(new Vector2f(sprite.getPosition().x + 10.0f, sprite.getPosition().y));
-                ned.addComponent(new SpriteMovement(sprite, path, 1.0f));
-                ned.changedInWorld();
+                sprite.addUpdater(new SpriteMoveTo(sprite, new Vector3f(sprite.getPosition()), new Vector3f(sprite.getPosition().x + 10.0f, sprite.getPosition().y,  sprite.getPosition().z), 1.0f));
+                sprite.addUpdater(new SpriteMoveTo(sprite, new Vector3f(sprite.getPosition().x + 10.0f, sprite.getPosition().y,  sprite.getPosition().z), new Vector3f(sprite.getPosition().x + 10.0f, sprite.getPosition().y+10.0f,  sprite.getPosition().z), 1.0f));
             }
         }
     }
