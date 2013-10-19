@@ -53,7 +53,7 @@ import org.lwjgl.LWJGLException;
 public class Game extends World {
 
     private final Assets assets;
-    private Entity mainMenu, ingameControls, indexPosEntity, ned;
+    private Entity mainMenu, ingameControls, ned;
 
     public Game(Assets assets) throws LWJGLException {
         this.assets = assets;

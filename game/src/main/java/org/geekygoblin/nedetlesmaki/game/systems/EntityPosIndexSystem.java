@@ -2,12 +2,9 @@ package org.geekygoblin.nedetlesmaki.game.systems;
 
 import java.util.Vector; 
 
-import com.artemis.Aspect;
 import com.artemis.Entity;
 
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
-import org.geekygoblin.nedetlesmaki.game.components.Indexed;
-import org.geekygoblin.nedetlesmaki.game.components.Position;
 
 /**
  *
