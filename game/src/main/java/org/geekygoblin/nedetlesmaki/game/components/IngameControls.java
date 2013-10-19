@@ -42,7 +42,7 @@ import org.lwjgl.input.Keyboard;
  * @author devnewton
  */
 public class IngameControls extends Component{
-    private ActionActivatedDetector up, down, left, right, showMenu;
+    private ActionActivatedDetector up, down, left, right, showMenu, dance;
     
     public IngameControls() {
         up = new ActionActivatedDetector(new Action("up", new KeyControl(Keyboard.KEY_UP)));
@@ -50,6 +50,7 @@ public class IngameControls extends Component{
         left = new ActionActivatedDetector(new Action("left", new KeyControl(Keyboard.KEY_LEFT)));
         right = new ActionActivatedDetector(new Action("right", new KeyControl(Keyboard.KEY_RIGHT)));
         showMenu = new ActionActivatedDetector(new Action("menu", new KeyControl(Keyboard.KEY_ESCAPE)));
+        dance = new ActionActivatedDetector(new Action("dance", new KeyControl(Keyboard.KEY_SPACE)));
         
     }
 
@@ -92,5 +93,13 @@ public class IngameControls extends Component{
     public void setShowMenu(ActionActivatedDetector showMenu) {
         this.showMenu = showMenu;
     }
+    
+    public ActionActivatedDetector getDance() {
+		return dance;
+	}
+    
+    public void setDance(ActionActivatedDetector dance) {
+		this.dance = dance;
+	}
     
 }

@@ -35,6 +35,7 @@ import java.util.ArrayList;
 
 import com.artemis.Component;
 
+import im.bci.nanim.IAnimation;
 import im.bci.nanim.IPlay;
 
 import org.lwjgl.util.Color;
@@ -54,8 +55,24 @@ public final class Sprite extends Component {
     private Color color = (Color) Color.WHITE;
     private ArrayList<SpriteUpdater> updaters = new ArrayList<>();
     
-    public void addUpdater(SpriteUpdater u) {
-    	updaters.add(u);    	
+    public Sprite moveTo(Vector3f pos, float duration) {
+    	updaters.add(new SpriteMoveTo(this, pos, duration));
+    	return this;
+    }
+    
+    public Sprite startAnimation(IAnimation animation) {
+    	updaters.add(new SpriteStartAnimation(this, animation));
+    	return this;
+    }
+    
+    public Sprite stopAnimation() {
+    	updaters.add(new SpriteStopAnimation(this));
+    	return this;
+    }
+    
+    public Sprite waitDuring(float duration) {
+    	updaters.add(new SpriteWait(duration));
+    	return this;
     }
     
     public ArrayList<SpriteUpdater> getUpdaters() {

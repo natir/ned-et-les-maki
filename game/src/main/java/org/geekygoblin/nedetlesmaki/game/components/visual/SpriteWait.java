@@ -31,16 +31,32 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components.visual;
 
+import im.bci.timed.OneShotTimedAction;
+
 /**
  * 
  * @author devnewton
  *
  */
-public abstract class SpriteUpdater {
-	public void update(float elapsedTime) {
+public class SpriteWait extends SpriteUpdater{
+	
+	private float duration;
+	private OneShotTimedAction action;
+
+	public SpriteWait(float duration) {
+			this.duration = duration;	
 	}
 	
+	@Override
+	public void update(float elapsedTime) {
+		if(null == action) {
+			action = new OneShotTimedAction(duration);
+		}
+		action.update(elapsedTime);
+	}
+	
+	@Override
 	public boolean isFinished() {
-		return true;
+		return action.getProgress() >= 1.0f;
 	}
 }

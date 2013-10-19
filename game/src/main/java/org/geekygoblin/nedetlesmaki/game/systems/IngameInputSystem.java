@@ -38,12 +38,12 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import im.bci.nanim.NanimationCollection;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
-import org.geekygoblin.nedetlesmaki.game.components.visual.SpriteMoveTo;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -67,13 +67,25 @@ public class IngameInputSystem extends EntityProcessingSystem {
             if (controls.getShowMenu().isActivated()) {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(new ShowMenuTrigger())));
             }
-            controls.getRight().poll();
-            if(controls.getRight().isActivated()) {
+            controls.getDance().poll();
+            if(controls.getDance().isActivated()) {
                 Game game = (Game)world;
                 Entity ned = game.getNed();
                 Sprite sprite = spriteMapper.get(ned);
-                sprite.addUpdater(new SpriteMoveTo(sprite, new Vector3f(sprite.getPosition()), new Vector3f(sprite.getPosition().x + 10.0f, sprite.getPosition().y,  sprite.getPosition().z), 1.0f));
-                sprite.addUpdater(new SpriteMoveTo(sprite, new Vector3f(sprite.getPosition().x + 10.0f, sprite.getPosition().y,  sprite.getPosition().z), new Vector3f(sprite.getPosition().x + 10.0f, sprite.getPosition().y+10.0f,  sprite.getPosition().z), 1.0f));
+                NanimationCollection anims = game.getAssets().getAnimations("ned.nanim");
+                Vector3f pos = sprite.getPosition();
+                sprite.startAnimation(anims.getAnimationByName("walk_up"))
+                        .moveTo(new Vector3f(pos.x + 50.0f, pos.y - 40.0f,  pos.z), 1.0f)
+                        .startAnimation(anims.getAnimationByName("walk_right"))
+                        .moveTo(new Vector3f(pos.x + 100.0f, pos.y,  pos.z), 1.0f)
+                        .startAnimation(anims.getAnimationByName("walk_down"))
+                        .moveTo(new Vector3f(pos.x + 50.0f, pos.y + 40,  pos.z), 1.0f)
+                        .startAnimation(anims.getAnimationByName("dance"))
+                        .waitDuring(2.0f)
+                        .startAnimation(anims.getAnimationByName("walk_left"))
+                        .moveTo(new Vector3f(pos), 1.0f)
+                        .startAnimation(anims.getAnimationByName("walk_down"))
+                        .stopAnimation();
             }
         }
     }
