@@ -108,6 +108,7 @@ public class TmxLoader {
                 try (InputStream is = openExternalTileset(source)) {
                     TmxTileset newTileset = (TmxTileset) unmarshaller.unmarshal(is);
                     newTileset.setSource(source);
+                    newTileset.setFirstgid(tileset.getFirstgid());
                     String tilesetDir = source.substring(0, source.lastIndexOf('/') + 1);
                     newTileset.getImage().setSource(tilesetDir + newTileset.getImage().getSource());
                     newTilesets.add(newTileset);

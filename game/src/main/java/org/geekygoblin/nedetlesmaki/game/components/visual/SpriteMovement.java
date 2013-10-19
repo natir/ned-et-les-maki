@@ -29,59 +29,28 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package im.bci.tmxloader;
+package org.geekygoblin.nedetlesmaki.game.components.visual;
 
-import java.util.ArrayList;
+import com.artemis.Component;
+import im.bci.timed.OneShotTimedAction;
+import im.bci.timed.TimedAction;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "tile")
-public class TmxTile {
+public class SpriteMovement extends Component{
+    
+    public List<Vector2f> path;
+    public TimedAction action;
+    public Vector2f previousPos;
 
-    private int id;
-    private List<TmxProperty> properties = new ArrayList<>();
-    private TmxFrame frame;
-
-    @XmlAttribute
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @XmlElementWrapper(name = "properties")
-    @XmlElement(name = "property")
-    public List<TmxProperty> getProperties() {
-        return properties;
-    }
-
-    public void setProperties(List<TmxProperty> properties) {
-        this.properties = properties;
-    }
-
-    public String getProperty(String name, String defaultValue) {
-        for (TmxProperty p : properties) {
-            if (p.getName().equals(name)) {
-                return p.getValue();
-            }
-        }
-        return defaultValue;
-    }
-
-    public TmxFrame getFrame() {
-        return frame;
-    }
-
-    public void setFrame(TmxFrame frame) {
-        this.frame = frame;
+    public SpriteMovement(Sprite sprite, List<Vector2f> path, float duration) {
+        this.path = path;
+        this.action = new OneShotTimedAction(duration / path.size());
+        previousPos = new Vector2f(sprite.getPosition().getX(), sprite.getPosition().getY());
     }
 }

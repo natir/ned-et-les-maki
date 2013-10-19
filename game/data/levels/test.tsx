@@ -14,6 +14,11 @@
    <property name="type" value="maki_vert"/>
   </properties>
  </tile>
+ <tile id="4">
+  <properties>
+   <property name="taiste" value="plop"/>
+  </properties>
+ </tile>
  <tile id="5">
   <properties>
    <property name="type" value="ned"/>

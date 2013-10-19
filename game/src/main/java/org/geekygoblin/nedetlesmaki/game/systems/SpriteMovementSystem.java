@@ -29,59 +29,55 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package im.bci.tmxloader;
+package org.geekygoblin.nedetlesmaki.game.systems;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
+import com.artemis.Entity;
+import com.artemis.annotations.Mapper;
+import com.artemis.systems.EntityProcessingSystem;
+import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import org.geekygoblin.nedetlesmaki.game.components.visual.SpriteMovement;
+import org.lwjgl.util.vector.Vector2f;
 
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "tile")
-public class TmxTile {
+public class SpriteMovementSystem extends EntityProcessingSystem {
 
-    private int id;
-    private List<TmxProperty> properties = new ArrayList<>();
-    private TmxFrame frame;
+    @Mapper
+    ComponentMapper<SpriteMovement> spriteMovementMapper;
+    @Mapper
+    ComponentMapper<Sprite> spriteMapper;
 
-    @XmlAttribute
-    public int getId() {
-        return id;
+    public SpriteMovementSystem() {
+        super(Aspect.getAspectForAll(Sprite.class, SpriteMovement.class));
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @XmlElementWrapper(name = "properties")
-    @XmlElement(name = "property")
-    public List<TmxProperty> getProperties() {
-        return properties;
-    }
-
-    public void setProperties(List<TmxProperty> properties) {
-        this.properties = properties;
-    }
-
-    public String getProperty(String name, String defaultValue) {
-        for (TmxProperty p : properties) {
-            if (p.getName().equals(name)) {
-                return p.getValue();
+    @Override
+    protected void process(Entity entity) {
+        Sprite sprite = spriteMapper.get(entity);
+        SpriteMovement movement = spriteMovementMapper.get(entity);
+        movement.action.update(world.getDelta());
+        Vector2f nextPos = movement.path.get(0);
+        Vector2f newPos;
+        final float progress = movement.action.getProgress();
+        if (progress >= 1.0f) {
+            newPos = movement.previousPos = nextPos;
+            movement.path.remove(0);
+            if (movement.path.isEmpty()) {
+                entity.removeComponent(movement);
+                entity.changedInWorld();
             }
+        } else {
+            newPos = new Vector2f();
+            Vector2f.sub(nextPos, movement.previousPos, newPos);
+            newPos.scale(progress);
+            newPos.x += movement.previousPos.x;
+            newPos.y += movement.previousPos.y;
         }
-        return defaultValue;
-    }
-
-    public TmxFrame getFrame() {
-        return frame;
-    }
-
-    public void setFrame(TmxFrame frame) {
-        this.frame = frame;
+        sprite.getPosition().x = newPos.x;
+        sprite.getPosition().y = newPos.y;
     }
 }

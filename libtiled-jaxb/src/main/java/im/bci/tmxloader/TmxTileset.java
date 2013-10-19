@@ -32,7 +32,6 @@
 package im.bci.tmxloader;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.TreeMap;
 import javax.xml.bind.Unmarshaller;
@@ -158,7 +157,7 @@ public class TmxTileset {
         if (null == source) {
             final int maxX = image.getWidth() - margin;
             final int maxY = image.getHeight() - margin;
-            int id = 1;
+            int id = 0;
             for (int y = margin; y < maxY; y += tilewidth + spacing) {
                 for (int x = margin; x < maxX; x += tilewidth + spacing) {
                     TmxTile tile = tilesById.get(id);

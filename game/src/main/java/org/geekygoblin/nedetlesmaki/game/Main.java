@@ -104,6 +104,7 @@ public class Main {
             Game game = new Game(assets);
 
             while (!Display.isCloseRequested()) {
+                game.setDelta(1.0f / 60.0f);
                 game.process();
                 Display.update(false);
                 Display.sync(60);

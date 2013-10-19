@@ -33,10 +33,17 @@ package org.geekygoblin.nedetlesmaki.game.systems;
 
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
 import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
 import com.artemis.Entity;
+import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import java.util.ArrayList;
+import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
+import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import org.geekygoblin.nedetlesmaki.game.components.visual.SpriteMovement;
+import org.lwjgl.util.vector.Vector2f;
 
 /**
  *
@@ -47,6 +54,9 @@ public class IngameInputSystem extends EntityProcessingSystem {
     public IngameInputSystem() {
         super(Aspect.getAspectForAll(IngameControls.class));
     }
+    
+    @Mapper
+    ComponentMapper<Sprite> spriteMapper;
 
     @Override
     protected void process(Entity e) {
@@ -55,6 +65,16 @@ public class IngameInputSystem extends EntityProcessingSystem {
             controls.getShowMenu().poll();
             if (controls.getShowMenu().isActivated()) {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(new ShowMenuTrigger())));
+            }
+            controls.getRight().poll();
+            if(controls.getRight().isActivated()) {
+                Game game = (Game)world;
+                Entity ned = game.getNed();
+                Sprite sprite = spriteMapper.get(ned);
+                ArrayList<Vector2f> path = new ArrayList<>();
+                path.add(new Vector2f(sprite.getPosition().x + 10.0f, sprite.getPosition().y));
+                ned.addComponent(new SpriteMovement(sprite, path, 1.0f));
+                ned.changedInWorld();
             }
         }
     }
