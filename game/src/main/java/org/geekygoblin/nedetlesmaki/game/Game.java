@@ -102,6 +102,7 @@ public class Game extends World {
     public static Preferences getPreferences() {
         return Preferences.userRoot().node("nedetlesmaki");
     }
+
     public void setNed(Entity ned) {
         this.ned = ned;
     }
