@@ -37,7 +37,6 @@ import im.bci.lwjgl.nuit.utils.LwjglHelper;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import im.bci.nanim.NanimationCollection;
 import im.bci.nanim.NanimParser.Nanim;
-import im.bci.tmxloader.TmxMap;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.image.BufferedImage;
@@ -103,7 +102,7 @@ public class Assets implements AutoCloseable {
         }
     }
 
-    NanimationCollection getAnimations(String name) {
+    public NanimationCollection getAnimations(String name) {
         AnimationCollectionWeakReference animRef = animations.get(name);
         if (null != animRef) {
             NanimationCollection anim = animRef.get();

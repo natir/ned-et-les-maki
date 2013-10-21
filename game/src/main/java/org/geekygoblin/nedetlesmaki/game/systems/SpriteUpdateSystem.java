@@ -29,59 +29,42 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package im.bci.tmxloader;
+package org.geekygoblin.nedetlesmaki.game.systems;
 
 import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+
+import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
+import com.artemis.Entity;
+import com.artemis.annotations.Mapper;
+import com.artemis.systems.EntityProcessingSystem;
+
+import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import org.geekygoblin.nedetlesmaki.game.components.visual.SpriteUpdater;
 
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "tile")
-public class TmxTile {
+public class SpriteUpdateSystem extends EntityProcessingSystem {
+    @Mapper
+    ComponentMapper<Sprite> spriteMapper;
 
-    private int id;
-    private List<TmxProperty> properties = new ArrayList<>();
-    private TmxFrame frame;
-
-    @XmlAttribute
-    public int getId() {
-        return id;
+    public SpriteUpdateSystem() {
+        super(Aspect.getAspectForAll(Sprite.class));
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @XmlElementWrapper(name = "properties")
-    @XmlElement(name = "property")
-    public List<TmxProperty> getProperties() {
-        return properties;
-    }
-
-    public void setProperties(List<TmxProperty> properties) {
-        this.properties = properties;
-    }
-
-    public String getProperty(String name, String defaultValue) {
-        for (TmxProperty p : properties) {
-            if (p.getName().equals(name)) {
-                return p.getValue();
-            }
-        }
-        return defaultValue;
-    }
-
-    public TmxFrame getFrame() {
-        return frame;
-    }
-
-    public void setFrame(TmxFrame frame) {
-        this.frame = frame;
+    @Override
+    protected void process(Entity entity) {
+        Sprite sprite = spriteMapper.get(entity);
+        sprite.getPlay().update((long)(world.getDelta() * 1000L));
+		ArrayList<SpriteUpdater> updaters = sprite.getUpdaters();
+        	if(!updaters.isEmpty()) {
+        		SpriteUpdater updater = updaters.get(0);
+        		updater.update(world.getDelta());
+        		if(updater.isFinished()) {
+        			updaters.remove(0);
+        		}
+        	}
     }
 }

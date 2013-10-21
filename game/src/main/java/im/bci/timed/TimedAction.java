@@ -29,59 +29,16 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package im.bci.tmxloader;
-
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+package im.bci.timed;
 
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "tile")
-public class TmxTile {
+public abstract class TimedAction {
 
-    private int id;
-    private List<TmxProperty> properties = new ArrayList<>();
-    private TmxFrame frame;
+    public abstract float getProgress();
 
-    @XmlAttribute
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @XmlElementWrapper(name = "properties")
-    @XmlElement(name = "property")
-    public List<TmxProperty> getProperties() {
-        return properties;
-    }
-
-    public void setProperties(List<TmxProperty> properties) {
-        this.properties = properties;
-    }
-
-    public String getProperty(String name, String defaultValue) {
-        for (TmxProperty p : properties) {
-            if (p.getName().equals(name)) {
-                return p.getValue();
-            }
-        }
-        return defaultValue;
-    }
-
-    public TmxFrame getFrame() {
-        return frame;
-    }
-
-    public void setFrame(TmxFrame frame) {
-        this.frame = frame;
-    }
+    public abstract void update(float elapsedTime);
+    
 }

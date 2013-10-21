@@ -19,6 +19,6 @@ public class BlockOnPlate extends Component {
     }
 
     public void setBlock(boolean stop) {
-       this.block = block;
+       this.block = stop;
     }
 }

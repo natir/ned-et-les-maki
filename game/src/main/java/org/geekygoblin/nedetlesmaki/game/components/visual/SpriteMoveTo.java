@@ -29,59 +29,58 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package im.bci.tmxloader;
+package org.geekygoblin.nedetlesmaki.game.components.visual;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+import im.bci.timed.OneShotTimedAction;
+
+import org.lwjgl.util.vector.Vector3f;
 
 /**
- *
+ * 
  * @author devnewton
+ *
  */
-@XmlRootElement(name = "tile")
-public class TmxTile {
+class SpriteMoveTo extends SpriteUpdater {
+	private final Vector3f to;
+	private final float duration;
+	private final Sprite sprite;
+	private Vector3f from;
+	private OneShotTimedAction action;
+	
+	SpriteMoveTo(Sprite sprite, Vector3f to, float duration) {
+		this.sprite = sprite;
+		this.to = to;
+		this.duration = duration;
+	}
 
-    private int id;
-    private List<TmxProperty> properties = new ArrayList<>();
-    private TmxFrame frame;
-
-    @XmlAttribute
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @XmlElementWrapper(name = "properties")
-    @XmlElement(name = "property")
-    public List<TmxProperty> getProperties() {
-        return properties;
-    }
-
-    public void setProperties(List<TmxProperty> properties) {
-        this.properties = properties;
-    }
-
-    public String getProperty(String name, String defaultValue) {
-        for (TmxProperty p : properties) {
-            if (p.getName().equals(name)) {
-                return p.getValue();
-            }
+	@Override
+	public void update(float elapsedTime) {
+		if(null == action) {
+			this.from = new Vector3f(sprite.getPosition());
+			action = new OneShotTimedAction(duration);
+		}		
+		action.update(elapsedTime);
+        Vector3f newPos;
+        final float progress = action.getProgress();
+        if (progress >= 1.0f) {
+            newPos = to;
+        } else {
+            newPos = new Vector3f();
+            Vector3f.sub(to, from, newPos);
+            newPos.scale(progress);
+            newPos.x += from.x;
+            newPos.y += from.y;
+            newPos.z += from.z;
         }
-        return defaultValue;
-    }
+        sprite.getPosition().x = newPos.x;
+        sprite.getPosition().y = newPos.y;
+        sprite.getPosition().y = newPos.y;
+	}
 
-    public TmxFrame getFrame() {
-        return frame;
-    }
+	@Override
+	public boolean isFinished() {
+		return action.getProgress() >= 1.0f;
+	}
+	
 
-    public void setFrame(TmxFrame frame) {
-        this.frame = frame;
-    }
 }

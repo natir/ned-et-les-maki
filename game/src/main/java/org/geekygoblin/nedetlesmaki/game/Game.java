@@ -44,6 +44,7 @@ import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.TriggerSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
+import org.geekygoblin.nedetlesmaki.game.systems.SpriteUpdateSystem;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
@@ -54,12 +55,13 @@ import org.lwjgl.opengl.Display;
 public class Game extends World {
 
     private final Assets assets;
-    private Entity mainMenu, ingameControls, indexPosEntity;
+    private Entity mainMenu, ingameControls, ned;
     private boolean closeRequested;
 
     public Game(Assets assets) throws LWJGLException {
         this.assets = assets;
         setSystem(new IngameInputSystem());
+        setSystem(new SpriteUpdateSystem());
         setSystem(new DrawSystem());
         setSystem(new TriggerSystem());
         setSystem(new MainMenuSystem());
@@ -99,5 +101,12 @@ public class Game extends World {
     
     public static Preferences getPreferences() {
         return Preferences.userRoot().node("nedetlesmaki");
+    }
+    public void setNed(Entity ned) {
+        this.ned = ned;
+    }
+
+    public Entity getNed() {
+        return ned;
     }
 }
