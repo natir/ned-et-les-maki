@@ -29,59 +29,42 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package im.bci.tmxloader;
-
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+package im.bci.timed;
 
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "tile")
-public class TmxTile {
+public strictfp class OneShotTimedAction extends TimedAction {
 
-    private int id;
-    private List<TmxProperty> properties = new ArrayList<>();
-    private TmxFrame frame;
+    private float progress;
+    private final float duration;
+    private float time;
 
-    @XmlAttribute
-    public int getId() {
-        return id;
+    public OneShotTimedAction(float duration) {
+        this.duration = duration;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @XmlElementWrapper(name = "properties")
-    @XmlElement(name = "property")
-    public List<TmxProperty> getProperties() {
-        return properties;
-    }
-
-    public void setProperties(List<TmxProperty> properties) {
-        this.properties = properties;
-    }
-
-    public String getProperty(String name, String defaultValue) {
-        for (TmxProperty p : properties) {
-            if (p.getName().equals(name)) {
-                return p.getValue();
-            }
+    @Override
+    public void update(float elapsedTime) {
+        time += elapsedTime;
+        if (time >= duration) {
+            progress = 1.0f;
+        } else {
+            progress = time / duration;
         }
-        return defaultValue;
     }
 
-    public TmxFrame getFrame() {
-        return frame;
+    @Override
+    public float getProgress() {
+        return progress;
     }
 
-    public void setFrame(TmxFrame frame) {
-        this.frame = frame;
+    public float getRemainingTime() {
+        if (time >= duration) {
+            return 0.0f;
+        } else {
+            return duration - time;
+        }
     }
 }

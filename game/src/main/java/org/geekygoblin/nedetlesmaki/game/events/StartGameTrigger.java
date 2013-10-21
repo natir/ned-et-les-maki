@@ -69,19 +69,7 @@ public class StartGameTrigger extends Trigger {
                 for (int y = 0, lh = layer.getHeight(); y < lh; ++y) {
                     final TmxTileInstance tile = layer.getTileAt(x, y);
                     if (null != tile) {
-                        final EnumSet<TmxTileInstanceEffect> effect = tile.getEffect();
-                        Entity decoration = game.createEntity();
-                        Sprite sprite = new Sprite();
-                        //sprite.setPosition(new Vector3f(x * tmx.getMap().getTilewidth(), y * tmx.getMap().getTileheight(), l));
-                        sprite.setPosition(tileToScreenPos(tmx, x, y, l));
-                        sprite.setWidth(tile.getTile().getFrame().getX2() - tile.getTile().getFrame().getX1());
-                        sprite.setHeight(tile.getTile().getFrame().getY2() - tile.getTile().getFrame().getY1());
-                        sprite.setPlay(tmx.getTileAnimationCollection(tile).getFirst().start(PlayMode.LOOP));
-                        sprite.setMirrorX(effect.contains(TmxTileInstanceEffect.FLIPPED_HORIZONTALLY));
-                        sprite.setMirrorX(layer.getTileAt(x, y).getEffect().contains(TmxTileInstanceEffect.FLIPPED_VERTICALLY));
-                        decoration.addComponent(sprite);
-                        decoration.addComponent(new ZOrder(ZOrders.LEVEL));
-                        game.addEntity(decoration);
+                        createEntityFromTile(tile, game, tmx, x, y, l, layer);
                     }
                 }
             }
@@ -92,6 +80,45 @@ public class StartGameTrigger extends Trigger {
         float tileWidth = tmx.getMap().getTilewidth();
         float tileHeight = tmx.getMap().getTileheight();
         float originX = tmx.getMap().getHeight() * tileWidth / 2;
-        return new Vector3f((x - y) * tileWidth / 2 + originX,(x + y) * tileHeight / 2,  layer);
+        return new Vector3f((x - y) * tileWidth / 2 + originX, (x + y) * tileHeight / 2, layer);
+    }
+
+    private void createEntityFromTile(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        switch (tile.getTile().getProperty("type", "decoration")) {
+            case "ned":
+                createNed(tile, game, tmx, x, y, l, layer);
+                break;
+            case "decoration":
+            default:
+                createDecoration(tile, game, tmx, x, y, l, layer);
+                break;
+        }
+
+    }
+
+    private void createDecoration(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Entity decoration = game.createEntity();
+        createSprite(tmx, x, y, l, tile, layer, decoration);
+        game.addEntity(decoration);
+    }
+
+    private void createSprite(TmxAsset tmx, int x, int y, int l, final TmxTileInstance tile, TmxLayer layer, Entity decoration) {
+        Sprite sprite = new Sprite();
+        sprite.setPosition(tileToScreenPos(tmx, x, y, l));
+        sprite.setWidth(tile.getTile().getFrame().getX2() - tile.getTile().getFrame().getX1());
+        sprite.setHeight(tile.getTile().getFrame().getY2() - tile.getTile().getFrame().getY1());
+        sprite.setPlay(tmx.getTileAnimationCollection(tile).getFirst().start(PlayMode.LOOP));
+        final EnumSet<TmxTileInstanceEffect> effect = tile.getEffect();
+        sprite.setMirrorX(effect.contains(TmxTileInstanceEffect.FLIPPED_HORIZONTALLY));
+        sprite.setMirrorX(effect.contains(TmxTileInstanceEffect.FLIPPED_VERTICALLY));
+        decoration.addComponent(sprite);
+        decoration.addComponent(new ZOrder(ZOrders.LEVEL));
+    }
+
+    private void createNed(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Entity ned = game.createEntity();
+        game.setNed(ned);
+        createSprite(tmx, x, y, l, tile, layer, ned);
+        game.addEntity(ned);
     }
 }

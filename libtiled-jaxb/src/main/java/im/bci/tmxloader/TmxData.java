@@ -37,52 +37,54 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
 /**
- *
+ * 
  * @author devnewton
  */
 @XmlRootElement(name = "data")
 public class TmxData {
 
-    private String encoding;
-    private String data;
+	private String encoding;
+	private String data;
 
-    @XmlAttribute
-    public String getEncoding() {
-        return encoding;
-    }
+	@XmlAttribute
+	public String getEncoding() {
+		return encoding;
+	}
 
-    public void setEncoding(String encoding) {
-        this.encoding = encoding;
-    }
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
+	}
 
-    @XmlValue
-    public String getData() {
-        return data;
-    }
+	@XmlValue
+	public String getData() {
+		return data;
+	}
 
-    public void setData(String data) {
-        this.data = data;
-    }
+	public void setData(String data) {
+		this.data = data;
+	}
 
-    public void decodeTo(int[][] data) {
-        switch (encoding) {
-            case "csv":
-                decodeCsvTo(data);
-                break;
-            default:
-                throw new RuntimeException("Unsupported tiled layer data encoding: " + encoding);
-        }
-    }
+	public void decodeTo(int[][] data) {
+		switch (encoding) {
+		case "csv":
+			decodeCsvTo(data);
+			break;
+		default:
+			throw new RuntimeException(
+					"Unsupported tiled layer data encoding: " + encoding);
+		}
+	}
 
-    private void decodeCsvTo(int[][] gidArray) {
-        Scanner scanner = new Scanner(this.data.trim());
-        scanner.useDelimiter("[\\s]*,[\\s]*");
-        for(int x=0; x<gidArray.length; ++x) {
-            final int[] gidColumn = gidArray[x];
-            for(int y=0; y<gidColumn.length; ++y) {
-                String str = scanner.next();
-                gidColumn[y] = Integer.parseInt(str);
-            }
-        }
-    }
+	private void decodeCsvTo(int[][] gidArray) {
+		try (Scanner scanner = new Scanner(this.data.trim())) {
+			scanner.useDelimiter("[\\s]*,[\\s]*");
+			for (int x = 0; x < gidArray.length; ++x) {
+				final int[] gidColumn = gidArray[x];
+				for (int y = 0; y < gidColumn.length; ++y) {
+					String str = scanner.next();
+					gidColumn[y] = Integer.parseInt(str);
+				}
+			}
+		}
+	}
 }
