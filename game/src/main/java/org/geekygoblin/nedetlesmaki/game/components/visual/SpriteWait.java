@@ -38,7 +38,7 @@ import im.bci.timed.OneShotTimedAction;
  * @author devnewton
  *
  */
-public class SpriteWait extends SpriteUpdater{
+public class SpriteWait extends SpriteControl{
 	
 	private float duration;
 	private OneShotTimedAction action;

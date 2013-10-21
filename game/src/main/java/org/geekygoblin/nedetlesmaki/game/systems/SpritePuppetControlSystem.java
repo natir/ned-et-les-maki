@@ -29,18 +29,44 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.geekygoblin.nedetlesmaki.game.components.visual;
+package org.geekygoblin.nedetlesmaki.game.systems;
+
+import java.util.ArrayList;
+
+import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
+import com.artemis.Entity;
+import com.artemis.annotations.Mapper;
+import com.artemis.systems.EntityProcessingSystem;
+
+import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
+import org.geekygoblin.nedetlesmaki.game.components.visual.SpriteControl;
 
 /**
- * 
- * @author devnewton
  *
+ * @author devnewton
  */
-public abstract class SpriteUpdater {
-	public void update(float elapsedTime) {
-	}
-	
-	public boolean isFinished() {
-		return true;
-	}
+public class SpritePuppetControlSystem extends EntityProcessingSystem {
+    @Mapper
+    ComponentMapper<SpritePuppetControls> spriteMapper;
+
+    public SpritePuppetControlSystem() {
+        super(Aspect.getAspectForAll(SpritePuppetControls.class));
+    }
+
+    @Override
+    protected void process(Entity entity) {
+        SpritePuppetControls updatable = spriteMapper.get(entity);
+        ArrayList<SpriteControl> updaters = updatable.getUpdaters();
+        if(!updaters.isEmpty()) {
+                SpriteControl updater = updaters.get(0);
+                updater.update(world.getDelta());
+                if(updater.isFinished()) {
+                    updaters.remove(0);
+                }
+        } else {
+            entity.removeComponent(updatable);
+            entity.changedInWorld();
+        }
+    }
 }

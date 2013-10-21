@@ -44,6 +44,7 @@ import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -55,7 +56,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
     public IngameInputSystem() {
         super(Aspect.getAspectForAll(IngameControls.class));
     }
-    
+
     @Mapper
     ComponentMapper<Sprite> spriteMapper;
 
@@ -67,26 +68,35 @@ public class IngameInputSystem extends EntityProcessingSystem {
             if (controls.getShowMenu().isActivated()) {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(new ShowMenuTrigger())));
             }
-            controls.getDance().poll();
-            if(controls.getDance().isActivated()) {
-                Game game = (Game)world;
-                Entity ned = game.getNed();
-                Sprite sprite = spriteMapper.get(ned);
-                NanimationCollection anims = game.getAssets().getAnimations("ned.nanim");
-                Vector3f pos = sprite.getPosition();
-                sprite.startAnimation(anims.getAnimationByName("walk_up"))
-                        .moveTo(new Vector3f(pos.x + 50.0f, pos.y - 40.0f,  pos.z), 1.0f)
-                        .startAnimation(anims.getAnimationByName("walk_right"))
-                        .moveTo(new Vector3f(pos.x + 100.0f, pos.y,  pos.z), 1.0f)
-                        .startAnimation(anims.getAnimationByName("walk_down"))
-                        .moveTo(new Vector3f(pos.x + 50.0f, pos.y + 40,  pos.z), 1.0f)
-                        .startAnimation(anims.getAnimationByName("dance"))
-                        .waitDuring(2.0f)
-                        .startAnimation(anims.getAnimationByName("walk_left"))
-                        .moveTo(new Vector3f(pos), 1.0f)
-                        .startAnimation(anims.getAnimationByName("walk_down"))
-                        .stopAnimation();
+            if (canMoveNed()) {
+                controls.getDance().poll();
+                if (controls.getDance().isActivated()) {
+                    Game game = (Game) world;
+                    Entity ned = game.getNed();
+                    Sprite sprite = spriteMapper.get(ned);
+                    NanimationCollection anims = game.getAssets().getAnimations("ned.nanim");
+                    Vector3f pos = sprite.getPosition();
+                    SpritePuppetControls updatable = new SpritePuppetControls(sprite);
+                    updatable.startAnimation(anims.getAnimationByName("walk_up"))
+                            .moveTo(new Vector3f(pos.x + 50.0f, pos.y - 40.0f, pos.z), 1.0f)
+                            .startAnimation(anims.getAnimationByName("walk_right"))
+                            .moveTo(new Vector3f(pos.x + 100.0f, pos.y, pos.z), 1.0f)
+                            .startAnimation(anims.getAnimationByName("walk_down"))
+                            .moveTo(new Vector3f(pos.x + 50.0f, pos.y + 40, pos.z), 1.0f)
+                            .startAnimation(anims.getAnimationByName("dance"))
+                            .waitDuring(2.0f)
+                            .startAnimation(anims.getAnimationByName("walk_left"))
+                            .moveTo(new Vector3f(pos), 1.0f)
+                            .startAnimation(anims.getAnimationByName("walk_down"))
+                            .stopAnimation();
+                    ned.addComponent(updatable);
+                    ned.changedInWorld();
+                }
             }
         }
+    }
+
+    private boolean canMoveNed() {
+        return world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty();
     }
 }

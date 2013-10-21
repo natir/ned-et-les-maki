@@ -40,7 +40,7 @@ import org.lwjgl.util.vector.Vector3f;
  * @author devnewton
  *
  */
-class SpriteMoveTo extends SpriteUpdater {
+class SpriteMoveTo extends SpriteControl {
 	private final Vector3f to;
 	private final float duration;
 	private final Sprite sprite;

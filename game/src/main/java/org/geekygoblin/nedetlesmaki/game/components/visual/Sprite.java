@@ -31,11 +31,8 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components.visual;
 
-import java.util.ArrayList;
-
 import com.artemis.Component;
 
-import im.bci.nanim.IAnimation;
 import im.bci.nanim.IPlay;
 
 import org.lwjgl.util.Color;
@@ -53,31 +50,6 @@ public final class Sprite extends Component {
     private float scale = 1.0f, rotate = 0.0f;
     private boolean mirrorX, mirrorY;
     private Color color = (Color) Color.WHITE;
-    private ArrayList<SpriteUpdater> updaters = new ArrayList<>();
-    
-    public Sprite moveTo(Vector3f pos, float duration) {
-    	updaters.add(new SpriteMoveTo(this, pos, duration));
-    	return this;
-    }
-    
-    public Sprite startAnimation(IAnimation animation) {
-    	updaters.add(new SpriteStartAnimation(this, animation));
-    	return this;
-    }
-    
-    public Sprite stopAnimation() {
-    	updaters.add(new SpriteStopAnimation(this));
-    	return this;
-    }
-    
-    public Sprite waitDuring(float duration) {
-    	updaters.add(new SpriteWait(duration));
-    	return this;
-    }
-    
-    public ArrayList<SpriteUpdater> getUpdaters() {
-		return updaters;
-	}
 
     public boolean isMirrorX() {
         return mirrorX;
