@@ -39,7 +39,7 @@ import im.bci.nanim.PlayMode;
  * @author devnewton
  * 
  */
-public class SpriteStartAnimation extends SpriteUpdater {
+public class SpriteStartAnimation extends SpriteControl {
 
 	private Sprite sprite;
 	private IAnimation animation;

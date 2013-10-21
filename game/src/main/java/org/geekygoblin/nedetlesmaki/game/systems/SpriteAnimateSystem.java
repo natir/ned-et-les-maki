@@ -29,23 +29,32 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.geekygoblin.nedetlesmaki.game.components.visual;
+package org.geekygoblin.nedetlesmaki.game.systems;
+
+import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
+import com.artemis.Entity;
+import com.artemis.annotations.Mapper;
+import com.artemis.systems.EntityProcessingSystem;
+import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 
 /**
- * 
- * @author devnewton
  *
+ * @author devnewton
  */
-public class SpriteStopAnimation extends SpriteControl {
+public class SpriteAnimateSystem extends EntityProcessingSystem {
 
-	private Sprite sprite;
+    @Mapper
+    ComponentMapper<Sprite> spriteMapper;
 
-	SpriteStopAnimation(Sprite sprite) {
-		this.sprite = sprite;
-	}
+    public SpriteAnimateSystem() {
+        super(Aspect.getAspectForAll(Sprite.class));
+    }
 
-	@Override
-	public void update(float elapsedTime) {
-		sprite.getPlay().stop();
-	}
+    @Override
+    protected void process(Entity entity) {
+        Sprite sprite = spriteMapper.get(entity);
+        sprite.getPlay().update((long) (world.getDelta() * 1000L));
+    }
+
 }

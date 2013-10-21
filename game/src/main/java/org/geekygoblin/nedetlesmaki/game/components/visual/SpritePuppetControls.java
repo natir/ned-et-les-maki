@@ -31,21 +31,49 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components.visual;
 
+import java.util.ArrayList;
+
+import com.artemis.Component;
+
+import im.bci.nanim.IAnimation;
+import org.lwjgl.util.vector.Vector3f;
+
 /**
- * 
- * @author devnewton
  *
+ * @author devnewton
  */
-public class SpriteStopAnimation extends SpriteControl {
+public final class SpritePuppetControls extends Component {
 
-	private Sprite sprite;
+    private final ArrayList<SpriteControl> updaters;
+    private final Sprite sprite;
 
-	SpriteStopAnimation(Sprite sprite) {
-		this.sprite = sprite;
-	}
+    public SpritePuppetControls(Sprite sprite) {
+        this.sprite = sprite;
+        this.updaters = new ArrayList<>();
+    }
 
-	@Override
-	public void update(float elapsedTime) {
-		sprite.getPlay().stop();
-	}
+    public SpritePuppetControls moveTo(Vector3f pos, float duration) {
+        updaters.add(new SpriteMoveTo(sprite, pos, duration));
+        return this;
+    }
+
+    public SpritePuppetControls startAnimation(IAnimation animation) {
+        updaters.add(new SpriteStartAnimation(sprite, animation));
+        return this;
+    }
+
+    public SpritePuppetControls stopAnimation() {
+        updaters.add(new SpriteStopAnimation(sprite));
+        return this;
+    }
+
+    public SpritePuppetControls waitDuring(float duration) {
+        updaters.add(new SpriteWait(duration));
+        return this;
+    }
+
+    public ArrayList<SpriteControl> getUpdaters() {
+        return updaters;
+    }
+
 }
