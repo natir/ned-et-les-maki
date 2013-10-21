@@ -44,18 +44,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
+import org.lwjgl.util.glu.GLU;
 
 /**
  *
  * @author devnewton
  */
 public class DrawSystem extends EntitySystem {
+    
+    private static final int SCREEN_WIDTH = 1280;
+    private static final int SCREEN_HEIGHT = 800;
 
     @Mapper
     ComponentMapper<ZOrder> zOrderMapper;
@@ -77,7 +82,7 @@ public class DrawSystem extends EntitySystem {
                     if (result == 0) {
                         float d1 = s1.getPosition().x + s1.getPosition().y;
                         float d2 = s2.getPosition().x + s2.getPosition().y;
-                        if(Math.abs(d2-d1) < 1e-6f) {
+                        if (Math.abs(d2 - d1) < 1e-6f) {
                             result = Float.compare(d1, d2);
                         }
                     }
@@ -108,8 +113,21 @@ public class DrawSystem extends EntitySystem {
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
-        GL11.glOrtho(0, 1280, 800, 0, -1.0, 1.0);
-        //GL11.glOrtho(0, 1280, 0, 800, -1.0, 1.0);
+        
+        //
+        final float aspect = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
+        int screenWidth = LwjglHelper.getWidth();
+        int screenHeight = LwjglHelper.getHeight();
+        int viewWidth = screenWidth;
+        int viewHeight = (int)(screenWidth / aspect);
+        if (viewHeight > screenHeight) {
+         viewHeight = screenHeight;
+         viewWidth = (int)(screenHeight * aspect);
+        }
+        int vportX = (screenWidth - viewWidth) / 2;
+        int vportY = (screenHeight - viewHeight) / 2;
+        GL11.glViewport(vportX, vportY, viewWidth, viewHeight);
+        GLU.gluOrtho2D(-SCREEN_WIDTH/2.0f, SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f, -SCREEN_HEIGHT/2.0f);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
@@ -121,6 +139,14 @@ public class DrawSystem extends EntitySystem {
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
+
+        Game game = (Game) world;
+        Entity ned = game.getNed();
+        if (null != ned) {
+            Sprite nedSprite = spriteMapper.get(ned);
+            GL11.glTranslatef(-nedSprite.getPosition().x, -nedSprite.getPosition().y, 0.0f);            
+        }
+
         for (Entity e : entititesSortedByZ) {
             MainMenu mainMenu = mainMenuMapper.getSafe(e);
             if (null != mainMenu) {
@@ -131,9 +157,9 @@ public class DrawSystem extends EntitySystem {
                 drawLevel(level);
             }
             Sprite sprite = spriteMapper.getSafe(e);
-            if (null != sprite) {
-                drawSprite(sprite);
-            }
+             if (null != sprite) {
+             drawSprite(sprite);
+             }
         }
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -148,7 +174,6 @@ public class DrawSystem extends EntitySystem {
     }
 
     private void drawLevel(Level level) {
-
 
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glBegin(GL11.GL_POINTS);
