@@ -54,40 +54,61 @@ import org.lwjgl.util.glu.GLU;
 /**
  * A TrueType font implementation originally for Slick, edited for Bobjob's
  * Engine
- * 
+ *
  * @original author James Chambers (Jimmy)
  * @original author Jeremy Adams (elias4444)
  * @original author Kevin Glass (kevglass)
  * @original author Peter Korzuszek (genail)
- * 
+ *
  * @new version edited by David Aaron Muhar (bobjob)
  */
-public class TrueTypeFont implements AutoCloseable {
+public class TrueTypeFont {
 
     public enum Align {
 
         CENTER, LEFT, RIGHT
     }
 
-    /** Array that holds necessary information about the font characters */
+    /**
+     * Array that holds necessary information about the font characters
+     */
     private IntObject[] charArray = new IntObject[256];
-    /** Map of user defined font characters (Character <-> IntObject) */
+    /**
+     * Map of user defined font characters (Character <-> IntObject)
+     */
     private Map<Character, IntObject> customChars = new HashMap<Character, IntObject>();
-    /** Boolean flag on whether AntiAliasing is enabled or not */
+    /**
+     * Boolean flag on whether AntiAliasing is enabled or not
+     */
     private boolean antiAlias;
-    /** Font's size */
+    /**
+     * Font's size
+     */
     private int fontSize = 0;
-    /** Font's height */
+    /**
+     * Font's height
+     */
     private int fontHeight = 0;
-    /** ITexture used to cache the font 0-255 characters */
+    /**
+     * ITexture used to cache the font 0-255 characters
+     */
     private int fontTextureID;
-    /** Default font texture width */
+    private boolean deleteTextureOnClose = true;
+    /**
+     * Default font texture width
+     */
     private int textureWidth = 512;
-    /** Default font texture height */
+    /**
+     * Default font texture height
+     */
     private int textureHeight = 512;
-    /** A reference to Java's AWT Font that we create our font texture from */
+    /**
+     * A reference to Java's AWT Font that we create our font texture from
+     */
     private Font font;
-    /** The font metrics for our Java AWT font */
+    /**
+     * The font metrics for our Java AWT font
+     */
     private FontMetrics fontMetrics;
     private int correctL = 9, correctR = 8;
     private final Map<Character, BufferedImage> specialCharacters;
@@ -129,13 +150,21 @@ public class TrueTypeFont implements AutoCloseable {
 
     private class IntObject {
 
-        /** Character's width */
+        /**
+         * Character's width
+         */
         public int width;
-        /** Character's height */
+        /**
+         * Character's height
+         */
         public int height;
-        /** Character's stored x position */
+        /**
+         * Character's stored x position
+         */
         public int storedX;
-        /** Character's stored y position */
+        /**
+         * Character's stored y position
+         */
         public int storedY;
     }
 
@@ -196,7 +225,6 @@ public class TrueTypeFont implements AutoCloseable {
         // can maintain only 256 characters with resolution of 32x32. The
         // texture
         // size should be calculated dynamicaly by looking at character sizes.
-
         BufferedImage imgTemp = new BufferedImage(textureWidth, textureHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = (Graphics2D) imgTemp.getGraphics();
 
@@ -324,38 +352,38 @@ public class TrueTypeFont implements AutoCloseable {
         float startY = 0;
 
         switch (format) {
-        case RIGHT: {
-            d = -1;
-            c = correctR;
+            case RIGHT: {
+                d = -1;
+                c = correctR;
 
-            while (i < endIndex) {
-                if (whatchars.charAt(i) == '\n') {
-                    startY -= fontHeight;
+                while (i < endIndex) {
+                    if (whatchars.charAt(i) == '\n') {
+                        startY -= fontHeight;
+                    }
+                    i++;
                 }
-                i++;
+                break;
             }
-            break;
-        }
-        case CENTER: {
-            for (int l = startIndex; l <= endIndex; l++) {
-                charCurrent = whatchars.charAt(l);
-                if (charCurrent == '\n') {
-                    break;
+            case CENTER: {
+                for (int l = startIndex; l <= endIndex; l++) {
+                    charCurrent = whatchars.charAt(l);
+                    if (charCurrent == '\n') {
+                        break;
+                    }
+                    if (charCurrent < 256) {
+                        intObject = charArray[charCurrent];
+                    } else {
+                        intObject = customChars.get(new Character((char) charCurrent));
+                    }
+                    totalwidth += intObject.width - correctL;
                 }
-                if (charCurrent < 256) {
-                    intObject = charArray[charCurrent];
-                } else {
-                    intObject = customChars.get(new Character((char) charCurrent));
-                }
-                totalwidth += intObject.width - correctL;
+                totalwidth /= -2;
             }
-            totalwidth /= -2;
-        }
-        case LEFT:
-        default:
-            d = 1;
-            c = correctL;
-            break;
+            case LEFT:
+            default:
+                d = 1;
+                c = correctL;
+                break;
         }
 
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureID);
@@ -465,18 +493,18 @@ public class TrueTypeFont implements AutoCloseable {
     }
 
     public static byte[] intToByteArray(int value) {
-        return new byte[] { (byte) (value >>> 24), (byte) (value >>> 16), (byte) (value >>> 8), (byte) value };
+        return new byte[]{(byte) (value >>> 24), (byte) (value >>> 16), (byte) (value >>> 8), (byte) value};
     }
 
-    public void destroy() {
-        IntBuffer scratch = BufferUtils.createIntBuffer(1);
-        scratch.put(0, fontTextureID);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-        GL11.glDeleteTextures(scratch);
+    public int getFontTextureID() {
+        return fontTextureID;
     }
 
-    @Override
-    public void close() throws Exception {
+    public void setFontTextureID(Integer fontTextureID) {
+        this.fontTextureID = fontTextureID;
+    }
+
+    public void deleteFontTexture() {
         IntBuffer scratch = BufferUtils.createIntBuffer(1);
         scratch.put(0, fontTextureID);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);

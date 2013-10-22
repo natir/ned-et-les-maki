@@ -29,11 +29,10 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.geekygoblin.nedetlesmaki.game.components;
+package org.geekygoblin.nedetlesmaki.game.components.ui;
 
 import com.artemis.Component;
 import im.bci.lwjgl.nuit.NuitToolkit;
-import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import java.util.Arrays;
 
 import org.lwjgl.LWJGLException;
@@ -45,28 +44,23 @@ import im.bci.lwjgl.nuit.widgets.Root;
 import im.bci.lwjgl.nuit.widgets.Table;
 import im.bci.lwjgl.nuit.widgets.VideoConfigurator;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
 
-public class MainMenu extends Component implements AutoCloseable {
+public class MainMenu extends Component {
 
-    private NuitToolkit toolkit;
-    private Root root;
+    private final Root root;
     private Table mainMenu;
     private VideoConfigurator videoConfigurator;
     private AudioConfigurator audioConfigurator;
     private Table optionsMenu;
     private ControlsConfigurator controls;
     private final Game game;
+    private final NuitToolkit toolkit;
 
-    public MainMenu(Game game) throws LWJGLException {
+    public MainMenu(Game game, NuitToolkit toolkit) throws LWJGLException {
         this.game = game;
-        toolkit = new NuitToolkit() {
-
-            @Override
-            protected TrueTypeFont createFont() {
-                return MainMenu.this.game.getAssets().getFont("Boxy-Bold.ttf");
-            }            
-        };
+        this.toolkit = toolkit;
         root = new Root(toolkit);
         initVideo();
         initAudio();
@@ -181,12 +175,7 @@ public class MainMenu extends Component implements AutoCloseable {
     public void draw() {
         root.draw();
     }
-
-    @Override
-    public void close() throws Exception {
-        toolkit.close();
-    }
-
+    
     private void onStartGame() {
         game.addEntity(game.createEntity().addComponent(new Triggerable(new StartGameTrigger())));
     }

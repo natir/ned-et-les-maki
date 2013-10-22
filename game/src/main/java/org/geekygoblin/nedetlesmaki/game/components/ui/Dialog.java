@@ -29,25 +29,15 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.geekygoblin.nedetlesmaki.game.systems;
 
-import com.artemis.Aspect;
-import com.artemis.Entity;
-import com.artemis.systems.EntityProcessingSystem;
-import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
+package org.geekygoblin.nedetlesmaki.game.components.ui;
+
+import com.artemis.Component;
 
 /**
  *
  * @author devnewton
  */
-public class MainMenuSystem  extends EntityProcessingSystem {
+public class Dialog extends Component {
     
-    public MainMenuSystem() {
-        super(Aspect.getAspectForOne(MainMenu.class));
-    }   
-
-    @Override
-    protected void process(Entity e) {
-       e.getComponent(MainMenu.class).update();
-    }
 }

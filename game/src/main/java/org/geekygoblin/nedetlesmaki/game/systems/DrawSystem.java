@@ -47,7 +47,7 @@ import java.util.List;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
-import org.geekygoblin.nedetlesmaki.game.components.MainMenu;
+import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
