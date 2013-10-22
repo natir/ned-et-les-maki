@@ -29,25 +29,39 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.geekygoblin.nedetlesmaki.game.systems;
+package org.geekygoblin.nedetlesmaki.game.assets;
 
-import com.artemis.Aspect;
-import com.artemis.Entity;
-import com.artemis.systems.EntityProcessingSystem;
-import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
+import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+import org.lwjgl.opengl.GL11;
 
 /**
  *
  * @author devnewton
  */
-public class MainMenuSystem  extends EntityProcessingSystem {
-    
-    public MainMenuSystem() {
-        super(Aspect.getAspectForOne(MainMenu.class));
-    }   
+public class TrueTypeFontWeakReference extends WeakReference<TrueTypeFont> {
 
-    @Override
-    protected void process(Entity e) {
-       e.getComponent(MainMenu.class).update();
+    Integer textureId;
+    String name;
+
+    TrueTypeFontWeakReference(String name, TrueTypeFont font, ReferenceQueue<TrueTypeFont> queue) {
+        super(font, queue);
+        textureId = font.getFontTextureID();
+        this.name = name;
+    }
+
+    void delete() {
+        if (null != textureId) {
+            ByteBuffer temp = ByteBuffer.allocateDirect(4);
+            temp.order(ByteOrder.nativeOrder());
+            IntBuffer intBuffer = temp.asIntBuffer();
+            intBuffer.put(textureId);
+            GL11.glDeleteTextures(intBuffer);
+            textureId = null;
+        }
     }
 }

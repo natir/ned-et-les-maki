@@ -59,11 +59,13 @@ import org.lwjgl.opengl.GL11;
 public class Assets implements AutoCloseable {
 
     private VirtualFileSystem vfs;
-    private HashMap<String/* name */, TextureWeakReference> textures = new HashMap<>();
-    private ReferenceQueue<Texture> texturesReferenceQueue = new ReferenceQueue<>();
-    private HashMap<String/* name */, AnimationCollectionWeakReference> animations = new HashMap<>();
-    private ReferenceQueue<NanimationCollection> animationsReferenceQueue = new ReferenceQueue<>();
-    private TmxAssetLoader tmxLoader;
+    private final HashMap<String/* name */, TextureWeakReference> textures = new HashMap<>();
+    private final ReferenceQueue<Texture> texturesReferenceQueue = new ReferenceQueue<>();
+    private final HashMap<String/* name */, AnimationCollectionWeakReference> animations = new HashMap<>();
+    private final ReferenceQueue<NanimationCollection> animationsReferenceQueue = new ReferenceQueue<>();
+    private final HashMap<String/* name */, TrueTypeFontWeakReference> fonts = new HashMap<>();
+    private final ReferenceQueue<TrueTypeFont> fontsReferenceQueue = new ReferenceQueue<>();
+    private final TmxAssetLoader tmxLoader;
 
     public Assets(VirtualFileSystem vfs) {
         this.vfs = vfs;
@@ -74,9 +76,9 @@ public class Assets implements AutoCloseable {
         clearAll();
         this.vfs = vfs;
     }
-    
+
     public TmxAsset getTmx(String name) {
-        try {        
+        try {
             return tmxLoader.load(name);
         } catch (JAXBException | IOException e) {
             throw new RuntimeException("Cannot load map " + name, e);
@@ -191,6 +193,11 @@ public class Assets implements AutoCloseable {
             ref.delete();
         }
         animations.clear();
+
+        for (TrueTypeFontWeakReference ref : fonts.values()) {
+            ref.delete();
+        }
+        fonts.clear();
     }
 
     InputStream open(String name) throws FileNotFoundException {
@@ -205,7 +212,20 @@ public class Assets implements AutoCloseable {
         textures.put(name, new TextureWeakReference(name, texture, texturesReferenceQueue));
     }
 
+    private void putFont(String name, TrueTypeFont font) {
+        fonts.put(name, new TrueTypeFontWeakReference(name, font, fontsReferenceQueue));
+    }
+
     public TrueTypeFont getFont(String name) {
+        TrueTypeFontWeakReference fontRef = fonts.get(name);
+        if (fontRef != null) {
+            TrueTypeFont font = fontRef.get();
+            if (font != null) {
+                return font;
+            } else {
+                fonts.remove(name);
+            }
+        }
         Font f;
         try (InputStream is = vfs.open(name)) {
             f = Font.createFont(Font.TRUETYPE_FONT, is);
@@ -213,7 +233,16 @@ public class Assets implements AutoCloseable {
         } catch (IOException | FontFormatException e) {
             f = new Font("monospaced", Font.BOLD, 24);
         }
-        return new TrueTypeFont(f, true, new char[0], new HashMap<Character, BufferedImage>());
+        TrueTypeFont font = new TrueTypeFont(f, true, new char[0], new HashMap<Character, BufferedImage>()) {
+
+            @Override
+            public void deleteFontTexture() {
+                //NOTHING
+            }
+            
+        };
+        putFont(name, font);
+        return font;
     }
 
     public InputStream getIcon(String name) throws FileNotFoundException {

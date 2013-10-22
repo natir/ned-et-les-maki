@@ -242,7 +242,7 @@ public class NuitToolkit extends Toolkit<Widget, Table> implements AutoCloseable
     @Override
     public void close() throws Exception {
         if (null != font) {
-            font.destroy();
+            font.deleteFontTexture();
         }
     }
 }

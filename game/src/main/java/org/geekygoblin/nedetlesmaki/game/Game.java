@@ -34,9 +34,11 @@ package org.geekygoblin.nedetlesmaki.game;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
+import im.bci.lwjgl.nuit.NuitToolkit;
+import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
-import org.geekygoblin.nedetlesmaki.game.components.MainMenu;
+import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
@@ -55,6 +57,7 @@ import org.lwjgl.opengl.Display;
 public class Game extends World {
 
     private final Assets assets;
+    private final NuitToolkit toolkit;
     private final Entity mainMenu, ingameControls;
     private Entity ned;
     private boolean closeRequested;
@@ -70,9 +73,17 @@ public class Game extends World {
         setSystem(new MainMenuSystem());
         setManager(new GroupManager());
         initialize();
+        
+        toolkit = new NuitToolkit() {
+
+            @Override
+            protected TrueTypeFont createFont() {
+                return Game.this.assets.getFont("Boxy-Bold.ttf");
+            }            
+        };
 
         mainMenu = createEntity();
-        mainMenu.addComponent(new MainMenu(this));
+        mainMenu.addComponent(new MainMenu(this, toolkit));
         mainMenu.addComponent(new ZOrder(ZOrders.MENU));
         addEntity(mainMenu);
 
@@ -112,5 +123,9 @@ public class Game extends World {
 
     public Entity getNed() {
         return ned;
+    }
+
+    public NuitToolkit getToolkit() {
+        return toolkit;
     }
 }

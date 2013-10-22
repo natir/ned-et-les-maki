@@ -94,22 +94,22 @@ public class Main {
 
         try {
             setVideoMode();
-            
+
             File applicationDir = getApplicationDir();
             VirtualFileSystem vfs = new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data"));
-            Assets assets = new Assets(vfs);
-            assets.setIcon();
-            Game game = new Game(assets);
-
-            while (!game.isCloseRequested()) {
-                game.setDelta(1.0f / 60.0f);
-                game.process();
-                Display.update(false);
-                Display.sync(60);
-                Display.processMessages();
-                Mouse.poll();
-                Keyboard.poll();
-                Controllers.poll();
+            try (Assets assets = new Assets(vfs)) {
+                assets.setIcon();
+                Game game = new Game(assets);
+                while (!game.isCloseRequested()) {
+                    game.setDelta(1.0f / 60.0f);
+                    game.process();
+                    Display.update(false);
+                    Display.sync(60);
+                    Display.processMessages();
+                    Mouse.poll();
+                    Keyboard.poll();
+                    Controllers.poll();
+                }
             }
             saveVideoModePreferences();
         } catch (Throwable e) {
@@ -123,12 +123,12 @@ public class Main {
     }
 
     private static void saveVideoModePreferences() {
-       Preferences pref = Game.getPreferences();
+        Preferences pref = Game.getPreferences();
         pref.putInt("video.width", Display.getDisplayMode().getWidth());
         pref.putInt("video.height", Display.getDisplayMode().getHeight());
         pref.putBoolean("video.fullscreen", Display.isFullscreen());
         pref.saveConfig();
-        
+
     }
 
     private static void setVideoMode() throws LWJGLException {
