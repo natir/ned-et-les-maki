@@ -34,7 +34,6 @@ package org.geekygoblin.nedetlesmaki.game;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
-import java.util.prefs.Preferences;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.MainMenu;
@@ -59,6 +58,7 @@ public class Game extends World {
     private final Entity mainMenu, ingameControls;
     private Entity ned;
     private boolean closeRequested;
+    private static final Preferences preferences = new Preferences();
 
     public Game(Assets assets) throws LWJGLException {
         this.assets = assets;
@@ -103,7 +103,7 @@ public class Game extends World {
     }
     
     public static Preferences getPreferences() {
-        return Preferences.userRoot().node("nedetlesmaki");
+        return preferences;
     }
 
     public void setNed(Entity ned) {
