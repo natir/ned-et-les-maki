@@ -39,11 +39,13 @@ public class GameSystem {
 	    return true;
 	}
 	else {
+	    /*If Entity move is a pusher Entity*/
 	    if(this.isPusherEntity(e)) {
 		Entity otherE = this.index.getEntity(newP.getX(), newP.getY());
 		if(!otherE.isActive()) {
 		    return false;
 		}
+		/*If Entity in newPos is pushable*/
 		if(this.isPushableEntity(otherE)) {
 		    return this.moveEntity(otherE, PosOperation.sum(PosOperation.deduction(positionMapper.get(e), newP), newP));
 		}
@@ -82,5 +84,44 @@ public class GameSystem {
 	}
 
 	return false;
+    }
+
+    public Position wayFreeTo(Position begin, Position end) {
+	Position delta = PosOperation.deduction(begin, end);
+	int base, max;
+	if(delta.getX() != 0) {
+	    base = begin.getX();
+	    max = end.getX();
+	    return this.testObjOnWayX(base, max, begin.getY());
+       	}
+	else {
+	    base = begin.getY();
+	    max = end.getY();
+	    return this.testObjOnWayX(base, max, begin.getX());	    
+	}
+    }
+
+    private Position testObjOnWayX(int base, int max, int y) {
+	
+	for(int i = base; i != max; i++) {
+	    Entity e = this.index.getEntity(i, y);
+	    if(e != null) {
+		return new Position(i, y);
+	    }
+	}
+	
+	return new Position(max, y);
+    }
+
+    private Position testObjOnWayY(int base, int max, int x) {
+	
+	for(int i = base; i != max; i++) {
+	    Entity e = this.index.getEntity(x, i);
+	    if(e != null) {
+		return new Position(x, i);
+	    }
+	}
+	
+	return new Position(x, max);
     }
 }
