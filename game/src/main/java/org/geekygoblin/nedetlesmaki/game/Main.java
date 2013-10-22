@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.Preferences;
 
 import javax.swing.JOptionPane;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
@@ -124,17 +123,18 @@ public class Main {
     }
 
     private static void saveVideoModePreferences() {
-        Preferences pref = Game.getPreferences().node("video");
-        pref.putInt("width", Display.getDisplayMode().getWidth());
-        pref.putInt("height", Display.getDisplayMode().getHeight());
-        pref.putBoolean("fullscreen", Display.isFullscreen());
+       Preferences pref = Game.getPreferences();
+        pref.putInt("video.width", Display.getDisplayMode().getWidth());
+        pref.putInt("video.height", Display.getDisplayMode().getHeight());
+        pref.putBoolean("video.fullscreen", Display.isFullscreen());
+        pref.saveConfig();
         
     }
 
     private static void setVideoMode() throws LWJGLException {
-        Preferences pref = Game.getPreferences().node("video");
-        DisplayMode mode = new DisplayMode(pref.getInt("width", 800), pref.getInt("height", 600));
-        if (pref.getBoolean("fullscreen", false)) {
+        Preferences pref = Game.getPreferences();
+        DisplayMode mode = new DisplayMode(pref.getInt("video.width", 800), pref.getInt("video.height", 600));
+        if (pref.getBoolean("video.fullscreen", false)) {
             Display.setDisplayModeAndFullscreen(mode);
         } else {
             Display.setFullscreen(false);
