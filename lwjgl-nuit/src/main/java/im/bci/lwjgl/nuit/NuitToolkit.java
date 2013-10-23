@@ -55,6 +55,7 @@ import com.esotericsoftware.tablelayout.BaseTableLayout.Debug;
 import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.esotericsoftware.tablelayout.Cell;
 import com.esotericsoftware.tablelayout.Toolkit;
+import java.util.ResourceBundle;
 
 public class NuitToolkit extends Toolkit<Widget, Table> implements AutoCloseable {
 
@@ -64,12 +65,16 @@ public class NuitToolkit extends Toolkit<Widget, Table> implements AutoCloseable
     private Boolean oldIsMouseButtonDown;
 
     public NuitToolkit() {
-        menuUp = new ActionActivatedDetector(new Action("menu up", new KeyControl(Keyboard.KEY_UP)));
-        menuDown = new ActionActivatedDetector(new Action("menu down", new KeyControl(Keyboard.KEY_DOWN)));
-        menuLeft = new ActionActivatedDetector(new Action("menu left", new KeyControl(Keyboard.KEY_LEFT)));
-        menuRight = new ActionActivatedDetector(new Action("menu right", new KeyControl(Keyboard.KEY_RIGHT)));
-        menuOK = new ActionActivatedDetector(new Action("menu ok", new KeyControl(Keyboard.KEY_RETURN)));
-        menuCancel = new ActionActivatedDetector(new Action("menu cancel", new KeyControl(Keyboard.KEY_ESCAPE)));
+        menuUp = new ActionActivatedDetector(new Action("nuit.action.menu.up", new KeyControl(Keyboard.KEY_UP)));
+        menuDown = new ActionActivatedDetector(new Action("nuit.action.menu.down", new KeyControl(Keyboard.KEY_DOWN)));
+        menuLeft = new ActionActivatedDetector(new Action("nuit.action.menu.left", new KeyControl(Keyboard.KEY_LEFT)));
+        menuRight = new ActionActivatedDetector(new Action("nuit.action.menu.right", new KeyControl(Keyboard.KEY_RIGHT)));
+        menuOK = new ActionActivatedDetector(new Action("nuit.action.menu.ok", new KeyControl(Keyboard.KEY_RETURN)));
+        menuCancel = new ActionActivatedDetector(new Action("nuit.action.menu.cancel", new KeyControl(Keyboard.KEY_ESCAPE)));
+    }
+    
+    public String getMessage(String key) {
+        return ResourceBundle.getBundle("nuit_messages").getString(key);
     }
 
     protected TrueTypeFont createFont() {

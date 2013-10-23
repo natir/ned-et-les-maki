@@ -98,23 +98,23 @@ public class MainMenu extends Component {
     private void initMain() {
         mainMenu = new Table(toolkit);
         mainMenu.defaults().expand();
-        mainMenu.cell(new Button(toolkit, "START") {
+        mainMenu.cell(new Button(toolkit, "main.menu.button.start") {
             @Override
             public void onOK() {
                 onStartGame();
             }
         });
         mainMenu.row();
-        mainMenu.cell(new Button(toolkit, "RESUME"));
+        mainMenu.cell(new Button(toolkit, "main.menu.button.resume"));
         mainMenu.row();
-        mainMenu.cell(new Button(toolkit, "OPTIONS") {
+        mainMenu.cell(new Button(toolkit, "main.menu.button.options") {
             @Override
             public void onOK() {
                 root.show(optionsMenu);
             }
         });
         mainMenu.row();
-        mainMenu.cell(new Button(toolkit, "QUIT") {
+        mainMenu.cell(new Button(toolkit, "main.menu.button.quit") {
             @Override
             public void onOK() {
                 game.setCloseRequested(true);
@@ -127,28 +127,28 @@ public class MainMenu extends Component {
     private void initOptions() {
         optionsMenu = new Table(toolkit);
         optionsMenu.defaults().expand();
-        optionsMenu.cell(new Button(toolkit, "VIDEO") {
+        optionsMenu.cell(new Button(toolkit, "options.menu.button.video") {
             @Override
             public void onOK() {
                 root.show(videoConfigurator);
             }
         });
         optionsMenu.row();
-        optionsMenu.cell(new Button(toolkit, "AUDIO") {
+        optionsMenu.cell(new Button(toolkit, "options.menu.button.audio") {
             @Override
             public void onOK() {
                 root.show(audioConfigurator);
             }
         });
         optionsMenu.row();
-        optionsMenu.cell(new Button(toolkit, "CONTROLS") {
+        optionsMenu.cell(new Button(toolkit, "options.menu.button.controls") {
             @Override
             public void onOK() {
                 root.show(controls);
             }
         });
         optionsMenu.row();
-        optionsMenu.cell(new Button(toolkit, "BACK") {
+        optionsMenu.cell(new Button(toolkit, "options.menu.button.back") {
             @Override
             public void onOK() {
                 root.show(mainMenu);

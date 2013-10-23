@@ -36,6 +36,10 @@ import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import im.bci.lwjgl.nuit.NuitToolkit;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+import java.util.Arrays;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
@@ -62,6 +66,7 @@ public class Game extends World {
     private Entity ned;
     private boolean closeRequested;
     private static final Preferences preferences = new Preferences();
+    private static final String[] messagesBundles = new String[] {"messages", "nuit_messages"};
 
     public Game(Assets assets) throws LWJGLException {
         this.assets = assets;
@@ -79,7 +84,19 @@ public class Game extends World {
             @Override
             protected TrueTypeFont createFont() {
                 return Game.this.assets.getFont("Boxy-Bold.ttf");
-            }            
+            }
+
+            @Override
+            public String getMessage(String key) {
+                for(String bundleName : messagesBundles) {
+                    ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
+                    if(bundle.containsKey(key)) {
+                        return bundle.getString(key);
+                    }
+                }
+                Logger.getLogger(getClass().getName()).log(Level.WARNING, "No translation for {0}", key);
+                return key;
+            }
         };
 
         mainMenu = createEntity();
