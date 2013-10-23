@@ -38,8 +38,8 @@ import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 
 public class Button extends Widget {
 
-    private String text;
-    private NuitToolkit toolkit;
+    private final String text;
+    private final NuitToolkit toolkit;
 
     public Button(NuitToolkit toolkit, String text) {
         this.toolkit = toolkit;
@@ -52,9 +52,10 @@ public class Button extends Widget {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glPushMatrix();
         TrueTypeFont font = toolkit.getFont();
-        GL11.glTranslatef(getX() + getWidth()/2.0f - font.getWidth(text)/3.0f, getY() + getHeight()/2.0f + font.getHeight(text) / 2.0f, 0.0f);
+        String translatedText = toolkit.getMessage(text);
+        GL11.glTranslatef(getX() + getWidth()/2.0f - font.getWidth(translatedText)/3.0f, getY() + getHeight()/2.0f + font.getHeight(translatedText) / 2.0f, 0.0f);
         GL11.glScalef(1, -1, 1);
-        font.drawString(text);
+        font.drawString(translatedText);
         GL11.glPopAttrib();
         GL11.glPopMatrix();
     }
@@ -66,12 +67,12 @@ public class Button extends Widget {
     
     @Override
     public float getMinWidth() {
-        return toolkit.getFont().getWidth(text);
+        return toolkit.getFont().getWidth(toolkit.getMessage(text));
     }
     
     @Override
     public float getMinHeight() {
-        return toolkit.getFont().getHeight(text);
+        return toolkit.getFont().getHeight(toolkit.getMessage(text));
     }
     
 }

@@ -38,8 +38,8 @@ import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 
 public class Label extends Widget {
 
-    private String text;
-    private NuitToolkit toolkit;
+    private final String text;
+    private final NuitToolkit toolkit;
 
     public Label(NuitToolkit toolkit, String text) {
         this.toolkit = toolkit;
@@ -57,9 +57,10 @@ public class Label extends Widget {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glPushMatrix();
         TrueTypeFont font = toolkit.getFont();
-        GL11.glTranslatef(getX() + getWidth()/2.0f - font.getWidth(text)/4.0f, getY() + getHeight()/2.0f + font.getHeight(text) / 2.0f, 0.0f);
+        String translatedText = toolkit.getMessage(text);
+        GL11.glTranslatef(getX() + getWidth()/2.0f - font.getWidth(translatedText)/4.0f, getY() + getHeight()/2.0f + font.getHeight(translatedText) / 2.0f, 0.0f);
         GL11.glScalef(1, -1, 1);
-        font.drawString(text);
+        font.drawString(translatedText);
         GL11.glPopAttrib();
         GL11.glPopMatrix();
     }

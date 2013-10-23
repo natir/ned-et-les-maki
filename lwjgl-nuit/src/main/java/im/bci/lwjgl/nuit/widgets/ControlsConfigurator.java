@@ -56,10 +56,10 @@ import org.lwjgl.opengl.GL11;
 public class ControlsConfigurator extends Table {
 
     private List<ControlActivatedDetector> possibleControls;
-    private List<Action> actions;
-    private NuitToolkit toolkit;
+    private final List<Action> actions;
+    private final NuitToolkit toolkit;
     private List<Action> resets;
-    private List<Action> defaults;
+    private final List<Action> defaults;
 
     public ControlsConfigurator(NuitToolkit toolkit, List<Action> actions, List<Action> defaults) {
         super(toolkit);
@@ -80,9 +80,9 @@ public class ControlsConfigurator extends Table {
 
     private void initUI(NuitToolkit toolkit) {
         this.defaults().expand();
-        this.cell(new Label(toolkit, "Action"));
-        this.cell(new Label(toolkit, "Control"));
-        this.cell(new Label(toolkit, "Alternative"));
+        this.cell(new Label(toolkit, "nuit.controls.configurator.action"));
+        this.cell(new Label(toolkit, "nuit.controls.configurator.control"));
+        this.cell(new Label(toolkit, "nuit.controls.configurator.alternative"));
         this.row();
         for (final Action action : actions) {
             this.cell(new Label(toolkit, action.getName()));
@@ -113,19 +113,19 @@ public class ControlsConfigurator extends Table {
             this.row();
         }
 
-        this.cell(new Button(toolkit, "Back") {
+        this.cell(new Button(toolkit, "nuit.controls.configurator.back") {
             @Override
             public void onOK() {
                 onBack();
             }
         });
-        this.cell(new Button(toolkit, "Reset") {
+        this.cell(new Button(toolkit, "nuit.controls.configurator.resets") {
             @Override
             public void onOK() {
                 onReset();
             }
         });
-        this.cell(new Button(toolkit, "Defaults") {
+        this.cell(new Button(toolkit, "nuit.controls.configurator.defaults") {
             @Override
             public void onOK() {
                 onDefaults();
@@ -182,10 +182,11 @@ public class ControlsConfigurator extends Table {
         public void draw() {
             String text = null;
             if (suckFocus) {
-                text = "Press a key...";
+                text = toolkit.getMessage("nuit.controls.configurator.press.key");
             } else if (null != getControl()) {
-                text = getControl().getName();
+                text = toolkit.getMessage(getControl().getName());
             }
+            
             if (null != text) {
                 GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_ENABLE_BIT);
                 GL11.glEnable(GL11.GL_BLEND);
@@ -241,7 +242,7 @@ public class ControlsConfigurator extends Table {
                 try {
                     int key = field.getInt(null);
                     possibleControls.add(new ControlActivatedDetector(new KeyControl(key)));
-                } catch (Exception e) {
+                } catch (IllegalAccessException | IllegalArgumentException e) {
                     Logger.getLogger(ControlsConfigurator.class.getName()).log(Level.SEVERE, "error retrieving key", e);
                 }
             }

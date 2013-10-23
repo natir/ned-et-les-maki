@@ -44,7 +44,7 @@ public class Widget {
         return children;
     }
     private float x, y, width, height;
-    private List<Widget> children = new ArrayList<>();
+    private final List<Widget> children = new ArrayList<>();
 
     public boolean isFocusable() {
         return true;

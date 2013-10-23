@@ -37,28 +37,19 @@ import im.bci.lwjgl.nuit.NuitToolkit;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 
 public class Toggle extends Widget {
-    private NuitToolkit toolkit;
-    private String enabledText = "Yes", disabledText = "No";
+    private final NuitToolkit toolkit;
     private boolean enabled;
 
     public Toggle(NuitToolkit toolkit) {
         this.toolkit = toolkit;
     }
 
-    public String getEnabledText() {
-        return enabledText;
+    private String getEnabledText() {
+        return toolkit.getMessage("nuit.toggle.yes");
     }
 
-    public void setEnabledText(String enabledText) {
-        this.enabledText = enabledText;
-    }
-
-    public String getDisabledText() {
-        return disabledText;
-    }
-
-    public void setDisabledText(String disabledText) {
-        this.disabledText = disabledText;
+    private String getDisabledText() {
+        return toolkit.getMessage("nuit.toggle.no");
     }
 
     public boolean isEnabled() {
@@ -81,12 +72,12 @@ public class Toggle extends Widget {
     
     @Override
     public float getMinWidth() {
-        return Math.max(toolkit.getFont().getWidth(enabledText), toolkit.getFont().getWidth(disabledText));
+        return Math.max(toolkit.getFont().getWidth(getEnabledText()), toolkit.getFont().getWidth(getDisabledText()));
     }
     
     @Override
     public float getMinHeight() {
-        return Math.max(toolkit.getFont().getHeight(enabledText), toolkit.getFont().getHeight(disabledText));
+        return Math.max(toolkit.getFont().getHeight(getEnabledText()), toolkit.getFont().getHeight(getDisabledText()));
     }
 
     @Override
@@ -95,7 +86,7 @@ public class Toggle extends Widget {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glPushMatrix();
         TrueTypeFont font = toolkit.getFont();
-        String text = enabled ? enabledText : disabledText;
+        String text = enabled ? getEnabledText() : getDisabledText();
         GL11.glTranslatef(getX() + getWidth() / 2.0f - font.getWidth(text) / 4.0f, getY() + getHeight() / 2.0f + font.getHeight(text) / 2.0f, 0.0f);
         GL11.glScalef(1, -1, 1);
         font.drawString(text);

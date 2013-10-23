@@ -39,8 +39,8 @@ import im.bci.lwjgl.nuit.NuitToolkit;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 
 public class Select<T> extends Widget {
-    private NuitToolkit toolkit;
-    private List<T> possibleValues;
+    private final NuitToolkit toolkit;
+    private final List<T> possibleValues;
     private int selected;
     private int oldSelected;
     private boolean suckFocus;

@@ -32,7 +32,7 @@
 package im.bci.lwjgl.nuit.controls;
 
 public class Action {
-    private final String name;
+    private String name;
     private Control[] controls;
     
     public Action(String name, Control main) {
@@ -47,6 +47,10 @@ public class Action {
         this.controls = action.controls.clone();
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public String getName() {
         return name;
     }

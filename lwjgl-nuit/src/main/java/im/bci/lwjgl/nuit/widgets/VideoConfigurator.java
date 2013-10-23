@@ -44,12 +44,12 @@ import java.util.TreeSet;
 
 public class VideoConfigurator extends Table {
 
-    private Select<VideoResolution> mode;
-    private Toggle fullscreen;
+    private final Select<VideoResolution> mode;
+    private final Toggle fullscreen;
 
     private static class VideoResolution implements Comparable<VideoResolution> {
 
-        private int width, height;
+        private final int width, height;
 
         public VideoResolution(int width, int height) {
             this.width = width;
@@ -84,10 +84,7 @@ public class VideoConfigurator extends Table {
             if (this.width != other.width) {
                 return false;
             }
-            if (this.height != other.height) {
-                return false;
-            }
-            return true;
+            return this.height == other.height;
         }
 
         @Override
@@ -104,15 +101,15 @@ public class VideoConfigurator extends Table {
     public VideoConfigurator(NuitToolkit toolkit) throws LWJGLException {
         super(toolkit);
         defaults().expand();
-        cell(new Label(toolkit, "Mode"));
+        cell(new Label(toolkit, "nuit.video.configurator.mode"));
         mode = new Select<>(toolkit, getDisplayModes());
         cell(mode);
         row();
-        cell(new Label(toolkit, "Fullscreen"));
+        cell(new Label(toolkit, "nuit.video.configurator.fullscreen"));
         fullscreen = new Toggle(toolkit);
         cell(fullscreen);
         row();
-        cell(new Button(toolkit, "Apply") {
+        cell(new Button(toolkit, "nuit.video.configurator.apply") {
             @Override
             public void onOK() {
                 changeVideoSettings();
@@ -120,7 +117,7 @@ public class VideoConfigurator extends Table {
             }
         }).colspan(2);
         row();
-        cell(new Button(toolkit, "Back") {
+        cell(new Button(toolkit, "nuit.video.configurator.back") {
             @Override
             public void onOK() {
                 closeVideoSettings();

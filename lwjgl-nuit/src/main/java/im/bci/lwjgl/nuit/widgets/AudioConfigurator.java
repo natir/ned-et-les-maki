@@ -60,7 +60,7 @@ public class AudioConfigurator extends Table {
         }
 
         defaults().expand();
-        cell(new Label(toolkit, "Music volume"));
+        cell(new Label(toolkit, "nuit.audio.configurator.music.volume"));
         cell(new Select<Volume>(toolkit, possibleVolumes) {
             @Override
             public void onOK() {
@@ -69,7 +69,7 @@ public class AudioConfigurator extends Table {
             }
         });
         row();
-        cell(new Label(toolkit, "Effects volume"));
+        cell(new Label(toolkit, "nuit.audio.configurator.effects.volume"));
         cell(new Select<Volume>(toolkit, possibleVolumes) {
             @Override
             public void onOK() {
@@ -78,7 +78,8 @@ public class AudioConfigurator extends Table {
             }
         });
         row();
-        cell(new Button(toolkit, "Back") {
+        cell(new Button(toolkit, "nuit.audio.configurator.back") {
+            @Override
             public void onOK() {
                 closeAudioSettings();
             }
