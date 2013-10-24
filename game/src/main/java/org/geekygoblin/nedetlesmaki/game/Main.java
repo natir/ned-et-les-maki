@@ -94,6 +94,7 @@ public class Main {
 
         try {
             setVideoMode();
+            initGamepads();
 
             File applicationDir = getApplicationDir();
             VirtualFileSystem vfs = new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data"));
@@ -144,6 +145,14 @@ public class Main {
         Display.setTitle("Ned et les maki");
         if (!Display.isCreated()) {
             Display.create();
+        }
+    }
+
+    private static void initGamepads() {
+        try {
+            Controllers.create();
+        } catch (LWJGLException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "Cannot init gamepad support", ex);
         }
     }
 }
