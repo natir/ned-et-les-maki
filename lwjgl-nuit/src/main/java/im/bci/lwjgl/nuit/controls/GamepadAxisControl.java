@@ -46,7 +46,7 @@ public class GamepadAxisControl implements Control {
 
     @Override
     public String getName() {
-        return pad.getAxisName(axis);
+        return pad.getAxisName(axis)+ (scale > 0.0f ? '+' : '-');
     }
 
     @Override
@@ -61,7 +61,7 @@ public class GamepadAxisControl implements Control {
 
     @Override
     public String getControllerName() {
-        return pad.getName() + (scale > 0.0f ? '+' : '-');
+        return pad.getName();
     }
 
 }
