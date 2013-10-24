@@ -36,10 +36,12 @@ import org.lwjgl.input.Controller;
 public class GamepadAxisControl implements Control {
     private final Controller pad;
     private final int axis;
+    private float scale;
 
-    public GamepadAxisControl(Controller pad, int axis) {
+    public GamepadAxisControl(Controller pad, int axis, boolean positive) {
         this.pad = pad;
         this.axis = axis;
+        this.scale = positive ? 1.0f : -1.0f;
     }
 
     @Override
@@ -54,12 +56,12 @@ public class GamepadAxisControl implements Control {
 
     @Override
     public float getValue() {
-        return pad.getAxisValue(axis);
+        return Math.max(0.0f, pad.getAxisValue(axis) * scale);
     }
 
     @Override
     public String getControllerName() {
-        return pad.getName();
+        return pad.getName() + (scale > 0.0f ? '+' : '-');
     }
 
 }

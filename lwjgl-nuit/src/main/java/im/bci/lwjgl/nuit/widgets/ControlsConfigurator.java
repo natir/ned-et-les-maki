@@ -230,7 +230,8 @@ public class ControlsConfigurator extends Table {
         for (int c = 0; c < Controllers.getControllerCount(); ++c) {
             Controller pad = Controllers.getController(c);
             for (int a = 0; a < pad.getAxisCount(); ++a) {
-                possibleControls.add(new ControlActivatedDetector(new GamepadAxisControl(pad, a)));
+                possibleControls.add(new ControlActivatedDetector(new GamepadAxisControl(pad, a, true)));
+                possibleControls.add(new ControlActivatedDetector(new GamepadAxisControl(pad, a, false)));
             }
             for (int b = 0; b < pad.getButtonCount(); ++b) {
                 possibleControls.add(new ControlActivatedDetector(new GamepadButtonControl(pad, b)));
