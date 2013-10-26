@@ -35,8 +35,8 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import im.bci.lwjgl.nuit.NuitToolkit;
+import im.bci.lwjgl.nuit.controls.Action;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
-import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,7 +66,7 @@ public class Game extends World {
     private Entity ned;
     private boolean closeRequested;
     private static final Preferences preferences = new Preferences();
-    private static final String[] messagesBundles = new String[] {"messages", "nuit_messages"};
+    private static final String[] messagesBundles = new String[]{"messages", "nuit_messages"};
 
     public Game(Assets assets) throws LWJGLException {
         this.assets = assets;
@@ -78,7 +78,7 @@ public class Game extends World {
         setSystem(new MainMenuSystem());
         setManager(new GroupManager());
         initialize();
-        
+
         toolkit = new NuitToolkit() {
 
             @Override
@@ -88,9 +88,9 @@ public class Game extends World {
 
             @Override
             public String getMessage(String key) {
-                for(String bundleName : messagesBundles) {
+                for (String bundleName : messagesBundles) {
                     ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
-                    if(bundle.containsKey(key)) {
+                    if (bundle.containsKey(key)) {
                         return bundle.getString(key);
                     }
                 }
@@ -129,7 +129,7 @@ public class Game extends World {
     public boolean isCloseRequested() {
         return closeRequested || Display.isCloseRequested();
     }
-    
+
     public static Preferences getPreferences() {
         return preferences;
     }

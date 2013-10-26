@@ -31,6 +31,8 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
+import im.bci.lwjgl.nuit.controls.Control;
+import im.bci.lwjgl.nuit.controls.ControlsUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -47,15 +49,15 @@ public class Preferences {
 
     private final Properties store = new Properties();
     private static final String appName = "nedetlesmaki";
-    
+
     public Preferences() {
         load();
     }
 
-    public void load() {
+    private void load() {
         File userConfigFile = getUserConfigFilePath();
-        if(userConfigFile.exists() && userConfigFile.canRead()) {
-            try(FileInputStream is = new FileInputStream(userConfigFile)) {
+        if (userConfigFile.exists() && userConfigFile.canRead()) {
+            try (FileInputStream is = new FileInputStream(userConfigFile)) {
                 store.load(is);
             } catch (IOException ex) {
                 Logger.getLogger(Preferences.class.getName()).log(Level.WARNING, "Cannot load config from file " + userConfigFile, ex);
@@ -93,10 +95,6 @@ public class Preferences {
         return new File(getUserConfigDirPath(), "config.properties");
     }
 
-    public void putInt(String name, int value) {
-        store.setProperty(name, String.valueOf(value));
-    }
-
     public void putBoolean(String name, boolean value) {
         store.setProperty(name, String.valueOf(value));
     }
@@ -104,9 +102,34 @@ public class Preferences {
     public boolean getBoolean(String name, boolean defaultValue) {
         return Boolean.valueOf(store.getProperty(name, String.valueOf(defaultValue)));
     }
-    
+
+    public void putInt(String name, int value) {
+        store.setProperty(name, String.valueOf(value));
+    }
+
     public int getInt(String name, int defaultValue) {
         return Integer.valueOf(store.getProperty(name, String.valueOf(defaultValue)));
+    }
+
+    public void putControl(String name, Control value) {
+        if (null != value) {
+            store.setProperty(name + ".controller", value.getControllerName());
+            store.setProperty(name + ".control", value.getName());
+        } else {
+            store.setProperty(name + ".controller", null);
+            store.setProperty(name + ".control", null);
+        }
+    }
+
+    Control getControl(String name, Control defaultValue) {
+        String controllerName = store.getProperty(name + ".controller");
+        String controlName = store.getProperty(name + ".control");
+        for (Control control : ControlsUtils.getPossibleControls()) {
+            if (control.getControllerName().equals(controllerName) && control.getName().equals(controlName)) {
+                return control;
+            }
+        }
+        return defaultValue;
     }
 
 }

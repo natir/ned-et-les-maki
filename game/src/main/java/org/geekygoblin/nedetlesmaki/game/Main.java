@@ -31,6 +31,7 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
+import im.bci.lwjgl.nuit.controls.Action;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
 
 import java.io.File;
@@ -101,6 +102,7 @@ public class Main {
             try (Assets assets = new Assets(vfs)) {
                 assets.setIcon();
                 Game game = new Game(assets);
+                setControls(game);
                 while (!game.isCloseRequested()) {
                     game.setDelta(1.0f / 60.0f);
                     game.process();
@@ -111,8 +113,9 @@ public class Main {
                     Keyboard.poll();
                     Controllers.poll();
                 }
+                saveControlsPreferences(game);
+                saveVideoModePreferences();
             }
-            saveVideoModePreferences();
         } catch (Throwable e) {
             handleError(e, "Unexpected error during execution.\n");
         }
@@ -154,5 +157,35 @@ public class Main {
         } catch (LWJGLException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "Cannot init gamepad support", ex);
         }
+    }
+
+    private static void setControls(Game game) {
+        loadControlsForAction(game.getToolkit().getMenuOK());
+        loadControlsForAction(game.getToolkit().getMenuCancel());
+        loadControlsForAction(game.getToolkit().getMenuUp());
+        loadControlsForAction(game.getToolkit().getMenuDown());
+        loadControlsForAction(game.getToolkit().getMenuLeft());
+        loadControlsForAction(game.getToolkit().getMenuRight());
+    }
+    
+    private static void loadControlsForAction(Action action) {
+        String name = action.getName();
+        action.setMainControl(Game.getPreferences().getControl(name + ".main", action.getMainControl()));
+        action.setAlternativeControl(Game.getPreferences().getControl(name + ".alternative", action.getAlternativeControl()));
+    }
+
+    private static void saveControlsPreferences(Game game) {
+        saveControlsForAction(game.getToolkit().getMenuOK());
+        saveControlsForAction(game.getToolkit().getMenuCancel());
+        saveControlsForAction(game.getToolkit().getMenuUp());
+        saveControlsForAction(game.getToolkit().getMenuDown());
+        saveControlsForAction(game.getToolkit().getMenuLeft());
+        saveControlsForAction(game.getToolkit().getMenuRight());
+    }
+
+    private static void saveControlsForAction(Action action) {
+        String name = action.getName();
+        Game.getPreferences().putControl(name + ".main", action.getMainControl());
+        Game.getPreferences().putControl(name + ".alternative", action.getAlternativeControl());
     }
 }
