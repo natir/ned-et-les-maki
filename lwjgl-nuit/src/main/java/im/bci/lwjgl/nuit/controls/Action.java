@@ -33,7 +33,7 @@ package im.bci.lwjgl.nuit.controls;
 
 public class Action {
     private String name;
-    private Control[] controls;
+    private final Control[] controls;
     
     public Action(String name, Control main) {
         this.name = name;

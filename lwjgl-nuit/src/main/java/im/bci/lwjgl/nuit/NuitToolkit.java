@@ -55,7 +55,19 @@ import com.esotericsoftware.tablelayout.BaseTableLayout.Debug;
 import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.esotericsoftware.tablelayout.Cell;
 import com.esotericsoftware.tablelayout.Toolkit;
+import im.bci.lwjgl.nuit.controls.ControlActivatedDetector;
+import im.bci.lwjgl.nuit.controls.GamepadAxisControl;
+import im.bci.lwjgl.nuit.controls.GamepadButtonControl;
+import im.bci.lwjgl.nuit.controls.MouseButtonControl;
+import im.bci.lwjgl.nuit.widgets.ControlsConfigurator;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.lwjgl.input.Controller;
+import org.lwjgl.input.Controllers;
 
 public class NuitToolkit extends Toolkit<Widget, Table> implements AutoCloseable {
 
@@ -63,6 +75,7 @@ public class NuitToolkit extends Toolkit<Widget, Table> implements AutoCloseable
     private TrueTypeFont font;
     private Vector2f oldMousePos;
     private Boolean oldIsMouseButtonDown;
+    private List<ControlActivatedDetector> possibleControls;
 
     public NuitToolkit() {
         menuUp = new ActionActivatedDetector(new Action("nuit.action.menu.up", new KeyControl(Keyboard.KEY_UP)));
@@ -71,8 +84,9 @@ public class NuitToolkit extends Toolkit<Widget, Table> implements AutoCloseable
         menuRight = new ActionActivatedDetector(new Action("nuit.action.menu.right", new KeyControl(Keyboard.KEY_RIGHT)));
         menuOK = new ActionActivatedDetector(new Action("nuit.action.menu.ok", new KeyControl(Keyboard.KEY_RETURN)));
         menuCancel = new ActionActivatedDetector(new Action("nuit.action.menu.cancel", new KeyControl(Keyboard.KEY_ESCAPE)));
+        initPossibleControls();
     }
-    
+
     public String getMessage(String key) {
         return ResourceBundle.getBundle("nuit_messages").getString(key);
     }
@@ -250,4 +264,41 @@ public class NuitToolkit extends Toolkit<Widget, Table> implements AutoCloseable
             font.deleteFontTexture();
         }
     }
+
+    private void initPossibleControls() {
+        possibleControls  = new ArrayList<>();
+        for (int c = 0; c < Controllers.getControllerCount(); ++c) {
+            Controller pad = Controllers.getController(c);
+            for (int a = 0; a < pad.getAxisCount(); ++a) {
+                getPossibleControls().add(new ControlActivatedDetector(new GamepadAxisControl(pad, a, true)));
+                getPossibleControls().add(new ControlActivatedDetector(new GamepadAxisControl(pad, a, false)));
+            }
+            for (int b = 0; b < pad.getButtonCount(); ++b) {
+                getPossibleControls().add(new ControlActivatedDetector(new GamepadButtonControl(pad, b)));
+            }
+        }
+        for (Field field : Keyboard.class.getFields()) {
+            String name = field.getName();
+            if (name.startsWith("KEY_")) {
+                try {
+                    int key = field.getInt(null);
+                    getPossibleControls().add(new ControlActivatedDetector(new KeyControl(key)));
+                } catch (IllegalAccessException | IllegalArgumentException e) {
+                    Logger.getLogger(ControlsConfigurator.class.getName()).log(Level.SEVERE, "error retrieving key", e);
+                }
+            }
+        }
+        for (int m = 0; m < Mouse.getButtonCount(); ++m) {
+            getPossibleControls().add(new ControlActivatedDetector(new MouseButtonControl(m)));
+        }
+    }
+
+    public List<ControlActivatedDetector> getPossibleControls() {
+        return possibleControls;
+    }
+
+    public void setPossibleControls(List<ControlActivatedDetector> possibleControls) {
+        this.possibleControls = possibleControls;
+    }
+
 }

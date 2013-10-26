@@ -35,6 +35,7 @@ import im.bci.lwjgl.nuit.NuitToolkit;
 import im.bci.lwjgl.nuit.controls.Action;
 import im.bci.lwjgl.nuit.controls.Control;
 import im.bci.lwjgl.nuit.controls.ControlActivatedDetector;
+import im.bci.lwjgl.nuit.controls.ControlsUtils;
 import im.bci.lwjgl.nuit.controls.GamepadAxisControl;
 import im.bci.lwjgl.nuit.controls.GamepadButtonControl;
 import im.bci.lwjgl.nuit.controls.KeyControl;
@@ -241,29 +242,8 @@ public class ControlsConfigurator extends Table {
 
     private void initPossibleControls() {
         possibleControls = new ArrayList<>();
-        for (int c = 0; c < Controllers.getControllerCount(); ++c) {
-            Controller pad = Controllers.getController(c);
-            for (int a = 0; a < pad.getAxisCount(); ++a) {
-                possibleControls.add(new ControlActivatedDetector(new GamepadAxisControl(pad, a, true)));
-                possibleControls.add(new ControlActivatedDetector(new GamepadAxisControl(pad, a, false)));
-            }
-            for (int b = 0; b < pad.getButtonCount(); ++b) {
-                possibleControls.add(new ControlActivatedDetector(new GamepadButtonControl(pad, b)));
-            }
-        }
-        for (Field field : Keyboard.class.getFields()) {
-            String name = field.getName();
-            if (name.startsWith("KEY_")) {
-                try {
-                    int key = field.getInt(null);
-                    possibleControls.add(new ControlActivatedDetector(new KeyControl(key)));
-                } catch (IllegalAccessException | IllegalArgumentException e) {
-                    Logger.getLogger(ControlsConfigurator.class.getName()).log(Level.SEVERE, "error retrieving key", e);
-                }
-            }
-        }
-        for (int m = 0; m < Mouse.getButtonCount(); ++m) {
-            possibleControls.add(new ControlActivatedDetector(new MouseButtonControl(m)));
+        for(Control control : ControlsUtils.getPossibleControls()) {
+            possibleControls.add(new ControlActivatedDetector(control));            
         }
     }
 
