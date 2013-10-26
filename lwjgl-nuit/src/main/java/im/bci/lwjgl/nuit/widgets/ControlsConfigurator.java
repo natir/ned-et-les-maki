@@ -199,6 +199,20 @@ public class ControlsConfigurator extends Table {
                 GL11.glPopMatrix();
             }
         }
+
+        @Override
+        public float getMinWidth() {
+            TrueTypeFont font = toolkit.getFont();
+            return Math.max(font.getWidth(toolkit.getMessage("nuit.controls.configurator.press.key")), font.getWidth(getControl().getName()));
+        }
+
+        @Override
+        public float getMinHeight() {
+ TrueTypeFont font = toolkit.getFont();
+            return Math.max(font.getHeight(toolkit.getMessage("nuit.controls.configurator.press.key")), font.getHeight(getControl().getName()));
+        }
+        
+        
     }
 
     protected void onDefaults() {
