@@ -42,6 +42,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
+import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
@@ -51,6 +52,7 @@ import org.geekygoblin.nedetlesmaki.game.systems.TriggerSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.SpritePuppetControlSystem;
+import org.geekygoblin.nedetlesmaki.game.systems.EntityPosIndexSystem;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
@@ -62,7 +64,7 @@ public class Game extends World {
 
     private final Assets assets;
     private final NuitToolkit toolkit;
-    private final Entity mainMenu, ingameControls;
+    private final Entity mainMenu, ingameControls, entityPosIndex;
     private Entity ned;
     private boolean closeRequested;
     private static final Preferences preferences = new Preferences();
@@ -108,6 +110,10 @@ public class Game extends World {
         ingameControls.addComponent(new IngameControls());
         ingameControls.disable();
         addEntity(ingameControls);
+
+	entityPosIndex = createEntity();
+        entityPosIndex.addComponent(new EntityPosIndex());
+	addEntity(entityPosIndex);
     }
 
     public Entity getMainMenu() {
@@ -116,6 +122,10 @@ public class Game extends World {
 
     public Entity getIngameControls() {
         return ingameControls;
+    }
+
+    public Entity getEntityPosIndex() {
+        return entityPosIndex;
     }
 
     public Assets getAssets() {

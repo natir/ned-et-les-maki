@@ -42,6 +42,13 @@ import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
+import org.geekygoblin.nedetlesmaki.game.components.Position;
+import org.geekygoblin.nedetlesmaki.game.components.Boostable;
+import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
+import org.geekygoblin.nedetlesmaki.game.components.Movable;
+import org.geekygoblin.nedetlesmaki.game.components.Pusher;
+import org.geekygoblin.nedetlesmaki.game.components.Pushable;
+import org.geekygoblin.nedetlesmaki.game.components.Rooted;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.lwjgl.util.vector.Vector3f;
@@ -88,6 +95,9 @@ public class StartGameTrigger extends Trigger {
             case "ned":
                 createNed(tile, game, tmx, x, y, l, layer);
                 break;
+            case "green_maki":
+                createGreenMaki(tile, game, tmx, x, y, l, layer);
+                break;
             case "decoration":
             default:
                 createDecoration(tile, game, tmx, x, y, l, layer);
@@ -117,8 +127,23 @@ public class StartGameTrigger extends Trigger {
 
     private void createNed(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity ned = game.createEntity();
+	EntityPosIndex index = game.getEntityPosIndex().getComponent(EntityPosIndex.class);
+	ned.addComponent(new Position(x-2, y-2));
+	ned.addComponent(new Pusher(true));
+	ned.addComponent(new Movable(1));
         game.setNed(ned);
         createSprite(tmx, x, y, l, tile, layer, ned);
         game.addEntity(ned);
+	index.setEntityWithPos(ned.getComponent(Position.class).getX(), ned.getComponent(Position.class).getY(), ned);
+    }
+
+    private void createGreenMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Entity maki = game.createEntity();
+	EntityPosIndex index = game.getEntityPosIndex().getComponent(EntityPosIndex.class);
+	maki.addComponent(new Position(x-2, y-2));
+	maki.addComponent(new Movable(1));
+        createSprite(tmx, x, y, l, tile, layer, maki);
+        game.addEntity(maki);
+	index.setEntityWithPos(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
     }
 }
