@@ -92,16 +92,28 @@ public class StartGameTrigger extends Trigger {
 
     private void createEntityFromTile(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         switch (tile.getTile().getProperty("type", "decoration")) {
-            case "ned":
-                createNed(tile, game, tmx, x, y, l, layer);
-                break;
-            case "green_maki":
-                createGreenMaki(tile, game, tmx, x, y, l, layer);
-                break;
-            case "decoration":
-            default:
-                createDecoration(tile, game, tmx, x, y, l, layer);
-                break;
+	case "ned":
+	    createNed(tile, game, tmx, x, y, l, layer);
+	    break;
+	case "green_maki":
+	    createGreenMaki(tile, game, tmx, x, y, l, layer);
+	    break;
+	case "orange_maki":
+	    createOrangeMaki(tile, game, tmx, x, y, l, layer);
+	    break;
+	case "blue_maki":
+	    createBlueMaki(tile, game, tmx, x, y, l, layer);
+	    break;
+	case "box":
+	    createBox(tile, game, tmx, x, y, l, layer);
+	    break;
+	case "rooted_box":
+	    createRootedBox(tile, game, tmx, x, y, l, layer);
+	    break;
+	case "decoration":
+	default:
+	    createDecoration(tile, game, tmx, x, y, l, layer);
+	break;
         }
 
     }
@@ -146,4 +158,48 @@ public class StartGameTrigger extends Trigger {
         game.addEntity(maki);
 	index.setEntityWithPos(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
     }
+
+    private void createOrangeMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Entity maki = game.createEntity();
+	EntityPosIndex index = game.getEntityPosIndex().getComponent(EntityPosIndex.class);
+	maki.addComponent(new Position(x-2, y-2));
+	maki.addComponent(new Movable(15));
+        createSprite(tmx, x, y, l, tile, layer, maki);
+        game.addEntity(maki);
+	index.setEntityWithPos(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
+    }
+
+    private void createBlueMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Entity maki = game.createEntity();
+	EntityPosIndex index = game.getEntityPosIndex().getComponent(EntityPosIndex.class);
+	maki.addComponent(new Position(x-2, y-2));
+	maki.addComponent(new Movable(15));
+	maki.addComponent(new Boostable(3));
+	maki.addComponent(new Pusher(false));
+        createSprite(tmx, x, y, l, tile, layer, maki);
+        game.addEntity(maki);
+	index.setEntityWithPos(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
+    }
+
+    private void createBox(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Entity box = game.createEntity();
+	EntityPosIndex index = game.getEntityPosIndex().getComponent(EntityPosIndex.class);
+	box.addComponent(new Position(x-2, y-2));
+	box.addComponent(new Movable(1));
+        createSprite(tmx, x, y, l, tile, layer, box);
+        game.addEntity(box);
+	index.setEntityWithPos(box.getComponent(Position.class).getX(), box.getComponent(Position.class).getY(), box);
+    }
+    
+    private void createRootedBox(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Entity box = game.createEntity();
+	EntityPosIndex index = game.getEntityPosIndex().getComponent(EntityPosIndex.class);
+	box.addComponent(new Position(x-2, y-2));
+	box.addComponent(new Movable(1));
+	box.addComponent(new Rooted(true));
+        createSprite(tmx, x, y, l, tile, layer, box);
+        game.addEntity(box);
+	index.setEntityWithPos(box.getComponent(Position.class).getX(), box.getComponent(Position.class).getY(), box);
+    }
+
 }
