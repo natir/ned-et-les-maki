@@ -122,7 +122,7 @@ public class Container extends Widget {
             GL11.glLineWidth(2.0f);
             if(isFocusSucked()) {
                 GL11.glColor3f(0.5f, 0.5f, 0.5f);
-            }
+            }            
             GL11.glBegin(GL11.GL_LINE_LOOP);
             GL11.glVertex2f(focused.getX(), focused.getY());
             GL11.glVertex2f(focused.getX() + focused.getWidth(), focused.getY());
