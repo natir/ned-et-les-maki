@@ -1,34 +1,26 @@
 /*
- * Copyright (c) 2013 devnewton <devnewton@bci.im>
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
- *
- * * Redistributions of source code must retain the above copyright
- *   notice, this list of conditions and the following disclaimer.
- *
- * * Redistributions in binary form must reproduce the above copyright
- *   notice, this list of conditions and the following disclaimer in the
- *   documentation and/or other materials provided with the distribution.
- *
- * * Neither the name of 'devnewton <devnewton@bci.im>' nor the names of
- *   its contributors may be used to endorse or promote products derived
- *   from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
- * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+The MIT License (MIT)
+
+Copyright (c) 2013 devnewton <devnewton@bci.im>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
 package org.geekygoblin.nedetlesmaki.game.components.ui;
 
 import com.artemis.Component;
@@ -44,8 +36,6 @@ import im.bci.lwjgl.nuit.widgets.Root;
 import im.bci.lwjgl.nuit.widgets.Table;
 import im.bci.lwjgl.nuit.widgets.VideoConfigurator;
 import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
-import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
 
 public class MainMenu extends Component {
 
@@ -55,6 +45,7 @@ public class MainMenu extends Component {
     private AudioConfigurator audioConfigurator;
     private Table optionsMenu;
     private ControlsConfigurator controls;
+    private LevelSelector levelSelector;
     private final Game game;
     private final NuitToolkit toolkit;
 
@@ -62,6 +53,7 @@ public class MainMenu extends Component {
         this.game = game;
         this.toolkit = toolkit;
         root = new Root(toolkit);
+        initLevelSelector();
         initVideo();
         initAudio();
         initControls();
@@ -168,6 +160,10 @@ public class MainMenu extends Component {
         root.add(controls);
     }
 
+    private void initLevelSelector() {
+       levelSelector = new LevelSelector(game);
+       root.add(levelSelector);
+    }
     public void update() {
         root.update();
     }
@@ -177,6 +173,10 @@ public class MainMenu extends Component {
     }
     
     private void onStartGame() {
-        game.addEntity(game.createEntity().addComponent(new Triggerable(new StartGameTrigger())));
+        root.show(levelSelector);
+    }
+
+    public void show() {
+        root.show(mainMenu);
     }
 }
