@@ -44,7 +44,6 @@ import org.geekygoblin.nedetlesmaki.game.systems.TriggerSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.SpritePuppetControlSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.EntityPosIndexSystem;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 
@@ -75,10 +74,10 @@ public class Game extends World {
 
         toolkit = new NuitToolkit() {
 
-            @Override
+           /* @Override
             protected TrueTypeFont createFont() {
                 return Game.this.assets.getFont("Boxy-Bold.ttf");
-            }
+            }*/
 
             @Override
             public String getMessage(String key) {

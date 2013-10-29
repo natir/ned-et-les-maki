@@ -27,6 +27,7 @@ import de.matthiasmann.twl.utils.PNGDecoder;
 import im.bci.lwjgl.nuit.utils.IconLoader;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.NanimationCollection;
 import im.bci.nanim.NanimParser.Nanim;
 import java.awt.Font;
@@ -91,12 +92,12 @@ public class Assets implements AutoCloseable {
             Texture texture = loadPngTexture(name);
             putTexture(name, texture);
             return texture;
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException("Cannot load texture " + name, e);
         }
     }
 
-    public NanimationCollection getAnimations(String name) {
+    public IAnimationCollection getAnimations(String name) {
         AnimationCollectionWeakReference animRef = animations.get(name);
         if (null != animRef) {
             NanimationCollection anim = animRef.get();

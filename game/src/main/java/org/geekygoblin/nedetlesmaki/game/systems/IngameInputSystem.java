@@ -30,6 +30,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.NanimationCollection;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
@@ -66,7 +67,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
                     Game game = (Game) world;
                     Entity ned = game.getNed();
                     Sprite sprite = spriteMapper.get(ned);
-                    NanimationCollection anims = game.getAssets().getAnimations("ned.nanim");
+                    IAnimationCollection anims = game.getAssets().getAnimations("ned.nanim");
                     Vector3f pos = sprite.getPosition();
                     SpritePuppetControls updatable = new SpritePuppetControls(sprite);
                     updatable.startAnimation(anims.getAnimationByName("walk_up"))
