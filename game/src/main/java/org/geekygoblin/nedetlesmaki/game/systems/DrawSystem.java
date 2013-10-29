@@ -191,10 +191,9 @@ public class DrawSystem extends EntitySystem {
 
     private void drawSprite(Sprite sprite) {
         GL11.glPushMatrix();
-        GL11.glTranslatef(sprite.getPosition().getX(), sprite.getPosition().getY(),
-                0.0f/*sprite.getPosition().getZ()*/);
-        //GL11.glRotatef(sprite.getRotate(), 0, 0, 1.0f);
-        //GL11.glScalef(sprite.getScale(), sprite.getScale(), 1);
+        GL11.glTranslatef(sprite.getPosition().getX(), sprite.getPosition().getY(),0.0f);
+        GL11.glRotatef(sprite.getRotate(), 0, 0, 1.0f);
+        GL11.glScalef(sprite.getScale(), sprite.getScale(), 1);
         final IAnimationFrame frame = sprite.getPlay().getCurrentFrame();
         final IAnimationImage image = frame.getImage();
         if (image.hasAlpha()) {
