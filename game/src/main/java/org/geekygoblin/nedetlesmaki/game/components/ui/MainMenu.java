@@ -36,8 +36,6 @@ import im.bci.lwjgl.nuit.widgets.Root;
 import im.bci.lwjgl.nuit.widgets.Table;
 import im.bci.lwjgl.nuit.widgets.VideoConfigurator;
 import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
-import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
 
 public class MainMenu extends Component {
 
@@ -47,6 +45,7 @@ public class MainMenu extends Component {
     private AudioConfigurator audioConfigurator;
     private Table optionsMenu;
     private ControlsConfigurator controls;
+    private LevelSelector levelSelector;
     private final Game game;
     private final NuitToolkit toolkit;
 
@@ -54,6 +53,7 @@ public class MainMenu extends Component {
         this.game = game;
         this.toolkit = toolkit;
         root = new Root(toolkit);
+        initLevelSelector();
         initVideo();
         initAudio();
         initControls();
@@ -160,6 +160,10 @@ public class MainMenu extends Component {
         root.add(controls);
     }
 
+    private void initLevelSelector() {
+       levelSelector = new LevelSelector(game);
+       root.add(levelSelector);
+    }
     public void update() {
         root.update();
     }
@@ -169,6 +173,10 @@ public class MainMenu extends Component {
     }
     
     private void onStartGame() {
-        game.addEntity(game.createEntity().addComponent(new Triggerable(new StartGameTrigger())));
+        root.show(levelSelector);
+    }
+
+    public void show() {
+        root.show(mainMenu);
     }
 }

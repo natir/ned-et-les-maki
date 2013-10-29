@@ -24,6 +24,7 @@ THE SOFTWARE.
 package org.geekygoblin.nedetlesmaki.game.events;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 
 /**
  *
@@ -33,6 +34,7 @@ public class ShowMenuTrigger extends Trigger {
 
     @Override
     public void process(Game game) {
+        game.getMainMenu().getComponent(MainMenu.class).show();
         game.getMainMenu().enable();
         game.getIngameControls().disable();
     }
