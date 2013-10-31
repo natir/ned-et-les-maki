@@ -27,16 +27,10 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import im.bci.lwjgl.nuit.NuitToolkit;
-import im.bci.lwjgl.nuit.utils.TrueTypeFont;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
-import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
-import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
-import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.TriggerSystem;
@@ -44,25 +38,20 @@ import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.SpritePuppetControlSystem;
 import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.Display;
 
 /**
  *
  * @author devnewton
  */
+@Singleton
 public class Game extends World {
 
-    private final Assets assets;
-    private final NuitToolkit toolkit;
-    private final Entity mainMenu, ingameControls, entityPosIndex;
+    private final Entity ingameControls, entityPosIndex;
     private Entity ned;
-    private boolean closeRequested;
-    private static final Preferences preferences = new Preferences();
-    private static final String[] messagesBundles = new String[]{"messages", "nuit_messages"};
 
-    public Game(Assets assets) throws LWJGLException {
-        this.assets = assets;
-        setSystem(new IngameInputSystem());
+    @Inject
+    public Game(NuitToolkit toolkit, IngameInputSystem ingameInputSystem) throws LWJGLException {
+        setSystem(ingameInputSystem);
         setSystem(new SpriteAnimateSystem());
         setSystem(new SpritePuppetControlSystem());
         setSystem(new DrawSystem());
@@ -70,31 +59,6 @@ public class Game extends World {
         setSystem(new MainMenuSystem());
         setManager(new GroupManager());
         initialize();
-
-        toolkit = new NuitToolkit() {
-
-            @Override
-            protected TrueTypeFont createFont() {
-                return Game.this.assets.getFont("prout");
-            }
-
-            @Override
-            public String getMessage(String key) {
-                for (String bundleName : messagesBundles) {
-                    ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
-                    if (bundle.containsKey(key)) {
-                        return bundle.getString(key);
-                    }
-                }
-                Logger.getLogger(getClass().getName()).log(Level.WARNING, "No translation for {0}", key);
-                return key;
-            }
-        };
-
-        mainMenu = createEntity();
-        mainMenu.addComponent(new MainMenu(this, toolkit));
-        mainMenu.addComponent(new ZOrder(ZOrders.MENU));
-        addEntity(mainMenu);
 
         ingameControls = createEntity();
         ingameControls.addComponent(new IngameControls());
@@ -106,10 +70,6 @@ public class Game extends World {
 	addEntity(entityPosIndex);
     }
 
-    public Entity getMainMenu() {
-        return mainMenu;
-    }
-
     public Entity getIngameControls() {
         return ingameControls;
     }
@@ -118,31 +78,11 @@ public class Game extends World {
         return entityPosIndex;
     }
 
-    public Assets getAssets() {
-        return assets;
-    }
-
-    public void setCloseRequested(boolean closeRequested) {
-        this.closeRequested = closeRequested;
-    }
-
-    public boolean isCloseRequested() {
-        return closeRequested || Display.isCloseRequested();
-    }
-
-    public static Preferences getPreferences() {
-        return preferences;
-    }
-
     public void setNed(Entity ned) {
         this.ned = ned;
     }
 
     public Entity getNed() {
         return ned;
-    }
-
-    public NuitToolkit getToolkit() {
-        return toolkit;
     }
 }
