@@ -48,7 +48,7 @@ public class LevelSelector extends Container {
     public LevelSelector(Game game) {
         this.game = game;
         bulleAnimations = game.getAssets().getAnimations("bulle.nanim");
-        addButton("level.01.name", 725, 695, 1);
+        setFocusedChild(addButton("level.01.name", 725, 695, 1));
         addButton("level.02.name", 550, 674, -1);
         addButton("level.03.name", 725, 653, 1);
         addButton("level.04.name", 550, 632, -1);
@@ -110,7 +110,7 @@ public class LevelSelector extends Container {
     }
 
     @Override
-    protected void setFocusedChild(Widget focusedChild) {
+    protected final void setFocusedChild(Widget focusedChild) {
         Widget oldFocusedChild = getFocusedChild();
         if (oldFocusedChild instanceof LevelSelectorButton) {
             ((LevelSelectorButton) oldFocusedChild).backgroundAnimationPlay = bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP);
@@ -176,10 +176,10 @@ public class LevelSelector extends Container {
 
     }
 
-    private void addButton(String label, int x, int y, int orientation) {
+    private LevelSelectorButton addButton(String label, int x, int y, int orientation) {
         LevelSelectorButton button = new LevelSelectorButton(game.getToolkit(), label, orientation);
         button.backgroundAnimationPlay = bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP);
-        button.setWidth(button.getMinWidth());
+        button.setWidth(button.getMinWidth() * 1.8f);
         button.setHeight(button.getMinHeight());
         if (orientation < 0) {
             button.setX(x - button.getWidth());
@@ -188,6 +188,7 @@ public class LevelSelector extends Container {
         }
         button.setY(y - button.getHeight() / 2);
         this.add(button);
+        return button;
     }
 
     private void onStartGame() {

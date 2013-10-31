@@ -234,6 +234,7 @@ public class Assets implements AutoCloseable {
             }
             
         };
+        font.setCorrection(false);
         putFont(name, font);
         return font;
     }
