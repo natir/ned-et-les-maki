@@ -21,6 +21,7 @@
  */
 package org.geekygoblin.nedetlesmaki.game.systems;
 
+import com.artemis.World;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.ComponentMapper;
@@ -46,17 +47,22 @@ public class GameSystem {
 
     private EntityPosIndexSystem index;
 
-    public GameSystem(EntityPosIndexSystem index) {
+    public GameSystem(EntityPosIndexSystem index, World w) {
 	this.index = index;
+	this.pushableMapper = ComponentMapper.getFor(Pushable.class, w);
+	this.pusherMapper = ComponentMapper.getFor(Pusher.class, w);
+	this.positionMapper = ComponentMapper.getFor(Position.class, w);
     }
 
     public boolean moveEntity(Entity e, Position newP) {
-	
 	/*New pos is void*/
 	if(positionIsVoid(newP)) {
-	    Position oldP = this.positionMapper.get(e);
+	    Position oldP = this.positionMapper.getSafe(e);
 	    index.saveWorld();
 	    index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY());
+	    e.getComponent(Position.class).setX(newP.getX());
+	    e.getComponent(Position.class).setY(newP.getY());
+
 	    return true;
 	}
 	else {
@@ -78,7 +84,7 @@ public class GameSystem {
 
     public boolean positionIsVoid(Position p) {
 	Entity tmpE = index.getEntity(p.getX(), p.getY());
-	if(!tmpE.isActive()) {
+	if(tmpE != null) {
 	    return false;
 	}
 	
@@ -145,4 +151,18 @@ public class GameSystem {
 	
 	return new Position(x, max);
     }
+    
+    public void printIndex() {
+	for(int i = 0; i != 15; i++) {
+	    for(int j = 0; j != 15; j++) {
+		Entity e = this.index.getEntity(i, j);
+		if(e != null) {
+		    System.out.printf("[%d,%d] = ", i, j);
+		    System.out.print(e);
+		    System.out.print("\n");
+		}
+	    }
+	}
+    }
+
 }
