@@ -45,9 +45,9 @@ public class Button extends Widget {
         GL11.glPushMatrix();
         TrueTypeFont font = toolkit.getFont();
         String translatedText = toolkit.getMessage(text);
-        GL11.glTranslatef(getX() + getWidth()/2.0f - font.getWidth(translatedText)/3.0f, getY() + getHeight()/2.0f + font.getHeight(translatedText) / 2.0f, 0.0f);
+        GL11.glTranslatef(getX() + getWidth()/2.0f /*- font.getWidth(translatedText)/2.0f*/, getY() + getHeight()/2.0f + font.getHeight(translatedText) / 2.0f, 0.0f);
         GL11.glScalef(1, -1, 1);
-        font.drawString(translatedText);
+        font.drawString(translatedText, TrueTypeFont.Align.CENTER);
         GL11.glPopAttrib();
         GL11.glPopMatrix();
     }

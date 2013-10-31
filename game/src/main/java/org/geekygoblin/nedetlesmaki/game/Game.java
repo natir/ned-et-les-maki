@@ -27,7 +27,6 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import im.bci.lwjgl.nuit.NuitToolkit;
-import im.bci.lwjgl.nuit.controls.Action;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -74,10 +73,10 @@ public class Game extends World {
 
         toolkit = new NuitToolkit() {
 
-           /* @Override
+            @Override
             protected TrueTypeFont createFont() {
-                return Game.this.assets.getFont("Boxy-Bold.ttf");
-            }*/
+                return Game.this.assets.getFont("prout");
+            }
 
             @Override
             public String getMessage(String key) {
