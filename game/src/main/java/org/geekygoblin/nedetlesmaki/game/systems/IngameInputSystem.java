@@ -33,7 +33,11 @@ import com.artemis.systems.EntityProcessingSystem;
 import im.bci.nanim.NanimationCollection;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
+import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
+import org.geekygoblin.nedetlesmaki.game.components.Position;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
+import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
@@ -61,6 +65,10 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(new ShowMenuTrigger())));
             }
             if (canMoveNed()) {
+		controls.getUp().poll();
+		controls.getDown().poll();
+		controls.getRight().poll();
+		controls.getLeft().poll();
                 controls.getDance().poll();
                 if (controls.getDance().isActivated()) {
                     Game game = (Game) world;
@@ -84,6 +92,37 @@ public class IngameInputSystem extends EntityProcessingSystem {
                     ned.addComponent(updatable);
                     ned.changedInWorld();
                 }
+		else if (controls.getUp().isActivated()) {
+		    Game game = (Game) world;
+                    Entity ned = game.getNed();
+		    GameSystem gsystem = new GameSystem(new EntityPosIndexSystem(game.getEntityPosIndex()), game);
+		    
+		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(1, 0)));
+
+		    gsystem.printIndex();
+		    System.out.printf("Ned position : [%d, %d]\n", ned.getComponent(Position.class).getX(), ned.getComponent(Position.class).getY());
+		}
+		else if (controls.getDown().isActivated()) {
+		    Game game = (Game) world;
+                    Entity ned = game.getNed();
+		    GameSystem gsystem = new GameSystem(new EntityPosIndexSystem(game.getEntityPosIndex()), game);
+
+		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(-1, 0)));
+		}
+		else if (controls.getLeft().isActivated()) {
+		    Game game = (Game) world;
+		    Entity ned = game.getNed();
+		    GameSystem gsystem = new GameSystem(new EntityPosIndexSystem(game.getEntityPosIndex()), game);
+
+		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(0, 1)));
+		}
+		else if (controls.getRight().isActivated()) {
+		    Game game = (Game) world;
+                    Entity ned = game.getNed();
+		    GameSystem gsystem = new GameSystem(new EntityPosIndexSystem(game.getEntityPosIndex()), game);
+
+		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(0, -1)));
+		}
             }
         }
     }
