@@ -81,7 +81,7 @@
                 <jorbis.jar.path>/usr/share/java/jorbis.jar</jorbis.jar.path>
                 <jogg.jar.path>/usr/share/java/jogg.jar</jogg.jar.path>
                 <protobuf.jar.path>/usr/share/java/protobuf-java.jar</protobuf.jar.path>
-                <guice.jar.path>/usr/share/java/</guice.jar.path>
+                <guice.jar.path>/usr/share/java/guice.jar</guice.jar.path>
             </properties>
             <dependencyManagement>
                 <dependencies>
