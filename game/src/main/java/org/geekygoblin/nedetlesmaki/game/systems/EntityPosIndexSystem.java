@@ -53,7 +53,7 @@ public class EntityPosIndexSystem {
 
     public boolean removeEntity(int x, int y) {
 	
-	index.getComponent(EntityPosIndex.class).getEntityWithPos(x, y).deleteFromWorld();
+	this.addEntity(x, y, null);
 	return true;
     }
 
