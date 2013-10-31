@@ -28,7 +28,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import im.bci.lwjgl.nuit.NuitToolkit;
 import java.io.File;
-import javax.inject.Named;
 import javax.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.assets.VirtualFileSystem;

@@ -31,7 +31,6 @@ import im.bci.tmxloader.TmxTileInstanceEffect;
 import java.util.EnumSet;
 import java.util.List;
 import javax.inject.Inject;
-import javax.inject.Named;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;

@@ -25,7 +25,6 @@ package org.geekygoblin.nedetlesmaki.game.events;
 
 import com.artemis.Entity;
 import javax.inject.Inject;
-import javax.inject.Named;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
