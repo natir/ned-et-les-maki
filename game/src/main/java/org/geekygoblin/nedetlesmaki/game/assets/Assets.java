@@ -42,6 +42,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.xml.bind.JAXBException;
 import org.lwjgl.opengl.GL11;
 
@@ -49,6 +51,7 @@ import org.lwjgl.opengl.GL11;
  *
  * @author devnewton
  */
+@Singleton
 public class Assets implements AutoCloseable {
 
     private VirtualFileSystem vfs;
@@ -60,6 +63,7 @@ public class Assets implements AutoCloseable {
     private final ReferenceQueue<TrueTypeFont> fontsReferenceQueue = new ReferenceQueue<>();
     private final TmxAssetLoader tmxLoader;
 
+    @Inject
     public Assets(VirtualFileSystem vfs) {
         this.vfs = vfs;
         tmxLoader = new TmxAssetLoader(this);

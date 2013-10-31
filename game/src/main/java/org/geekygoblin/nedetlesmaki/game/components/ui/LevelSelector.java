@@ -31,7 +31,11 @@ import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.IAnimationFrame;
 import im.bci.nanim.IPlay;
 import im.bci.nanim.PlayMode;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
 import org.lwjgl.opengl.GL11;
@@ -40,14 +44,22 @@ import org.lwjgl.opengl.GL11;
  *
  * @author devnewton
  */
+@Singleton
 public class LevelSelector extends Container {
 
     private final Game game;
     private final IAnimationCollection bulleAnimations;
+    private final NuitToolkit toolkit;
+    private final Assets assets;
+    private final Provider<StartGameTrigger> startGameTrigger;
 
-    public LevelSelector(Game game) {
+    @Inject
+    public LevelSelector(Game game, NuitToolkit toolkit, Assets assets, Provider<StartGameTrigger> startGameTrigger) {
         this.game = game;
-        bulleAnimations = game.getAssets().getAnimations("bulle.nanim");
+        this.toolkit = toolkit;
+        this.assets = assets;
+        this.startGameTrigger = startGameTrigger;
+        bulleAnimations = assets.getAnimations("bulle.nanim");
         setFocusedChild(addButton("level.01.name", 725, 695, 1));
         addButton("level.02.name", 550, 674, -1);
         addButton("level.03.name", 725, 653, 1);
@@ -82,7 +94,7 @@ public class LevelSelector extends Container {
 
     @Override
     public void draw() {
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, game.getAssets().getTexture("tour.png").getId());
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, assets.getTexture("tour.png").getId());
         float x1 = 0;
         float x2 = getWidth();
         float y1 = 0;
@@ -177,7 +189,7 @@ public class LevelSelector extends Container {
     }
 
     private LevelSelectorButton addButton(String label, int x, int y, int orientation) {
-        LevelSelectorButton button = new LevelSelectorButton(game.getToolkit(), label, orientation);
+        LevelSelectorButton button = new LevelSelectorButton(toolkit, label, orientation);
         button.backgroundAnimationPlay = bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP);
         button.setWidth(button.getMinWidth() * 1.8f);
         button.setHeight(button.getMinHeight());
@@ -192,6 +204,6 @@ public class LevelSelector extends Container {
     }
 
     private void onStartGame() {
-        game.addEntity(game.createEntity().addComponent(new Triggerable(new StartGameTrigger())));
+        game.addEntity(game.createEntity().addComponent(new Triggerable(startGameTrigger.get())));
     }
 }
