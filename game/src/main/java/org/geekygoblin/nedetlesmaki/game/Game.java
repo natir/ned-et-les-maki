@@ -29,7 +29,6 @@ import com.artemis.managers.GroupManager;
 import im.bci.lwjgl.nuit.NuitToolkit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
@@ -46,7 +45,7 @@ import org.lwjgl.LWJGLException;
 @Singleton
 public class Game extends World {
 
-    private final Entity ingameControls, entityPosIndex;
+    private final Entity entityPosIndex;
     private Entity ned;
 
     @Inject
@@ -60,18 +59,9 @@ public class Game extends World {
         setManager(new GroupManager());
         initialize();
 
-        ingameControls = createEntity();
-        ingameControls.addComponent(new IngameControls());
-        ingameControls.disable();
-        addEntity(ingameControls);
-
 	entityPosIndex = createEntity();
         entityPosIndex.addComponent(new EntityPosIndex());
 	addEntity(entityPosIndex);
-    }
-
-    public Entity getIngameControls() {
-        return ingameControls;
     }
 
     public Entity getEntityPosIndex() {

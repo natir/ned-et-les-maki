@@ -27,6 +27,7 @@ import com.artemis.Entity;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 
 /**
@@ -35,17 +36,19 @@ import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
  */
 public class ShowMenuTrigger extends Trigger {
     private final Entity mainMenu;
+    private final Entity ingameControls;
     
     @Inject
-    public ShowMenuTrigger(@Named("mainMenu") Entity mainMenu) {
+    public ShowMenuTrigger(@NamedEntities.MainMenu Entity mainMenu,@NamedEntities.IngameControls Entity ingameControls) {
         this.mainMenu = mainMenu;
+        this.ingameControls = ingameControls;
     }
 
     @Override
     public void process(Game game) {
         mainMenu.getComponent(MainMenu.class).show();
         mainMenu.enable();
-        game.getIngameControls().disable();
+        ingameControls.disable();
     }
 
     
