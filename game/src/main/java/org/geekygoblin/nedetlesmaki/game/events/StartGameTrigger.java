@@ -33,6 +33,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
@@ -54,17 +55,20 @@ import org.lwjgl.util.vector.Vector3f;
 public class StartGameTrigger extends Trigger {
     private final Assets assets;
     private final Entity mainMenu;
+    private final Entity ingameControls;
     
     @Inject
-    public StartGameTrigger(Assets assets, @Named("mainMenu") Entity mainMenu) {
+    public StartGameTrigger(Assets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls) {
         this.assets = assets;
         this.mainMenu = mainMenu;
+        this.ingameControls = ingameControls;
     }
 
     @Override
     public void process(Game game) {
         mainMenu.disable();
-        game.getIngameControls().enable();
+        ingameControls.enable();
+
         Entity level = game.createEntity();
         level.addComponent(new Level());
         level.addComponent(new ZOrder(ZOrders.LEVEL));
