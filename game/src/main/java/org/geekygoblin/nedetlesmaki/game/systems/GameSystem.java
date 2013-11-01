@@ -46,12 +46,21 @@ public class GameSystem {
     ComponentMapper<Position> positionMapper;
 
     private EntityPosIndexSystem index;
+    private static GameSystem instance = null;
 
-    public GameSystem(EntityPosIndexSystem index, World w) {
+    private GameSystem(EntityPosIndexSystem index, World w) {
 	this.index = index;
 	this.pushableMapper = ComponentMapper.getFor(Pushable.class, w);
 	this.pusherMapper = ComponentMapper.getFor(Pusher.class, w);
 	this.positionMapper = ComponentMapper.getFor(Position.class, w);
+    }
+    
+    public static GameSystem getInstance(EntityPosIndexSystem index, World w) {
+	if (instance == null) {
+	    instance = new GameSystem(index, w);
+	}
+	
+	return instance;
     }
 
     public boolean moveEntity(Entity e, Position newP) {
@@ -164,5 +173,4 @@ public class GameSystem {
 	    }
 	}
     }
-
 }
