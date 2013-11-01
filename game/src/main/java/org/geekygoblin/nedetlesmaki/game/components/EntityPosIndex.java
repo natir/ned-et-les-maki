@@ -36,11 +36,30 @@ public class EntityPosIndex extends Component {
 	this.index = new Entity[15][15];
     }
 
+    public EntityPosIndex(EntityPosIndex clone) {
+	this.index = new Entity[15][15];
+	for(int i = 0; i != 15; i++) {
+	    for(int j = 0; j != 15; j++) {
+		Entity e = clone.getEntityWithPos(i, j);
+		this.index[i][j] = e;
+	    }
+	}
+    }
+
     public Entity getEntityWithPos(int x, int y) {
-	return index[x][y];
+	return this.index[x][y];
     }
 
     public void setEntityWithPos(int x, int y, Entity eId) {
-	index[x][y] = eId;
+	this.index[x][y] = eId;
+    }
+
+    public Entity[][] getIndex() {
+	return this.index;
+    }
+
+    public EntityPosIndex clone() {
+        EntityPosIndex result = new EntityPosIndex(this);
+	return result;
     }
 }
