@@ -23,8 +23,10 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
+import com.artemis.Entity;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import im.bci.lwjgl.nuit.NuitToolkit;
 import im.bci.lwjgl.nuit.controls.Action;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
@@ -38,6 +40,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
+import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controllers;
@@ -100,8 +103,9 @@ public class Main {
                 Game game = injector.getInstance(Game.class);
                 NuitToolkit toolkit = injector.getInstance(NuitToolkit.class);
                 MainLoop mainLoop = injector.getInstance(MainLoop.class);
+                injector.getInstance(Key.get(Entity.class, NamedEntities.MainMenu.class)).disable();
+                injector.getInstance(Key.get(Entity.class, NamedEntities.Intro.class));
                 setControls(game, prefs, toolkit);
-                game.addEntity(game.createEntity().addComponent(new Triggerable(injector.getInstance(ShowMenuTrigger.class))));
                 while (!mainLoop.isCloseRequested()) {
                     game.setDelta(1.0f / 60.0f);
                     game.process();

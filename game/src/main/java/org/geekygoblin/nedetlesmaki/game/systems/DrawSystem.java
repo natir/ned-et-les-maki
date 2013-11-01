@@ -41,6 +41,7 @@ import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
+import org.geekygoblin.nedetlesmaki.game.components.ui.Dialog;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
 import org.lwjgl.util.glu.GLU;
@@ -60,6 +61,8 @@ public class DrawSystem extends EntitySystem {
     ComponentMapper<Sprite> spriteMapper;
     @Mapper
     ComponentMapper<MainMenu> mainMenuMapper;
+    @Mapper
+    ComponentMapper<Dialog> dialogMapper;
     @Mapper
     ComponentMapper<Level> levelMapper;
     private final Comparator<Entity> zComparator = new Comparator<Entity>() {
@@ -85,7 +88,7 @@ public class DrawSystem extends EntitySystem {
     };
 
     public DrawSystem() {
-        super(Aspect.getAspectForAll(ZOrder.class).one(Level.class, MainMenu.class, Sprite.class));
+        super(Aspect.getAspectForAll(ZOrder.class).one(Level.class, MainMenu.class, Dialog.class, Sprite.class));
     }
 
     @Override
@@ -143,6 +146,10 @@ public class DrawSystem extends EntitySystem {
             MainMenu mainMenu = mainMenuMapper.getSafe(e);
             if (null != mainMenu) {
                 mainMenu.draw();
+            }
+            Dialog dialog = dialogMapper.getSafe(e);
+            if (null != dialog) {
+                dialog.draw();
             }
             Level level = levelMapper.getSafe(e);
             if (null != level) {
