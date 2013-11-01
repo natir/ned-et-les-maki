@@ -21,8 +21,6 @@
  */
 package org.geekygoblin.nedetlesmaki.game.systems;
 
-import java.util.Stack;
-
 import com.artemis.Entity;
 
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
@@ -33,21 +31,29 @@ import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
  */
 public class EntityPosIndexSystem {
     
-    private Entity index;
-    private Stack<Entity> oldIndex;
-
-    public EntityPosIndexSystem(Entity index) {
+    private EntityPosIndex index;
+    private EntityPosIndex oldIndex;
+    private static EntityPosIndexSystem instance = null;
+    
+    private EntityPosIndexSystem(EntityPosIndex index) {
 	    this.index = index;
-	    this.oldIndex = new Stack<Entity>();
 	}
 
+    public static EntityPosIndexSystem getInstance(EntityPosIndex index) {
+	if (instance == null) {
+	    instance = new EntityPosIndexSystem(index);
+	}
+	
+	return instance;
+    }
+
     public boolean saveWorld() {
-	this.oldIndex.add(this.index);
-	return true;
+	this.oldIndex = this.index.clone();
+        return true;
     }
 
     public boolean addEntity(int x, int y, Entity eId) {
-        index.getComponent(EntityPosIndex.class).setEntityWithPos(x, y, eId);
+        index.setEntityWithPos(x, y, eId);
 	return true;
     }
 
@@ -58,22 +64,21 @@ public class EntityPosIndexSystem {
     }
 
     public Entity getEntity(int x, int y) {
-	return index.getComponent(EntityPosIndex.class).getEntityWithPos(x, y);
+	return index.getEntityWithPos(x, y);
     }
 
     public boolean moveEntity(int x1, int y1, int x2, int y2) {
-	Entity tmpE = index.getComponent(EntityPosIndex.class).getEntityWithPos(x1, y1);
+	Entity tmpE = index.getEntityWithPos(x1, y1);
 	this.removeEntity(x1, y1);
 	this.addEntity(x2, y2, tmpE);
-	
 	return true;
     }
 
-    public Entity getLastWorld() {
-	return this.oldIndex.peek();
+    public EntityPosIndex getLastWorld() {
+	return this.oldIndex;
     }
 
-    public Entity getThisWorld() {
+    public EntityPosIndex getThisWorld() {
 	return this.index;
     }
 }
