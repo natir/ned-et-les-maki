@@ -59,6 +59,8 @@ public class IngameInputSystem extends EntityProcessingSystem {
     @Override
     protected void process(Entity e) {
         if (e.isEnabled()) {
+	    Game game = (Game) world;
+	    GameSystem gsystem = GameSystem.getInstance(EntityPosIndexSystem.getInstance(game.getEntityPosIndex()), game);
             IngameControls controls = e.getComponent(IngameControls.class);
             controls.getShowMenu().poll();
             if (controls.getShowMenu().isActivated()) {
@@ -71,7 +73,6 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		controls.getLeft().poll();
                 controls.getDance().poll();
                 if (controls.getDance().isActivated()) {
-                    Game game = (Game) world;
                     Entity ned = game.getNed();
                     Sprite sprite = spriteMapper.get(ned);
                     NanimationCollection anims = game.getAssets().getAnimations("ned.nanim");
@@ -93,34 +94,23 @@ public class IngameInputSystem extends EntityProcessingSystem {
                     ned.changedInWorld();
                 }
 		else if (controls.getUp().isActivated()) {
-		    Game game = (Game) world;
                     Entity ned = game.getNed();
-		    GameSystem gsystem = new GameSystem(new EntityPosIndexSystem(game.getEntityPosIndex()), game);
 		    
 		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(1, 0)));
-
-		    gsystem.printIndex();
-		    System.out.printf("Ned position : [%d, %d]\n", ned.getComponent(Position.class).getX(), ned.getComponent(Position.class).getY());
 		}
 		else if (controls.getDown().isActivated()) {
-		    Game game = (Game) world;
                     Entity ned = game.getNed();
-		    GameSystem gsystem = new GameSystem(new EntityPosIndexSystem(game.getEntityPosIndex()), game);
-
+		    
 		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(-1, 0)));
 		}
 		else if (controls.getLeft().isActivated()) {
-		    Game game = (Game) world;
 		    Entity ned = game.getNed();
-		    GameSystem gsystem = new GameSystem(new EntityPosIndexSystem(game.getEntityPosIndex()), game);
-
+		    
 		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(0, 1)));
 		}
 		else if (controls.getRight().isActivated()) {
-		    Game game = (Game) world;
-                    Entity ned = game.getNed();
-		    GameSystem gsystem = new GameSystem(new EntityPosIndexSystem(game.getEntityPosIndex()), game);
-
+		     Entity ned = game.getNed();
+		    
 		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(0, -1)));
 		}
             }
