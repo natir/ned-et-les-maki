@@ -23,7 +23,10 @@ THE SOFTWARE.
 */
 package org.geekygoblin.nedetlesmaki.game.events;
 
+import com.artemis.Entity;
+import javax.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 
 /**
@@ -31,12 +34,20 @@ import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
  * @author devnewton
  */
 public class ShowMenuTrigger extends Trigger {
+    private final Entity mainMenu;
+    private final Entity ingameControls;
+    
+    @Inject
+    public ShowMenuTrigger(@NamedEntities.MainMenu Entity mainMenu,@NamedEntities.IngameControls Entity ingameControls) {
+        this.mainMenu = mainMenu;
+        this.ingameControls = ingameControls;
+    }
 
     @Override
     public void process(Game game) {
-        game.getMainMenu().getComponent(MainMenu.class).show();
-        game.getMainMenu().enable();
-        game.getIngameControls().disable();
+        mainMenu.getComponent(MainMenu.class).show();
+        mainMenu.enable();
+        ingameControls.disable();
     }
 
     

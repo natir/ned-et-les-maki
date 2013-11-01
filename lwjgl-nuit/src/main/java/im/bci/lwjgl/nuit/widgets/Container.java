@@ -45,7 +45,7 @@ public class Container extends Widget {
             final Widget currentFocusedChild = getFocusedChild();
             Widget closest = findClosestLeftFocusableWidget(currentFocusedChild);
             if (null != closest) {
-                focusedChild = closest;
+                setFocusedChild(closest);
             }
         }
     }
@@ -63,7 +63,7 @@ public class Container extends Widget {
             final Widget currentFocusedChild = getFocusedChild();
             Widget closest = findClosestRightFocusableWidget(currentFocusedChild);
             if (null != closest) {
-                focusedChild = closest;
+                setFocusedChild(closest);
             }
         }
     }
@@ -76,7 +76,7 @@ public class Container extends Widget {
             final Widget currentFocusedChild = getFocusedChild();
             Widget closest = findClosestUpFocusableWidget(currentFocusedChild);
             if (null != closest) {
-                focusedChild = closest;
+                setFocusedChild(closest);
             }
         }
     }
@@ -89,7 +89,7 @@ public class Container extends Widget {
             final Widget currentFocusedChild = getFocusedChild();
             Widget closest = findClosestDownFocusableWidget(currentFocusedChild);
             if (null != closest) {
-                focusedChild = closest;
+                setFocusedChild(closest);
             }
         }
     }
@@ -118,22 +118,26 @@ public class Container extends Widget {
         drawChildren();
         Widget focused = getFocusedChild();
         if (null != focused) {
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glLineWidth(2.0f);
-            if(isFocusSucked()) {
-                GL11.glColor3f(0.5f, 0.5f, 0.5f);
-            }            
-            GL11.glBegin(GL11.GL_LINE_LOOP);
-            GL11.glVertex2f(focused.getX(), focused.getY());
-            GL11.glVertex2f(focused.getX() + focused.getWidth(), focused.getY());
-            GL11.glVertex2f(focused.getX() + focused.getWidth(), focused.getY() + focused.getHeight());
-            GL11.glVertex2f(focused.getX(), focused.getY() + focused.getHeight());
-            GL11.glVertex2f(focused.getX(), focused.getY());
-            GL11.glEnd();
-            GL11.glColor3f(1, 1, 1);
-            GL11.glLineWidth(1.0f);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            drawFocus(focused);
         }
+    }
+
+    protected void drawFocus(Widget focused) {
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glLineWidth(2.0f);
+        if(isFocusSucked()) {
+            GL11.glColor3f(0.5f, 0.5f, 0.5f);
+        }
+        GL11.glBegin(GL11.GL_LINE_LOOP);
+        GL11.glVertex2f(focused.getX(), focused.getY());
+        GL11.glVertex2f(focused.getX() + focused.getWidth(), focused.getY());
+        GL11.glVertex2f(focused.getX() + focused.getWidth(), focused.getY() + focused.getHeight());
+        GL11.glVertex2f(focused.getX(), focused.getY() + focused.getHeight());
+        GL11.glVertex2f(focused.getX(), focused.getY());
+        GL11.glEnd();
+        GL11.glColor3f(1, 1, 1);
+        GL11.glLineWidth(1.0f);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
     }
     
     @Override
@@ -141,10 +145,14 @@ public class Container extends Widget {
         for(Widget child : getChildren()) {
             if(mouseX >= child.getX() && mouseX <= (child.getX() + child.getWidth()) && mouseY >= child.getY() && mouseY <= (child.getY() + child.getHeight())) {
             	if(child.isFocusable() && !isFocusSucked()) {
-            		focusedChild = child;
+            		setFocusedChild(child);
             	}
             	child.onMouseMove(mouseX, mouseY);
             }
         }
 	}
+
+    protected void setFocusedChild(Widget focusedChild) {
+        this.focusedChild = focusedChild;
+    }
 }

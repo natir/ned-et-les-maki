@@ -21,43 +21,26 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.lwjgl.nuit.widgets;
+package org.geekygoblin.nedetlesmaki.game;
 
-import org.lwjgl.opengl.GL11;
+import javax.inject.Singleton;
+import org.lwjgl.opengl.Display;
 
-import im.bci.lwjgl.nuit.NuitToolkit;
-import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+/**
+ *
+ * @author devnewton
+ */
+@Singleton
+public class MainLoop {
 
-public class Label extends Widget {
+    private boolean closeRequested;
 
-    private String text;
-    private final NuitToolkit toolkit;
-
-    public Label(NuitToolkit toolkit, String text) {
-        this.toolkit = toolkit;
-        this.text = text;
+    public void setCloseRequested(boolean closeRequested) {
+        this.closeRequested = closeRequested;
     }
 
-    @Override
-    public boolean isFocusable() {
-        return false;
+    public boolean isCloseRequested() {
+        return closeRequested || Display.isCloseRequested();
     }
 
-    @Override
-    public void draw() {
-        GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_ENABLE_BIT);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glPushMatrix();
-        TrueTypeFont font = toolkit.getFont();
-        String translatedText = toolkit.getMessage(text);
-        GL11.glTranslatef(getX() + getWidth() / 2.0f - font.getWidth(translatedText) / 4.0f, getY() + getHeight() / 2.0f + font.getHeight(translatedText) / 2.0f, 0.0f);
-        GL11.glScalef(1, -1, 1);
-        font.drawString(translatedText);
-        GL11.glPopAttrib();
-        GL11.glPopMatrix();
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 }
