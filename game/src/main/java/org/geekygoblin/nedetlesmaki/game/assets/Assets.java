@@ -27,6 +27,7 @@ import de.matthiasmann.twl.utils.PNGDecoder;
 import im.bci.lwjgl.nuit.utils.IconLoader;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.NanimationCollection;
 import im.bci.nanim.NanimParser.Nanim;
 import java.awt.Font;
@@ -41,6 +42,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.xml.bind.JAXBException;
 import org.lwjgl.opengl.GL11;
 
@@ -48,6 +51,7 @@ import org.lwjgl.opengl.GL11;
  *
  * @author devnewton
  */
+@Singleton
 public class Assets implements AutoCloseable {
 
     private VirtualFileSystem vfs;
@@ -59,6 +63,7 @@ public class Assets implements AutoCloseable {
     private final ReferenceQueue<TrueTypeFont> fontsReferenceQueue = new ReferenceQueue<>();
     private final TmxAssetLoader tmxLoader;
 
+    @Inject
     public Assets(VirtualFileSystem vfs) {
         this.vfs = vfs;
         tmxLoader = new TmxAssetLoader(this);
@@ -91,12 +96,12 @@ public class Assets implements AutoCloseable {
             Texture texture = loadPngTexture(name);
             putTexture(name, texture);
             return texture;
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException("Cannot load texture " + name, e);
         }
     }
 
-    public NanimationCollection getAnimations(String name) {
+    public IAnimationCollection getAnimations(String name) {
         AnimationCollectionWeakReference animRef = animations.get(name);
         if (null != animRef) {
             NanimationCollection anim = animRef.get();
@@ -233,6 +238,7 @@ public class Assets implements AutoCloseable {
             }
             
         };
+        font.setCorrection(false);
         putFont(name, font);
         return font;
     }

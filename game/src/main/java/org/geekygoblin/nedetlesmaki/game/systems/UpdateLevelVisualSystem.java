@@ -22,12 +22,14 @@
 
 package org.geekygoblin.nedetlesmaki.game.systems;
 
+import javax.inject.Inject;
+
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.VoidEntitySystem;
 
-import im.bci.nanim.NanimationCollection;
+import im.bci.nanim.IAnimationCollection;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
@@ -37,6 +39,7 @@ import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 import org.geekygoblin.nedetlesmaki.game.components.Position;
 import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
+import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 
 import org.lwjgl.util.vector.Vector3f;
 
@@ -49,11 +52,14 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     @Mapper
     ComponentMapper<Sprite> spriteMapper;
 
+    private final Assets assets;
     private Game game;
     private int nbIndexSaved;
     private EntityPosIndexSystem index;
 
-    public UpdateLevelVisualSystem() {
+    @Inject
+    public UpdateLevelVisualSystem(Assets assets) {
+	this.assets = assets;
 	this.nbIndexSaved = 0;
     }
 
@@ -84,7 +90,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     
     private void moveSprite(Entity e, Position diff) {
 	Sprite sprite = e.getComponent(Sprite.class);
-	NanimationCollection anims = game.getAssets().getAnimations("ned.nanim");
+	IAnimationCollection anims = this.assets.getAnimations("ned.nanim");
 	Vector3f pos = sprite.getPosition();
 	SpritePuppetControls updatable = new SpritePuppetControls(sprite);
 	

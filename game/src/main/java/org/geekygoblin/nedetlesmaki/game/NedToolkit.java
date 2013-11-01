@@ -21,43 +21,46 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.lwjgl.nuit.widgets;
-
-import org.lwjgl.opengl.GL11;
+package org.geekygoblin.nedetlesmaki.game;
 
 import im.bci.lwjgl.nuit.NuitToolkit;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 
-public class Label extends Widget {
+/**
+ *
+ * @author devnewton
+ */
+@Singleton
+public class NedToolkit extends NuitToolkit {
 
-    private String text;
-    private final NuitToolkit toolkit;
+    private final Assets assets;
+    private static final String[] messagesBundles = new String[]{"messages", "nuit_messages"};
 
-    public Label(NuitToolkit toolkit, String text) {
-        this.toolkit = toolkit;
-        this.text = text;
+    @Inject
+    public NedToolkit(Assets assets) {
+        this.assets = assets;
     }
 
     @Override
-    public boolean isFocusable() {
-        return false;
+    protected TrueTypeFont createFont() {
+        return assets.getFont("prout");
     }
 
     @Override
-    public void draw() {
-        GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_ENABLE_BIT);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glPushMatrix();
-        TrueTypeFont font = toolkit.getFont();
-        String translatedText = toolkit.getMessage(text);
-        GL11.glTranslatef(getX() + getWidth() / 2.0f - font.getWidth(translatedText) / 4.0f, getY() + getHeight() / 2.0f + font.getHeight(translatedText) / 2.0f, 0.0f);
-        GL11.glScalef(1, -1, 1);
-        font.drawString(translatedText);
-        GL11.glPopAttrib();
-        GL11.glPopMatrix();
-    }
-
-    public void setText(String text) {
-        this.text = text;
+    public String getMessage(String key) {
+        for (String bundleName : messagesBundles) {
+            ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
+            if (bundle.containsKey(key)) {
+                return bundle.getString(key);
+            }
+        }
+        Logger.getLogger(getClass().getName()).log(Level.WARNING, "No translation for {0}", key);
+        return key;
     }
 }

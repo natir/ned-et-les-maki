@@ -21,43 +21,34 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.lwjgl.nuit.widgets;
+package org.geekygoblin.nedetlesmaki.game.systems;
 
-import org.lwjgl.opengl.GL11;
+import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
+import com.artemis.Entity;
+import com.artemis.annotations.Mapper;
+import com.artemis.systems.EntityProcessingSystem;
+import org.geekygoblin.nedetlesmaki.game.components.ui.Dialog;
 
-import im.bci.lwjgl.nuit.NuitToolkit;
-import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+/**
+ *
+ * @author devnewton
+ */
+public class DialogSystem extends EntityProcessingSystem {
 
-public class Label extends Widget {
+    @Mapper
+    ComponentMapper<Dialog> dialogMapper;
 
-    private String text;
-    private final NuitToolkit toolkit;
-
-    public Label(NuitToolkit toolkit, String text) {
-        this.toolkit = toolkit;
-        this.text = text;
+    public DialogSystem() {
+        super(Aspect.getAspectForOne(Dialog.class));
     }
 
     @Override
-    public boolean isFocusable() {
-        return false;
-    }
-
-    @Override
-    public void draw() {
-        GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_ENABLE_BIT);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glPushMatrix();
-        TrueTypeFont font = toolkit.getFont();
-        String translatedText = toolkit.getMessage(text);
-        GL11.glTranslatef(getX() + getWidth() / 2.0f - font.getWidth(translatedText) / 4.0f, getY() + getHeight() / 2.0f + font.getHeight(translatedText) / 2.0f, 0.0f);
-        GL11.glScalef(1, -1, 1);
-        font.drawString(translatedText);
-        GL11.glPopAttrib();
-        GL11.glPopMatrix();
-    }
-
-    public void setText(String text) {
-        this.text = text;
+    protected void process(Entity e) {
+        final Dialog dialog = dialogMapper.get(e);
+        dialog.update();
+        if (dialog.isFinished()) {
+            e.deleteFromWorld();
+        }
     }
 }

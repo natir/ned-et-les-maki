@@ -30,12 +30,16 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import im.bci.nanim.NanimationCollection;
+import im.bci.nanim.IAnimationCollection;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
 import org.geekygoblin.nedetlesmaki.game.components.Position;
+import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
@@ -47,10 +51,16 @@ import org.lwjgl.util.vector.Vector3f;
  *
  * @author devnewton
  */
+@Singleton
 public class IngameInputSystem extends EntityProcessingSystem {
+    private final Assets assets;
+    private final Provider<ShowMenuTrigger> showMenuTrigger;
 
-    public IngameInputSystem() {
+    @Inject
+    public IngameInputSystem(Assets assets, Provider<ShowMenuTrigger> showMenuTrigger) {
         super(Aspect.getAspectForAll(IngameControls.class));
+        this.assets = assets;
+        this.showMenuTrigger = showMenuTrigger;
     }
 
     @Mapper
@@ -64,7 +74,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
             IngameControls controls = e.getComponent(IngameControls.class);
             controls.getShowMenu().poll();
             if (controls.getShowMenu().isActivated()) {
-                world.addEntity(world.createEntity().addComponent(new Triggerable(new ShowMenuTrigger())));
+                world.addEntity(world.createEntity().addComponent(new Triggerable(showMenuTrigger.get())));
             }
             if (canMoveNed()) {
 		controls.getUp().poll();
@@ -75,7 +85,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 if (controls.getDance().isActivated()) {
                     Entity ned = game.getNed();
                     Sprite sprite = spriteMapper.get(ned);
-                    NanimationCollection anims = game.getAssets().getAnimations("ned.nanim");
+                    IAnimationCollection anims = assets.getAnimations("ned.nanim");
                     Vector3f pos = sprite.getPosition();
                     SpritePuppetControls updatable = new SpritePuppetControls(sprite);
                     updatable.startAnimation(anims.getAnimationByName("walk_up"))

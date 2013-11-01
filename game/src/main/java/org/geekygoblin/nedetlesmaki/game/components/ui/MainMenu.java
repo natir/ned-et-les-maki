@@ -1,26 +1,26 @@
 /*
-The MIT License (MIT)
+ The MIT License (MIT)
 
-Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2013 devnewton <devnewton@bci.im>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 package org.geekygoblin.nedetlesmaki.game.components.ui;
 
 import com.artemis.Component;
@@ -35,8 +35,12 @@ import im.bci.lwjgl.nuit.widgets.ControlsConfigurator;
 import im.bci.lwjgl.nuit.widgets.Root;
 import im.bci.lwjgl.nuit.widgets.Table;
 import im.bci.lwjgl.nuit.widgets.VideoConfigurator;
-import org.geekygoblin.nedetlesmaki.game.Game;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import org.geekygoblin.nedetlesmaki.game.MainLoop;
+import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 
+@Singleton
 public class MainMenu extends Component {
 
     private final Root root;
@@ -45,15 +49,19 @@ public class MainMenu extends Component {
     private AudioConfigurator audioConfigurator;
     private Table optionsMenu;
     private ControlsConfigurator controls;
-    private LevelSelector levelSelector;
-    private final Game game;
+    private final LevelSelector levelSelector;
+    private final MainLoop mainLoop;
     private final NuitToolkit toolkit;
+    private final Assets assets;
 
-    public MainMenu(Game game, NuitToolkit toolkit) throws LWJGLException {
-        this.game = game;
+    @Inject
+    public MainMenu(MainLoop mainLoop, NuitToolkit toolkit, Assets assets, LevelSelector levelSelector) throws LWJGLException {
+        this.mainLoop = mainLoop;
         this.toolkit = toolkit;
+        this.assets = assets;
         root = new Root(toolkit);
-        initLevelSelector();
+        this.levelSelector = levelSelector;
+        root.add(levelSelector);
         initVideo();
         initAudio();
         initControls();
@@ -67,9 +75,9 @@ public class MainMenu extends Component {
             @Override
             protected void changeVideoSettings() {
                 super.changeVideoSettings();
-                game.getAssets().setIcon();
+                assets.setIcon();
             }
-            
+
             @Override
             protected void closeVideoSettings() {
                 root.show(optionsMenu);
@@ -109,7 +117,7 @@ public class MainMenu extends Component {
         mainMenu.cell(new Button(toolkit, "main.menu.button.quit") {
             @Override
             public void onOK() {
-                game.setCloseRequested(true);
+                mainLoop.setCloseRequested(true);
             }
         });
         mainMenu.row();
@@ -160,10 +168,6 @@ public class MainMenu extends Component {
         root.add(controls);
     }
 
-    private void initLevelSelector() {
-       levelSelector = new LevelSelector(game);
-       root.add(levelSelector);
-    }
     public void update() {
         root.update();
     }
@@ -171,7 +175,7 @@ public class MainMenu extends Component {
     public void draw() {
         root.draw();
     }
-    
+
     private void onStartGame() {
         root.show(levelSelector);
     }

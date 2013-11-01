@@ -41,6 +41,11 @@
                 <version>2.4.1</version>
             </dependency>
             <dependency>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+                <version>3.0</version>
+            </dependency>
+            <dependency>
                 <groupId>net.onedaybeard.artemis</groupId>
                 <artifactId>artemis-odb</artifactId>
                 <version>0.4.0</version>
@@ -76,6 +81,7 @@
                 <jorbis.jar.path>/usr/share/java/jorbis.jar</jorbis.jar.path>
                 <jogg.jar.path>/usr/share/java/jogg.jar</jogg.jar.path>
                 <protobuf.jar.path>/usr/share/java/protobuf-java.jar</protobuf.jar.path>
+                <guice.jar.path>/usr/share/java/guice.jar</guice.jar.path>
             </properties>
             <dependencyManagement>
                 <dependencies>
@@ -113,6 +119,13 @@
                         <version>2.4.1</version>
                         <scope>system</scope>
                         <systemPath>${protobuf.jar.path}</systemPath>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.google.inject</groupId>
+                        <artifactId>guice</artifactId>
+                        <version>3.0</version>
+                        <scope>system</scope>
+                        <systemPath>${guice.jar.path}</systemPath>
                     </dependency>
                     <dependency>
                         <groupId>net.onedaybeard.artemis</groupId>

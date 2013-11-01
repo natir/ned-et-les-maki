@@ -30,7 +30,10 @@ import im.bci.tmxloader.TmxTileInstance;
 import im.bci.tmxloader.TmxTileInstanceEffect;
 import java.util.EnumSet;
 import java.util.List;
+import javax.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.NamedEntities;
+import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
@@ -39,7 +42,6 @@ import org.geekygoblin.nedetlesmaki.game.components.Boostable;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 import org.geekygoblin.nedetlesmaki.game.components.Movable;
 import org.geekygoblin.nedetlesmaki.game.components.Pusher;
-import org.geekygoblin.nedetlesmaki.game.components.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.Rooted;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
@@ -51,17 +53,28 @@ import org.lwjgl.util.vector.Vector3f;
  * @author devnewton
  */
 public class StartGameTrigger extends Trigger {
+    private final Assets assets;
+    private final Entity mainMenu;
+    private final Entity ingameControls;
+    
+    @Inject
+    public StartGameTrigger(Assets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls) {
+        this.assets = assets;
+        this.mainMenu = mainMenu;
+        this.ingameControls = ingameControls;
+    }
 
     @Override
     public void process(Game game) {
-        game.getMainMenu().disable();
-        game.getIngameControls().enable();
+        mainMenu.disable();
+        ingameControls.enable();
+
         Entity level = game.createEntity();
         level.addComponent(new Level());
         level.addComponent(new ZOrder(ZOrders.LEVEL));
         game.addEntity(level);
 
-        TmxAsset tmx = game.getAssets().getTmx("levels/test.tmx");
+        TmxAsset tmx = assets.getTmx("levels/test.tmx");
         final List<TmxLayer> layers = tmx.getLayers();
         for (int l = 0, n = layers.size(); l < n; ++l) {
             TmxLayer layer = tmx.getLayers().get(l);
