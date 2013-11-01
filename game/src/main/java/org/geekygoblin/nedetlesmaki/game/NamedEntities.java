@@ -48,5 +48,11 @@ public interface NamedEntities {
     @Retention(RUNTIME)
     public @interface IngameControls {
     }
+    
+    @BindingAnnotation
+    @Target({FIELD, PARAMETER, METHOD})
+    @Retention(RUNTIME)
+    public @interface Intro {
+    }
 
 }

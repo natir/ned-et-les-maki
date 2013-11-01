@@ -21,43 +21,40 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.lwjgl.nuit.widgets;
+package org.geekygoblin.nedetlesmaki.game.systems;
 
-import org.lwjgl.opengl.GL11;
+import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
+import com.artemis.Entity;
+import com.artemis.EntitySystem;
+import com.artemis.annotations.Mapper;
+import com.artemis.systems.EntityProcessingSystem;
+import com.artemis.utils.ImmutableBag;
 
-import im.bci.lwjgl.nuit.NuitToolkit;
-import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
+import org.geekygoblin.nedetlesmaki.game.components.TriggerableWhenRemoved;
 
-public class Label extends Widget {
+/**
+ *
+ * @author devnewton
+ */
+public class TriggerWhenRemovedSystem extends EntityProcessingSystem {
 
-    private String text;
-    private final NuitToolkit toolkit;
+    @Mapper
+    ComponentMapper<TriggerableWhenRemoved> triggerableMapper;
 
-    public Label(NuitToolkit toolkit, String text) {
-        this.toolkit = toolkit;
-        this.text = text;
+    public TriggerWhenRemovedSystem() {
+        super(Aspect.getAspectForOne(TriggerableWhenRemoved.class));
     }
 
     @Override
-    public boolean isFocusable() {
-        return false;
+    protected void removed(Entity e) {
+        triggerableMapper.get(e).getTrigger().process((Game) world);
     }
 
     @Override
-    public void draw() {
-        GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_ENABLE_BIT);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glPushMatrix();
-        TrueTypeFont font = toolkit.getFont();
-        String translatedText = toolkit.getMessage(text);
-        GL11.glTranslatef(getX() + getWidth() / 2.0f - font.getWidth(translatedText) / 4.0f, getY() + getHeight() / 2.0f + font.getHeight(translatedText) / 2.0f, 0.0f);
-        GL11.glScalef(1, -1, 1);
-        font.drawString(translatedText);
-        GL11.glPopAttrib();
-        GL11.glPopMatrix();
-    }
-
-    public void setText(String text) {
-        this.text = text;
+    protected void process(Entity e) {
+        //NOTHING
     }
 }

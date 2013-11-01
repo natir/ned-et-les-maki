@@ -40,4 +40,6 @@ public interface IPlay {
     void update(long elapsedTime);
 
     IAnimationFrame getCurrentFrame();
+
+    public void restart();
 }

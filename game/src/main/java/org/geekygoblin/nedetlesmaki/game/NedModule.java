@@ -26,16 +26,25 @@ package org.geekygoblin.nedetlesmaki.game;
 import com.artemis.Entity;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+
 import im.bci.lwjgl.nuit.NuitToolkit;
+import im.bci.nanim.IAnimationCollection;
+import im.bci.nanim.PlayMode;
+
 import java.io.File;
+
 import javax.inject.Singleton;
+
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.assets.VirtualFileSystem;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
+import org.geekygoblin.nedetlesmaki.game.components.TriggerableWhenRemoved;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
+import org.geekygoblin.nedetlesmaki.game.components.ui.Dialog;
 import org.geekygoblin.nedetlesmaki.game.components.ui.LevelSelector;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
+import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 
 /**
@@ -56,6 +65,7 @@ public class NedModule extends AbstractModule {
         bind(LevelSelector.class);
         bind(IngameInputSystem.class);
         bind(MainLoop.class);
+        bind(Dialog.class);
     }
 
     @Provides
@@ -78,6 +88,20 @@ public class NedModule extends AbstractModule {
         ingameControls.disable();
         game.addEntity(ingameControls);
         return ingameControls;
+    }
+
+    @Provides
+    @NamedEntities.Intro
+    public Entity createIntro(Game game, Assets assets, Dialog dialogComponent, ShowMenuTrigger showMenuTrigger) {
+        IAnimationCollection animations = assets.getAnimations("intro.nanim");
+        dialogComponent.addTirade(animations.getAnimationByName("vers_la_tour").start(PlayMode.LOOP), "dialog.intro.vers_la_tour.1", "dialog.intro.vers_la_tour.2");
+        dialogComponent.addTirade(animations.getAnimationByName("entree_dans_la_tour").start(PlayMode.LOOP), "dialog.intro.entree_dans_la_tour.1");
+        Entity intro = game.createEntity();
+        intro.addComponent(dialogComponent);
+        intro.addComponent(new ZOrder(ZOrders.DIALOG));
+        intro.addComponent(new TriggerableWhenRemoved(showMenuTrigger));
+        game.addEntity(intro);
+        return intro;
     }
 
 }
