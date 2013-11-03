@@ -52,7 +52,7 @@ import org.lwjgl.opengl.GL11;
  * @author devnewton
  */
 @Singleton
-public class Assets implements AutoCloseable {
+public class Assets {
 
     private VirtualFileSystem vfs;
     private final HashMap<String/* name */, TextureWeakReference> textures = new HashMap<>();
@@ -130,11 +130,6 @@ public class Assets implements AutoCloseable {
         return texture;
     }
 
-    @Override
-    public void close() throws Exception {
-        clearAll();
-    }
-
     private Texture loadPngTexture(String name) throws FileNotFoundException, IOException {
         try (InputStream is = vfs.open(name)) {
             PNGDecoder decoder = new PNGDecoder(is);
@@ -180,7 +175,7 @@ public class Assets implements AutoCloseable {
         }
     }
 
-    private void clearAll() {
+    public void clearAll() {
         for (TextureWeakReference ref : textures.values()) {
             ref.delete();
         }

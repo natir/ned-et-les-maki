@@ -23,8 +23,21 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
+import com.artemis.Entity;
+import im.bci.lwjgl.nuit.NuitToolkit;
+import im.bci.lwjgl.nuit.controls.Action;
+import im.bci.lwjgl.nuit.utils.LwjglHelper;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.inject.Inject;
 import javax.inject.Singleton;
+import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Controllers;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 
 /**
  *
@@ -33,7 +46,31 @@ import org.lwjgl.opengl.Display;
 @Singleton
 public class MainLoop {
 
+    private final Preferences preferences;
+    private final Logger logger;
     private boolean closeRequested;
+    private NuitToolkit toolkit;
+    private Game game;
+    private Assets assets;
+
+    @Inject
+    public MainLoop(Logger logger, Preferences preferences) {
+        this.logger = logger;
+        this.preferences = preferences;
+        setVideoMode();
+        initGamepads();
+    }
+
+    @Inject
+    public void init(Assets assets, NuitToolkit toolkit, Game game, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.Intro Entity intro) {
+        this.toolkit = toolkit;
+        this.game = game;
+        this.assets = assets;
+        assets.setIcon();
+        setControls();
+        mainMenu.disable();
+        intro.enable();
+    }
 
     public void setCloseRequested(boolean closeRequested) {
         this.closeRequested = closeRequested;
@@ -41,6 +78,88 @@ public class MainLoop {
 
     public boolean isCloseRequested() {
         return closeRequested || Display.isCloseRequested();
+    }
+
+    public void tick() {
+        game.setDelta(1.0f / 60.0f);
+        game.process();
+        Display.update(false);
+        Display.sync(60);
+        Display.processMessages();
+        Mouse.poll();
+        Keyboard.poll();
+        Controllers.poll();
+    }
+
+    public void close() {
+        saveControlsPreferences();
+        saveVideoModePreferences();
+        preferences.saveConfig();
+        assets.clearAll();
+    }
+
+    private void setVideoMode() {
+        try {
+            DisplayMode mode = new DisplayMode(preferences.getInt("video.width", 800), preferences.getInt("video.height", 600));
+            if (preferences.getBoolean("video.fullscreen", false)) {
+                Display.setDisplayModeAndFullscreen(mode);
+            } else {
+                Display.setFullscreen(false);
+                Display.setDisplayMode(mode);
+            }
+            LwjglHelper.setResizable(true);
+            Display.setTitle("Ned et les maki");
+            if (!Display.isCreated()) {
+                Display.create();
+            }
+        } catch (LWJGLException ex) {
+            throw new RuntimeException("Cannot set video mode", ex);
+        }
+    }
+
+    private void initGamepads() {
+        try {
+            Controllers.create();
+        } catch (LWJGLException ex) {
+            logger.log(Level.SEVERE, "Cannot init gamepad support", ex);
+        }
+    }
+
+    private void setControls() {
+        loadControlsForAction(toolkit.getMenuOK());
+        loadControlsForAction(toolkit.getMenuCancel());
+        loadControlsForAction(toolkit.getMenuUp());
+        loadControlsForAction(toolkit.getMenuDown());
+        loadControlsForAction(toolkit.getMenuLeft());
+        loadControlsForAction(toolkit.getMenuRight());
+    }
+
+    private void loadControlsForAction(Action action) {
+        String name = action.getName();
+        action.setMainControl(preferences.getControl(name + ".main", action.getMainControl()));
+        action.setAlternativeControl(preferences.getControl(name + ".alternative", action.getAlternativeControl()));
+    }
+
+    private void saveVideoModePreferences() {
+        preferences.putInt("video.width", Display.getDisplayMode().getWidth());
+        preferences.putInt("video.height", Display.getDisplayMode().getHeight());
+        preferences.putBoolean("video.fullscreen", Display.isFullscreen());
+
+    }
+
+    private void saveControlsPreferences() {
+        saveControlsForAction(toolkit.getMenuOK());
+        saveControlsForAction(toolkit.getMenuCancel());
+        saveControlsForAction(toolkit.getMenuUp());
+        saveControlsForAction(toolkit.getMenuDown());
+        saveControlsForAction(toolkit.getMenuLeft());
+        saveControlsForAction(toolkit.getMenuRight());
+    }
+
+    private void saveControlsForAction(Action action) {
+        String name = action.getName();
+        preferences.putControl(name + ".main", action.getMainControl());
+        preferences.putControl(name + ".alternative", action.getAlternativeControl());
     }
 
 }
