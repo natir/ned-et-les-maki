@@ -53,25 +53,38 @@ public class EntityPosIndexSystem {
     }
 
     public boolean addEntity(int x, int y, Entity eId) {
+	if(x > 15 || x < 0 || y > 15 || y < 0) {
+	    return false;
+	}
+
         index.setEntityWithPos(x, y, eId);
 	return true;
     }
 
     public boolean removeEntity(int x, int y) {
+	if(x > 15 || x < 0 || y > 15 || y < 0) {
+	    return false;
+	}
 	
 	this.addEntity(x, y, null);
 	return true;
     }
 
     public Entity getEntity(int x, int y) {
+	if(x > 15 || x < 0 || y > 15 || y < 0) {
+	    return null;
+	}
 	return index.getEntityWithPos(x, y);
     }
 
     public boolean moveEntity(int x1, int y1, int x2, int y2) {
 	Entity tmpE = index.getEntityWithPos(x1, y1);
-	this.removeEntity(x1, y1);
-	this.addEntity(x2, y2, tmpE);
-	return true;
+	if(this.addEntity(x2, y2, tmpE)) {
+	    this.removeEntity(x1, y1);
+	    return true;
+	}
+
+	return false;
     }
 
     public EntityPosIndex getLastWorld() {

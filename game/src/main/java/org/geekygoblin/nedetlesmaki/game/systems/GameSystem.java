@@ -66,13 +66,17 @@ public class GameSystem {
     public boolean moveEntity(Entity e, Position newP) {
 	/*New pos is void*/
 	if(positionIsVoid(newP)) {
+	    System.out.printf("New pos : %d %d", newP.getX(), newP.getY());
 	    Position oldP = this.positionMapper.getSafe(e);
 	    index.saveWorld();
-	    index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY());
-	    e.getComponent(Position.class).setX(newP.getX());
-	    e.getComponent(Position.class).setY(newP.getY());
+	    if(index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
+		e.getComponent(Position.class).setX(newP.getX());
+		e.getComponent(Position.class).setY(newP.getY());
 
-	    return true;
+		return true;
+	    }
+
+	    return false;
 	}
 	else {
 	    /*If Entity move is a pusher Entity*/
