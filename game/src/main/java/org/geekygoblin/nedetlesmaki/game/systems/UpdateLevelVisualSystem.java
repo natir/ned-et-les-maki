@@ -95,29 +95,29 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 	SpritePuppetControls updatable = new SpritePuppetControls(sprite);
 	
 	if(diff.getX() > 0) {
-	    updatable.startAnimation(anims.getAnimationByName("walk_up"))
-		.moveTo(new Vector3f(pos.x + 28.0f, pos.y - 13.5f, pos.z), 0.5f)
+	    updatable.startAnimation(anims.getAnimationByName("walk_down"))
+		.moveTo(new Vector3f(pos.x - 28.0f, pos.y + 13.5f, pos.z), 0.5f)
 		.stopAnimation();
 	    e.addComponent(updatable);
 	    e.changedInWorld();
 	}
 	else if(diff.getX() < 0) {
-	    updatable.startAnimation(anims.getAnimationByName("walk_down"))
-		.moveTo(new Vector3f(pos.x - 28f, pos.y + 13.5f, pos.z), 0.5f)
+	    updatable.startAnimation(anims.getAnimationByName("walk_up"))
+		.moveTo(new Vector3f(pos.x + 28f, pos.y - 13.5f, pos.z), 0.5f)
         	.stopAnimation();
 	    e.addComponent(updatable);
 	    e.changedInWorld();
 	}
 	else if(diff.getY() > 0) {
-	    updatable.startAnimation(anims.getAnimationByName("walk_left"))
-		.moveTo(new Vector3f(pos.x - 28.0f, pos.y - 13.5f, pos.z), 0.5f)
+	    updatable.startAnimation(anims.getAnimationByName("walk_right"))
+		.moveTo(new Vector3f(pos.x + 28.0f, pos.y + 13.5f, pos.z), 0.5f)
 	        .stopAnimation();
 	    e.addComponent(updatable);
 	    e.changedInWorld();
 	}
 	else if(diff.getY() < 0) {
-	    updatable.startAnimation(anims.getAnimationByName("walk_right"))
-		.moveTo(new Vector3f(pos.x + 28.0f, pos.y + 13.5f, pos.z), 0.5f)
+	    updatable.startAnimation(anims.getAnimationByName("walk_left"))
+		.moveTo(new Vector3f(pos.x - 28.0f, pos.y - 13.5f, pos.z), 0.5f)
 		.stopAnimation();
 	    e.addComponent(updatable);
 	    e.changedInWorld();

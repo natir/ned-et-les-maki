@@ -74,7 +74,7 @@ public class StartGameTrigger extends Trigger {
         level.addComponent(new ZOrder(ZOrders.LEVEL));
         game.addEntity(level);
 
-        TmxAsset tmx = assets.getTmx("levels/test.tmx");
+        TmxAsset tmx = assets.getTmx("levels/lvl01.tmx");
         final List<TmxLayer> layers = tmx.getLayers();
         for (int l = 0, n = layers.size(); l < n; ++l) {
             TmxLayer layer = tmx.getLayers().get(l);
@@ -146,7 +146,7 @@ public class StartGameTrigger extends Trigger {
     private void createNed(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity ned = game.createEntity();
 	EntityPosIndex index = game.getEntityPosIndex();
-	ned.addComponent(new Position(x-2, y-2));
+	ned.addComponent(new Position(x, y));
 	ned.addComponent(new Pusher(true));
 	ned.addComponent(new Movable(1));
         game.setNed(ned);
@@ -158,7 +158,7 @@ public class StartGameTrigger extends Trigger {
     private void createGreenMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
 	EntityPosIndex index = game.getEntityPosIndex();
-	maki.addComponent(new Position(x-2, y-2));
+	maki.addComponent(new Position(x, y));
 	maki.addComponent(new Movable(1));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
@@ -168,7 +168,7 @@ public class StartGameTrigger extends Trigger {
     private void createOrangeMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
 	EntityPosIndex index = game.getEntityPosIndex();
-	maki.addComponent(new Position(x-2, y-2));
+	maki.addComponent(new Position(x, y));
 	maki.addComponent(new Movable(15));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
@@ -178,7 +178,7 @@ public class StartGameTrigger extends Trigger {
     private void createBlueMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
 	EntityPosIndex index = game.getEntityPosIndex();
-	maki.addComponent(new Position(x-2, y-2));
+	maki.addComponent(new Position(x, y));
 	maki.addComponent(new Movable(15));
 	maki.addComponent(new Boostable(3));
 	maki.addComponent(new Pusher(false));
@@ -190,7 +190,7 @@ public class StartGameTrigger extends Trigger {
     private void createBox(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity box = game.createEntity();
 	EntityPosIndex index = game.getEntityPosIndex();
-	box.addComponent(new Position(x-2, y-2));
+	box.addComponent(new Position(x, y));
 	box.addComponent(new Movable(1));
         createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
@@ -200,7 +200,7 @@ public class StartGameTrigger extends Trigger {
     private void createRootedBox(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity box = game.createEntity();
 	EntityPosIndex index = game.getEntityPosIndex();
-	box.addComponent(new Position(x-2, y-2));
+	box.addComponent(new Position(x, y));
 	box.addComponent(new Movable(1));
 	box.addComponent(new Rooted(true));
         createSprite(tmx, x, y, l, tile, layer, box);
