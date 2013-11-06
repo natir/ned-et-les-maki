@@ -50,8 +50,9 @@ public class EntityPosIndex extends Component {
 	return this.index[x][y];
     }
 
-    public void setEntityWithPos(int x, int y, Entity eId) {
+    public boolean setEntityWithPos(int x, int y, Entity eId) {
 	this.index[x][y] = eId;
+	return true;
     }
 
     public Entity[][] getIndex() {
