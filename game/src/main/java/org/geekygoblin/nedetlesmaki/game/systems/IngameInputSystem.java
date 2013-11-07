@@ -106,22 +106,22 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		else if (controls.getUp().isActivated()) {
                     Entity ned = game.getNed();
 		    
-		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(1, 0)));
+		    gsystem.moveEntity(ned, PosOperation.deduction(ned.getComponent(Position.class), new Position(1, 0)));
 		}
 		else if (controls.getDown().isActivated()) {
                     Entity ned = game.getNed();
 		    
-		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(-1, 0)));
+		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(1, 0)));
 		}
 		else if (controls.getLeft().isActivated()) {
 		    Entity ned = game.getNed();
 		    
-		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(0, 1)));
+		    gsystem.moveEntity(ned, PosOperation.deduction(ned.getComponent(Position.class), new Position(0, 1)));
 		}
 		else if (controls.getRight().isActivated()) {
 		     Entity ned = game.getNed();
 		    
-		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(0, -1)));
+		    gsystem.moveEntity(ned, PosOperation.sum(ned.getComponent(Position.class), new Position(0, 1)));
 		}
             }
         }
