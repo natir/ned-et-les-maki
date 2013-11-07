@@ -42,6 +42,7 @@ import org.geekygoblin.nedetlesmaki.game.components.Boostable;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 import org.geekygoblin.nedetlesmaki.game.components.Movable;
 import org.geekygoblin.nedetlesmaki.game.components.Pusher;
+import org.geekygoblin.nedetlesmaki.game.components.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.Rooted;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
@@ -163,6 +164,7 @@ public class StartGameTrigger extends Trigger {
 	EntityPosIndex index = game.getEntityPosIndex();
 	maki.addComponent(new Position(x, y));
 	maki.addComponent(new Movable(1));
+	maki.addComponent(new Pushable(true));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
 	index.setEntityWithPos(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
@@ -173,6 +175,7 @@ public class StartGameTrigger extends Trigger {
 	EntityPosIndex index = game.getEntityPosIndex();
 	maki.addComponent(new Position(x, y));
 	maki.addComponent(new Movable(15));
+	maki.addComponent(new Pushable(true));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
 	index.setEntityWithPos(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
@@ -185,6 +188,7 @@ public class StartGameTrigger extends Trigger {
 	maki.addComponent(new Movable(15));
 	maki.addComponent(new Boostable(3));
 	maki.addComponent(new Pusher(false));
+	maki.addComponent(new Pushable(true));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
 	index.setEntityWithPos(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
@@ -195,6 +199,7 @@ public class StartGameTrigger extends Trigger {
 	EntityPosIndex index = game.getEntityPosIndex();
 	box.addComponent(new Position(x, y));
 	box.addComponent(new Movable(1));
+	box.addComponent(new Pushable(true));
         createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
 	index.setEntityWithPos(box.getComponent(Position.class).getX(), box.getComponent(Position.class).getY(), box);
@@ -206,7 +211,8 @@ public class StartGameTrigger extends Trigger {
 	box.addComponent(new Position(x, y));
 	box.addComponent(new Movable(1));
 	box.addComponent(new Rooted(true));
-        createSprite(tmx, x, y, l, tile, layer, box);
+	box.addComponent(new Pushable(true));
+	createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
 	index.setEntityWithPos(box.getComponent(Position.class).getX(), box.getComponent(Position.class).getY(), box);
     }
