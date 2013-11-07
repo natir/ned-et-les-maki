@@ -75,7 +75,7 @@ public class StartGameTrigger extends Trigger {
         level.addComponent(new ZOrder(ZOrders.LEVEL));
         game.addEntity(level);
 
-        TmxAsset tmx = assets.getTmx("levels/lvl01.tmx");
+        TmxAsset tmx = assets.getTmx("levels/test.tmx");
         final List<TmxLayer> layers = tmx.getLayers();
         for (int l = 0, n = layers.size(); l < n; ++l) {
             TmxLayer layer = tmx.getLayers().get(l);
