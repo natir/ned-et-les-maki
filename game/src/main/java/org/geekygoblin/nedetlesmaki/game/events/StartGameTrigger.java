@@ -116,6 +116,9 @@ public class StartGameTrigger extends Trigger {
 	case "rooted_box":
 	    createRootedBox(tile, game, tmx, x, y, l, layer);
 	    break;
+	case "wall":
+	    createWall(tile, game, tmx, x, y, l, layer);
+	    break;
 	case "decoration":
 	default:
 	    createDecoration(tile, game, tmx, x, y, l, layer);
@@ -208,4 +211,12 @@ public class StartGameTrigger extends Trigger {
 	index.setEntityWithPos(box.getComponent(Position.class).getX(), box.getComponent(Position.class).getY(), box);
     }
 
+    private void createWall(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Entity wall = game.createEntity();
+	EntityPosIndex index = game.getEntityPosIndex();
+	wall.addComponent(new Position(x, y));
+        createSprite(tmx, x, y, l, tile, layer, wall);
+        game.addEntity(wall);
+	index.setEntityWithPos(wall.getComponent(Position.class).getX(), wall.getComponent(Position.class).getY(), wall);
+    }
 }
