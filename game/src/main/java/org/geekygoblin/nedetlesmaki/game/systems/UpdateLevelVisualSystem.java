@@ -76,11 +76,16 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 		    Entity oE = old.getEntityWithPos(i, j);
 		    if(oE != null) {
 		        Position diff = PosOperation.deduction(oE.getComponent(Position.class), new Position(i, j));
-			Game game = (Game) world;
 
 			if(diff.getX() != 0 || diff.getY() != 0) {
-			    this.moveSprite(oE, diff);
-			    this.index.saveWorld();
+			    if(oE == game.getNed()) {
+				this.moveNed(oE, diff);
+				this.index.saveWorld();
+			    }
+			    else {
+				this.moveSprite(oE, diff);
+				this.index.saveWorld();
+			    }
 			}
 		    }
 		}
@@ -88,12 +93,11 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 	}
     }
     
-    private void moveSprite(Entity e, Position diff) {
+    private void moveNed(Entity e, Position diff) {
 	Sprite sprite = e.getComponent(Sprite.class);
 	IAnimationCollection anims = this.assets.getAnimations("ned.nanim");
 	Vector3f pos = sprite.getPosition();
 	SpritePuppetControls updatable = new SpritePuppetControls(sprite);
-	
 	if(diff.getX() > 0) {
 	    updatable.startAnimation(anims.getAnimationByName("walk_down"))
 		.moveTo(new Vector3f(pos.x - 28.0f, pos.y + 13.5f, pos.z), 0.5f)
@@ -119,6 +123,32 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 	    updatable.startAnimation(anims.getAnimationByName("walk_left"))
 		.moveTo(new Vector3f(pos.x - 28.0f, pos.y - 13.5f, pos.z), 0.5f)
 		.stopAnimation();
+	    e.addComponent(updatable);
+	    e.changedInWorld();
+	}
+    }
+
+    private void moveSprite(Entity e, Position diff) {
+	Sprite sprite = e.getComponent(Sprite.class);
+	Vector3f pos = sprite.getPosition();
+	SpritePuppetControls updatable = new SpritePuppetControls(sprite);
+	if(diff.getX() > 0) {
+	    updatable.moveTo(new Vector3f(pos.x - 28.0f, pos.y + 13.5f, pos.z), 0.5f);
+	    e.addComponent(updatable);
+	    e.changedInWorld();
+	}
+	else if(diff.getX() < 0) {
+	    updatable.moveTo(new Vector3f(pos.x + 28f, pos.y - 13.5f, pos.z), 0.5f);
+	    e.addComponent(updatable);
+	    e.changedInWorld();
+	}
+	else if(diff.getY() > 0) {
+	    updatable.moveTo(new Vector3f(pos.x + 28.0f, pos.y + 13.5f, pos.z), 0.5f);
+	    e.addComponent(updatable);
+	    e.changedInWorld();
+	}
+	else if(diff.getY() < 0) {
+	    updatable.moveTo(new Vector3f(pos.x - 28.0f, pos.y - 13.5f, pos.z), 0.5f);
 	    e.addComponent(updatable);
 	    e.changedInWorld();
 	}

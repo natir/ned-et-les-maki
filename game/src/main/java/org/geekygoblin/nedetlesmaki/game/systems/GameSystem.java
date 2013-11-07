@@ -64,10 +64,9 @@ public class GameSystem {
     }
 
     public boolean moveEntity(Entity e, Position newP) {
-	/*New pos is void*/
+        /*New pos is void*/
 	if(positionIsVoid(newP)) {
-	    System.out.printf("New pos : %d %d", newP.getX(), newP.getY());
-	    Position oldP = this.positionMapper.getSafe(e);
+            Position oldP = this.positionMapper.getSafe(e);
 	    index.saveWorld();
 	    if(index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
 		e.getComponent(Position.class).setX(newP.getX());
@@ -82,12 +81,12 @@ public class GameSystem {
 	    /*If Entity move is a pusher Entity*/
 	    if(this.isPusherEntity(e)) {
 		Entity otherE = this.index.getEntity(newP.getX(), newP.getY());
-		if(!otherE.isActive()) {
-		    return false;
-		}
+
 		/*If Entity in newPos is pushable*/
 		if(this.isPushableEntity(otherE)) {
-		    return this.moveEntity(otherE, PosOperation.sum(PosOperation.deduction(positionMapper.get(e), newP), newP));
+		    Position diffP = PosOperation.deduction(newP, positionMapper.get(e));
+		    Position move = PosOperation.sum(diffP, newP);
+		    return this.moveEntity(otherE, move);
 		}
 	    }
 	}
@@ -106,8 +105,9 @@ public class GameSystem {
 
     public boolean isPushableEntity(Entity e) {
 	Pushable p = this.pushableMapper.getSafe(e);
-	if(p != null) {
-	    if(this.pushableMapper.getSafe(e).isPushable()) {
+
+        if(p != null) {
+	    if(p.isPushable()) {
 		return true;
 	    }
 	}
@@ -117,8 +117,9 @@ public class GameSystem {
 
     public boolean isPusherEntity(Entity e) {
 	Pusher p = this.pusherMapper.getSafe(e);
+
 	if(p != null) {
-	    if(this.pusherMapper.getSafe(e).isPusher()) {
+	    if(p.isPusher()) {
 		return true;
 	    }
 	}
