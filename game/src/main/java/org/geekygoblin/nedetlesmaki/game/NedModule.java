@@ -60,7 +60,6 @@ public class NedModule extends AbstractModule {
         bind(VirtualFileSystem.class).toInstance(new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data")));
 
         bind(Preferences.class);
-        bind(Main.class);
         bind(Assets.class);
         bind(NuitToolkit.class).to(NedToolkit.class);
         bind(LevelSelector.class);
