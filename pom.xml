@@ -14,6 +14,7 @@
     </properties>
     <modules>
         <module>game</module>
+        <module>game-graph-generator</module>
         <module>lwjgl-nuit</module>
         <module>libtiled-jaxb</module>
         <module>tablelayout</module>
@@ -69,6 +70,16 @@
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>tablelayout</artifactId>
                 <version>0.1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geekygoblin</groupId>
+                <artifactId>nedetlesmaki-game</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.inject.extensions</groupId>
+                <artifactId>guice-grapher</artifactId>
+                <version>3.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -151,6 +162,16 @@
                         <groupId>com.esotericsoftware</groupId>
                         <artifactId>tablelayout</artifactId>
                         <version>0.1-SNAPSHOT</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.geekygoblin</groupId>
+                        <artifactId>nedetlesmaki-game</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.google.inject.extensions</groupId>
+                        <artifactId>guice-grapher</artifactId>
+                        <version>3.0</version>
                     </dependency>
                 </dependencies>
             </dependencyManagement>
