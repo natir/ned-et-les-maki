@@ -45,6 +45,7 @@ import org.geekygoblin.nedetlesmaki.game.components.ui.Dialog;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
 import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.vector.Vector2f;
 
 /**
  *
@@ -73,19 +74,13 @@ public class DrawSystem extends EntitySystem {
                 Sprite s1 = spriteMapper.get(o1);
                 Sprite s2 = spriteMapper.get(o2);
                 if (null != s1 && null != s2) {
-                    result = Float.compare(s1.getPosition().z, s2.getPosition().z);
-                    if (result == 0) {
-                        float d1 = s1.getPosition().x + s1.getPosition().y;
-                        float d2 = s2.getPosition().x + s2.getPosition().y;
-                        if (Math.abs(d2 - d1) < 1e-6f) {
-                            result = Float.compare(d1, d2);
-                        }
-                    }
+                    result = spriteProjector.compare(s1.getPosition(), s2.getPosition());
                 }
             }
             return result;
         }
     };
+    private SpriteProjector spriteProjector;
 
     public DrawSystem() {
         super(Aspect.getAspectForAll(ZOrder.class).one(Level.class, MainMenu.class, Dialog.class, Sprite.class));
@@ -139,7 +134,8 @@ public class DrawSystem extends EntitySystem {
         Entity ned = game.getNed();
         if (null != ned) {
             Sprite nedSprite = spriteMapper.get(ned);
-            GL11.glTranslatef(-nedSprite.getPosition().x, -nedSprite.getPosition().y, 0.0f);            
+            Vector2f nedPos = spriteProjector.project(nedSprite.getPosition());
+            GL11.glTranslatef(-nedPos.x, -nedPos.y, 0.0f);            
         }
 
         for (Entity e : entititesSortedByZ) {
@@ -190,7 +186,8 @@ public class DrawSystem extends EntitySystem {
 
     private void drawSprite(Sprite sprite) {
         GL11.glPushMatrix();
-        GL11.glTranslatef(sprite.getPosition().getX(), sprite.getPosition().getY(),0.0f);
+        Vector2f pos = spriteProjector.project(sprite.getPosition());
+        GL11.glTranslatef(pos.getX(), pos.getY(),0.0f);
         GL11.glRotatef(sprite.getRotate(), 0, 0, 1.0f);
         GL11.glScalef(sprite.getScale(), sprite.getScale(), 1);
         final IAnimationFrame frame = sprite.getPlay().getCurrentFrame();
@@ -238,5 +235,9 @@ public class DrawSystem extends EntitySystem {
             GL11.glDisable(GL11.GL_BLEND);
         }
         GL11.glPopMatrix();
+    }
+
+    public void setSpriteProjector(SpriteProjector spriteProjector) {
+        this.spriteProjector = spriteProjector;
     }
 }
