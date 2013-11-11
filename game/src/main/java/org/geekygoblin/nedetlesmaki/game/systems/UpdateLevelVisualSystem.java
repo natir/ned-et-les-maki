@@ -19,7 +19,6 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-
 package org.geekygoblin.nedetlesmaki.game.systems;
 
 import javax.inject.Inject;
@@ -59,98 +58,76 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 
     @Inject
     public UpdateLevelVisualSystem(Assets assets) {
-	this.assets = assets;
-	this.nbIndexSaved = 0;
+        this.assets = assets;
+        this.nbIndexSaved = 0;
     }
 
     @Override
     protected void processSystem() {
-	game = (Game) world;
-	this.index = EntityPosIndexSystem.getInstance(game.getEntityPosIndex());
+        game = (Game) world;
+        this.index = EntityPosIndexSystem.getInstance(game.getEntityPosIndex());
         EntityPosIndex old = this.index.getLastWorld();
-        
-	if(old != null)
-	{
-	    for(int i = 0; i != 15; i++) {
-		for(int j = 0; j != 15; j++) {
-		    Entity oE = old.getEntityWithPos(i, j);
-		    if(oE != null) {
-		        Position diff = PosOperation.deduction(oE.getComponent(Position.class), new Position(i, j));
 
-			if(diff.getX() != 0 || diff.getY() != 0) {
-			    if(oE == game.getNed()) {
-				this.moveNed(oE, diff);
-				this.index.saveWorld();
-			    }
-			    else {
-				this.moveSprite(oE, diff);
-				this.index.saveWorld();
-			    }
-			}
-		    }
-		}
-	    }
-	}
+        if (old != null) {
+            for (int i = 0; i != 15; i++) {
+                for (int j = 0; j != 15; j++) {
+                    Entity oE = old.getEntityWithPos(i, j);
+                    if (oE != null) {
+                        Position diff = PosOperation.deduction(oE.getComponent(Position.class), new Position(i, j));
+
+                        if (diff.getX() != 0 || diff.getY() != 0) {
+                            if (oE == game.getNed()) {
+                                this.moveNed(oE, diff);
+                                this.index.saveWorld();
+                            } else {
+                                this.moveSprite(oE, diff);
+                                this.index.saveWorld();
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-    
+
     private void moveNed(Entity e, Position diff) {
-	Sprite sprite = e.getComponent(Sprite.class);
-	IAnimationCollection anims = this.assets.getAnimations("ned.nanim");
-	Vector3f pos = sprite.getPosition();
-	SpritePuppetControls updatable = new SpritePuppetControls(sprite);
-	if(diff.getX() > 0) {
-	    updatable.startAnimation(anims.getAnimationByName("walk_down"))
-		.moveTo(new Vector3f(pos.x - 28.0f, pos.y + 13.5f, pos.z), 0.5f)
-		.stopAnimation();
-	    e.addComponent(updatable);
-	    e.changedInWorld();
-	}
-	else if(diff.getX() < 0) {
-	    updatable.startAnimation(anims.getAnimationByName("walk_up"))
-		.moveTo(new Vector3f(pos.x + 28f, pos.y - 13.5f, pos.z), 0.5f)
-        	.stopAnimation();
-	    e.addComponent(updatable);
-	    e.changedInWorld();
-	}
-	else if(diff.getY() > 0) {
-	    updatable.startAnimation(anims.getAnimationByName("walk_right"))
-		.moveTo(new Vector3f(pos.x + 28.0f, pos.y + 13.5f, pos.z), 0.5f)
-	        .stopAnimation();
-	    e.addComponent(updatable);
-	    e.changedInWorld();
-	}
-	else if(diff.getY() < 0) {
-	    updatable.startAnimation(anims.getAnimationByName("walk_left"))
-		.moveTo(new Vector3f(pos.x - 28.0f, pos.y - 13.5f, pos.z), 0.5f)
-		.stopAnimation();
-	    e.addComponent(updatable);
-	    e.changedInWorld();
-	}
+        Sprite sprite = e.getComponent(Sprite.class);
+        IAnimationCollection anims = this.assets.getAnimations("ned.nanim");
+        Vector3f pos = sprite.getPosition();
+        SpritePuppetControls updatable = new SpritePuppetControls(sprite);
+        if (diff.getX() > 0) {
+            updatable.startAnimation(anims.getAnimationByName("walk_down"))
+                    .moveTo(new Vector3f(pos.x, pos.y + 1f, pos.z), 0.5f)
+                    .stopAnimation();
+            e.addComponent(updatable);
+            e.changedInWorld();
+        } else if (diff.getX() < 0) {
+            updatable.startAnimation(anims.getAnimationByName("walk_up"))
+                    .moveTo(new Vector3f(pos.x, pos.y - 1f, pos.z), 0.5f)
+                    .stopAnimation();
+            e.addComponent(updatable);
+            e.changedInWorld();
+        } else if (diff.getY() > 0) {
+            updatable.startAnimation(anims.getAnimationByName("walk_right"))
+                    .moveTo(new Vector3f(pos.x + 1f, pos.y, pos.z), 0.5f)
+                    .stopAnimation();
+            e.addComponent(updatable);
+            e.changedInWorld();
+        } else if (diff.getY() < 0) {
+            updatable.startAnimation(anims.getAnimationByName("walk_left"))
+                    .moveTo(new Vector3f(pos.x - 1f, pos.y, pos.z), 0.5f)
+                    .stopAnimation();
+            e.addComponent(updatable);
+            e.changedInWorld();
+        }
     }
 
     private void moveSprite(Entity e, Position diff) {
-	Sprite sprite = e.getComponent(Sprite.class);
-	Vector3f pos = sprite.getPosition();
-	SpritePuppetControls updatable = new SpritePuppetControls(sprite);
-	if(diff.getX() > 0) {
-	    updatable.moveTo(new Vector3f(pos.x - 28.0f, pos.y + 13.5f, pos.z), 0.5f);
-	    e.addComponent(updatable);
-	    e.changedInWorld();
-	}
-	else if(diff.getX() < 0) {
-	    updatable.moveTo(new Vector3f(pos.x + 28f, pos.y - 13.5f, pos.z), 0.5f);
-	    e.addComponent(updatable);
-	    e.changedInWorld();
-	}
-	else if(diff.getY() > 0) {
-	    updatable.moveTo(new Vector3f(pos.x + 28.0f, pos.y + 13.5f, pos.z), 0.5f);
-	    e.addComponent(updatable);
-	    e.changedInWorld();
-	}
-	else if(diff.getY() < 0) {
-	    updatable.moveTo(new Vector3f(pos.x - 28.0f, pos.y - 13.5f, pos.z), 0.5f);
-	    e.addComponent(updatable);
-	    e.changedInWorld();
-	}
+        Sprite sprite = e.getComponent(Sprite.class);
+        Vector3f pos = sprite.getPosition();
+        SpritePuppetControls updatable = new SpritePuppetControls(sprite);
+        updatable.moveTo(new Vector3f(pos.x + diff.getX(), pos.y + diff.getY(), pos.z), 0.5f);
+        e.addComponent(updatable);
+        e.changedInWorld();
     }
 }
