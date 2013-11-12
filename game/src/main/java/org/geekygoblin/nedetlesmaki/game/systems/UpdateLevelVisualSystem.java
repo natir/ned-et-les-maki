@@ -68,14 +68,13 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         this.index = EntityPosIndexSystem.getInstance(game.getEntityPosIndex());
  
 	if (index.sizeOfStack() != nbIndexSaved) {
-
+	    // System.out.printf("Stack %d %d", index.sizeOfStack(), nbIndexSaved);
 	    EntityPosIndex old = this.index.getLastWorld();
 	    for (int i = 0; i != 15; i++) {
                 for (int j = 0; j != 15; j++) {
                     Entity oE = old.getEntityWithPos(i, j);
                     if (oE != null) {
                         Position diff = PosOperation.deduction(oE.getComponent(Position.class), new Position(i, j));
-
                         if (diff.getX() != 0 || diff.getY() != 0) {
                             if (oE == game.getNed()) {
 				this.moveNed(oE, diff);
@@ -98,25 +97,30 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         IAnimationCollection anims = this.assets.getAnimations("ned.nanim");
         Vector3f pos = sprite.getPosition();
         SpritePuppetControls updatable = new SpritePuppetControls(sprite);
+
         if (diff.getX() > 0) {
+	    System.out.printf("down %d\n", diff.getX());
             updatable.startAnimation(anims.getAnimationByName("walk_down"))
                     .moveTo(new Vector3f(pos.x, pos.y + 1f, pos.z), 0.5f)
                     .stopAnimation();
             e.addComponent(updatable);
             e.changedInWorld();
         } else if (diff.getX() < 0) {
+	    System.out.printf("up %d\n", diff.getX());
             updatable.startAnimation(anims.getAnimationByName("walk_up"))
                     .moveTo(new Vector3f(pos.x, pos.y - 1f, pos.z), 0.5f)
                     .stopAnimation();
             e.addComponent(updatable);
             e.changedInWorld();
         } else if (diff.getY() > 0) {
+	    System.out.printf("right %d\n", diff.getY());
             updatable.startAnimation(anims.getAnimationByName("walk_right"))
                     .moveTo(new Vector3f(pos.x + 1f, pos.y, pos.z), 0.5f)
                     .stopAnimation();
             e.addComponent(updatable);
             e.changedInWorld();
         } else if (diff.getY() < 0) {
+	    System.out.printf("left %d\n", diff.getY());
             updatable.startAnimation(anims.getAnimationByName("walk_left"))
                     .moveTo(new Vector3f(pos.x - 1f, pos.y, pos.z), 0.5f)
                     .stopAnimation();

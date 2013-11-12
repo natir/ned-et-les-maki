@@ -29,6 +29,7 @@ import com.artemis.ComponentMapper;
 import org.geekygoblin.nedetlesmaki.game.components.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.Pusher;
 import org.geekygoblin.nedetlesmaki.game.components.Position;
+import org.geekygoblin.nedetlesmaki.game.components.Movable;
 import org.geekygoblin.nedetlesmaki.game.systems.EntityPosIndexSystem;
 import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 
@@ -44,6 +45,8 @@ public class GameSystem {
     ComponentMapper<Pusher> pusherMapper;
     @Mapper
     ComponentMapper<Position> positionMapper;
+    @Mapper
+    ComponentMapper<Movable> movableMapper;
 
     private EntityPosIndexSystem index;
     private static GameSystem instance = null;
@@ -53,6 +56,7 @@ public class GameSystem {
 	this.pushableMapper = ComponentMapper.getFor(Pushable.class, w);
 	this.pusherMapper = ComponentMapper.getFor(Pusher.class, w);
 	this.positionMapper = ComponentMapper.getFor(Position.class, w);
+	this.movableMapper = ComponentMapper.getFor(Movable.class, w);
     }
     
     public static GameSystem getInstance(EntityPosIndexSystem index, World w) {
@@ -63,37 +67,87 @@ public class GameSystem {
 	return instance;
     }
 
-    public boolean moveEntity(Entity e, Position newP) {
-        /*New pos is void*/
-	if(positionIsVoid(newP)) {
-            Position oldP = this.positionMapper.getSafe(e);
-	    index.saveWorld();
+    public boolean moveEntity(Entity e, Position dirP) {
+	/* testMove return the new position
+	 * If new position isn't equale to the actuale position :
+	 * * move entity
+	 * * return true
+	 * else run false
+	 */
+
+	/*Check if move possible*/
+	Position oldP = this.getPosition(e);
+	Position newP = testMove(e, dirP);
+
+	if(!PosOperation.equale(newP, this.getPosition(e))) {
+	    /*run move*/
 	    if(index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
-		e.getComponent(Position.class).setX(newP.getX());
-		e.getComponent(Position.class).setY(newP.getY());
+		e.getComponent(Position.class).setX(newP.getX()*this.getMovable(e));
+		e.getComponent(Position.class).setY(newP.getY()*this.getMovable(e));
 
 		return true;
 	    }
-
-	    return false;
-	}
-	else {
-	    /*If Entity move is a pusher Entity*/
-	    if(this.isPusherEntity(e)) {
-		Entity otherE = this.index.getEntity(newP.getX(), newP.getY());
-
-		/*If Entity in newPos is pushable*/
-		if(this.isPushableEntity(otherE)) {
-		    Position diffP = PosOperation.deduction(newP, positionMapper.get(e));
-		    Position move = PosOperation.sum(diffP, newP);
-		    return this.moveEntity(otherE, move);
-		}
+	    else {
+		return false;
 	    }
 	}
-	
-	return false;
+	else {
+	    return false;
+	}
     }
 
+    public Position testMove(Entity e, Position dirP) {
+	/*
+	 * If object is one way obtaine this entity
+	 * Test if entity can by move :
+	 * * e is pusher
+	 * * wayOnE is pushable
+	 * * If true recursive call one wayOnE and the dirP
+	 */
+	int nbCase = this.getMovable(e);
+	Position oldP = this.getPosition(e);
+	Position newP = PosOperation.sum(oldP, PosOperation.multiplication(dirP, nbCase));
+	Position freeP = wayFreeTo(oldP, newP);
+	Position nextEP = PosOperation.sum(freeP, dirP);
+
+	System.out.printf("Free :\n");
+	freeP.print();
+	System.out.printf("New :\n");
+	newP.print();
+	if(!PosOperation.equale(freeP, newP)) {
+
+	    Entity nextE;
+	    if(!positionIsVoid(nextEP)) {
+		nextE = index.getEntity(nextEP.getX(), nextEP.getY());
+	    
+		if(this.isPusherEntity(e))
+		{	
+		    if(this.isPushableEntity(nextE)) {
+			if(this.moveEntity(nextE, dirP))
+			{
+			    /*nextEP maybe change*/
+			    return PosOperation.sum(freeP, dirP);
+			}
+			else {
+			    return freeP;
+			}
+		    }
+		    else {
+			return freeP;
+		    }
+		}
+		else {
+		    return freeP;
+		}
+	    }
+	    else {
+		return nextEP;
+	    }
+	}
+
+	return newP;
+    }
+    
     public boolean positionIsVoid(Position p) {
 	Entity tmpE = index.getEntity(p.getX(), p.getY());
 	if(tmpE != null) {
@@ -106,7 +160,7 @@ public class GameSystem {
     public boolean isPushableEntity(Entity e) {
 	Pushable p = this.pushableMapper.getSafe(e);
 
-        if(p != null) {
+	if(p != null) {
 	    if(p.isPushable()) {
 		return true;
 	    }
@@ -127,55 +181,91 @@ public class GameSystem {
 	return false;
     }
 
+    public Position getPosition(Entity e) {
+	Position p = this.positionMapper.getSafe(e);
+	
+	if(p != null) {
+	    return p;
+	}
+	
+	return new Position(-1, -1);
+    }
+    
+    public int getMovable(Entity e) {
+	Movable m = this.movableMapper.getSafe(e);
+
+	if(m != null) {
+	    return m.getNbCase();
+	}
+
+	return 0;
+    }
+
     public Position wayFreeTo(Position begin, Position end) {
 	Position delta = PosOperation.deduction(begin, end);
+	System.out.print("Begin End Delta\n");
+	begin.print();
+	end.print();
+	delta.print();
 	int base, max;
-	if(delta.getX() != 0) {
-	    base = begin.getX();
+	if(delta.getX() > 0) {
+	    base = begin.getX() - 1;
 	    max = end.getX();
-	    return this.testObjOnWayX(base, max, begin.getY());
-       	}
-	else {
-	    base = begin.getY();
+	    this.testObjOnWayX(base, max, begin.getY(), -1).print();
+	    return this.testObjOnWayX(base, max, begin.getY(), -1);
+	}
+	else if(delta.getX() < 0) {
+	    base = begin.getX();
+	    max = end.getX() + 1;
+	    this.testObjOnWayX(base, max, begin.getY(), 1).print();
+	    return this.testObjOnWayX(base, max, begin.getY(), 1);
+	}
+	else if(delta.getY() > 0) {
+	    base = begin.getY() - 1;
 	    max = end.getY();
-	    return this.testObjOnWayX(base, max, begin.getX());	    
+	    this.testObjOnWayX(base, max, begin.getY(), -1).print();
+	    return this.testObjOnWayY(base, max, begin.getX(), -1);
+	}
+	else {
+	    base = begin.getY() + 1;
+	    max = end.getY();
+	    this.testObjOnWayX(base, max, begin.getY(), -1).print();
+	    return this.testObjOnWayY(base, max, begin.getX(), 1);
 	}
     }
 
-    private Position testObjOnWayX(int base, int max, int y) {
-	
-	for(int i = base; i != max; i++) {
+    private Position testObjOnWayX(int base, int max, int y, int mul) {
+	System.out.printf("Test free way X  base %d max %d mul %d \n", base, max, mul);
+	Position old = new Position(base, y);
+
+	for(int i = base; i != max; i += 1 * mul) {
 	    Entity e = this.index.getEntity(i, y);
+	    System.out.printf("Test free way X, [%d, %d] :\n", i, y);
+	    System.out.print(e);
 	    if(e != null) {
-		return new Position(i, y);
+		return old;
+	    }
+	    else {
+		old = new Position(i, y);
 	    }
 	}
 	
 	return new Position(max, y);
     }
 
-    private Position testObjOnWayY(int base, int max, int x) {
+    private Position testObjOnWayY(int base, int max, int x, int mul) {
+	Position old = new Position(x, base);
 	
-	for(int i = base; i != max; i++) {
+	for(int i = base; i != max; i += 1 * mul) {
 	    Entity e = this.index.getEntity(x, i);
 	    if(e != null) {
-		return new Position(x, i);
+		return old;
+	    }
+	    else {
+		old = new Position(x, i);
 	    }
 	}
 	
 	return new Position(x, max);
-    }
-    
-    public void printIndex() {
-	for(int i = 0; i != 15; i++) {
-	    for(int j = 0; j != 15; j++) {
-		Entity e = this.index.getEntity(i, j);
-		if(e != null) {
-		    System.out.printf("[%d,%d] = ", i, j);
-		    System.out.print(e);
-		    System.out.print("\n");
-		}
-	    }
-	}
     }
 }
