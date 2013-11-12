@@ -66,10 +66,11 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     protected void processSystem() {
         game = (Game) world;
         this.index = EntityPosIndexSystem.getInstance(game.getEntityPosIndex());
-        EntityPosIndex old = this.index.getLastWorld();
+ 
+	if (index.sizeOfStack() != nbIndexSaved) {
 
-        if (old != null) {
-            for (int i = 0; i != 15; i++) {
+	    EntityPosIndex old = this.index.getLastWorld();
+	    for (int i = 0; i != 15; i++) {
                 for (int j = 0; j != 15; j++) {
                     Entity oE = old.getEntityWithPos(i, j);
                     if (oE != null) {
@@ -77,12 +78,14 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 
                         if (diff.getX() != 0 || diff.getY() != 0) {
                             if (oE == game.getNed()) {
-                                this.moveNed(oE, diff);
+				this.moveNed(oE, diff);
                                 this.index.saveWorld();
-                            } else {
+				this.nbIndexSaved = index.sizeOfStack();
+			    } else {
                                 this.moveSprite(oE, diff);
                                 this.index.saveWorld();
-                            }
+				this.nbIndexSaved = index.sizeOfStack();
+			    }
                         }
                     }
                 }
