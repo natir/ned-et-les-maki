@@ -40,4 +40,16 @@ public class PosOperation {
     public static Position multiplication(Position p1, int mul) {
 	return new Position(p1.getX()*mul, p1.getY()*mul);
     }
+
+    public static boolean equale(Position p1, Position p2) {
+	if(p1.getX() != p2.getX()) {
+	    return false;
+	}
+	else if(p1.getY() != p2.getY()) {
+	    return false;
+	}
+	else {
+	    return true;
+	}
+    }
 }
