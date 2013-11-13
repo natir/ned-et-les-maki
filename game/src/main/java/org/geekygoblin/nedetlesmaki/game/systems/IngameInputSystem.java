@@ -108,39 +108,32 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		    
         	    EntityPosIndexSystem.getInstance(game.getEntityPosIndex()).saveWorld();
 		    gsystem.moveEntity(ned, new Position(-1, 0));
-        
+
                     ned.changedInWorld();
-		    System.out.print("End Up\n");
 		}
 		else if (controls.getDown().isActivated()) {
-		    System.out.print("Down\n");
                     Entity ned = game.getNed();
 		    
 		    EntityPosIndexSystem.getInstance(game.getEntityPosIndex()).saveWorld();
 		    gsystem.moveEntity(ned, new Position(1, 0));
 		
                     ned.changedInWorld();
-		    System.out.print("End Down\n");
 		}
 		else if (controls.getLeft().isActivated()) {
-		    System.out.print("Left\n");
 		    Entity ned = game.getNed();
 		    
 		    EntityPosIndexSystem.getInstance(game.getEntityPosIndex()).saveWorld();
 		    gsystem.moveEntity(ned, new Position(0, -1));
 		
                     ned.changedInWorld();
-		    System.out.print("End left\n");
 		}
 		else if (controls.getRight().isActivated()) {
-		    System.out.print("Right\n");
 		    Entity ned = game.getNed();
 		    
 		    EntityPosIndexSystem.getInstance(game.getEntityPosIndex()).saveWorld();
 		    gsystem.moveEntity(ned, new Position(0, 1));
 
                     ned.changedInWorld();
-		    System.out.print("End right\n");
 		}
             }
         }
