@@ -21,10 +21,13 @@
  */
 package org.geekygoblin.nedetlesmaki.game.systems;
 
-import com.artemis.World;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
 import com.artemis.ComponentMapper;
+import com.artemis.annotations.Mapper;
+import com.artemis.systems.VoidEntitySystem;
 
 import org.geekygoblin.nedetlesmaki.game.components.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.Pusher;
@@ -37,7 +40,10 @@ import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
  *
  * @author natir
  */
-public class GameSystem {
+@Singleton
+public class GameSystem extends VoidEntitySystem {
+
+    private EntityIndexManager index;
 
     @Mapper
     ComponentMapper<Pushable> pushableMapper;
@@ -48,25 +54,15 @@ public class GameSystem {
     @Mapper
     ComponentMapper<Movable> movableMapper;
 
-    private EntityIndexManager index;
-    private static GameSystem instance = null;
-
-    private GameSystem(EntityIndexManager index, World w) {
-	this.index = index;
-	this.pushableMapper = ComponentMapper.getFor(Pushable.class, w);
-	this.pusherMapper = ComponentMapper.getFor(Pusher.class, w);
-	this.positionMapper = ComponentMapper.getFor(Position.class, w);
-	this.movableMapper = ComponentMapper.getFor(Movable.class, w);
-    }
     
-    public static GameSystem getInstance(EntityIndexManager index, World w) {
-	if (instance == null) {
-	    instance = new GameSystem(index, w);
-	}
-	
-	return instance;
+    @Inject
+    public GameSystem(EntityIndexManager index) {
+	this.index = index;
     }
 
+    @Override
+    protected void processSystem() {}
+    
     public boolean moveEntity(Entity e, Position dirP) {
 	/* testMove return the new position
 	 * If new position isn't equale to the actuale position :
