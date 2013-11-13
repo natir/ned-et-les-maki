@@ -57,13 +57,15 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private final Assets assets;
     private final Provider<ShowMenuTrigger> showMenuTrigger;
     private final EntityIndexManager indexSystem;
+    private final GameSystem gameSystem;
 
     @Inject
-    public IngameInputSystem(Assets assets, Provider<ShowMenuTrigger> showMenuTrigger, EntityIndexManager indexSystem) {
+    public IngameInputSystem(Assets assets, Provider<ShowMenuTrigger> showMenuTrigger, EntityIndexManager indexSystem, GameSystem gameSystem) {
         super(Aspect.getAspectForAll(IngameControls.class));
         this.assets = assets;
         this.showMenuTrigger = showMenuTrigger;
 	this.indexSystem = indexSystem;
+	this.gameSystem = gameSystem;
     }
 
     @Mapper
@@ -73,7 +75,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
     protected void process(Entity e) {
         if (e.isEnabled()) {
 	    Game game = (Game) world;
-	    GameSystem gsystem = GameSystem.getInstance(this.indexSystem, game);
+
             IngameControls controls = e.getComponent(IngameControls.class);
             controls.getShowMenu().poll();
             if (controls.getShowMenu().isActivated()) {
@@ -110,7 +112,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
                     Entity ned = game.getNed();
 		    
         	    indexSystem.saveWorld();
-		    gsystem.moveEntity(ned, new Position(-1, 0));
+		    gameSystem.moveEntity(ned, new Position(-1, 0));
 
                     ned.changedInWorld();
 		}
@@ -118,7 +120,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
                     Entity ned = game.getNed();
 		    
         	    indexSystem.saveWorld();
-		    gsystem.moveEntity(ned, new Position(1, 0));
+		    gameSystem.moveEntity(ned, new Position(1, 0));
 		
                     ned.changedInWorld();
 		}
@@ -126,7 +128,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		    Entity ned = game.getNed();
 		    
         	    indexSystem.saveWorld();
-		    gsystem.moveEntity(ned, new Position(0, -1));
+		    gameSystem.moveEntity(ned, new Position(0, -1));
 		
                     ned.changedInWorld();
 		}
@@ -134,7 +136,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		    Entity ned = game.getNed();
 		    
         	    indexSystem.saveWorld();
-		    gsystem.moveEntity(ned, new Position(0, 1));
+		    gameSystem.moveEntity(ned, new Position(0, 1));
 
                     ned.changedInWorld();
 		}

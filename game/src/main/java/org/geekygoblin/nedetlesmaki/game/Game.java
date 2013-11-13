@@ -39,6 +39,7 @@ import org.geekygoblin.nedetlesmaki.game.systems.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.SpritePuppetControlSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.TriggerWhenRemovedSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
+import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
 import org.lwjgl.LWJGLException;
 
 /**
@@ -51,7 +52,9 @@ public class Game extends World {
     private Entity ned;
 
     @Inject
-    public Game(NuitToolkit toolkit, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager) throws LWJGLException {
+    public Game(NuitToolkit toolkit, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, GameSystem gameSystem) throws LWJGLException {
+	setManager(indexedManager);
+	setSystem(gameSystem);
 	setSystem(ingameInputSystem);
 	setSystem(updateLevelVisualSystem);
 	setSystem(new SpriteAnimateSystem());
@@ -62,7 +65,7 @@ public class Game extends World {
 	setSystem(new MainMenuSystem());
 	setSystem(new DialogSystem());
 	setManager(new GroupManager());
-	setManager(indexedManager);
+
 	initialize();
     }
 
