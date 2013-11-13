@@ -28,6 +28,8 @@ import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -38,6 +40,7 @@ public class TextureWeakReference extends WeakReference<Texture> {
 
     Integer textureId;
     String name;
+    private static final Logger logger = Logger.getLogger(TextureWeakReference.class.getName());
 
     TextureWeakReference(String name, Texture texture, ReferenceQueue<Texture> queue) {
         super(texture, queue);
@@ -47,6 +50,7 @@ public class TextureWeakReference extends WeakReference<Texture> {
 
     void delete() {
         if (null != textureId) {
+            logger.log(Level.FINE, "Unload texture {0}", name);
             ByteBuffer temp = ByteBuffer.allocateDirect(4);
             temp.order(ByteOrder.nativeOrder());
             IntBuffer intBuffer = temp.asIntBuffer();
