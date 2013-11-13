@@ -29,6 +29,6 @@ package org.geekygoblin.nedetlesmaki.game;
  */
 public class Group {
     
-    public static final String DECORATIONS = "DECORATIONS";
+    public static final String LEVEL = "LEVEL";
     
 }

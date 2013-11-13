@@ -24,14 +24,18 @@
 package org.geekygoblin.nedetlesmaki.game.events;
 
 import com.artemis.Entity;
+import com.artemis.managers.GroupManager;
+import com.artemis.utils.ImmutableBag;
 import im.bci.nanim.PlayMode;
 import im.bci.tmxloader.TmxLayer;
 import im.bci.tmxloader.TmxTileInstance;
 import im.bci.tmxloader.TmxTileInstanceEffect;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import javax.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
@@ -73,9 +77,17 @@ public class StartGameTrigger extends Trigger {
         mainMenu.disable();
         ingameControls.enable();
 
+        final GroupManager groupManager = game.getManager(GroupManager.class);
+
+        ArrayList<Entity> entitiesToDelete = new ArrayList<>();
+        for (Entity e : game.getManager(GroupManager.class).getEntities(Group.LEVEL)) {
+            entitiesToDelete.add(e);
+        }
+
         Entity level = game.createEntity();
         level.addComponent(new Level());
         level.addComponent(new ZOrder(ZOrders.LEVEL));
+        groupManager.add(level, Group.LEVEL);
         game.addEntity(level);
 
         TmxAsset tmx = assets.getTmx("levels/test.tmx");
@@ -87,52 +99,51 @@ public class StartGameTrigger extends Trigger {
                 for (int y = 0, lh = layer.getHeight(); y < lh; ++y) {
                     final TmxTileInstance tile = layer.getTileAt(x, y);
                     if (null != tile) {
-                        createEntityFromTile(tile, game, tmx, x, y, l, layer);
+                        Entity entity = createEntityFromTile(tile, game, tmx, x, y, l, layer);
+                        groupManager.add(entity, Group.LEVEL);
                     }
                 }
             }
         }
+
+        for (Entity e : entitiesToDelete) {
+            e.deleteFromWorld();
+        }
+        assets.clearUseless();
     }
 
     private Vector3f tileToPos(TmxAsset tmx, int y, int x, int layer) {
         return new Vector3f(x, y, layer);
     }
 
-    private void createEntityFromTile(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+    private Entity createEntityFromTile(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         switch (tile.getTile().getProperty("type", "decoration")) {
             case "ned":
-                createNed(tile, game, tmx, x, y, l, layer);
-                break;
+                return createNed(tile, game, tmx, x, y, l, layer);
             case "green_maki":
-                createGreenMaki(tile, game, tmx, x, y, l, layer);
-                break;
+                return createGreenMaki(tile, game, tmx, x, y, l, layer);
             case "orange_maki":
-                createOrangeMaki(tile, game, tmx, x, y, l, layer);
-                break;
+                return createOrangeMaki(tile, game, tmx, x, y, l, layer);
             case "blue_maki":
-                createBlueMaki(tile, game, tmx, x, y, l, layer);
-                break;
+                return createBlueMaki(tile, game, tmx, x, y, l, layer);
             case "box":
-                createBox(tile, game, tmx, x, y, l, layer);
-                break;
+                return createBox(tile, game, tmx, x, y, l, layer);
             case "rooted_box":
-                createRootedBox(tile, game, tmx, x, y, l, layer);
-                break;
+                return createRootedBox(tile, game, tmx, x, y, l, layer);
             case "wall":
-                createWall(tile, game, tmx, x, y, l, layer);
-                break;
+                return createWall(tile, game, tmx, x, y, l, layer);
             case "decoration":
             default:
-                createDecoration(tile, game, tmx, x, y, l, layer);
-                break;
+                return createDecoration(tile, game, tmx, x, y, l, layer);
         }
 
     }
 
-    private void createDecoration(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+    private Entity createDecoration(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity decoration = game.createEntity();
         createSprite(tmx, x, y, l, tile, layer, decoration);
         game.addEntity(decoration);
+        return decoration;
     }
 
     private void createSprite(TmxAsset tmx, int x, int y, int l, final TmxTileInstance tile, TmxLayer layer, Entity decoration) {
@@ -148,7 +159,7 @@ public class StartGameTrigger extends Trigger {
         decoration.addComponent(new ZOrder(ZOrders.LEVEL));
     }
 
-    private void createNed(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+    private Entity createNed(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity ned = game.createEntity();
         EntityPosIndex index = game.getEntityPosIndex();
         ned.addComponent(new Position(x, y));
@@ -158,9 +169,10 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, layer, ned);
         game.addEntity(ned);
         index.setEntityWithPos(ned.getComponent(Position.class).getX(), ned.getComponent(Position.class).getY(), ned);
+        return ned;
     }
 
-    private void createGreenMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+    private Entity createGreenMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
         EntityPosIndex index = game.getEntityPosIndex();
         maki.addComponent(new Position(x, y));
@@ -169,9 +181,10 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
         index.setEntityWithPos(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
+        return maki;
     }
 
-    private void createOrangeMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+    private Entity createOrangeMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
         EntityPosIndex index = game.getEntityPosIndex();
         maki.addComponent(new Position(x, y));
@@ -180,9 +193,10 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
         index.setEntityWithPos(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
+        return maki;
     }
 
-    private void createBlueMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+    private Entity createBlueMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
         EntityPosIndex index = game.getEntityPosIndex();
         maki.addComponent(new Position(x, y));
@@ -193,9 +207,10 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
         index.setEntityWithPos(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
+        return maki;
     }
 
-    private void createBox(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+    private Entity createBox(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity box = game.createEntity();
         EntityPosIndex index = game.getEntityPosIndex();
         box.addComponent(new Position(x, y));
@@ -204,9 +219,10 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
         index.setEntityWithPos(box.getComponent(Position.class).getX(), box.getComponent(Position.class).getY(), box);
+        return box;
     }
 
-    private void createRootedBox(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+    private Entity createRootedBox(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity box = game.createEntity();
         EntityPosIndex index = game.getEntityPosIndex();
         box.addComponent(new Position(x, y));
@@ -216,15 +232,17 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
         index.setEntityWithPos(box.getComponent(Position.class).getX(), box.getComponent(Position.class).getY(), box);
+        return box;
     }
 
-    private void createWall(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+    private Entity createWall(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity wall = game.createEntity();
         EntityPosIndex index = game.getEntityPosIndex();
         wall.addComponent(new Position(x, y));
         createSprite(tmx, x, y, l, tile, layer, wall);
         game.addEntity(wall);
         index.setEntityWithPos(wall.getComponent(Position.class).getX(), wall.getComponent(Position.class).getY(), wall);
+        return wall;
     }
 
     private void createProjector(Game game, TmxAsset tmx) {
@@ -242,11 +260,11 @@ public class StartGameTrigger extends Trigger {
             public int compare(Vector3f v1, Vector3f v2) {
                 float d1 = v1.x + v1.y + v1.z;
                 float d2 = v2.x + v2.y + v2.z;
-                int result = 0;
-                if (Math.abs(d2 - d1) >= 1e-6f) {
-                    result = Float.compare(d1, d2);
+                if (Math.abs(d1 - d2) < 0.1f) {
+                    return Float.compare(d1, d2);
+                } else {
+                    return 0;
                 }
-                return result;
             }
 
         });
