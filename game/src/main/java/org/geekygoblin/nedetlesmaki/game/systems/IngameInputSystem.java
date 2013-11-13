@@ -36,6 +36,7 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
 import org.geekygoblin.nedetlesmaki.game.components.Position;
@@ -55,12 +56,14 @@ import org.lwjgl.util.vector.Vector3f;
 public class IngameInputSystem extends EntityProcessingSystem {
     private final Assets assets;
     private final Provider<ShowMenuTrigger> showMenuTrigger;
+    private final EntityIndexManager indexSystem;
 
     @Inject
-    public IngameInputSystem(Assets assets, Provider<ShowMenuTrigger> showMenuTrigger) {
+    public IngameInputSystem(Assets assets, Provider<ShowMenuTrigger> showMenuTrigger, EntityIndexManager indexSystem) {
         super(Aspect.getAspectForAll(IngameControls.class));
         this.assets = assets;
         this.showMenuTrigger = showMenuTrigger;
+	this.indexSystem = indexSystem;
     }
 
     @Mapper
@@ -70,7 +73,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
     protected void process(Entity e) {
         if (e.isEnabled()) {
 	    Game game = (Game) world;
-	    GameSystem gsystem = GameSystem.getInstance(EntityPosIndexSystem.getInstance(game.getEntityPosIndex()), game);
+	    GameSystem gsystem = GameSystem.getInstance(this.indexSystem, game);
             IngameControls controls = e.getComponent(IngameControls.class);
             controls.getShowMenu().poll();
             if (controls.getShowMenu().isActivated()) {
@@ -106,7 +109,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		else if (controls.getUp().isActivated()) {
                     Entity ned = game.getNed();
 		    
-        	    EntityPosIndexSystem.getInstance(game.getEntityPosIndex()).saveWorld();
+        	    indexSystem.saveWorld();
 		    gsystem.moveEntity(ned, new Position(-1, 0));
 
                     ned.changedInWorld();
@@ -114,7 +117,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		else if (controls.getDown().isActivated()) {
                     Entity ned = game.getNed();
 		    
-		    EntityPosIndexSystem.getInstance(game.getEntityPosIndex()).saveWorld();
+        	    indexSystem.saveWorld();
 		    gsystem.moveEntity(ned, new Position(1, 0));
 		
                     ned.changedInWorld();
@@ -122,7 +125,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		else if (controls.getLeft().isActivated()) {
 		    Entity ned = game.getNed();
 		    
-		    EntityPosIndexSystem.getInstance(game.getEntityPosIndex()).saveWorld();
+        	    indexSystem.saveWorld();
 		    gsystem.moveEntity(ned, new Position(0, -1));
 		
                     ned.changedInWorld();
@@ -130,7 +133,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		else if (controls.getRight().isActivated()) {
 		    Entity ned = game.getNed();
 		    
-		    EntityPosIndexSystem.getInstance(game.getEntityPosIndex()).saveWorld();
+        	    indexSystem.saveWorld();
 		    gsystem.moveEntity(ned, new Position(0, 1));
 
                     ned.changedInWorld();

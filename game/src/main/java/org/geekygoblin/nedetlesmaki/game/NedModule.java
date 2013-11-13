@@ -40,6 +40,7 @@ import org.geekygoblin.nedetlesmaki.game.assets.VirtualFileSystem;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.TriggerableWhenRemoved;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
+import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 import org.geekygoblin.nedetlesmaki.game.components.ui.Dialog;
 import org.geekygoblin.nedetlesmaki.game.components.ui.LevelSelector;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
@@ -47,6 +48,7 @@ import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
+import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 
 /**
  *
@@ -67,6 +69,7 @@ public class NedModule extends AbstractModule {
         bind(MainLoop.class);
         bind(Dialog.class);
 	bind(UpdateLevelVisualSystem.class);
+	bind(EntityIndexManager.class);
     }
 
     @Provides
@@ -105,4 +108,13 @@ public class NedModule extends AbstractModule {
         return intro;
     }
 
+    // @Provides
+    // @NamedEntities.EntityPosIndex
+    // @Singleton
+    // public Entity createEntityPosIndex(Game game) {
+    //     Entity entityPosIndex = game.createEntity();
+    //     entityPosIndex.addComponent(new EntityPosIndex());
+    //     game.addEntity(entityPosIndex);
+    //     return entityPosIndex;
+    // }
 }

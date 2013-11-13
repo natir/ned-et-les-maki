@@ -19,35 +19,34 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.game.systems;
+package org.geekygoblin.nedetlesmaki.game.manager;
 
 import java.util.Stack;
 
-import com.artemis.Entity;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import com.artemis.Entity;
+import com.artemis.EntityManager;
+
+import org.geekygoblin.nedetlesmaki.game.NamedEntities;
+import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 
 /**
  *
  * @author natir
  */
-public class EntityPosIndexSystem {
+@Singleton
+public class EntityIndexManager extends EntityManager {
     
     private EntityPosIndex index;
     private Stack<EntityPosIndex> oldIndex;
-    private static EntityPosIndexSystem instance = null;
     
-    private EntityPosIndexSystem(EntityPosIndex index) {
-	    this.index = index;
-	    this.oldIndex = new Stack();
-	}
-
-    public static EntityPosIndexSystem getInstance(EntityPosIndex index) {
-	if (instance == null) {
-	    instance = new EntityPosIndexSystem(index);
-	}
-	
-	return instance;
+    @Inject
+    public EntityIndexManager() {
+	this.index = new EntityPosIndex();
+	this.oldIndex = new Stack();
     }
 
     public boolean saveWorld() {

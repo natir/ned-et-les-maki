@@ -30,7 +30,7 @@ import org.geekygoblin.nedetlesmaki.game.components.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.Pusher;
 import org.geekygoblin.nedetlesmaki.game.components.Position;
 import org.geekygoblin.nedetlesmaki.game.components.Movable;
-import org.geekygoblin.nedetlesmaki.game.systems.EntityPosIndexSystem;
+import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 
 /**
@@ -48,10 +48,10 @@ public class GameSystem {
     @Mapper
     ComponentMapper<Movable> movableMapper;
 
-    private EntityPosIndexSystem index;
+    private EntityIndexManager index;
     private static GameSystem instance = null;
 
-    private GameSystem(EntityPosIndexSystem index, World w) {
+    private GameSystem(EntityIndexManager index, World w) {
 	this.index = index;
 	this.pushableMapper = ComponentMapper.getFor(Pushable.class, w);
 	this.pusherMapper = ComponentMapper.getFor(Pusher.class, w);
@@ -59,7 +59,7 @@ public class GameSystem {
 	this.movableMapper = ComponentMapper.getFor(Movable.class, w);
     }
     
-    public static GameSystem getInstance(EntityPosIndexSystem index, World w) {
+    public static GameSystem getInstance(EntityIndexManager index, World w) {
 	if (instance == null) {
 	    instance = new GameSystem(index, w);
 	}
