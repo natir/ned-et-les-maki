@@ -89,7 +89,7 @@ public class LevelSelector extends Container {
         addButton("level.27.name", "levels/lvl27.tmx", 725, 149, 1);
         addButton("level.28.name", "levels/lvl28.tmx", 550, 129, -1);
         addButton("level.29.name", "levels/lvl29.tmx", 725, 107, 1);
-        addButton("level.30.name", "levels/lvl30.tmx", 550, 87, -1);
+        addButton("level.30.name", "levels/test.tmx", 550, 87, -1);
     }
 
     @Override

@@ -74,10 +74,14 @@ public class EntityPosIndexSystem {
     }
 
     public Entity getEntity(int x, int y) {
-	if(x > 15 || x < 0 || y > 15 || y < 0) {
-	    return null;
-	}
-	return index.getEntityWithPos(x, y);
+	int trueX = x, trueY = y;
+
+	if(x >= 15) { trueX = 14; }
+	if(x <= 0) { trueX = 0; }
+	if(y >= 15) { trueY = 14; }
+	if(y <= 0) { trueY = 0; }
+
+	return index.getEntityWithPos(trueX, trueY);
     }
 
     public boolean moveEntity(int x1, int y1, int x2, int y2) {

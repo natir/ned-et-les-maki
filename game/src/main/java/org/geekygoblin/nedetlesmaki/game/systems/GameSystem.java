@@ -82,8 +82,8 @@ public class GameSystem {
 	if(!PosOperation.equale(newP, this.getPosition(e))) {
 	    /*run move*/
 	    if(index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
-		e.getComponent(Position.class).setX(newP.getX()*this.getMovable(e));
-		e.getComponent(Position.class).setY(newP.getY()*this.getMovable(e));
+		e.getComponent(Position.class).setX(newP.getX());
+		e.getComponent(Position.class).setY(newP.getY());
 
 		return true;
 	    }
@@ -107,25 +107,28 @@ public class GameSystem {
 	int nbCase = this.getMovable(e);
 	Position oldP = this.getPosition(e);
 	Position newP = PosOperation.sum(oldP, PosOperation.multiplication(dirP, nbCase));
+
+	int trueX = newP.getX();
+	int trueY = newP.getY();
+    
+	if(newP.getX() >= 15) { newP.setX(14); }
+	if(newP.getX() <= 0) { newP.setX(0); }
+	if(newP.getY() >= 15) { newP.setY(14); }
+	if(newP.getY() <= 0) { newP.setY(0); }
+
 	Position freeP = wayFreeTo(oldP, newP);
 	Position nextEP = PosOperation.sum(freeP, dirP);
 
-	System.out.printf("Free :\n");
-	freeP.print();
-	System.out.printf("New :\n");
-	newP.print();
 	if(!PosOperation.equale(freeP, newP)) {
-
-	    Entity nextE;
 	    if(!positionIsVoid(nextEP)) {
-		nextE = index.getEntity(nextEP.getX(), nextEP.getY());
-	    
+		Entity nextE = index.getEntity(nextEP.getX(), nextEP.getY());
+
 		if(this.isPusherEntity(e))
 		{	
 		    if(this.isPushableEntity(nextE)) {
 			if(this.moveEntity(nextE, dirP))
 			{
-			    /*nextEP maybe change*/
+			    dirP.print();
 			    return PosOperation.sum(freeP, dirP);
 			}
 			else {
@@ -203,45 +206,35 @@ public class GameSystem {
 
     public Position wayFreeTo(Position begin, Position end) {
 	Position delta = PosOperation.deduction(begin, end);
-	System.out.print("Begin End Delta\n");
-	begin.print();
-	end.print();
-	delta.print();
 	int base, max;
+	
 	if(delta.getX() > 0) {
-	    base = begin.getX() - 1;
+	    base = begin.getX();
 	    max = end.getX();
-	    this.testObjOnWayX(base, max, begin.getY(), -1).print();
 	    return this.testObjOnWayX(base, max, begin.getY(), -1);
 	}
 	else if(delta.getX() < 0) {
 	    base = begin.getX();
-	    max = end.getX() + 1;
-	    this.testObjOnWayX(base, max, begin.getY(), 1).print();
+	    max = end.getX();
 	    return this.testObjOnWayX(base, max, begin.getY(), 1);
 	}
 	else if(delta.getY() > 0) {
-	    base = begin.getY() - 1;
+	    base = begin.getY();
 	    max = end.getY();
-	    this.testObjOnWayX(base, max, begin.getY(), -1).print();
 	    return this.testObjOnWayY(base, max, begin.getX(), -1);
 	}
 	else {
-	    base = begin.getY() + 1;
+	    base = begin.getY();
 	    max = end.getY();
-	    this.testObjOnWayX(base, max, begin.getY(), -1).print();
 	    return this.testObjOnWayY(base, max, begin.getX(), 1);
 	}
     }
 
     private Position testObjOnWayX(int base, int max, int y, int mul) {
-	System.out.printf("Test free way X  base %d max %d mul %d \n", base, max, mul);
 	Position old = new Position(base, y);
 
-	for(int i = base; i != max; i += 1 * mul) {
+	for(int i = base; i != max && i != 15 && i != 0; i += 1 * mul) {
 	    Entity e = this.index.getEntity(i, y);
-	    System.out.printf("Test free way X, [%d, %d] :\n", i, y);
-	    System.out.print(e);
 	    if(e != null) {
 		return old;
 	    }
@@ -256,7 +249,7 @@ public class GameSystem {
     private Position testObjOnWayY(int base, int max, int x, int mul) {
 	Position old = new Position(x, base);
 	
-	for(int i = base; i != max; i += 1 * mul) {
+	for(int i = base; i != max && i != 15 && i != 0; i += 1 * mul) {
 	    Entity e = this.index.getEntity(x, i);
 	    if(e != null) {
 		return old;
@@ -267,5 +260,18 @@ public class GameSystem {
 	}
 	
 	return new Position(x, max);
+    }
+
+    private void printIndex() {
+	for(int i = 0; i != 15; i++) {
+	    for(int j = 0; j != 15; j++) {
+		Entity e = index.getEntity(i, j);
+		if(e != null) {
+		    System.out.printf("[%d, %d] : ", i, j);
+		    System.out.print(e);
+		    System.out.print("\n");
+		}
+	    }
+	}
     }
 }
