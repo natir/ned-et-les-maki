@@ -21,6 +21,8 @@
  */
 package org.geekygoblin.nedetlesmaki.game.systems;
 
+import java.util.Stack;
+
 import com.artemis.Entity;
 
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
@@ -32,11 +34,12 @@ import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 public class EntityPosIndexSystem {
     
     private EntityPosIndex index;
-    private EntityPosIndex oldIndex;
+    private Stack<EntityPosIndex> oldIndex;
     private static EntityPosIndexSystem instance = null;
     
     private EntityPosIndexSystem(EntityPosIndex index) {
 	    this.index = index;
+	    this.oldIndex = new Stack();
 	}
 
     public static EntityPosIndexSystem getInstance(EntityPosIndex index) {
@@ -48,7 +51,7 @@ public class EntityPosIndexSystem {
     }
 
     public boolean saveWorld() {
-	this.oldIndex = this.index.clone();
+	this.oldIndex.push(this.index.clone());
         return true;
     }
 
@@ -87,8 +90,12 @@ public class EntityPosIndexSystem {
 	return false;
     }
 
+    public int sizeOfStack() {
+	return this.oldIndex.size();
+    }
+
     public EntityPosIndex getLastWorld() {
-	return this.oldIndex;
+	return this.oldIndex.peek();
     }
 
     public EntityPosIndex getThisWorld() {
