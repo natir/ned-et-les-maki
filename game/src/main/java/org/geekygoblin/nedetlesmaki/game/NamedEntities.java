@@ -55,4 +55,10 @@ public interface NamedEntities {
     public @interface Intro {
     }
 
+    @BindingAnnotation
+    @Target({FIELD, PARAMETER, METHOD})
+    @Retention(RUNTIME)
+    public @interface EntityPosIndex {
+    }
+
 }

@@ -29,7 +29,7 @@ import com.artemis.managers.GroupManager;
 import im.bci.lwjgl.nuit.NuitToolkit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
+import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.systems.DialogSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
@@ -48,12 +48,12 @@ import org.lwjgl.LWJGLException;
 @Singleton
 public class Game extends World {
 
-    private final EntityPosIndex entityPosIndex;
     private Entity ned;
 
     @Inject
-    public Game(NuitToolkit toolkit, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem) throws LWJGLException {
+    public Game(NuitToolkit toolkit, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager) throws LWJGLException {
 	setSystem(ingameInputSystem);
+	setSystem(updateLevelVisualSystem);
 	setSystem(new SpriteAnimateSystem());
 	setSystem(new SpritePuppetControlSystem());
 	setSystem(new DrawSystem());
@@ -62,14 +62,8 @@ public class Game extends World {
 	setSystem(new MainMenuSystem());
 	setSystem(new DialogSystem());
 	setManager(new GroupManager());
+	setManager(indexedManager);
 	initialize();
-
-	entityPosIndex = new EntityPosIndex();
-	setSystem(updateLevelVisualSystem);
-    }
-
-    public EntityPosIndex getEntityPosIndex() {
-	return entityPosIndex;
     }
 
     public void setNed(Entity ned) {

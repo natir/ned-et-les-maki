@@ -31,8 +31,8 @@ import com.artemis.systems.VoidEntitySystem;
 import im.bci.nanim.IAnimationCollection;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
-import org.geekygoblin.nedetlesmaki.game.systems.EntityPosIndexSystem;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
@@ -54,18 +54,18 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     private final Assets assets;
     private Game game;
     private int nbIndexSaved;
-    private EntityPosIndexSystem index;
+    private EntityIndexManager index;
 
     @Inject
-    public UpdateLevelVisualSystem(Assets assets) {
+    public UpdateLevelVisualSystem(Assets assets, EntityIndexManager indexSystem) {
         this.assets = assets;
         this.nbIndexSaved = 0;
+	this.index = indexSystem;	
     }
 
     @Override
     protected void processSystem() {
         game = (Game) world;
-        this.index = EntityPosIndexSystem.getInstance(game.getEntityPosIndex());
  
 	if (index.sizeOfStack() != nbIndexSaved) {
 
