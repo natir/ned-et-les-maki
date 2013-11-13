@@ -25,7 +25,6 @@ package org.geekygoblin.nedetlesmaki.game.events;
 
 import com.artemis.Entity;
 import com.artemis.managers.GroupManager;
-import com.artemis.utils.ImmutableBag;
 import im.bci.nanim.PlayMode;
 import im.bci.tmxloader.TmxLayer;
 import im.bci.tmxloader.TmxTileInstance;
@@ -64,12 +63,18 @@ public class StartGameTrigger extends Trigger {
     private final Assets assets;
     private final Entity mainMenu;
     private final Entity ingameControls;
+    private String levelName;
 
     @Inject
     public StartGameTrigger(Assets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls) {
         this.assets = assets;
         this.mainMenu = mainMenu;
         this.ingameControls = ingameControls;
+    }
+    
+    public StartGameTrigger withLevelName(String levelName) {
+        this.levelName = levelName;
+        return this;
     }
 
     @Override
@@ -90,7 +95,7 @@ public class StartGameTrigger extends Trigger {
         groupManager.add(level, Group.LEVEL);
         game.addEntity(level);
 
-        TmxAsset tmx = assets.getTmx("levels/test.tmx");
+        TmxAsset tmx = assets.getTmx(levelName);
         createProjector(game, tmx);
         final List<TmxLayer> layers = tmx.getLayers();
         for (int l = 0, n = layers.size(); l < n; ++l) {
