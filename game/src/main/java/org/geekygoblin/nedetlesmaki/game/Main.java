@@ -29,10 +29,12 @@ import com.google.inject.Injector;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
+import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 
 public class Main {
 
@@ -71,6 +73,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, Exception {
+        configureLogging();
 
         try {
             setupLibraryPath();
@@ -90,6 +93,15 @@ public class Main {
         } catch (Throwable e) {
             handleError(e, "Unexpected error during execution.\n");
         }
+    }
+
+    private static void configureLogging() throws SecurityException {
+        Logger rootLogger = Logger.getLogger("");
+        for(Handler handler : rootLogger.getHandlers()) {
+            handler.setLevel(Level.FINEST);
+        }
+        Logger alog = Logger.getLogger("org.geekygoblin.nedetlesmaki.game.assets.Assets");
+        alog.setLevel(Level.FINE);
     }
 
     public static void handleError(Throwable e, final String defaultMessage) {

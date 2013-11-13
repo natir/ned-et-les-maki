@@ -29,6 +29,8 @@ import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -39,6 +41,7 @@ public class TrueTypeFontWeakReference extends WeakReference<TrueTypeFont> {
 
     Integer textureId;
     String name;
+    private static final Logger logger = Logger.getLogger(TrueTypeFontWeakReference.class.getName());
 
     TrueTypeFontWeakReference(String name, TrueTypeFont font, ReferenceQueue<TrueTypeFont> queue) {
         super(font, queue);
@@ -48,6 +51,7 @@ public class TrueTypeFontWeakReference extends WeakReference<TrueTypeFont> {
 
     void delete() {
         if (null != textureId) {
+            logger.log(Level.FINE, "Unload font {0}", name);
             ByteBuffer temp = ByteBuffer.allocateDirect(4);
             temp.order(ByteOrder.nativeOrder());
             IntBuffer intBuffer = temp.asIntBuffer();

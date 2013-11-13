@@ -32,6 +32,8 @@ import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -42,6 +44,7 @@ public class AnimationCollectionWeakReference extends WeakReference<NanimationCo
 
     IntBuffer textureIds;
     String name;
+    private static final Logger logger = Logger.getLogger(AnimationCollectionWeakReference.class.getName());
 
     AnimationCollectionWeakReference(String name, NanimationCollection animations, ReferenceQueue<NanimationCollection> queue) {
         super(animations, queue);
@@ -60,6 +63,7 @@ public class AnimationCollectionWeakReference extends WeakReference<NanimationCo
 
     void delete() {
         if (null != textureIds) {
+            logger.log(Level.FINE, "Unload animation {0}", name);
             GL11.glDeleteTextures(textureIds);
             textureIds = null;
         }
