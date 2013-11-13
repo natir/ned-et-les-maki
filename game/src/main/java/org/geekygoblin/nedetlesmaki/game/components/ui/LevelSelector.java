@@ -60,36 +60,36 @@ public class LevelSelector extends Container {
         this.assets = assets;
         this.startGameTrigger = startGameTrigger;
         bulleAnimations = assets.getAnimations("bulle.nanim");
-        setFocusedChild(addButton("level.01.name", 725, 695, 1));
-        addButton("level.02.name", 550, 674, -1);
-        addButton("level.03.name", 725, 653, 1);
-        addButton("level.04.name", 550, 632, -1);
-        addButton("level.05.name", 725, 611, 1);
-        addButton("level.06.name", 550, 590, -1);
-        addButton("level.07.name", 725, 569, 1);
-        addButton("level.08.name", 550, 548, -1);
-        addButton("level.09.name", 725, 527, 1);
-        addButton("level.10.name", 550, 506, -1);
-        addButton("level.11.name", 725, 485, 1);
-        addButton("level.12.name", 550, 464, -1);
-        addButton("level.13.name", 725, 443, 1);
-        addButton("level.14.name", 550, 422, -1);
-        addButton("level.15.name", 725, 401, 1);
-        addButton("level.16.name", 550, 380, -1);
-        addButton("level.17.name", 725, 359, 1);
-        addButton("level.18.name", 550, 338, -1);
-        addButton("level.19.name", 725, 317, 1);
-        addButton("level.20.name", 550, 296, -1);
-        addButton("level.21.name", 725, 275, 1);
-        addButton("level.22.name", 550, 254, -1);
-        addButton("level.23.name", 725, 233, 1);
-        addButton("level.24.name", 550, 212, -1);
-        addButton("level.25.name", 725, 191, 1);
-        addButton("level.26.name", 550, 170, -1);
-        addButton("level.27.name", 725, 149, 1);
-        addButton("level.28.name", 550, 129, -1);
-        addButton("level.29.name", 725, 107, 1);
-        addButton("level.30.name", 550, 87, -1);
+        setFocusedChild(addButton("level.01.name", "levels/lvl01.tmx", 725, 695, 1));
+        addButton("level.02.name", "levels/lvl02.tmx", 550, 674, -1);
+        addButton("level.03.name", "levels/lvl03.tmx", 725, 653, 1);
+        addButton("level.04.name", "levels/lvl04.tmx", 550, 632, -1);
+        addButton("level.05.name", "levels/lvl05.tmx", 725, 611, 1);
+        addButton("level.06.name", "levels/lvl06.tmx", 550, 590, -1);
+        addButton("level.07.name", "levels/lvl07.tmx", 725, 569, 1);
+        addButton("level.08.name", "levels/lvl08.tmx", 550, 548, -1);
+        addButton("level.09.name", "levels/lvl09.tmx", 725, 527, 1);
+        addButton("level.10.name", "levels/lvl10.tmx", 550, 506, -1);
+        addButton("level.11.name", "levels/lvl11.tmx", 725, 485, 1);
+        addButton("level.12.name", "levels/lvl12.tmx", 550, 464, -1);
+        addButton("level.13.name", "levels/lvl13.tmx", 725, 443, 1);
+        addButton("level.14.name", "levels/lvl14.tmx", 550, 422, -1);
+        addButton("level.15.name", "levels/lvl15.tmx", 725, 401, 1);
+        addButton("level.16.name", "levels/lvl16.tmx", 550, 380, -1);
+        addButton("level.17.name", "levels/lvl17.tmx", 725, 359, 1);
+        addButton("level.18.name", "levels/lvl18.tmx", 550, 338, -1);
+        addButton("level.19.name", "levels/lvl19.tmx", 725, 317, 1);
+        addButton("level.20.name", "levels/lvl20.tmx", 550, 296, -1);
+        addButton("level.21.name", "levels/lvl21.tmx", 725, 275, 1);
+        addButton("level.22.name", "levels/lvl22.tmx", 550, 254, -1);
+        addButton("level.23.name", "levels/lvl23.tmx", 725, 233, 1);
+        addButton("level.24.name", "levels/lvl24.tmx", 550, 212, -1);
+        addButton("level.25.name", "levels/lvl25.tmx", 725, 191, 1);
+        addButton("level.26.name", "levels/lvl26.tmx", 550, 170, -1);
+        addButton("level.27.name", "levels/lvl27.tmx", 725, 149, 1);
+        addButton("level.28.name", "levels/lvl28.tmx", 550, 129, -1);
+        addButton("level.29.name", "levels/lvl29.tmx", 725, 107, 1);
+        addButton("level.30.name", "levels/lvl30.tmx", 550, 87, -1);
     }
 
     @Override
@@ -137,15 +137,17 @@ public class LevelSelector extends Container {
 
         IPlay backgroundAnimationPlay;
         private final int orientation;
+        private final String levelName;
 
-        public LevelSelectorButton(NuitToolkit toolkit, String text, int orientation) {
+        public LevelSelectorButton(NuitToolkit toolkit, String text, String levelName, int orientation) {
             super(toolkit, text);
             this.orientation = orientation;
+            this.levelName = levelName;
         }
 
         @Override
         public void onOK() {
-            onStartGame();
+            onStartGame(levelName);
         }
 
         @Override
@@ -188,8 +190,8 @@ public class LevelSelector extends Container {
 
     }
 
-    private LevelSelectorButton addButton(String label, int x, int y, int orientation) {
-        LevelSelectorButton button = new LevelSelectorButton(toolkit, label, orientation);
+    private LevelSelectorButton addButton(String label, String levelName, int x, int y, int orientation) {
+        LevelSelectorButton button = new LevelSelectorButton(toolkit, label, levelName, orientation);
         button.backgroundAnimationPlay = bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP);
         button.setWidth(button.getMinWidth() * 1.8f);
         button.setHeight(button.getMinHeight());
@@ -203,7 +205,7 @@ public class LevelSelector extends Container {
         return button;
     }
 
-    private void onStartGame() {
-        game.addEntity(game.createEntity().addComponent(new Triggerable(startGameTrigger.get())));
+    private void onStartGame(String levelName) {
+        game.addEntity(game.createEntity().addComponent(new Triggerable(startGameTrigger.get().withLevelName(levelName))));
     }
 }
