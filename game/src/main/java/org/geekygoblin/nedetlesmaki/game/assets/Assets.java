@@ -1,26 +1,26 @@
 /*
-The MIT License (MIT)
+ The MIT License (MIT)
 
-Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2013 devnewton <devnewton@bci.im>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 package org.geekygoblin.nedetlesmaki.game.assets;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
@@ -62,10 +62,12 @@ public class Assets {
     private final HashMap<String/* name */, TrueTypeFontWeakReference> fonts = new HashMap<>();
     private final ReferenceQueue<TrueTypeFont> fontsReferenceQueue = new ReferenceQueue<>();
     private final TmxAssetLoader tmxLoader;
+    private final Logger logger;
 
     @Inject
-    public Assets(VirtualFileSystem vfs) {
+    public Assets(VirtualFileSystem vfs, Logger logger) {
         this.vfs = vfs;
+        this.logger = logger;
         tmxLoader = new TmxAssetLoader(this);
     }
 
@@ -93,6 +95,7 @@ public class Assets {
             }
         }
         try {
+            logger.log(Level.FINE, "Load texture {0}", name);
             Texture texture = loadPngTexture(name);
             putTexture(name, texture);
             return texture;
@@ -112,6 +115,7 @@ public class Assets {
             }
         }
         try (InputStream is = vfs.open(name)) {
+            logger.log(Level.FINE, "Load animation {0}", name);
             NanimationCollection anim = new NanimationCollection(Nanim.parseFrom(is));
             putAnim(name, anim);
             return anim;
@@ -121,9 +125,11 @@ public class Assets {
     }
 
     public Texture grabScreenToTexture() {
+        final String name = "!screenCapture_" + new Date().getTime();
+        logger.log(Level.FINE, "Load animation {0}", name);
         int maxSize = GL11.glGetInteger(GL11.GL_MAX_TEXTURE_SIZE);
         Texture texture = new Texture(Math.min(maxSize, LwjglHelper.getWidth()), Math.min(maxSize, LwjglHelper.getHeight()), false);
-        putTexture("!screenCapture_" + new Date().getTime(), texture);
+        putTexture(name, texture);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getId());
         LwjglHelper.setupGLTextureParams();
         GL11.glCopyTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, 0, 0, texture.getWidth(), texture.getHeight(), 0);
@@ -164,6 +170,7 @@ public class Assets {
     }
 
     public void clearUseless() {
+        System.gc();
         TextureWeakReference tex;
         while ((tex = (TextureWeakReference) texturesReferenceQueue.poll()) != null) {
             tex.delete();
@@ -218,6 +225,7 @@ public class Assets {
                 fonts.remove(name);
             }
         }
+        logger.log(Level.FINE, "Load font {0}", name);
         Font f;
         try (InputStream is = vfs.open(name)) {
             f = Font.createFont(Font.TRUETYPE_FONT, is);
@@ -231,7 +239,7 @@ public class Assets {
             public void deleteFontTexture() {
                 //NOTHING
             }
-            
+
         };
         font.setCorrection(false);
         putFont(name, font);
