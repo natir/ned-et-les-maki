@@ -66,7 +66,7 @@ class SpriteMoveTo extends SpriteControl {
         }
         sprite.getPosition().x = newPos.x;
         sprite.getPosition().y = newPos.y;
-        sprite.getPosition().y = newPos.y;
+        sprite.getPosition().z = newPos.z;
 	}
 
 	@Override
