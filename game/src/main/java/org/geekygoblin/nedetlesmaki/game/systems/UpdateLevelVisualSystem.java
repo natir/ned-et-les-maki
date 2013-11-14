@@ -78,7 +78,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 			Position oEP = oE.getComponent(Position.class);
 			Position newP = new Position(i, j);
                         Position diff = PosOperation.deduction(oEP, newP);
-
+			diff.print();
                         if (diff.getX() != 0 || diff.getY() != 0) {
 			    if (oE == game.getNed()) {
 				this.moveNed(oE, diff);
@@ -134,7 +134,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         Vector3f pos = sprite.getPosition();
         SpritePuppetControls updatable = new SpritePuppetControls(sprite);
 
-	updatable.moveTo(new Vector3f(pos.x - diff.getX(), pos.y - diff.getY(), pos.z), 0.5f);
+	updatable.moveTo(new Vector3f(pos.x + diff.getY(), pos.y  + diff.getX(), pos.z), 0.5f);
         
 	e.addComponent(updatable);
         e.changedInWorld();
