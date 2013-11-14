@@ -28,10 +28,13 @@ import javax.inject.Singleton;
 
 import com.artemis.Entity;
 import com.artemis.EntityManager;
+import com.artemis.ComponentMapper;
+import com.artemis.annotations.Mapper;
 
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
+import org.geekygoblin.nedetlesmaki.game.components.Position;
 
 /**
  *
@@ -40,68 +43,92 @@ import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 @Singleton
 public class EntityIndexManager extends EntityManager {
     
-    private EntityPosIndex index;
-    private Stack<EntityPosIndex> oldIndex;
+    private Entity[][] index;
+    private Stack<Entity[][]> oldIndex;
     
+    @Mapper
+    ComponentMapper<Position> positionMapper;
+
     @Inject
     public EntityIndexManager() {
-	this.index = new EntityPosIndex();
+	super();
+	this.index = new Entity[15][15];
 	this.oldIndex = new Stack();
     }
 
+    @Override
+    public void added(Entity e) {
+	Position p = e.getComponent(Position.class);
+	
+	if(p != null) {
+	    this.index[p.getX()][p.getY()] = e;
+	    super.added(e);	
+	}
+    }
+
+    @Override
+    public void deleted(Entity e) {
+	Position p = e.getComponent(Position.class);
+	
+	if(p != null) {
+	    this.index[p.getX()][p.getY()] = null;
+	    super.deleted(e);
+    	}
+    }
+
+     public Entity getEntity(int x, int y) {
+	 int trueX = x, trueY = y;
+	 
+	 if(x >= 15) { trueX = 14; }
+	 if(x <= 0) { trueX = 0; }
+	 if(y >= 15) { trueY = 14; }
+	 if(y <= 0) { trueY = 0; }
+	 
+	 return index[trueX][trueY];
+     }
+
+    public boolean moveEntity(int x, int y, int x2, int y2) {
+	Entity tmpE = index[x][y];
+
+	this.index[x2][y2] = tmpE;
+	this.index[x][y] = null;
+	
+	return true;
+    }
+
     public boolean saveWorld() {
-	this.oldIndex.push(this.index.clone());
+	Entity[][] clone = new Entity[15][15];
+	for(int i = 0; i != 15; i++) {
+	    for(int j = 0; j != 15; j++) {
+		Entity e = this.index[i][j];
+		clone[i][j] = e;
+	    }
+	}
+
+	this.oldIndex.push(clone);
         return true;
     }
-
-    public boolean addEntity(int x, int y, Entity eId) {
-	if(x > 15 || x < 0 || y > 15 || y < 0) {
-	    return false;
-	}
-
-        index.setEntityWithPos(x, y, eId);
-	return true;
-    }
-
-    public boolean removeEntity(int x, int y) {
-	if(x > 15 || x < 0 || y > 15 || y < 0) {
-	    return false;
-	}
-	
-	this.addEntity(x, y, null);
-	return true;
-    }
-
-    public Entity getEntity(int x, int y) {
-	int trueX = x, trueY = y;
-
-	if(x >= 15) { trueX = 14; }
-	if(x <= 0) { trueX = 0; }
-	if(y >= 15) { trueY = 14; }
-	if(y <= 0) { trueY = 0; }
-
-	return index.getEntityWithPos(trueX, trueY);
-    }
-
-    public boolean moveEntity(int x1, int y1, int x2, int y2) {
-	Entity tmpE = index.getEntityWithPos(x1, y1);
-	if(this.addEntity(x2, y2, tmpE)) {
-	    this.removeEntity(x1, y1);
-	    return true;
-	}
-
-	return false;
+    
+    public void cleanStack() {
+	this.oldIndex.clear();
     }
 
     public int sizeOfStack() {
 	return this.oldIndex.size();
     }
 
-    public EntityPosIndex getLastWorld() {
-	return this.oldIndex.peek();
+    public Entity[][] getLastWorld() {
+	if(!this.oldIndex.empty()) {
+	    Entity[][] o = this.oldIndex.peek();
+	    if(o != null) {
+		return this.oldIndex.peek();
+	    }
+	}
+
+	return null;
     }
 
-    public EntityPosIndex getThisWorld() {
+    public Entity[][] getThisWorld() {
 	return this.index;
     }
 }

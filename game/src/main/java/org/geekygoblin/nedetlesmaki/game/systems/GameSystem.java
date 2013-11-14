@@ -124,7 +124,6 @@ public class GameSystem extends VoidEntitySystem {
 		    if(this.isPushableEntity(nextE)) {
 			if(this.moveEntity(nextE, dirP))
 			{
-			    dirP.print();
 			    return PosOperation.sum(freeP, dirP);
 			}
 			else {
