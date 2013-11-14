@@ -69,30 +69,31 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
  
 	if (index.sizeOfStack() != nbIndexSaved) {
 
-	    EntityPosIndex old = this.index.getLastWorld();
-	    for (int i = 0; i != 15; i++) {
-                for (int j = 0; j != 15; j++) {
-                    Entity oE = old.getEntityWithPos(i, j);
-                    if (oE != null) {
-
-			Position oEP = oE.getComponent(Position.class);
-			Position newP = new Position(i, j);
-                        Position diff = PosOperation.deduction(oEP, newP);
-			diff.print();
-                        if (diff.getX() != 0 || diff.getY() != 0) {
-			    if (oE == game.getNed()) {
-				this.moveNed(oE, diff);
-                                this.index.saveWorld();
-				this.nbIndexSaved = index.sizeOfStack();
-			    } else {
-                                this.moveSprite(oE, diff);
-                                this.index.saveWorld();
-				this.nbIndexSaved = index.sizeOfStack();
+	    Entity[][] old = this.index.getLastWorld();
+	    if(old != null) {
+		for (int i = 0; i != 15; i++) {
+		    for (int j = 0; j != 15; j++) {
+			Entity oE = old[i][j];
+			if (oE != null) {
+			    Position oEP = oE.getComponent(Position.class);
+			    Position newP = new Position(i, j);
+			    Position diff = PosOperation.deduction(oEP, newP);
+		        
+			    if (diff.getX() != 0 || diff.getY() != 0) {
+				if (oE == game.getNed()) {
+				    this.moveNed(oE, diff);
+				    this.index.saveWorld();
+				    this.nbIndexSaved = index.sizeOfStack();
+				} else {
+				    this.moveSprite(oE, diff);
+				    this.index.saveWorld();
+				    this.nbIndexSaved = index.sizeOfStack();
+				}
 			    }
-                        }
-                    }
-                }
-            }
+			}
+		    }
+		}
+	    }
         }
     }
 
@@ -104,26 +105,26 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 
         if (diff.getX() > 0) {
             updatable.startAnimation(anims.getAnimationByName("walk_down"))
-                    .moveTo(new Vector3f(pos.x, pos.y + 1f, pos.z), 0.5f)
-                    .stopAnimation();
+		.moveTo(new Vector3f(pos.x, pos.y + 1f, pos.z), 0.5f)
+		.stopAnimation();
             e.addComponent(updatable);
             e.changedInWorld();
         } else if (diff.getX() < 0) {
             updatable.startAnimation(anims.getAnimationByName("walk_up"))
-                    .moveTo(new Vector3f(pos.x, pos.y - 1f, pos.z), 0.5f)
-                    .stopAnimation();
+		.moveTo(new Vector3f(pos.x, pos.y - 1f, pos.z), 0.5f)
+		.stopAnimation();
             e.addComponent(updatable);
             e.changedInWorld();
         } else if (diff.getY() > 0) {
             updatable.startAnimation(anims.getAnimationByName("walk_right"))
-                    .moveTo(new Vector3f(pos.x + 1f, pos.y, pos.z), 0.5f)
-                    .stopAnimation();
+		.moveTo(new Vector3f(pos.x + 1f, pos.y, pos.z), 0.5f)
+		.stopAnimation();
             e.addComponent(updatable);
             e.changedInWorld();
         } else if (diff.getY() < 0) {
             updatable.startAnimation(anims.getAnimationByName("walk_left"))
-                    .moveTo(new Vector3f(pos.x - 1f, pos.y, pos.z), 0.5f)
-                    .stopAnimation();
+		.moveTo(new Vector3f(pos.x - 1f, pos.y, pos.z), 0.5f)
+		.stopAnimation();
             e.addComponent(updatable);
             e.changedInWorld();
         }

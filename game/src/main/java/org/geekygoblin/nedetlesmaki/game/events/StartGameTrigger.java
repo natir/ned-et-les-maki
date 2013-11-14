@@ -90,6 +90,7 @@ public class StartGameTrigger extends Trigger {
         for (Entity e : game.getManager(GroupManager.class).getEntities(Group.LEVEL)) {
             entitiesToDelete.add(e);
         }
+	this.indexSystem.cleanStack();
 
         Entity level = game.createEntity();
         level.addComponent(new Level());
@@ -175,7 +176,7 @@ public class StartGameTrigger extends Trigger {
         game.setNed(ned);
         createSprite(tmx, x, y, l, tile, layer, ned);
         game.addEntity(ned);
-        indexSystem.addEntity(ned.getComponent(Position.class).getX(), ned.getComponent(Position.class).getY(), ned);
+        indexSystem.added(ned);
         return ned;
     }
 
@@ -187,7 +188,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Pushable(true));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
-        indexSystem.addEntity(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
+        indexSystem.added(maki);
         return maki;
     }
 
@@ -199,7 +200,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Pushable(true));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
-        indexSystem.addEntity(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
+        indexSystem.added(maki);
         return maki;
     }
 
@@ -213,7 +214,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Pushable(true));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
-        indexSystem.addEntity(maki.getComponent(Position.class).getX(), maki.getComponent(Position.class).getY(), maki);
+        indexSystem.added(maki);
         return maki;
     }
 
@@ -225,7 +226,7 @@ public class StartGameTrigger extends Trigger {
         box.addComponent(new Pushable(true));
         createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
-        indexSystem.addEntity(box.getComponent(Position.class).getX(), box.getComponent(Position.class).getY(), box);
+        indexSystem.added(box);
         return box;
     }
 
@@ -238,7 +239,7 @@ public class StartGameTrigger extends Trigger {
         box.addComponent(new Pushable(true));
         createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
-        indexSystem.addEntity(box.getComponent(Position.class).getX(), box.getComponent(Position.class).getY(), box);
+        indexSystem.added(box);
         return box;
     }
 
@@ -248,7 +249,7 @@ public class StartGameTrigger extends Trigger {
         wall.addComponent(new Position(x, y));
         createSprite(tmx, x, y, l, tile, layer, wall);
         game.addEntity(wall);
-        indexSystem.addEntity(wall.getComponent(Position.class).getX(), wall.getComponent(Position.class).getY(), wall);
+        indexSystem.added(wall);
         return wall;
     }
 
