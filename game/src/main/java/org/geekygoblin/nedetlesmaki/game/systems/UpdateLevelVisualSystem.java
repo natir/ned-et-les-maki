@@ -33,6 +33,7 @@ import im.bci.nanim.IAnimationCollection;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
+import org.geekygoblin.nedetlesmaki.game.components.Case;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
@@ -69,25 +70,32 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
  
 	if (index.sizeOfStack() != nbIndexSaved) {
 
-	    Entity[][] old = this.index.getLastWorld();
+	    Case[][] old = this.index.getLastWorld();
 	    if(old != null) {
 		for (int i = 0; i != 15; i++) {
 		    for (int j = 0; j != 15; j++) {
-			Entity oE = old[i][j];
-			if (oE != null) {
-			    Position oEP = oE.getComponent(Position.class);
-			    Position newP = new Position(i, j);
-			    Position diff = PosOperation.deduction(oEP, newP);
+		      
+			Case oC = old[i][j];
+			if(oC != null) {
+			    System.out.print("oC isn't null\n");
+			    Entity oE = oC.getEntity();
+			    if(oE != null) {
+				System.out.print("oE isn't null\n");	
+				Position oEP = oE.getComponent(Position.class);
+				Position newP = new Position(i, j);
+				Position diff = PosOperation.deduction(oEP, newP);
+				diff.print();
 		        
-			    if (diff.getX() != 0 || diff.getY() != 0) {
-				if (oE == game.getNed()) {
-				    this.moveNed(oE, diff);
-				    this.index.saveWorld();
-				    this.nbIndexSaved = index.sizeOfStack();
-				} else {
-				    this.moveSprite(oE, diff);
-				    this.index.saveWorld();
-				    this.nbIndexSaved = index.sizeOfStack();
+				if (diff.getX() != 0 || diff.getY() != 0) {
+				    if (oE == game.getNed()) {
+					this.moveNed(oE, diff);
+					this.index.saveWorld();
+					this.nbIndexSaved = index.sizeOfStack();
+				    } else {
+					this.moveSprite(oE, diff);
+					this.index.saveWorld();
+					this.nbIndexSaved = index.sizeOfStack();
+				    }
 				}
 			    }
 			}
