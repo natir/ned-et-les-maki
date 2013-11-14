@@ -1,26 +1,26 @@
 /*
-The MIT License (MIT)
+ The MIT License (MIT)
 
-Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2013 devnewton <devnewton@bci.im>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 package org.geekygoblin.nedetlesmaki.game.systems;
 
 import com.artemis.Aspect;
@@ -30,13 +30,16 @@ import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
 import com.artemis.utils.ImmutableBag;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
+import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import im.bci.nanim.IAnimationFrame;
 import im.bci.nanim.IAnimationImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
@@ -52,7 +55,7 @@ import org.lwjgl.util.vector.Vector2f;
  * @author devnewton
  */
 public class DrawSystem extends EntitySystem {
-    
+
     private static final int SCREEN_WIDTH = 1280;
     private static final int SCREEN_HEIGHT = 800;
 
@@ -81,9 +84,12 @@ public class DrawSystem extends EntitySystem {
         }
     };
     private SpriteProjector spriteProjector;
+    private final Assets assets;
 
-    public DrawSystem() {
+    @Inject
+    public DrawSystem(Assets assets) {
         super(Aspect.getAspectForAll(ZOrder.class).one(Level.class, MainMenu.class, Dialog.class, Sprite.class));
+        this.assets = assets;
     }
 
     @Override
@@ -103,21 +109,21 @@ public class DrawSystem extends EntitySystem {
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
-        
+
         //
-        final float aspect = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
+        final float aspect = (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT;
         int screenWidth = LwjglHelper.getWidth();
         int screenHeight = LwjglHelper.getHeight();
         int viewWidth = screenWidth;
-        int viewHeight = (int)(screenWidth / aspect);
+        int viewHeight = (int) (screenWidth / aspect);
         if (viewHeight > screenHeight) {
-         viewHeight = screenHeight;
-         viewWidth = (int)(screenHeight * aspect);
+            viewHeight = screenHeight;
+            viewWidth = (int) (screenHeight * aspect);
         }
         int vportX = (screenWidth - viewWidth) / 2;
         int vportY = (screenHeight - viewHeight) / 2;
         GL11.glViewport(vportX, vportY, viewWidth, viewHeight);
-        GLU.gluOrtho2D(-SCREEN_WIDTH/2.0f, SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f, -SCREEN_HEIGHT/2.0f);
+        GLU.gluOrtho2D(-SCREEN_WIDTH / 2.0f, SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, -SCREEN_HEIGHT / 2.0f);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
@@ -135,7 +141,7 @@ public class DrawSystem extends EntitySystem {
         if (null != ned) {
             Sprite nedSprite = spriteMapper.get(ned);
             Vector2f nedPos = spriteProjector.project(nedSprite.getPosition());
-            GL11.glTranslatef(-nedPos.x, -nedPos.y, 0.0f);            
+            GL11.glTranslatef(-nedPos.x, -nedPos.y, 0.0f);
         }
 
         for (Entity e : entititesSortedByZ) {
@@ -152,9 +158,9 @@ public class DrawSystem extends EntitySystem {
                 drawLevel(level);
             }
             Sprite sprite = spriteMapper.getSafe(e);
-             if (null != sprite) {
-             drawSprite(sprite);
-             }
+            if (null != sprite) {
+                drawSprite(sprite);
+            }
         }
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -187,7 +193,7 @@ public class DrawSystem extends EntitySystem {
     private void drawSprite(Sprite sprite) {
         GL11.glPushMatrix();
         Vector2f pos = spriteProjector.project(sprite.getPosition());
-        GL11.glTranslatef(pos.getX(), pos.getY(),0.0f);
+        GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
         GL11.glRotatef(sprite.getRotate(), 0, 0, 1.0f);
         GL11.glScalef(sprite.getScale(), sprite.getScale(), 1);
         final IAnimationFrame frame = sprite.getPlay().getCurrentFrame();
@@ -235,6 +241,15 @@ public class DrawSystem extends EntitySystem {
             GL11.glDisable(GL11.GL_BLEND);
         }
         GL11.glPopMatrix();
+        if (null != sprite.getLabel()) {
+            GL11.glPushMatrix();
+            GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
+            GL11.glScalef(0.5f, -0.5f, 1f);
+            GL11.glEnable(GL11.GL_BLEND);
+            assets.getFont("prout").drawString(sprite.getLabel(), TrueTypeFont.Align.CENTER);
+            GL11.glDisable(GL11.GL_BLEND);
+            GL11.glPopMatrix();
+        }
     }
 
     public void setSpriteProjector(SpriteProjector spriteProjector) {

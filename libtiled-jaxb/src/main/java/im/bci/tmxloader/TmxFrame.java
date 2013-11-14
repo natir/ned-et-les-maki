@@ -29,8 +29,8 @@ package im.bci.tmxloader;
  */
 public class TmxFrame {
 
-    private TmxImage image;
-    private int x1, y1, x2, y2;
+    private final TmxImage image;
+    private final int x1, y1, x2, y2;
 
     public TmxFrame(TmxImage image, int x1, int y1, int x2, int y2) {
         this.image = image;

@@ -60,7 +60,7 @@ public class TmxLoader {
         HashMap<TmxTileInstance, TmxTileInstance> tileInstancePool = new HashMap<>();
         for (TmxLayer layer : map.getLayers()) {
             int[][] data = new int[layer.getWidth()][layer.getHeight()];
-            layer.getData().decodeTo(data);
+            layer.getData().decodeTo(layer.getWidth(), layer.getHeight(), data);
             for (int x = 0; x < map.getWidth(); ++x) {
                 for (int y = 0; y < map.getHeight(); ++y) {
                     int gid = data[x][y];

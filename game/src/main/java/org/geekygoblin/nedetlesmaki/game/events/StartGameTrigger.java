@@ -71,9 +71,9 @@ public class StartGameTrigger extends Trigger {
         this.assets = assets;
         this.mainMenu = mainMenu;
         this.ingameControls = ingameControls;
-	this.indexSystem = indexSystem;
+        this.indexSystem = indexSystem;
     }
-    
+
     public StartGameTrigger withLevelName(String levelName) {
         this.levelName = levelName;
         return this;
@@ -103,8 +103,8 @@ public class StartGameTrigger extends Trigger {
         final List<TmxLayer> layers = tmx.getLayers();
         for (int l = 0, n = layers.size(); l < n; ++l) {
             TmxLayer layer = tmx.getLayers().get(l);
-            for (int x = 0, lw = layer.getWidth(); x < lw; ++x) {
-                for (int y = 0, lh = layer.getHeight(); y < lh; ++y) {
+            for (int y = 0, lh = layer.getHeight(); y < lh; ++y) {
+                for (int x = 0, lw = layer.getWidth(); x < lw; ++x) {
                     final TmxTileInstance tile = layer.getTileAt(x, y);
                     if (null != tile) {
                         Entity entity = createEntityFromTile(tile, game, tmx, x, y, l, layer);
@@ -149,12 +149,12 @@ public class StartGameTrigger extends Trigger {
 
     private Entity createDecoration(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity decoration = game.createEntity();
-        createSprite(tmx, x, y, l, tile, layer, decoration);
+        createSprite(tmx, x, y, l, tile, layer, decoration).setLabel(x + "," + y);
         game.addEntity(decoration);
         return decoration;
     }
 
-    private void createSprite(TmxAsset tmx, int x, int y, int l, final TmxTileInstance tile, TmxLayer layer, Entity decoration) {
+    private Sprite createSprite(TmxAsset tmx, int x, int y, int l, final TmxTileInstance tile, TmxLayer layer, Entity entity) {
         Sprite sprite = new Sprite();
         sprite.setPosition(tileToPos(tmx, x, y, l));
         sprite.setWidth(tile.getTile().getFrame().getX2() - tile.getTile().getFrame().getX1());
@@ -163,8 +163,9 @@ public class StartGameTrigger extends Trigger {
         final EnumSet<TmxTileInstanceEffect> effect = tile.getEffect();
         sprite.setMirrorX(effect.contains(TmxTileInstanceEffect.FLIPPED_HORIZONTALLY));
         sprite.setMirrorX(effect.contains(TmxTileInstanceEffect.FLIPPED_VERTICALLY));
-        decoration.addComponent(sprite);
-        decoration.addComponent(new ZOrder(ZOrders.LEVEL));
+        entity.addComponent(sprite);
+        entity.addComponent(new ZOrder(ZOrders.LEVEL));
+        return sprite;
     }
 
     private Entity createNed(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
@@ -256,12 +257,11 @@ public class StartGameTrigger extends Trigger {
     private void createProjector(Game game, TmxAsset tmx) {
         final float tileWidth = tmx.getMap().getTilewidth();
         final float tileHeight = tmx.getMap().getTileheight();
-        final float originX = tmx.getMap().getHeight() * tileWidth / 2;
         game.getSystem(DrawSystem.class).setSpriteProjector(new SpriteProjector() {
 
             @Override
             public Vector2f project(Vector3f pos) {
-                return new Vector2f((pos.x - pos.y) * tileWidth / 2 + originX, (pos.x + pos.y) * tileHeight / 2 - pos.z);
+                return new Vector2f(-(pos.x - pos.y) * tileWidth / 2.0f, (pos.x + pos.y) * tileHeight / 2.0f - pos.z);
             }
 
             @Override
