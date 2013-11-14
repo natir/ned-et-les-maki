@@ -40,7 +40,6 @@ import org.geekygoblin.nedetlesmaki.game.assets.VirtualFileSystem;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.TriggerableWhenRemoved;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
-import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 import org.geekygoblin.nedetlesmaki.game.components.ui.Dialog;
 import org.geekygoblin.nedetlesmaki.game.components.ui.LevelSelector;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
@@ -50,6 +49,7 @@ import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 
 /**
  *
@@ -70,6 +70,7 @@ public class NedModule extends AbstractModule {
         bind(MainLoop.class);
         bind(Dialog.class);
 	bind(GameSystem.class);
+        bind(DrawSystem.class);
 	bind(UpdateLevelVisualSystem.class);
 	bind(EntityIndexManager.class);
     }

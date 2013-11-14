@@ -52,14 +52,14 @@ public class Game extends World {
     private Entity ned;
 
     @Inject
-    public Game(NuitToolkit toolkit, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, GameSystem gameSystem) throws LWJGLException {
+    public Game(NuitToolkit toolkit, DrawSystem drawSystem, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, GameSystem gameSystem) throws LWJGLException {
 	setManager(indexedManager);
 	setSystem(gameSystem);
 	setSystem(ingameInputSystem);
 	setSystem(updateLevelVisualSystem);
 	setSystem(new SpriteAnimateSystem());
 	setSystem(new SpritePuppetControlSystem());
-	setSystem(new DrawSystem());
+	setSystem(drawSystem);
 	setSystem(new TriggerSystem());
 	setSystem(new TriggerWhenRemovedSystem());
 	setSystem(new MainMenuSystem());
