@@ -35,7 +35,7 @@ import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
 import org.geekygoblin.nedetlesmaki.game.components.Position;
-
+import org.geekygoblin.nedetlesmaki.game.components.Case;
 /**
  *
  * @author natir
@@ -43,8 +43,8 @@ import org.geekygoblin.nedetlesmaki.game.components.Position;
 @Singleton
 public class EntityIndexManager extends EntityManager {
     
-    private Entity[][] index;
-    private Stack<Entity[][]> oldIndex;
+    private Case[][] index;
+    private Stack<Case[][]> oldIndex;
     
     @Mapper
     ComponentMapper<Position> positionMapper;
@@ -52,7 +52,7 @@ public class EntityIndexManager extends EntityManager {
     @Inject
     public EntityIndexManager() {
 	super();
-	this.index = new Entity[15][15];
+	this.index = new Case[15][15];
 	this.oldIndex = new Stack();
     }
 
@@ -61,8 +61,8 @@ public class EntityIndexManager extends EntityManager {
 	Position p = e.getComponent(Position.class);
 	
 	if(p != null) {
-	    this.index[p.getX()][p.getY()] = e;
-	    super.added(e);	
+	    this.index[p.getX()][p.getY()] = new Case(e);
+	    super.added(e);
 	}
     }
 
@@ -71,7 +71,7 @@ public class EntityIndexManager extends EntityManager {
 	Position p = e.getComponent(Position.class);
 	
 	if(p != null) {
-	    this.index[p.getX()][p.getY()] = null;
+	    this.index[p.getX()][p.getY()].setEntity(null);
 	    super.deleted(e);
     	}
     }
@@ -84,23 +84,35 @@ public class EntityIndexManager extends EntityManager {
 	 if(y >= 15) { trueY = 14; }
 	 if(y <= 0) { trueY = 0; }
 	 
-	 return index[trueX][trueY];
+	 Case test = index[trueX][trueY];
+
+	 if(test != null) { return test.getEntity(); }
+	 else { return null; }
      }
 
     public boolean moveEntity(int x, int y, int x2, int y2) {
-	Entity tmpE = index[x][y];
+	Entity tmpE = index[x][y].getEntity();
 
-	this.index[x2][y2] = tmpE;
-	this.index[x][y] = null;
+	Case newC = this.index[x2][y2];
 	
+	if(newC != null) {
+	    this.index[x2][y2].setEntity(tmpE);
+	}
+	else {
+	    this.index[x2][y2] = new Case(tmpE);
+	}
+
+	this.index[x][y].setEntity(null);
+
 	return true;
     }
 
     public boolean saveWorld() {
-	Entity[][] clone = new Entity[15][15];
+	Case[][] clone = new Case[15][15];
 	for(int i = 0; i != 15; i++) {
 	    for(int j = 0; j != 15; j++) {
-		Entity e = this.index[i][j];
+		Case e = new Case(this.index[i][j]);
+		
 		clone[i][j] = e;
 	    }
 	}
@@ -117,9 +129,9 @@ public class EntityIndexManager extends EntityManager {
 	return this.oldIndex.size();
     }
 
-    public Entity[][] getLastWorld() {
+    public Case[][] getLastWorld() {
 	if(!this.oldIndex.empty()) {
-	    Entity[][] o = this.oldIndex.peek();
+	    Case[][] o = this.oldIndex.peek();
 	    if(o != null) {
 		return this.oldIndex.peek();
 	    }
@@ -128,7 +140,7 @@ public class EntityIndexManager extends EntityManager {
 	return null;
     }
 
-    public Entity[][] getThisWorld() {
+    public Case[][] getThisWorld() {
 	return this.index;
     }
 }

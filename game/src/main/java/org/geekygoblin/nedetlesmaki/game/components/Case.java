@@ -22,47 +22,52 @@
 package org.geekygoblin.nedetlesmaki.game.components;
 
 import com.artemis.Component;
-
 import com.artemis.Entity;
 
-
-/**
- *
- * @author natir
- */
-public class EntityPosIndex extends Component {
+public class Case extends Component {
     
-    private Entity[][] index;
+    private Entity e;
+    private boolean p;
 
-    public EntityPosIndex() {
-	this.index = new Entity[15][15];
+    public Case() {
+	this.e = null;
+	this.p = false;
+    }
+    
+    public Case(Entity e) {
+	this.e = e;
+	this.p = false;
     }
 
-    public EntityPosIndex(EntityPosIndex clone) {
-	this.index = new Entity[15][15];
-	for(int i = 0; i != 15; i++) {
-	    for(int j = 0; j != 15; j++) {
-		Entity e = clone.getEntityWithPos(i, j);
-		this.index[i][j] = e;
-	    }
+    public Case(Entity e, boolean p) {
+	this.e = e;
+	this.p = p;
+    }
+
+    public Case(Case c) {
+	if(c != null) {
+	    this.e = c.getEntity();
+	    this.p = c.plateInThis();
+	}
+	else {
+	    this.e = null;
+	    this.p = false;  
 	}
     }
 
-    public Entity getEntityWithPos(int x, int y) {
-	return this.index[x][y];
+    public Entity getEntity() {
+	return this.e;
     }
 
-    public boolean setEntityWithPos(int x, int y, Entity eId) {
-	this.index[x][y] = eId;
-	return true;
+    public void setEntity(Entity e) {
+	this.e = e;
     }
 
-    public Entity[][] getIndex() {
-	return this.index;
+    public boolean plateInThis() {
+	return this.p;
     }
 
-    public EntityPosIndex clone() {
-        EntityPosIndex result = new EntityPosIndex(this);
-	return result;
+    public void setPlate(boolean p) {
+	this.p = p;
     }
 }
