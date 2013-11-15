@@ -77,6 +77,14 @@ public class EntityIndexManager extends EntityManager {
     }
 
      public Entity getEntity(int x, int y) {
+
+	 Case test = this.getCase(x, y);
+
+	 if(test != null) { return test.getEntity(); }
+	 else { return null; }
+     }
+
+     public Case getCase(int x, int y) {
 	 int trueX = x, trueY = y;
 	 
 	 if(x >= 15) { trueX = 14; }
@@ -86,7 +94,7 @@ public class EntityIndexManager extends EntityManager {
 	 
 	 Case test = index[trueX][trueY];
 
-	 if(test != null) { return test.getEntity(); }
+	 if(test != null) { return test; }
 	 else { return null; }
      }
 

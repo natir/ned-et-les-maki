@@ -25,21 +25,28 @@ import com.artemis.Component;
 import com.artemis.Entity;
 
 public class Case extends Component {
+
+    public enum Color {
+	no,
+	green,
+	orange,
+	blue;
+    }
     
     private Entity e;
-    private boolean p;
+    private Color p;
 
     public Case() {
 	this.e = null;
-	this.p = false;
+	this.p = Color.no;
     }
     
     public Case(Entity e) {
 	this.e = e;
-	this.p = false;
+	this.p = Color.no;
     }
 
-    public Case(Entity e, boolean p) {
+    public Case(Entity e, Color p) {
 	this.e = e;
 	this.p = p;
     }
@@ -51,7 +58,7 @@ public class Case extends Component {
 	}
 	else {
 	    this.e = null;
-	    this.p = false;  
+	    this.p = Color.no;
 	}
     }
 
@@ -63,11 +70,11 @@ public class Case extends Component {
 	this.e = e;
     }
 
-    public boolean plateInThis() {
+    public Color plateInThis() {
 	return this.p;
     }
 
-    public void setPlate(boolean p) {
+    public void setPlate(Color p) {
 	this.p = p;
     }
 }
