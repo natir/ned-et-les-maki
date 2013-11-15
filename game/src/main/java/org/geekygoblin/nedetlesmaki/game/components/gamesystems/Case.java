@@ -19,27 +19,62 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.game.components;
+package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
 
 import com.artemis.Component;
+import com.artemis.Entity;
 
-/**
- *
- * @author natir
- */
-public class BlockOnPlate extends Component {
+public class Case extends Component {
+
+    public enum Color {
+	no,
+	green,
+	orange,
+	blue;
+    }
     
-    private boolean block;
+    private Entity e;
+    private Color p;
 
-    public BlockOnPlate(boolean block) {
-	this.block = block;
+    public Case() {
+	this.e = null;
+	this.p = Color.no;
+    }
+    
+    public Case(Entity e) {
+	this.e = e;
+	this.p = Color.no;
     }
 
-    public boolean block() {
-	return this.block;
+    public Case(Entity e, Color p) {
+	this.e = e;
+	this.p = p;
     }
 
-    public void setBlock(boolean stop) {
-       this.block = stop;
+    public Case(Case c) {
+	if(c != null) {
+	    this.e = c.getEntity();
+	    this.p = c.plateInThis();
+	}
+	else {
+	    this.e = null;
+	    this.p = Color.no;
+	}
+    }
+
+    public Entity getEntity() {
+	return this.e;
+    }
+
+    public void setEntity(Entity e) {
+	this.e = e;
+    }
+
+    public Color plateInThis() {
+	return this.p;
+    }
+
+    public void setPlate(Color p) {
+	this.p = p;
     }
 }

@@ -19,50 +19,40 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.game.components;
+package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
 
 import com.artemis.Component;
-
-import com.artemis.Entity;
-
 
 /**
  *
  * @author natir
  */
-public class EntityPosIndex extends Component {
+public class Position extends Component {
     
-    private Entity[][] index;
+    private int x, y;
 
-    public EntityPosIndex() {
-	this.index = new Entity[15][15];
+    public Position(int x, int y) {
+	this.x = x;
+	this.y = y;
     }
 
-    public EntityPosIndex(EntityPosIndex clone) {
-	this.index = new Entity[15][15];
-	for(int i = 0; i != 15; i++) {
-	    for(int j = 0; j != 15; j++) {
-		Entity e = clone.getEntityWithPos(i, j);
-		this.index[i][j] = e;
-	    }
-	}
+    public int getX() {
+	return x;
     }
 
-    public Entity getEntityWithPos(int x, int y) {
-	return this.index[x][y];
+    public int getY() {
+	return y;
     }
 
-    public boolean setEntityWithPos(int x, int y, Entity eId) {
-	this.index[x][y] = eId;
-	return true;
+    public void setX(int x) {
+	this.x = x;
     }
 
-    public Entity[][] getIndex() {
-	return this.index;
+    public void setY(int y) {
+	this.y = y;
     }
 
-    public EntityPosIndex clone() {
-        EntityPosIndex result = new EntityPosIndex(this);
-	return result;
+    public void print() {
+	System.out.printf("Pos : [%d, %d]\n", this.x, this.y);
     }
 }

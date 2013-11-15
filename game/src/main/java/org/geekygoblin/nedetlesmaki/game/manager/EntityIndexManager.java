@@ -33,9 +33,8 @@ import com.artemis.annotations.Mapper;
 
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.components.EntityPosIndex;
-import org.geekygoblin.nedetlesmaki.game.components.Position;
-import org.geekygoblin.nedetlesmaki.game.components.Case;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Case;
 /**
  *
  * @author natir

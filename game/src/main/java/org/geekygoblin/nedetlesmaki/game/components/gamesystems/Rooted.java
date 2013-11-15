@@ -19,7 +19,7 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.game.components;
+package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
 
 import com.artemis.Component;
 
@@ -27,32 +27,19 @@ import com.artemis.Component;
  *
  * @author natir
  */
-public class Position extends Component {
+public class Rooted extends Component {
     
-    private int x, y;
+    private boolean rooted;
 
-    public Position(int x, int y) {
-	this.x = x;
-	this.y = y;
+    public Rooted(boolean rooted) {
+	this.rooted = rooted;
     }
 
-    public int getX() {
-	return x;
+    public boolean isRooted() {
+	return this.rooted;
     }
 
-    public int getY() {
-	return y;
-    }
-
-    public void setX(int x) {
-	this.x = x;
-    }
-
-    public void setY(int y) {
-	this.y = y;
-    }
-
-    public void print() {
-	System.out.printf("Pos : [%d, %d]\n", this.x, this.y);
+    public void setRooted(boolean rooted) {
+       this.rooted = rooted;
     }
 }
