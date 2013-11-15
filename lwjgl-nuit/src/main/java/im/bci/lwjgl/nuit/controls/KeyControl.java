@@ -53,4 +53,23 @@ public class KeyControl implements Control {
         return "Keyboard";
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + this.key;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KeyControl other = (KeyControl) obj;
+        return this.key == other.key;
+    }
+
 }
