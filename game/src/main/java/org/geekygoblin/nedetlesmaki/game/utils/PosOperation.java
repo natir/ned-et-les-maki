@@ -21,7 +21,7 @@
  */
 package org.geekygoblin.nedetlesmaki.game.utils;
 
-import org.geekygoblin.nedetlesmaki.game.components.Position;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 
 /**
  *

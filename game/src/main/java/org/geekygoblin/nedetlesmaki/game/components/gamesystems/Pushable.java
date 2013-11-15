@@ -19,7 +19,7 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.game.components;
+package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
 
 import com.artemis.Component;
 
@@ -27,20 +27,20 @@ import com.artemis.Component;
  *
  * @author natir
  */
-public class Indexed extends Component {
+public class Pushable extends Component {
 
-    private boolean index;
+    private boolean pushable;
 
-    public Indexed(boolean index) {
-	this.index = index;
+    public Pushable(boolean push) {
+	this.pushable = push;
     }
 
-    public boolean isIndexed() {
-	return this.index;
+    public boolean isPushable() {
+	return this.pushable;
     }
 
-    public void setIndexed(boolean index) {
-       this.index = index;
+    public void setPushable(boolean push) {
+       this.pushable = push;
     }
 }
 

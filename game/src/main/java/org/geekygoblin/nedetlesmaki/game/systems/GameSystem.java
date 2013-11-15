@@ -29,10 +29,10 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.VoidEntitySystem;
 
-import org.geekygoblin.nedetlesmaki.game.components.Pushable;
-import org.geekygoblin.nedetlesmaki.game.components.Pusher;
-import org.geekygoblin.nedetlesmaki.game.components.Position;
-import org.geekygoblin.nedetlesmaki.game.components.Movable;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pusher;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Movable;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 
