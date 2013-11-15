@@ -80,7 +80,7 @@ public class Assets {
         try {
             return tmxLoader.load(name);
         } catch (JAXBException | IOException e) {
-            throw new RuntimeException("Cannot load map " + name, e);
+             throw new RuntimeException("Cannot load map " + name, e);
         }
     }
 
