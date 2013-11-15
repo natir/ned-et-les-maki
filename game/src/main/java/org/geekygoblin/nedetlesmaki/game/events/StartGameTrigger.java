@@ -38,6 +38,7 @@ import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
+import org.geekygoblin.nedetlesmaki.game.components.Case;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.geekygoblin.nedetlesmaki.game.components.Position;
@@ -126,23 +127,36 @@ public class StartGameTrigger extends Trigger {
 
     private Entity createEntityFromTile(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         switch (tile.getTile().getProperty("type", "decoration")) {
-            case "ned":
-                return createNed(tile, game, tmx, x, y, l, layer);
-            case "green_maki":
-                return createGreenMaki(tile, game, tmx, x, y, l, layer);
-            case "orange_maki":
-                return createOrangeMaki(tile, game, tmx, x, y, l, layer);
-            case "blue_maki":
-                return createBlueMaki(tile, game, tmx, x, y, l, layer);
-            case "box":
-                return createBox(tile, game, tmx, x, y, l, layer);
-            case "rooted_box":
-                return createRootedBox(tile, game, tmx, x, y, l, layer);
-            case "wall":
-                return createWall(tile, game, tmx, x, y, l, layer);
-            case "decoration":
-            default:
-                return createDecoration(tile, game, tmx, x, y, l, layer);
+	case "ned":
+	    return createNed(tile, game, tmx, x, y, l, layer);
+	case "green_maki":
+	    return createGreenMaki(tile, game, tmx, x, y, l, layer);
+	case "orange_maki":
+	    return createOrangeMaki(tile, game, tmx, x, y, l, layer);
+	case "blue_maki":
+	    return createBlueMaki(tile, game, tmx, x, y, l, layer);
+	case "green_maki_on_plate":
+	    return createGreenMakiOnPlate(tile, game, tmx, x, y, l, layer);
+	case "orange_maki_on_plate":
+	    return createOrangeMakiOnPlate(tile, game, tmx, x, y, l, layer);
+	case "blue_maki_on_plate":
+	    return createBlueMakiOnPlate(tile, game, tmx, x, y, l, layer);
+	case "box":
+	    return createBox(tile, game, tmx, x, y, l, layer);
+	case "rooted_box":
+	    return createRootedBox(tile, game, tmx, x, y, l, layer);
+	case "wall":
+	    return createWall(tile, game, tmx, x, y, l, layer);
+	case "green_plate":
+	    return createGreenPlate(tile, game, tmx, x, y, l, layer);
+	case "orange_plate":
+	    return createOrangePlate(tile, game, tmx, x, y, l, layer);
+	case "blue_plate":
+	    return createBluePlate(tile, game, tmx, x, y, l, layer);
+	    
+	case "decoration":
+	default:
+	    return createDecoration(tile, game, tmx, x, y, l, layer);
         }
 
     }
@@ -219,6 +233,47 @@ public class StartGameTrigger extends Trigger {
         return maki;
     }
 
+        private Entity createGreenMakiOnPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Entity maki = game.createEntity();
+
+        maki.addComponent(new Position(x, y));
+        maki.addComponent(new Movable(1));
+        maki.addComponent(new Pushable(true));
+        createSprite(tmx, x, y, l, tile, layer, maki);
+	game.addEntity(maki);
+        indexSystem.added(maki);
+	this.createGreenPlate(tile, game, tmx, x, y, l, layer);
+        return maki;
+    }
+
+    private Entity createOrangeMakiOnPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Entity maki = game.createEntity();
+
+        maki.addComponent(new Position(x, y));
+        maki.addComponent(new Movable(15));
+        maki.addComponent(new Pushable(true));
+        createSprite(tmx, x, y, l, tile, layer, maki);
+        game.addEntity(maki);
+        indexSystem.added(maki);
+	this.createOrangePlate(tile, game, tmx, x, y, l, layer);
+        return maki;
+    }
+
+    private Entity createBlueMakiOnPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Entity maki = game.createEntity();
+
+        maki.addComponent(new Position(x, y));
+        maki.addComponent(new Movable(15));
+        maki.addComponent(new Boostable(3));
+        maki.addComponent(new Pusher(false));
+        maki.addComponent(new Pushable(true));
+        createSprite(tmx, x, y, l, tile, layer, maki);
+        game.addEntity(maki);
+        indexSystem.added(maki);
+	this.createBluePlate(tile, game, tmx, x, y, l, layer);
+        return maki;
+    }
+
     private Entity createBox(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity box = game.createEntity();
 
@@ -252,6 +307,60 @@ public class StartGameTrigger extends Trigger {
         game.addEntity(wall);
         indexSystem.added(wall);
         return wall;
+    }
+
+    private Entity createGreenPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Case plate = indexSystem.getCase(x, y);
+	
+	if(plate == null) {
+	    plate = new Case();
+        }
+	if(plate.getEntity() == null) {
+	    plate.setEntity(game.createEntity());
+
+	    game.addEntity(plate.getEntity());
+	    indexSystem.added(plate.getEntity());
+	}
+
+	plate.setPlate(Case.Color.green);
+
+        return plate.getEntity();
+    }
+
+        private Entity createOrangePlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+	    Case plate = indexSystem.getCase(x, y);
+
+	    if(plate == null) {
+		plate = new Case();
+	    }
+	    if(plate.getEntity() == null) {
+		plate.setEntity(game.createEntity());
+		
+		game.addEntity(plate.getEntity());
+		indexSystem.added(plate.getEntity());
+	    }
+	    
+	    plate.setPlate(Case.Color.orange);
+	    
+	    return plate.getEntity();
+	}
+    
+    private Entity createBluePlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+            Case plate = indexSystem.getCase(x, y);
+
+	    if(plate == null) {
+		plate = new Case();
+	    }
+	    if(plate.getEntity() == null) {
+		plate.setEntity(game.createEntity());
+
+		game.addEntity(plate.getEntity());
+		indexSystem.added(plate.getEntity());
+	    }
+
+	    plate.setPlate(Case.Color.blue);
+
+	    return plate.getEntity();
     }
 
     private void createProjector(Game game, TmxAsset tmx) {
