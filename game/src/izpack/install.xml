@@ -51,9 +51,10 @@
             <file src="../../target/run_windows.bat" targetdir="$INSTALL_PATH" >
 		<os family="windows"/>
 	    </file>
-            <file src="../../src/main/resources/icon.png" targetdir="$INSTALL_PATH" />
+            <file src="../../data/icon.png" targetdir="$INSTALL_PATH" />
             <fileset dir="../../licences" targetdir="$INSTALL_PATH/licences" override="true"/>
 	    <fileset dir="../../data" targetdir="$INSTALL_PATH/data" override="true" />
+            <fileset dir="../../target/lib" targetdir="$INSTALL_PATH/lib" override="true" />
             <fileset dir="../../target/natives" targetdir="$INSTALL_PATH/natives" override="true">
 		<include name="*.so"/>
 		<os family="unix"/>
