@@ -1,26 +1,26 @@
 /*
-The MIT License (MIT)
+ The MIT License (MIT)
 
-Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2013 devnewton <devnewton@bci.im>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 package im.bci.lwjgl.nuit.widgets;
 
 import im.bci.lwjgl.nuit.NuitToolkit;
@@ -28,22 +28,11 @@ import im.bci.lwjgl.nuit.controls.Action;
 import im.bci.lwjgl.nuit.controls.Control;
 import im.bci.lwjgl.nuit.controls.ControlActivatedDetector;
 import im.bci.lwjgl.nuit.controls.ControlsUtils;
-import im.bci.lwjgl.nuit.controls.GamepadAxisControl;
-import im.bci.lwjgl.nuit.controls.GamepadButtonControl;
-import im.bci.lwjgl.nuit.controls.KeyControl;
-import im.bci.lwjgl.nuit.controls.MouseButtonControl;
+import im.bci.lwjgl.nuit.controls.NullControl;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.lwjgl.input.Controller;
-import org.lwjgl.input.Controllers;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 public class ControlsConfigurator extends Table {
@@ -64,12 +53,12 @@ public class ControlsConfigurator extends Table {
         initUI(toolkit);
     }
 
-	private void initResets() {
-		this.resets = new ArrayList<>();
+    private void initResets() {
+        this.resets = new ArrayList<>();
         for (Action action : actions) {
             resets.add(new Action(action));
         }
-	}
+    }
 
     private void initUI(NuitToolkit toolkit) {
         this.defaults().expand();
@@ -129,6 +118,7 @@ public class ControlsConfigurator extends Table {
     public abstract class ControlConfigurator extends Widget {
 
         private boolean suckFocus;
+        private Control controlToBeConfirmed;
 
         public abstract Control getControl();
 
@@ -146,10 +136,10 @@ public class ControlsConfigurator extends Table {
             }
             suckFocus = true;
         }
-        
+
         @Override
         public void onMouseClick(float mouseX, float mouseY) {
-        	suckFocus();
+            suckFocus();
         }
 
         @Override
@@ -163,8 +153,20 @@ public class ControlsConfigurator extends Table {
                 for (ControlActivatedDetector control : possibleControls) {
                     control.poll();
                     if (control.isActivated()) {
+                        if (null == controlToBeConfirmed) {
+                            if (isCancelControl(control)) {
+                                controlToBeConfirmed = control.getControl();
+                                toolkit.resetInputPoll();
+                                return;
+                            }
+                        }
                         suckFocus = false;
-                        setControl(control.getControl());
+                        if(null == controlToBeConfirmed || controlToBeConfirmed.equals(control.getControl())) {
+                            setControl(control.getControl());
+                        } else {
+                            setControl(NullControl.INSTANCE);
+                        }
+                        controlToBeConfirmed = null;
                         toolkit.resetInputPoll();
                     }
                 }
@@ -175,11 +177,15 @@ public class ControlsConfigurator extends Table {
         public void draw() {
             String text = null;
             if (suckFocus) {
-                text = toolkit.getMessage("nuit.controls.configurator.press.key");
+                if (null != controlToBeConfirmed) {
+                    text = toolkit.getMessage("nuit.controls.configurator.press.key.again");
+                } else {
+                    text = toolkit.getMessage("nuit.controls.configurator.press.key");
+                }
             } else if (null != getControl()) {
                 text = toolkit.getMessage(getControl().getName());
             }
-            
+
             if (null != text) {
                 GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_ENABLE_BIT);
                 GL11.glEnable(GL11.GL_BLEND);
@@ -201,11 +207,19 @@ public class ControlsConfigurator extends Table {
 
         @Override
         public float getMinHeight() {
- TrueTypeFont font = toolkit.getFont();
+            TrueTypeFont font = toolkit.getFont();
             return Math.max(font.getHeight(toolkit.getMessage("nuit.controls.configurator.press.key")), font.getHeight(getControl().getName()));
         }
-        
-        
+
+        private boolean isCancelControl(ControlActivatedDetector control) {
+            for (Control c : toolkit.getMenuCancel().getControls()) {
+                if (c.equals(control.getControl())) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 
     protected void onDefaults() {
@@ -226,16 +240,16 @@ public class ControlsConfigurator extends Table {
 
     public void onBack() {
     }
-    
+
     @Override
     public void onShow() {
-    	initResets();
+        initResets();
     }
 
     private void initPossibleControls() {
         possibleControls = new ArrayList<>();
-        for(Control control : ControlsUtils.getPossibleControls()) {
-            possibleControls.add(new ControlActivatedDetector(control));            
+        for (Control control : ControlsUtils.getPossibleControls()) {
+            possibleControls.add(new ControlActivatedDetector(control));
         }
     }
 
