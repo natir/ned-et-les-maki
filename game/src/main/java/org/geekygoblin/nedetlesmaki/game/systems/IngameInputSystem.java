@@ -111,7 +111,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
                     Entity ned = game.getNed();
 		    
         	    indexSystem.saveWorld();
-		    gameSystem.moveEntity(ned, new Position(-1, 0));
+		    gameSystem.moveEntity(ned, new Position(0, -1));
 
                     ned.changedInWorld();
 		}
@@ -119,7 +119,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
                     Entity ned = game.getNed();
 		    
         	    indexSystem.saveWorld();
-		    gameSystem.moveEntity(ned, new Position(1, 0));
+		    gameSystem.moveEntity(ned, new Position(0, 1));
 		
                     ned.changedInWorld();
 		}
@@ -127,7 +127,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		    Entity ned = game.getNed();
 		    
         	    indexSystem.saveWorld();
-		    gameSystem.moveEntity(ned, new Position(0, -1));
+		    gameSystem.moveEntity(ned, new Position(-1, 0));
 		
                     ned.changedInWorld();
 		}
@@ -135,7 +135,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		    Entity ned = game.getNed();
 		    
         	    indexSystem.saveWorld();
-		    gameSystem.moveEntity(ned, new Position(0, 1));
+		    gameSystem.moveEntity(ned, new Position(1, 0));
 
                     ned.changedInWorld();
 		}

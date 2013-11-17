@@ -75,6 +75,12 @@ public class GameSystem extends VoidEntitySystem {
 	Position oldP = this.getPosition(e);
 	Position newP = testMove(e, dirP);
 
+	System.out.print("Entity : ");
+	System.out.print(e);
+	System.out.print("\n");
+	
+	this.printIndex();
+
 	if(!PosOperation.equale(newP, this.getPosition(e))) {
 	    /*run move*/
 	    if(index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
@@ -107,9 +113,12 @@ public class GameSystem extends VoidEntitySystem {
 	int trueX = newP.getX();
 	int trueY = newP.getY();
     
-	if(newP.getX() >= 15) { newP.setX(14); }
+	System.out.print("Diff P : ");
+	dirP.print();
+
+	if(newP.getX() >= 14) { newP.setX(14); }
 	if(newP.getX() <= 0) { newP.setX(0); }
-	if(newP.getY() >= 15) { newP.setY(14); }
+	if(newP.getY() >= 14) { newP.setY(14); }
 	if(newP.getY() <= 0) { newP.setY(0); }
 
 	Position freeP = wayFreeTo(oldP, newP);
