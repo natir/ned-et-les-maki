@@ -324,6 +324,8 @@ public class StartGameTrigger extends Trigger {
 
 	plate.setPlate(Case.Color.green);
 
+        createSprite(tmx, x, y, l, tile, layer, plate.getEntity());
+
         return plate.getEntity();
     }
 
@@ -341,6 +343,8 @@ public class StartGameTrigger extends Trigger {
 	    }
 	    
 	    plate.setPlate(Case.Color.orange);
+
+	    createSprite(tmx, x, y, l, tile, layer, plate.getEntity());
 	    
 	    return plate.getEntity();
 	}
@@ -359,6 +363,8 @@ public class StartGameTrigger extends Trigger {
 	    }
 
 	    plate.setPlate(Case.Color.blue);
+
+	    createSprite(tmx, x, y, l, tile, layer, plate.getEntity());
 
 	    return plate.getEntity();
     }
