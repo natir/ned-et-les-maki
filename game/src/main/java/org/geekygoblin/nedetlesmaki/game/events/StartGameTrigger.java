@@ -47,8 +47,10 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Movable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pusher;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Rooted;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
+import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.SpriteProjector;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
@@ -201,6 +203,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(1));
         maki.addComponent(new Pushable(true));
+        maki.addComponent(new Color(ColorType.green));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
@@ -213,6 +216,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(15));
         maki.addComponent(new Pushable(true));
+	maki.addComponent(new Color(ColorType.orange));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
@@ -227,6 +231,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Boostable(3));
         maki.addComponent(new Pusher(false));
         maki.addComponent(new Pushable(true));
+        maki.addComponent(new Color(ColorType.blue));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
@@ -239,6 +244,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(1));
         maki.addComponent(new Pushable(true));
+	maki.addComponent(new Color(ColorType.green));
         createSprite(tmx, x, y, l, tile, layer, maki);
 	game.addEntity(maki);
         indexSystem.added(maki);
@@ -267,6 +273,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Boostable(3));
         maki.addComponent(new Pusher(false));
         maki.addComponent(new Pushable(true));
+        maki.addComponent(new Color(ColorType.green));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
@@ -280,6 +287,7 @@ public class StartGameTrigger extends Trigger {
         box.addComponent(new Position(x, y));
         box.addComponent(new Movable(1));
         box.addComponent(new Pushable(true));
+        box.addComponent(new Color(ColorType.no));
         createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
         indexSystem.added(box);
@@ -293,6 +301,7 @@ public class StartGameTrigger extends Trigger {
         box.addComponent(new Movable(1));
         box.addComponent(new Rooted(true));
         box.addComponent(new Pushable(true));
+        box.addComponent(new Color(ColorType.no));
         createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
         indexSystem.added(box);
@@ -322,7 +331,7 @@ public class StartGameTrigger extends Trigger {
 	    indexSystem.added(plate.getEntity());
 	}
 
-	plate.setPlate(Case.Color.green);
+	plate.setColor(ColorType.green);
 
         createSprite(tmx, x, y, l, tile, layer, plate.getEntity());
 
@@ -342,7 +351,7 @@ public class StartGameTrigger extends Trigger {
 		indexSystem.added(plate.getEntity());
 	    }
 	    
-	    plate.setPlate(Case.Color.orange);
+	    plate.setColor(ColorType.orange);
 
 	    createSprite(tmx, x, y, l, tile, layer, plate.getEntity());
 	    
@@ -362,7 +371,7 @@ public class StartGameTrigger extends Trigger {
 		indexSystem.added(plate.getEntity());
 	    }
 
-	    plate.setPlate(Case.Color.blue);
+	    plate.setColor(ColorType.blue);
 
 	    createSprite(tmx, x, y, l, tile, layer, plate.getEntity());
 

@@ -86,9 +86,9 @@ public class EntityIndexManager extends EntityManager {
      public Case getCase(int x, int y) {
 	 int trueX = x, trueY = y;
 	 
-	 if(x >= 15) { trueX = 14; }
+	 if(x >= 14) { trueX = 14; }
 	 if(x <= 0) { trueX = 0; }
-	 if(y >= 15) { trueY = 14; }
+	 if(y >= 14) { trueY = 14; }
 	 if(y <= 0) { trueY = 0; }
 	 
 	 Case test = index[trueX][trueY];

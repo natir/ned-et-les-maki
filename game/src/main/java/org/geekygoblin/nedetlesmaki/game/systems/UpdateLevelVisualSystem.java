@@ -32,8 +32,9 @@ import im.bci.nanim.IAnimationCollection;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
-
+import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Case;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
@@ -50,6 +51,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 
     @Mapper
     ComponentMapper<Sprite> spriteMapper;
+    @Mapper
+    ComponentMapper<Color> colorMapper;
 
     private final Assets assets;
     private Game game;
@@ -136,9 +139,35 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         Sprite sprite = e.getComponent(Sprite.class);
         Vector3f pos = sprite.getPosition();
         SpritePuppetControls updatable = new SpritePuppetControls(sprite);
+	
+	Position p = new Position((int) pos.x + diff.getY(), (int) pos.y + diff.getX());
+	Case c = index.getCase(p.getX(), p.getY());
+	Color color = colorMapper.getSafe(e);
 
-	updatable.moveTo(new Vector3f(pos.x + diff.getY(), pos.y  + diff.getX(), pos.z), 0.5f);
-        
+	System.out.print("\nPrint case : ");
+	System.out.print(c);
+
+	if(c != null && color != null) {
+	    if(c.getColor().getColor() == color.getColor()) {
+		updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f);
+	    }
+	    else if(c.getColor().getColor() == color.getColor()) {
+		updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f);
+	    }
+	    else if(c.getColor().getColor() == color.getColor()) {
+		updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f);
+	    }
+	    else if(c.getColor().getColor() == color.getColor()) {
+		updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f);
+	    }
+	    else {
+		updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f);
+	    }
+	}
+	else {
+	    updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f);
+	}
+
 	e.addComponent(updatable);
         e.changedInWorld();
     }
