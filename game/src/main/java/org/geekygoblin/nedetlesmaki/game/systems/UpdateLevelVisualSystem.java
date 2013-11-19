@@ -34,7 +34,7 @@ import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
@@ -52,7 +52,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     @Mapper
     ComponentMapper<Sprite> spriteMapper;
     @Mapper
-    ComponentMapper<Color> colorMapper;
+    ComponentMapper<Plate> plateMapper;
 
     private final Assets assets;
     private Game game;
@@ -142,22 +142,22 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 	
 	Position p = new Position((int) pos.x + diff.getY(), (int) pos.y + diff.getX());
 	Square c = index.getSquare(p.getX(), p.getY());
-	Color color = colorMapper.getSafe(e);
+	Plate plate = plateMapper.getSafe(e);
 
 	System.out.print("\nPrint case : ");
 	System.out.print(c);
 
-	if(c != null && color != null) {
-	    if(c.getColor().getColor() == color.getColor()) {
+	if(c != null && plate != null) {
+	    if(c.getPlate().getColor() == plate.getColor()) {
 		updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f);
 	    }
-	    else if(c.getColor().getColor() == color.getColor()) {
+	    else if(c.getPlate().getColor() == plate.getColor()) {
 		updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f);
 	    }
-	    else if(c.getColor().getColor() == color.getColor()) {
+	    else if(c.getPlate().getColor() == plate.getColor()) {
 		updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f);
 	    }
-	    else if(c.getColor().getColor() == color.getColor()) {
+	    else if(c.getPlate().getColor() == plate.getColor()) {
 		updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f);
 	    }
 	    else {

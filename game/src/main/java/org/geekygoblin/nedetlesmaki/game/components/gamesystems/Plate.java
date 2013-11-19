@@ -22,55 +22,27 @@
 package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
 
 import com.artemis.Component;
-import com.artemis.Entity;
 
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 
-public class Square extends Component {
-
-    private Entity e;
-    private Plate p;
-
-    public Square() {
-	this.e = null;
-	this.p = new Plate(new Color(ColorType.no));
-    }
+/**
+ *
+ * @author natir
+ */
+public class Plate extends Component {
     
-    public Square(Entity e) {
-	this.e = e;
-	this.p = new Plate(new Color(ColorType.no));
+    private Color c;
+
+    public Plate(Color c) {
+	this.c = c;
     }
 
-    public Square(Entity e, Plate p) {
-	this.e = e;
-	this.p = p;
+    public ColorType getColor() {
+	return c.getColor();
     }
 
-    public Square(Square c) {
-	if(c != null) {
-	    this.e = c.getEntity();
-	    this.p = c.getPlate();
-	}
-	else {
-	    this.e = null;
-	    this.p = new Plate(new Color(ColorType.no));
-	}
-    }
-
-    public Entity getEntity() {
-	return this.e;
-    }
-
-    public void setEntity(Entity e) {
-	this.e = e;
-    }
-
-    public Plate getPlate() {
-	return this.p;
-    }
-
-    public void setPlate(Plate p) {
-	this.p = p;
+    public void setColor(ColorType c) {
+	this.c.setColor(c);
     }
 }
