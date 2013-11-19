@@ -33,7 +33,7 @@ import im.bci.nanim.IAnimationCollection;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Case;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
@@ -72,11 +72,11 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
  
 	if (index.sizeOfStack() != nbIndexSaved) {
 
-	    Case[][] old = this.index.getLastWorld();
+	    Square[][] old = this.index.getLastWorld();
 	    if(old != null) {
 		for (int i = 0; i != 15; i++) {
 		    for (int j = 0; j != 15; j++) {
-			Case oC = old[i][j];
+			Square oC = old[i][j];
 			if(oC != null) {
 			    Entity oE = oC.getEntity();
 			    if(oE != null) {
@@ -141,7 +141,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         SpritePuppetControls updatable = new SpritePuppetControls(sprite);
 	
 	Position p = new Position((int) pos.x + diff.getY(), (int) pos.y + diff.getX());
-	Case c = index.getCase(p.getX(), p.getY());
+	Square c = index.getSquare(p.getX(), p.getY());
 	Color color = colorMapper.getSafe(e);
 
 	System.out.print("\nPrint case : ");

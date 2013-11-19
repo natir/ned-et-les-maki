@@ -38,7 +38,6 @@ import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Case;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
@@ -48,6 +47,8 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pusher;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Rooted;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
@@ -288,6 +289,7 @@ public class StartGameTrigger extends Trigger {
         box.addComponent(new Movable(1));
         box.addComponent(new Pushable(true));
         box.addComponent(new Color(ColorType.no));
+        box.addComponent(new BlockOnPlate(true));
         createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
         indexSystem.added(box);
@@ -302,6 +304,7 @@ public class StartGameTrigger extends Trigger {
         box.addComponent(new Rooted(true));
         box.addComponent(new Pushable(true));
         box.addComponent(new Color(ColorType.no));
+        box.addComponent(new BlockOnPlate(true));
         createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
         indexSystem.added(box);
@@ -319,10 +322,10 @@ public class StartGameTrigger extends Trigger {
     }
 
     private Entity createGreenPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
-        Case plate = indexSystem.getCase(x, y);
+        Square plate = indexSystem.getSquare(x, y);
 	
 	if(plate == null) {
-	    plate = new Case();
+	    plate = new Square();
         }
 	if(plate.getEntity() == null) {
 	    plate.setEntity(game.createEntity());
@@ -339,10 +342,10 @@ public class StartGameTrigger extends Trigger {
     }
 
         private Entity createOrangePlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
-	    Case plate = indexSystem.getCase(x, y);
+	    Square plate = indexSystem.getSquare(x, y);
 
 	    if(plate == null) {
-		plate = new Case();
+		plate = new Square();
 	    }
 	    if(plate.getEntity() == null) {
 		plate.setEntity(game.createEntity());
@@ -359,10 +362,10 @@ public class StartGameTrigger extends Trigger {
 	}
     
     private Entity createBluePlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
-            Case plate = indexSystem.getCase(x, y);
+            Square plate = indexSystem.getSquare(x, y);
 
 	    if(plate == null) {
-		plate = new Case();
+		plate = new Square();
 	    }
 	    if(plate.getEntity() == null) {
 		plate.setEntity(game.createEntity());

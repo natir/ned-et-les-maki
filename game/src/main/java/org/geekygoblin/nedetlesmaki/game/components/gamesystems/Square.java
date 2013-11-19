@@ -27,27 +27,27 @@ import com.artemis.Entity;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 
-public class Case extends Component {
+public class Square extends Component {
 
     private Entity e;
     private Color p;
 
-    public Case() {
+    public Square() {
 	this.e = null;
 	this.p = new Color(ColorType.no);
     }
     
-    public Case(Entity e) {
+    public Square(Entity e) {
 	this.e = e;
 	this.p = new Color(ColorType.no);
     }
 
-    public Case(Entity e, Color p) {
+    public Square(Entity e, Color p) {
 	this.e = e;
 	this.p = p;
     }
 
-    public Case(Case c) {
+    public Square(Square c) {
 	if(c != null) {
 	    this.e = c.getEntity();
 	    this.p = c.getColor();
