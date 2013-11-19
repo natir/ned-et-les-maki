@@ -19,58 +19,16 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
+package org.geekygoblin.nedetlesmaki.game.constants;
 
-import com.artemis.Component;
-import com.artemis.Entity;
-
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
-import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
-
-public class Case extends Component {
-
-    private Entity e;
-    private Color p;
-
-    public Case() {
-	this.e = null;
-	this.p = new Color(ColorType.no);
-    }
+/**
+ *
+ * @author natir
+ */
+public enum ColorType {
     
-    public Case(Entity e) {
-	this.e = e;
-	this.p = new Color(ColorType.no);
-    }
-
-    public Case(Entity e, Color p) {
-	this.e = e;
-	this.p = p;
-    }
-
-    public Case(Case c) {
-	if(c != null) {
-	    this.e = c.getEntity();
-	    this.p = c.getColor();
-	}
-	else {
-	    this.e = null;
-	    this.p = new Color(ColorType.no);
-	}
-    }
-
-    public Entity getEntity() {
-	return this.e;
-    }
-
-    public void setEntity(Entity e) {
-	this.e = e;
-    }
-
-    public Color getColor() {
-	return this.p;
-    }
-
-    public void setColor(ColorType p) {
-	this.p.setColor(p);
-    }
+    no,
+    green,
+    orange,
+    blue;
 }

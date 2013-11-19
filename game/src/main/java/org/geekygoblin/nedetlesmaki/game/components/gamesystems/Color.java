@@ -22,55 +22,25 @@
 package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
 
 import com.artemis.Component;
-import com.artemis.Entity;
-
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 
-public class Case extends Component {
+/**
+ *
+ * @author natir
+ */
+public class Color extends Component {
 
-    private Entity e;
-    private Color p;
+    private ColorType color;
 
-    public Case() {
-	this.e = null;
-	this.p = new Color(ColorType.no);
-    }
-    
-    public Case(Entity e) {
-	this.e = e;
-	this.p = new Color(ColorType.no);
+    public Color(ColorType color) {
+	this.color = color;
     }
 
-    public Case(Entity e, Color p) {
-	this.e = e;
-	this.p = p;
+    public ColorType getColor() {
+	return this.color;
     }
 
-    public Case(Case c) {
-	if(c != null) {
-	    this.e = c.getEntity();
-	    this.p = c.getColor();
-	}
-	else {
-	    this.e = null;
-	    this.p = new Color(ColorType.no);
-	}
-    }
-
-    public Entity getEntity() {
-	return this.e;
-    }
-
-    public void setEntity(Entity e) {
-	this.e = e;
-    }
-
-    public Color getColor() {
-	return this.p;
-    }
-
-    public void setColor(ColorType p) {
-	this.p.setColor(p);
+    public void setColor(ColorType color) {
+       this.color = color;
     }
 }
