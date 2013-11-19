@@ -322,63 +322,63 @@ public class StartGameTrigger extends Trigger {
     }
 
     private Entity createGreenPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
-        Square plate = indexSystem.getSquare(x, y);
+        Square s = indexSystem.getSquare(x, y);
 	
-	if(plate == null) {
-	    plate = new Square();
+	if(s == null) {
+	    s = new Square();
         }
-	if(plate.getEntity() == null) {
-	    plate.setEntity(game.createEntity());
+	if(s.getEntity() == null) {
+	    s.setEntity(game.createEntity());
 
-	    game.addEntity(plate.getEntity());
-	    indexSystem.added(plate.getEntity());
+	    game.addEntity(s.getEntity());
+	    indexSystem.added(s.getEntity());
 	}
 
-	plate.setColor(ColorType.green);
+	s.getPlate().setColor(ColorType.green);
 
-        createSprite(tmx, x, y, l, tile, layer, plate.getEntity());
+        createSprite(tmx, x, y, l, tile, layer, s.getEntity());
 
-        return plate.getEntity();
+        return s.getEntity();
     }
 
         private Entity createOrangePlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
-	    Square plate = indexSystem.getSquare(x, y);
+	    Square s = indexSystem.getSquare(x, y);
 
-	    if(plate == null) {
-		plate = new Square();
+	    if(s == null) {
+		s = new Square();
 	    }
-	    if(plate.getEntity() == null) {
-		plate.setEntity(game.createEntity());
+	    if(s.getEntity() == null) {
+		s.setEntity(game.createEntity());
 		
-		game.addEntity(plate.getEntity());
-		indexSystem.added(plate.getEntity());
+		game.addEntity(s.getEntity());
+		indexSystem.added(s.getEntity());
 	    }
 	    
-	    plate.setColor(ColorType.orange);
+	    s.getPlate().setColor(ColorType.orange);
 
-	    createSprite(tmx, x, y, l, tile, layer, plate.getEntity());
+	    createSprite(tmx, x, y, l, tile, layer, s.getEntity());
 	    
-	    return plate.getEntity();
+	    return s.getEntity();
 	}
     
     private Entity createBluePlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
-            Square plate = indexSystem.getSquare(x, y);
+            Square s = indexSystem.getSquare(x, y);
 
-	    if(plate == null) {
-		plate = new Square();
+	    if(s == null) {
+		s = new Square();
 	    }
-	    if(plate.getEntity() == null) {
-		plate.setEntity(game.createEntity());
+	    if(s.getEntity() == null) {
+		s.setEntity(game.createEntity());
 
-		game.addEntity(plate.getEntity());
-		indexSystem.added(plate.getEntity());
+		game.addEntity(s.getEntity());
+		indexSystem.added(s.getEntity());
 	    }
 
-	    plate.setColor(ColorType.blue);
+	    s.getPlate().setColor(ColorType.blue);
 
-	    createSprite(tmx, x, y, l, tile, layer, plate.getEntity());
+	    createSprite(tmx, x, y, l, tile, layer, s.getEntity());
 
-	    return plate.getEntity();
+	    return s.getEntity();
     }
 
     private void createProjector(Game game, TmxAsset tmx) {
