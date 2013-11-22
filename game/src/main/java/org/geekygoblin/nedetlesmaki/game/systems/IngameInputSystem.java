@@ -109,33 +109,43 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 }
 		else if (controls.getUp().isActivated()) {
                     Entity ned = game.getNed();
-		    
-        	    indexSystem.saveWorld();
-		    gameSystem.moveEntity(ned, new Position(0, -1));
 
-                    ned.changedInWorld();
+        	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1)));
+		    System.out.print("Ned :");
+		    ned.getComponent(Position.class).print();
+		    gameSystem.printIndex();
+
+		    ned.changedInWorld();
 		}
 		else if (controls.getDown().isActivated()) {
                     Entity ned = game.getNed();
 		    
-        	    indexSystem.saveWorld();
-		    gameSystem.moveEntity(ned, new Position(0, 1));
-		
-                    ned.changedInWorld();
+        	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1)));
+
+		    System.out.print("Ned :");
+		    ned.getComponent(Position.class).print();
+		    gameSystem.printIndex();
+
+		    ned.changedInWorld();
 		}
 		else if (controls.getLeft().isActivated()) {
 		    Entity ned = game.getNed();
 		    
-        	    indexSystem.saveWorld();
-		    gameSystem.moveEntity(ned, new Position(-1, 0));
+        	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0)));
 		
+        	    System.out.print("Ned :");
+		    ned.getComponent(Position.class).print();
+		    gameSystem.printIndex();
+
                     ned.changedInWorld();
 		}
 		else if (controls.getRight().isActivated()) {
 		    Entity ned = game.getNed();
-		    
-        	    indexSystem.saveWorld();
-		    gameSystem.moveEntity(ned, new Position(1, 0));
+
+		    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0)));	    
+        	    System.out.print("Ned :");
+		    ned.getComponent(Position.class).print();
+		    gameSystem.printIndex();
 
                     ned.changedInWorld();
 		}

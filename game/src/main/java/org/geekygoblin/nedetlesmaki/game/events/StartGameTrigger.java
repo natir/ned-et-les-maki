@@ -335,9 +335,7 @@ public class StartGameTrigger extends Trigger {
 	}
 
 	s.getPlate().setColor(color);
-	System.out.printf("Plate %b", s.getPlate().isPlate());
 	s.getPlate().setPlate(true);
-	System.out.printf("FPlate %b", s.getPlate().isPlate());
 
         createSprite(tmx, x, y, l, tile, layer, s.getEntity());
 
