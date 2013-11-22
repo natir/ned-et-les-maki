@@ -19,45 +19,54 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
+package org.geekygoblin.nedetlesmaki.game.utils;
 
-import com.artemis.Component;
+import java.util.ArrayList;
 
-import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
+import com.artemis.Entity;
+
+import org.geekygoblin.nedetlesmaki.game.constants.AnimationType;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 
 /**
  *
  * @author natir
- */
-public class Plate extends Component {
-    
-    private Color c;
-    private boolean b;
+*/
+public class Mouvement {
 
-    public Plate(Color c) {
-	this.c = c;
-	this.b = false;
+    private Entity e;
+    private ArrayList<Position> lP;
+    private ArrayList<AnimationType> lA;
+
+    public Mouvement(Entity e) {
+	this.e = e;
+	this.lP = new ArrayList<Position>();
+	this.lA = new ArrayList<AnimationType>();
     }
 
-    public Plate(Color c, boolean b) {
-	this.c = c;
-	this.b = b;
+    public void setEntity(Entity e) {
+	this.e = e;
     }
 
-    public ColorType getColor() {
-	return c.getColor();
+    public Mouvement addPosition(Position p) {
+	this.lP.add(p);
+	return this;
     }
 
-    public void setColor(ColorType c) {
-	this.c.setColor(c);
+    public Mouvement addAnimation(AnimationType a) {
+	this.lA.add(a);
+	return this;
     }
 
-    public boolean isPlate() {
-	return b;
+    public Entity getEntity() {
+	return this.e;
     }
 
-    public void setPlate(boolean b) {
-	this.b = b;
+    public ArrayList<Position> getPositionList() {
+	return this.lP;
+    }
+
+    public ArrayList<AnimationType> getAnimationList() {
+	return this.lA;
     }
 }

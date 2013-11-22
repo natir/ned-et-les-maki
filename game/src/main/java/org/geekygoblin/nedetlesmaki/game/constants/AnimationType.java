@@ -19,45 +19,18 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
-
-import com.artemis.Component;
-
-import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
+package org.geekygoblin.nedetlesmaki.game.constants;
 
 /**
  *
  * @author natir
  */
-public class Plate extends Component {
+public enum AnimationType {
     
-    private Color c;
-    private boolean b;
-
-    public Plate(Color c) {
-	this.c = c;
-	this.b = false;
-    }
-
-    public Plate(Color c, boolean b) {
-	this.c = c;
-	this.b = b;
-    }
-
-    public ColorType getColor() {
-	return c.getColor();
-    }
-
-    public void setColor(ColorType c) {
-	this.c.setColor(c);
-    }
-
-    public boolean isPlate() {
-	return b;
-    }
-
-    public void setPlate(boolean b) {
-	this.b = b;
-    }
+    no,
+    ned_right,
+    ned_left,
+    ned_down,
+    ned_up;
 }
+ 

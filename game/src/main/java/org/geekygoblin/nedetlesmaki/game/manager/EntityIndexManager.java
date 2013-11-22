@@ -22,6 +22,7 @@
 package org.geekygoblin.nedetlesmaki.game.manager;
 
 import java.util.Stack;
+import java.util.Vector;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -33,6 +34,7 @@ import com.artemis.annotations.Mapper;
 
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 /**
@@ -43,7 +45,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 public class EntityIndexManager extends EntityManager {
     
     private Square[][] index;
-    private Stack<Square[][]> oldIndex;
+    private Stack<Vector<Mouvement>> oldIndex;
     
     @Mapper
     ComponentMapper<Position> positionMapper;
@@ -84,14 +86,12 @@ public class EntityIndexManager extends EntityManager {
      }
 
      public Square getSquare(int x, int y) {
-	 int trueX = x, trueY = y;
-	 
-	 if(x >= 14) { trueX = 14; }
-	 if(x <= 0) { trueX = 0; }
-	 if(y >= 14) { trueY = 14; }
-	 if(y <= 0) { trueY = 0; }
-	 
-	 Square test = index[trueX][trueY];
+
+	 if(x > 14 || x < 0 || y > 14 || y < 0) {
+	     return null;
+	 }
+ 
+	 Square test = index[x][y];
 
 	 if(test != null) { return test; }
 	 else { return null; }
@@ -114,18 +114,8 @@ public class EntityIndexManager extends EntityManager {
 	return true;
     }
 
-    public boolean saveWorld() {
-	Square[][] clone = new Square[15][15];
-	for(int i = 0; i != 15; i++) {
-	    for(int j = 0; j != 15; j++) {
-		Square e = new Square(this.index[i][j]);
-		
-		clone[i][j] = e;
-	    }
-	}
-
-	this.oldIndex.push(clone);
-        return true;
+    public boolean addMouvement(Vector<Mouvement> vM) {
+        return this.oldIndex.add(vM);
     }
     
     public void cleanStack() {
@@ -136,11 +126,11 @@ public class EntityIndexManager extends EntityManager {
 	return this.oldIndex.size();
     }
 
-    public Square[][] getLastWorld() {
+    public Vector<Mouvement> getChangement() {
 	if(!this.oldIndex.empty()) {
-	    Square[][] o = this.oldIndex.peek();
+	    Vector<Mouvement> o = this.oldIndex.peek();
 	    if(o != null) {
-		return this.oldIndex.peek();
+		return o;
 	    }
 	}
 
