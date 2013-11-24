@@ -345,12 +345,23 @@ public class StartGameTrigger extends Trigger {
     private void createProjector(Game game, TmxAsset tmx) {
         final float tileWidth = tmx.getMap().getTilewidth();
         final float tileHeight = tmx.getMap().getTileheight();
-        game.getSystem(DrawSystem.class).setSpriteProjector(new SpriteProjector() {
+        game.getSystem(DrawSystem.class).setSpriteProjector(new IsometricSpriteProjector(tileWidth, tileHeight));
+    }
 
-            @Override
-            public Vector2f project(Vector3f pos) {
-                return new Vector2f(-(pos.x - pos.y) * tileWidth / 2.0f, (pos.x + pos.y) * tileHeight / 2.0f - pos.z);
-            }
+    private static class IsometricSpriteProjector implements SpriteProjector {
+
+        private final float tileWidth;
+        private final float tileHeight;
+
+        public IsometricSpriteProjector(float tileWidth, float tileHeight) {
+            this.tileWidth = tileWidth;
+            this.tileHeight = tileHeight;
+        }
+
+        @Override
+        public Vector2f project(Vector3f pos) {
+            return new Vector2f(-(pos.x - pos.y) * tileWidth / 2.0f, (pos.x + pos.y) * tileHeight / 2.0f - pos.z);
+        }
 
             @Override
             public int compare(Vector3f v1, Vector3f v2) {
@@ -362,7 +373,5 @@ public class StartGameTrigger extends Trigger {
                     return 0;
                 }
             }
-
-        });
     }
 }

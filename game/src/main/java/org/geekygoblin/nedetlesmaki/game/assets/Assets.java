@@ -40,6 +40,7 @@ import java.lang.ref.ReferenceQueue;
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
@@ -233,14 +234,7 @@ public class Assets {
         } catch (IOException | FontFormatException e) {
             f = new Font("monospaced", Font.BOLD, 24);
         }
-        TrueTypeFont font = new TrueTypeFont(f, true, new char[0], new HashMap<Character, BufferedImage>()) {
-
-            @Override
-            public void deleteFontTexture() {
-                //NOTHING
-            }
-
-        };
+        TrueTypeFont font = new FontAsset(f, true, new char[0], new HashMap<Character, BufferedImage>());
         font.setCorrection(false);
         putFont(name, font);
         return font;
@@ -255,6 +249,18 @@ public class Assets {
             IconLoader.setIcon(is);
         } catch (IOException ex) {
             Logger.getLogger(Assets.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private static class FontAsset extends TrueTypeFont {
+
+        public FontAsset(Font font, boolean antiAlias, char[] additionalChars, Map<Character, BufferedImage> specialCharacters) {
+            super(font, antiAlias, additionalChars, specialCharacters);
+        }
+
+        @Override
+        public void deleteFontTexture() {
+            //NOTHING
         }
     }
 }
