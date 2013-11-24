@@ -38,7 +38,6 @@ import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Case;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
@@ -47,8 +46,12 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Movable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pusher;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Rooted;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
+import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.SpriteProjector;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
@@ -148,11 +151,11 @@ public class StartGameTrigger extends Trigger {
 	case "wall":
 	    return createWall(tile, game, tmx, x, y, l, layer);
 	case "green_plate":
-	    return createGreenPlate(tile, game, tmx, x, y, l, layer);
+	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.green);
 	case "orange_plate":
-	    return createOrangePlate(tile, game, tmx, x, y, l, layer);
+	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange);
 	case "blue_plate":
-	    return createBluePlate(tile, game, tmx, x, y, l, layer);
+	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue);
 	    
 	case "decoration":
 	default:
@@ -201,6 +204,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(1));
         maki.addComponent(new Pushable(true));
+        maki.addComponent(new Color(ColorType.green));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
@@ -213,6 +217,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(15));
         maki.addComponent(new Pushable(true));
+	maki.addComponent(new Color(ColorType.orange));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
@@ -227,6 +232,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Boostable(3));
         maki.addComponent(new Pusher(false));
         maki.addComponent(new Pushable(true));
+        maki.addComponent(new Color(ColorType.blue));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
@@ -239,10 +245,11 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(1));
         maki.addComponent(new Pushable(true));
+	maki.addComponent(new Color(ColorType.green));
         createSprite(tmx, x, y, l, tile, layer, maki);
 	game.addEntity(maki);
         indexSystem.added(maki);
-	this.createGreenPlate(tile, game, tmx, x, y, l, layer);
+	this.createPlate(tile, game, tmx, x, y, l, layer, ColorType.green);
         return maki;
     }
 
@@ -255,7 +262,7 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
-	this.createOrangePlate(tile, game, tmx, x, y, l, layer);
+	this.createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange);
         return maki;
     }
 
@@ -267,10 +274,11 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Boostable(3));
         maki.addComponent(new Pusher(false));
         maki.addComponent(new Pushable(true));
+        maki.addComponent(new Color(ColorType.green));
         createSprite(tmx, x, y, l, tile, layer, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
-	this.createBluePlate(tile, game, tmx, x, y, l, layer);
+	this.createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue);
         return maki;
     }
 
@@ -280,6 +288,8 @@ public class StartGameTrigger extends Trigger {
         box.addComponent(new Position(x, y));
         box.addComponent(new Movable(1));
         box.addComponent(new Pushable(true));
+        box.addComponent(new Color(ColorType.no));
+        box.addComponent(new BlockOnPlate(true));
         createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
         indexSystem.added(box);
@@ -293,6 +303,8 @@ public class StartGameTrigger extends Trigger {
         box.addComponent(new Movable(1));
         box.addComponent(new Rooted(true));
         box.addComponent(new Pushable(true));
+        box.addComponent(new Color(ColorType.no));
+        box.addComponent(new BlockOnPlate(true));
         createSprite(tmx, x, y, l, tile, layer, box);
         game.addEntity(box);
         indexSystem.added(box);
@@ -309,58 +321,25 @@ public class StartGameTrigger extends Trigger {
         return wall;
     }
 
-    private Entity createGreenPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
-        Case plate = indexSystem.getCase(x, y);
+    private Entity createPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer, ColorType color) {
+        Square s = indexSystem.getSquare(x, y);
 	
-	if(plate == null) {
-	    plate = new Case();
+	if(s == null) {
+	    s = new Square();
         }
-	if(plate.getEntity() == null) {
-	    plate.setEntity(game.createEntity());
+	if(s.getEntity() == null) {
+	    s.setEntity(game.createEntity());
 
-	    game.addEntity(plate.getEntity());
-	    indexSystem.added(plate.getEntity());
+	    game.addEntity(s.getEntity());
+	    indexSystem.added(s.getEntity());
 	}
 
-	plate.setPlate(Case.Color.green);
+	s.getPlate().setColor(color);
+	s.getPlate().setPlate(true);
 
-        return plate.getEntity();
-    }
+        createSprite(tmx, x, y, l, tile, layer, s.getEntity());
 
-        private Entity createOrangePlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
-	    Case plate = indexSystem.getCase(x, y);
-
-	    if(plate == null) {
-		plate = new Case();
-	    }
-	    if(plate.getEntity() == null) {
-		plate.setEntity(game.createEntity());
-		
-		game.addEntity(plate.getEntity());
-		indexSystem.added(plate.getEntity());
-	    }
-	    
-	    plate.setPlate(Case.Color.orange);
-	    
-	    return plate.getEntity();
-	}
-    
-    private Entity createBluePlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
-            Case plate = indexSystem.getCase(x, y);
-
-	    if(plate == null) {
-		plate = new Case();
-	    }
-	    if(plate.getEntity() == null) {
-		plate.setEntity(game.createEntity());
-
-		game.addEntity(plate.getEntity());
-		indexSystem.added(plate.getEntity());
-	    }
-
-	    plate.setPlate(Case.Color.blue);
-
-	    return plate.getEntity();
+        return s.getEntity();
     }
 
     private void createProjector(Game game, TmxAsset tmx) {

@@ -19,62 +19,18 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
+package org.geekygoblin.nedetlesmaki.game.constants;
 
-import com.artemis.Component;
-import com.artemis.Entity;
-
-public class Case extends Component {
-
-    public enum Color {
-	no,
-	green,
-	orange,
-	blue;
-    }
+/**
+ *
+ * @author natir
+ */
+public enum AnimationType {
     
-    private Entity e;
-    private Color p;
-
-    public Case() {
-	this.e = null;
-	this.p = Color.no;
-    }
-    
-    public Case(Entity e) {
-	this.e = e;
-	this.p = Color.no;
-    }
-
-    public Case(Entity e, Color p) {
-	this.e = e;
-	this.p = p;
-    }
-
-    public Case(Case c) {
-	if(c != null) {
-	    this.e = c.getEntity();
-	    this.p = c.plateInThis();
-	}
-	else {
-	    this.e = null;
-	    this.p = Color.no;
-	}
-    }
-
-    public Entity getEntity() {
-	return this.e;
-    }
-
-    public void setEntity(Entity e) {
-	this.e = e;
-    }
-
-    public Color plateInThis() {
-	return this.p;
-    }
-
-    public void setPlate(Color p) {
-	this.p = p;
-    }
+    no,
+    ned_right,
+    ned_left,
+    ned_down,
+    ned_up;
 }
+ 
