@@ -32,6 +32,7 @@ import im.bci.tmxloader.TmxTileInstanceEffect;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Random;
 import javax.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
@@ -50,6 +51,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
@@ -69,13 +71,15 @@ public class StartGameTrigger extends Trigger {
     private final Entity ingameControls;
     private final EntityIndexManager indexSystem;
     private String levelName;
+    private final Random random;
 
     @Inject
-    public StartGameTrigger(Assets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem) {
+    public StartGameTrigger(Assets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, Random random) {
         this.assets = assets;
         this.mainMenu = mainMenu;
         this.ingameControls = ingameControls;
         this.indexSystem = indexSystem;
+        this.random = random;
     }
 
     public StartGameTrigger withLevelName(String levelName) {
@@ -156,7 +160,6 @@ public class StartGameTrigger extends Trigger {
 	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange);
 	case "blue_plate":
 	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue);
-	    
 	case "decoration":
 	default:
 	    return createDecoration(tile, game, tmx, x, y, l, layer);
@@ -166,14 +169,33 @@ public class StartGameTrigger extends Trigger {
 
     private Entity createDecoration(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity decoration = game.createEntity();
-        createSprite(tmx, x, y, l, tile, layer, decoration).setLabel(x + "," + y);
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_BELOW, decoration).setLabel(x + "," + y);
         game.addEntity(decoration);
         return decoration;
     }
+    
+    private enum ApparitionEffect {
+        FROM_ABOVE,
+        FROM_BELOW,
+        NONE
+    }
 
-    private Sprite createSprite(TmxAsset tmx, int x, int y, int l, final TmxTileInstance tile, TmxLayer layer, Entity entity) {
+    private Sprite createSprite(TmxAsset tmx, int x, int y, int l, final TmxTileInstance tile, ApparitionEffect apparitionEffect, Entity entity) {
         Sprite sprite = new Sprite();
-        sprite.setPosition(tileToPos(tmx, x, y, l));
+        final Vector3f pos = tileToPos(tmx, x, y, l);
+        Vector3f apparitionPos = new Vector3f(pos);
+        switch(apparitionEffect) {
+            case FROM_ABOVE:
+                apparitionPos.translate(0, 0, (1.0f + random.nextFloat()) * DrawSystem.SCREEN_HEIGHT);
+                break;
+            case FROM_BELOW:
+                apparitionPos.translate((2.0f * random.nextFloat() - 1.0f) * tmx.getMap().getWidth(), (2.0f * random.nextFloat() - 1.0f) * tmx.getMap().getWidth(), (1.0f + random.nextFloat() * 2.0f) * -DrawSystem.SCREEN_HEIGHT);
+                break;
+            case NONE:
+            default:
+                break;
+        }
+        sprite.setPosition(apparitionPos);
         sprite.setWidth(tile.getTile().getFrame().getX2() - tile.getTile().getFrame().getX1());
         sprite.setHeight(tile.getTile().getFrame().getY2() - tile.getTile().getFrame().getY1());
         sprite.setPlay(tmx.getTileAnimationCollection(tile).getFirst().start(PlayMode.LOOP));
@@ -182,17 +204,17 @@ public class StartGameTrigger extends Trigger {
         sprite.setMirrorX(effect.contains(TmxTileInstanceEffect.FLIPPED_VERTICALLY));
         entity.addComponent(sprite);
         entity.addComponent(new ZOrder(ZOrders.LEVEL));
+        entity.addComponent(new SpritePuppetControls(sprite).moveTo(pos, 2.0f));
         return sprite;
     }
-
+    
     private Entity createNed(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity ned = game.createEntity();
-
         ned.addComponent(new Position(x, y));
         ned.addComponent(new Pusher(true));
         ned.addComponent(new Movable(1));
         game.setNed(ned);
-        createSprite(tmx, x, y, l, tile, layer, ned);
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.NONE, ned);
         game.addEntity(ned);
         indexSystem.added(ned);
         return ned;
@@ -205,7 +227,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Movable(1));
         maki.addComponent(new Pushable(true));
         maki.addComponent(new Color(ColorType.green));
-        createSprite(tmx, x, y, l, tile, layer, maki);
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
         return maki;
@@ -218,7 +240,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Movable(15));
         maki.addComponent(new Pushable(true));
 	maki.addComponent(new Color(ColorType.orange));
-        createSprite(tmx, x, y, l, tile, layer, maki);
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
         return maki;
@@ -233,7 +255,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Pusher(false));
         maki.addComponent(new Pushable(true));
         maki.addComponent(new Color(ColorType.blue));
-        createSprite(tmx, x, y, l, tile, layer, maki);
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
         return maki;
@@ -246,7 +268,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Movable(1));
         maki.addComponent(new Pushable(true));
 	maki.addComponent(new Color(ColorType.green));
-        createSprite(tmx, x, y, l, tile, layer, maki);
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
 	game.addEntity(maki);
         indexSystem.added(maki);
 	this.createPlate(tile, game, tmx, x, y, l, layer, ColorType.green);
@@ -259,7 +281,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(15));
         maki.addComponent(new Pushable(true));
-        createSprite(tmx, x, y, l, tile, layer, maki);
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
 	this.createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange);
@@ -275,7 +297,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Pusher(false));
         maki.addComponent(new Pushable(true));
         maki.addComponent(new Color(ColorType.green));
-        createSprite(tmx, x, y, l, tile, layer, maki);
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
 	this.createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue);
@@ -290,7 +312,7 @@ public class StartGameTrigger extends Trigger {
         box.addComponent(new Pushable(true));
         box.addComponent(new Color(ColorType.no));
         box.addComponent(new BlockOnPlate(true));
-        createSprite(tmx, x, y, l, tile, layer, box);
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, box);
         game.addEntity(box);
         indexSystem.added(box);
         return box;
@@ -305,7 +327,7 @@ public class StartGameTrigger extends Trigger {
         box.addComponent(new Pushable(true));
         box.addComponent(new Color(ColorType.no));
         box.addComponent(new BlockOnPlate(true));
-        createSprite(tmx, x, y, l, tile, layer, box);
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, box);
         game.addEntity(box);
         indexSystem.added(box);
         return box;
@@ -315,7 +337,7 @@ public class StartGameTrigger extends Trigger {
         Entity wall = game.createEntity();
 
         wall.addComponent(new Position(x, y));
-        createSprite(tmx, x, y, l, tile, layer, wall);
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_BELOW, wall);
         game.addEntity(wall);
         indexSystem.added(wall);
         return wall;
@@ -337,7 +359,7 @@ public class StartGameTrigger extends Trigger {
 	s.getPlate().setColor(color);
 	s.getPlate().setPlate(true);
 
-        createSprite(tmx, x, y, l, tile, layer, s.getEntity());
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, s.getEntity());
 
         return s.getEntity();
     }

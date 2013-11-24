@@ -56,8 +56,8 @@ import org.lwjgl.util.vector.Vector2f;
  */
 public class DrawSystem extends EntitySystem {
 
-    private static final int SCREEN_WIDTH = 1280;
-    private static final int SCREEN_HEIGHT = 800;
+    public static final int SCREEN_WIDTH = 1280;
+    public static final int SCREEN_HEIGHT = 800;
 
     @Mapper
     ComponentMapper<ZOrder> zOrderMapper;
