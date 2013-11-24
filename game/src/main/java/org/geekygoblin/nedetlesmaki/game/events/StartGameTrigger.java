@@ -38,6 +38,7 @@ import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.geekygoblin.nedetlesmaki.game.assets.TextureAnimationCollectionWrapper;
 import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
@@ -101,7 +102,7 @@ public class StartGameTrigger extends Trigger {
 	this.indexSystem.cleanStack();
 
         Entity level = game.createEntity();
-        level.addComponent(new Level());
+        level.addComponent(new Level(new TextureAnimationCollectionWrapper(assets.getTexture("background.png"), 0, 0, 1, 1).start(PlayMode.ONCE)));
         level.addComponent(new ZOrder(ZOrders.LEVEL));
         groupManager.add(level, Group.LEVEL);
         game.addEntity(level);
