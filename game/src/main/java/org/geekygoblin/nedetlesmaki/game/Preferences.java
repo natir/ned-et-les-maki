@@ -108,8 +108,8 @@ public class Preferences {
             store.setProperty(name + ".controller", value.getControllerName());
             store.setProperty(name + ".control", value.getName());
         } else {
-            store.setProperty(name + ".controller", null);
-            store.setProperty(name + ".control", null);
+            store.remove(name + ".controller");
+            store.remove(name + ".control");
         }
     }
 
