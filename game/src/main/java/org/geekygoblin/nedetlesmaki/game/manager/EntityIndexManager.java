@@ -22,6 +22,7 @@
 package org.geekygoblin.nedetlesmaki.game.manager;
 
 import java.util.Stack;
+import java.util.Vector;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -33,8 +34,9 @@ import com.artemis.annotations.Mapper;
 
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Case;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 /**
  *
  * @author natir
@@ -42,8 +44,8 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Case;
 @Singleton
 public class EntityIndexManager extends EntityManager {
     
-    private Case[][] index;
-    private Stack<Case[][]> oldIndex;
+    private Square[][] index;
+    private Stack<Vector<Mouvement>> oldIndex;
     
     @Mapper
     ComponentMapper<Position> positionMapper;
@@ -51,7 +53,7 @@ public class EntityIndexManager extends EntityManager {
     @Inject
     public EntityIndexManager() {
 	super();
-	this.index = new Case[15][15];
+	this.index = new Square[15][15];
 	this.oldIndex = new Stack();
     }
 
@@ -60,7 +62,7 @@ public class EntityIndexManager extends EntityManager {
 	Position p = e.getComponent(Position.class);
 	
 	if(p != null) {
-	    this.index[p.getX()][p.getY()] = new Case(e);
+	    this.index[p.getX()][p.getY()] = new Square(e);
 	    super.added(e);
 	}
     }
@@ -77,21 +79,19 @@ public class EntityIndexManager extends EntityManager {
 
      public Entity getEntity(int x, int y) {
 
-	 Case test = this.getCase(x, y);
+	 Square test = this.getSquare(x, y);
 
 	 if(test != null) { return test.getEntity(); }
 	 else { return null; }
      }
 
-     public Case getCase(int x, int y) {
-	 int trueX = x, trueY = y;
-	 
-	 if(x >= 15) { trueX = 14; }
-	 if(x <= 0) { trueX = 0; }
-	 if(y >= 15) { trueY = 14; }
-	 if(y <= 0) { trueY = 0; }
-	 
-	 Case test = index[trueX][trueY];
+     public Square getSquare(int x, int y) {
+
+	 if(x > 14 || x < 0 || y > 14 || y < 0) {
+	     return null;
+	 }
+ 
+	 Square test = index[x][y];
 
 	 if(test != null) { return test; }
 	 else { return null; }
@@ -100,13 +100,13 @@ public class EntityIndexManager extends EntityManager {
     public boolean moveEntity(int x, int y, int x2, int y2) {
 	Entity tmpE = index[x][y].getEntity();
 
-	Case newC = this.index[x2][y2];
+	Square newC = this.index[x2][y2];
 	
 	if(newC != null) {
 	    this.index[x2][y2].setEntity(tmpE);
 	}
 	else {
-	    this.index[x2][y2] = new Case(tmpE);
+	    this.index[x2][y2] = new Square(tmpE);
 	}
 
 	this.index[x][y].setEntity(null);
@@ -114,18 +114,8 @@ public class EntityIndexManager extends EntityManager {
 	return true;
     }
 
-    public boolean saveWorld() {
-	Case[][] clone = new Case[15][15];
-	for(int i = 0; i != 15; i++) {
-	    for(int j = 0; j != 15; j++) {
-		Case e = new Case(this.index[i][j]);
-		
-		clone[i][j] = e;
-	    }
-	}
-
-	this.oldIndex.push(clone);
-        return true;
+    public boolean addMouvement(Vector<Mouvement> vM) {
+        return this.oldIndex.add(vM);
     }
     
     public void cleanStack() {
@@ -136,18 +126,18 @@ public class EntityIndexManager extends EntityManager {
 	return this.oldIndex.size();
     }
 
-    public Case[][] getLastWorld() {
+    public Vector<Mouvement> getChangement() {
 	if(!this.oldIndex.empty()) {
-	    Case[][] o = this.oldIndex.peek();
+	    Vector<Mouvement> o = this.oldIndex.peek();
 	    if(o != null) {
-		return this.oldIndex.peek();
+		return o;
 	    }
 	}
 
 	return null;
     }
 
-    public Case[][] getThisWorld() {
+    public Square[][] getThisWorld() {
 	return this.index;
     }
 }
