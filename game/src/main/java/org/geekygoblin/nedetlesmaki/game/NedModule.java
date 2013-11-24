@@ -32,6 +32,7 @@ import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.PlayMode;
 
 import java.io.File;
+import java.util.Random;
 
 import javax.inject.Singleton;
 
@@ -73,6 +74,7 @@ public class NedModule extends AbstractModule {
         bind(DrawSystem.class);
 	bind(UpdateLevelVisualSystem.class);
 	bind(EntityIndexManager.class);
+        bind(Random.class).toInstance(new Random(42));
     }
 
     @Provides
