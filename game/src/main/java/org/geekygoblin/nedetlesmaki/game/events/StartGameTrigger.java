@@ -342,7 +342,8 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_BELOW, wall);
         game.addEntity(wall);
         indexSystem.added(wall);
-        return wall;
+        
+	return wall;
     }
 
     private Entity createPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer, ColorType color) {
@@ -360,8 +361,6 @@ public class StartGameTrigger extends Trigger {
         indexSystem.added(plate);
 	game.addEntity(plate);
         
-	System.out.printf("Create plate : %d %d", x, y);
-
 	createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, plate);
 
         return plate;

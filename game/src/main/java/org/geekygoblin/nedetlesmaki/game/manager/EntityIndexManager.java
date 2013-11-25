@@ -101,6 +101,10 @@ public class EntityIndexManager extends EntityManager {
      }
 
     public boolean moveEntity(int x, int y, int x2, int y2) {
+	if(index[x][y] == null) {
+	    return false;
+	}
+	
 	ArrayList<Entity> tmpE = index[x][y].getWith(Movable.class);
 
 	Square newC = this.index[x2][y2];
