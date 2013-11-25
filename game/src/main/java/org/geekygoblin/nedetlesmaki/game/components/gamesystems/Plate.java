@@ -35,22 +35,8 @@ public class Plate extends Component {
     private Color c;
     private boolean b;
 
-    public Plate(Color c) {
-	this.c = c;
-	this.b = false;
-    }
-
-    public Plate(Color c, boolean b) {
-	this.c = c;
+    public Plate(boolean b) {
 	this.b = b;
-    }
-
-    public ColorType getColor() {
-	return c.getColor();
-    }
-
-    public void setColor(ColorType c) {
-	this.c.setColor(c);
     }
 
     public boolean isPlate() {

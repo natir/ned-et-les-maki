@@ -23,7 +23,7 @@ package org.geekygoblin.nedetlesmaki.game.systems;
 
 import javax.inject.Inject;
 
-import java.util.Vector;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 
@@ -78,7 +78,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
  
 	if (index.sizeOfStack() != nbIndexSaved) {
 	    nbIndexSaved = index.sizeOfStack();
-	    Vector<Mouvement> change = this.index.getChangement();
+	    ArrayList<Mouvement> change = this.index.getChangement();
 	    if(change != null) {
 		for (int i = 0; i != change.size(); i++) {
 		    List<Position> tmpLP = change.get(i).getPositionList();

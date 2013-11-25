@@ -24,7 +24,8 @@ package org.geekygoblin.nedetlesmaki.game.systems;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.artemis.Entity;
 import com.artemis.ComponentMapper;
@@ -73,20 +74,21 @@ public class GameSystem extends VoidEntitySystem {
     @Override
     protected void processSystem() {}
     
-    public Vector<Mouvement> moveEntity(Entity e, Position dirP) {
-	System.out.print("moveEntity call : ");
+    public ArrayList<Mouvement> moveEntity(Entity e, Position dirP) {
+	this.printIndex();
+	System.out.print("\nmoveEntity call : ");
 	System.out.print(e);
 	System.out.print(" ");
 	dirP.print();
 
-	Vector<Mouvement> v = new Vector<Mouvement>();
+	ArrayList<Mouvement> v = new ArrayList<Mouvement>();
 
 	/*Check if move possible*/
 	Position oldP = this.getPosition(e);
 	Position newP = this.testMove(e, dirP);
 	Position nextP = PosOperation.sum(newP, dirP);
 
-	Vector<Mouvement> tmp = this.testNextEntityMovable(newP, e, dirP);
+	ArrayList<Mouvement> tmp = this.testNextEntityMovable(newP, e, dirP);
 	if(tmp != null) {
 	    v.addAll(tmp);
 	}
@@ -193,7 +195,7 @@ public class GameSystem extends VoidEntitySystem {
 	}
     }
 
-    public Vector<Mouvement> testNextEntityMovable(Position nextP, Entity cE, Position dirP) {
+    public ArrayList<Mouvement> testNextEntityMovable(Position nextP, Entity cE, Position dirP) {
 	
 	System.out.print("testNextEntityMovablel : ");
 	nextP.print();
@@ -204,7 +206,7 @@ public class GameSystem extends VoidEntitySystem {
 	System.out.print("\n");
 
 	if(!positionIsVoid(nextP)) {
-	    Entity nextE = index.getEntity(nextP.getX(), nextP.getY());
+	    Entity nextE = index.getEntity(nextP.getX(), nextP.getY()).get(0);
 	    
 	    if(this.isPusherEntity(cE))
 	    {	
@@ -231,7 +233,14 @@ public class GameSystem extends VoidEntitySystem {
 	System.out.print(obj);
 	System.out.print("\n");
 	
-	Plate p = obj.getPlate();
+	ArrayList<Entity> array = obj.getWith(Plate.class);
+	
+	if(array.size() == 0) {
+	    return false;
+	}
+
+	Entity plate = obj.getWith(Plate.class).get(0);
+	Plate p = plate.getComponent(Plate.class);
 	BlockOnPlate b = blockOnPlateMapper.getSafe(eMove);
 
 	if(b == null)
@@ -260,9 +269,9 @@ public class GameSystem extends VoidEntitySystem {
 	    Square s = this.index.getSquare(i, y);
 	    
 	    if(s != null) {
-		Entity e = s.getEntity();
+		ArrayList<Entity> array = s.getWith(Position.class);
 		
-		if(e != null) {
+		if(array.size() != 0) {
 		    if(this.testBlockedPlate(eMove, s)) {
 			return old;
 		    }
@@ -294,9 +303,9 @@ public class GameSystem extends VoidEntitySystem {
 	    Square s = this.index.getSquare(x, i);
 	
 	    if(s != null) {
-		Entity e = s.getEntity();
+	        ArrayList<Entity> array = s.getWith(Position.class);
 		
-		if(e != null) {
+		if(array.size() != 0) {
 		    if(this.testBlockedPlate(eMove, s)) {
 			return old;
 		    }
@@ -317,11 +326,14 @@ public class GameSystem extends VoidEntitySystem {
     }
 
     public boolean positionIsVoid(Position p) {
-	Entity tmpE = index.getEntity(p.getX(), p.getY());
-	if(tmpE != null) {
-	    return false;
-	}
+	ArrayList<Entity> tmpE = index.getEntity(p.getX(), p.getY());
 	
+	if(tmpE != null) {
+	    if(tmpE.size() != 0) {
+		return false;
+	    }
+	}
+
 	return true;
     }
 
@@ -369,20 +381,20 @@ public class GameSystem extends VoidEntitySystem {
 	return 0;
     }
 
-    public void printIndex() {
-	for(int i = 0; i != 15; i++) {
-	    for(int j = 0; j != 15; j++) {
-		Square s = index.getSquare(i, j);
-		if(s != null) {
-		    Entity e = s.getEntity();
-		    Plate p = s.getPlate();
-		    if(e != null) {
-			System.out.printf("[%d, %d] %b : ", i, j, p.isPlate());
-			System.out.print(e);
-			System.out.print("\n");
-		    }
-		}
-	    }
-	}
-    }
+     public void printIndex() {
+	 for(int i = 0; i != 15; i++) {
+	     for(int j = 0; j != 15; j++) {
+		 Square s = index.getSquare(i, j);
+		 if(s != null) {
+		     ArrayList<Entity> array = s.getAll();
+		     for(Iterator it = array.iterator(); it.hasNext();) {
+			 Entity e = (Entity) it.next(); 
+			 System.out.printf("[%d, %d] : ", i, j);
+			 System.out.print(e);
+			 System.out.print("\n");
+		     }
+		 }
+	     }
+	 }
+     }
 }
