@@ -50,6 +50,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Rooted;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.StopOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
@@ -228,6 +229,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(1));
         maki.addComponent(new Pushable(true));
+        maki.addComponent(new StopOnPlate(true));
         maki.addComponent(new Color(ColorType.green));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
@@ -241,7 +243,8 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(15));
         maki.addComponent(new Pushable(true));
-	maki.addComponent(new Color(ColorType.orange));
+        maki.addComponent(new StopOnPlate(true));
+        maki.addComponent(new Color(ColorType.orange));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
@@ -256,6 +259,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Boostable(3));
         maki.addComponent(new Pusher(false));
         maki.addComponent(new Pushable(true));
+        maki.addComponent(new StopOnPlate(true));
         maki.addComponent(new Color(ColorType.blue));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
@@ -269,7 +273,8 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(1));
         maki.addComponent(new Pushable(true));
-	maki.addComponent(new Color(ColorType.green));
+	maki.addComponent(new StopOnPlate(true));
+        maki.addComponent(new Color(ColorType.green));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
 	game.addEntity(maki);
         indexSystem.added(maki);
@@ -283,6 +288,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(15));
         maki.addComponent(new Pushable(true));
+        maki.addComponent(new StopOnPlate(true));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
@@ -298,6 +304,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Boostable(3));
         maki.addComponent(new Pusher(false));
         maki.addComponent(new Pushable(true));
+        maki.addComponent(new StopOnPlate(true));
         maki.addComponent(new Color(ColorType.green));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
