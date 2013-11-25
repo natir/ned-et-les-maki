@@ -21,6 +21,9 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
 
+import java.util.Iterator;
+import java.util.ArrayList;
+
 import com.artemis.Component;
 import com.artemis.Entity;
 
@@ -29,48 +32,46 @@ import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 
 public class Square extends Component {
 
-    private Entity e;
-    private Plate p;
+    private ArrayList<Entity> array;
 
     public Square() {
-	this.e = null;
-	this.p = new Plate(new Color(ColorType.no));
-    }
-    
-    public Square(Entity e) {
-	this.e = e;
-	this.p = new Plate(new Color(ColorType.no));
+	this.array = new ArrayList();
     }
 
-    public Square(Entity e, Plate p) {
-	this.e = e;
-	this.p = p;
+    public boolean add(Entity e) {
+	return this.array.add(e);
     }
 
-    public Square(Square c) {
-	if(c != null) {
-	    this.e = c.getEntity();
-	    this.p = c.getPlate();
-	}
-	else {
-	    this.e = null;
-	    this.p = new Plate(new Color(ColorType.no));
+    public void remove(Entity del) {
+	for(Iterator it = this.array.iterator(); it.hasNext();) {
+	    Entity e = (Entity) it.next();
+	    System.out.print("Call remove : ");
+	    System.out.print(del.getId());
+	    System.out.print(" ");
+	    System.out.print(e.getId());
+	    System.out.print("\n");	    
+	    if(e.getId() == del.getId()) {
+		it.remove();
+	    }
 	}
     }
 
-    public Entity getEntity() {
-	return this.e;
+    public ArrayList<Entity> getWith(Class componentClass) {
+	ArrayList<Entity> ret = new ArrayList();
+
+	for(Iterator it = this.array.iterator(); it.hasNext();) {
+	    Entity e = (Entity) it.next();
+	    Object c = e.getComponent(componentClass);
+	    
+	    if(c != null) {
+		ret.add(e);
+	    }
+	}
+
+	return ret;
     }
 
-    public void setEntity(Entity e) {
-	this.e = e;
-    }
-
-    public Plate getPlate() {
-	return this.p;
-    }
-
-    public void setPlate(Plate p) {
-	this.p = p;
+    public ArrayList<Entity> getAll() {
+	return this.array;
     }
 }

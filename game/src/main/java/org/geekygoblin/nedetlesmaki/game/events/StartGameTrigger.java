@@ -49,6 +49,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Rooted;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
@@ -327,19 +328,17 @@ public class StartGameTrigger extends Trigger {
 	if(s == null) {
 	    s = new Square();
         }
-	if(s.getEntity() == null) {
-	    s.setEntity(game.createEntity());
 
-	    game.addEntity(s.getEntity());
-	    indexSystem.added(s.getEntity());
-	}
+	Entity plate = game.createEntity();
+	plate.addComponent(new Color(color));
+	plate.addComponent(new Plate(true));
+	
+        createSprite(tmx, x, y, l, tile, layer, plate);
 
-	s.getPlate().setColor(color);
-	s.getPlate().setPlate(true);
+	s.add(plate);
+	game.addEntity(plate);
 
-        createSprite(tmx, x, y, l, tile, layer, s.getEntity());
-
-        return s.getEntity();
+        return plate;
     }
 
     private void createProjector(Game game, TmxAsset tmx) {

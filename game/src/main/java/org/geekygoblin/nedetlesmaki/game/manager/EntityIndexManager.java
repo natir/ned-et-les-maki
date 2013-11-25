@@ -22,7 +22,7 @@
 package org.geekygoblin.nedetlesmaki.game.manager;
 
 import java.util.Stack;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -37,6 +37,8 @@ import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Movable;
+
 /**
  *
  * @author natir
@@ -45,7 +47,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 public class EntityIndexManager extends EntityManager {
     
     private Square[][] index;
-    private Stack<Vector<Mouvement>> oldIndex;
+    private Stack<ArrayList<Mouvement>> oldIndex;
     
     @Mapper
     ComponentMapper<Position> positionMapper;
@@ -62,7 +64,8 @@ public class EntityIndexManager extends EntityManager {
 	Position p = e.getComponent(Position.class);
 	
 	if(p != null) {
-	    this.index[p.getX()][p.getY()] = new Square(e);
+	    this.index[p.getX()][p.getY()] = new Square();
+	    this.index[p.getX()][p.getY()].add(e);
 	    super.added(e);
 	}
     }
@@ -72,16 +75,16 @@ public class EntityIndexManager extends EntityManager {
 	Position p = e.getComponent(Position.class);
 	
 	if(p != null) {
-	    this.index[p.getX()][p.getY()].setEntity(null);
+	    this.index[p.getX()][p.getY()].remove(e);
 	    super.deleted(e);
     	}
     }
 
-     public Entity getEntity(int x, int y) {
+     public ArrayList<Entity> getEntity(int x, int y) {
 
 	 Square test = this.getSquare(x, y);
 
-	 if(test != null) { return test.getEntity(); }
+	 if(test != null) { return test.getAll(); }
 	 else { return null; }
      }
 
@@ -98,23 +101,24 @@ public class EntityIndexManager extends EntityManager {
      }
 
     public boolean moveEntity(int x, int y, int x2, int y2) {
-	Entity tmpE = index[x][y].getEntity();
+	ArrayList<Entity> tmpE = index[x][y].getWith(Movable.class);
 
 	Square newC = this.index[x2][y2];
 	
 	if(newC != null) {
-	    this.index[x2][y2].setEntity(tmpE);
+	    this.index[x2][y2].add(tmpE.get(0));
 	}
 	else {
-	    this.index[x2][y2] = new Square(tmpE);
+	    this.index[x2][y2] = new Square();
+	    this.index[x2][y2].add(tmpE.get(0));
 	}
 
-	this.index[x][y].setEntity(null);
+	this.index[x][y].remove(tmpE.get(0));
 
 	return true;
     }
 
-    public boolean addMouvement(Vector<Mouvement> vM) {
+    public boolean addMouvement(ArrayList<Mouvement> vM) {
         return this.oldIndex.add(vM);
     }
     
@@ -126,9 +130,9 @@ public class EntityIndexManager extends EntityManager {
 	return this.oldIndex.size();
     }
 
-    public Vector<Mouvement> getChangement() {
+    public ArrayList<Mouvement> getChangement() {
 	if(!this.oldIndex.empty()) {
-	    Vector<Mouvement> o = this.oldIndex.peek();
+	    ArrayList<Mouvement> o = this.oldIndex.peek();
 	    if(o != null) {
 		return o;
 	    }

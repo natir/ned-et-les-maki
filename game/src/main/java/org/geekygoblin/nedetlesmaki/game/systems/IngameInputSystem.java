@@ -113,7 +113,6 @@ public class IngameInputSystem extends EntityProcessingSystem {
         	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1)));
 		    System.out.print("Ned :");
 		    ned.getComponent(Position.class).print();
-		    gameSystem.printIndex();
 
 		    ned.changedInWorld();
 		}
@@ -124,7 +123,6 @@ public class IngameInputSystem extends EntityProcessingSystem {
 
 		    System.out.print("Ned :");
 		    ned.getComponent(Position.class).print();
-		    gameSystem.printIndex();
 
 		    ned.changedInWorld();
 		}
@@ -135,7 +133,6 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		
         	    System.out.print("Ned :");
 		    ned.getComponent(Position.class).print();
-		    gameSystem.printIndex();
 
                     ned.changedInWorld();
 		}
@@ -145,7 +142,6 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0)));	    
         	    System.out.print("Ned :");
 		    ned.getComponent(Position.class).print();
-		    gameSystem.printIndex();
 
                     ned.changedInWorld();
 		}
