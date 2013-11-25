@@ -100,8 +100,15 @@ public class MainLoop {
 
     private void setVideoMode() {
         try {
-            DisplayMode mode = new DisplayMode(preferences.getInt("video.width", 800), preferences.getInt("video.height", 600));
-            if (preferences.getBoolean("video.fullscreen", false)) {
+            int width = preferences.getInt("video.width", -1);
+            int height = preferences.getInt("video.height", -1);
+            boolean fullscreen = preferences.getBoolean("video.fullscreen", true);
+            if(width<0 || height<0) {
+                width = Display.getDesktopDisplayMode().getWidth();
+                height = Display.getDesktopDisplayMode().getHeight();
+            }
+            DisplayMode mode = LwjglHelper.findBestDisplayMode(width,height);
+            if (fullscreen) {
                 Display.setDisplayModeAndFullscreen(mode);
             } else {
                 Display.setFullscreen(false);
