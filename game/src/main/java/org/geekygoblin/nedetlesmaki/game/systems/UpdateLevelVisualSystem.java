@@ -36,14 +36,11 @@ import im.bci.nanim.IAnimationCollection;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
-import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.constants.AnimationType;
-import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 
@@ -63,7 +60,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     private final Assets assets;
     private Game game;
     private int nbIndexSaved;
-    private EntityIndexManager index;
+    private final EntityIndexManager index;
 
     @Inject
     public UpdateLevelVisualSystem(Assets assets, EntityIndexManager indexSystem) {
@@ -79,13 +76,15 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 	if (index.sizeOfStack() != nbIndexSaved) {
 	    nbIndexSaved = index.sizeOfStack();
 	    ArrayList<Mouvement> change = this.index.getChangement();
+
 	    if(change != null) {
-		for (int i = 0; i != change.size(); i++) {
+		for (int i = 0; i != change.size(); i++) {  
+
 		    List<Position> tmpLP = change.get(i).getPositionList();
 		    List<AnimationType> tmpLA = change.get(i).getAnimationList();
-		    for(Iterator itP = tmpLP.iterator(), itA = tmpLA.iterator(); itP.hasNext() && itA.hasNext();) {
+		    for(Iterator itP = tmpLP.iterator(), itA = tmpLA.iterator(); itP.hasNext() || itA.hasNext();) {
 			this.moveSprite(change.get(i).getEntity(), (Position) itP.next(), (AnimationType) itA.next());
-		    }
+                    }
 		}
 	    }
         }
@@ -101,12 +100,12 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 	if(a == AnimationType.no) {
 	    updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
 		.stopAnimation();
-	}
+        }
 	else if(a == AnimationType.ned_right) {
 	    IAnimationCollection anims = this.assets.getAnimations("ned.nanim");
             updatable.startAnimation(anims.getAnimationByName("walk_right"))
 		.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
-		.stopAnimation();
+                .stopAnimation();
 	}
 	else if(a == AnimationType.ned_left) {
 	    IAnimationCollection anims = this.assets.getAnimations("ned.nanim");
