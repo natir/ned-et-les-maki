@@ -92,17 +92,11 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     }
 
     private void moveSprite(Entity e, Position diff, AnimationType a) {
-	System.out.print("moveSprite : entity ");
-	System.out.print(e);
-	System.out.print(" diff ");
-	diff.print();
 
         Sprite sprite = e.getComponent(Sprite.class);
         Vector3f pos = sprite.getPosition();
         SpritePuppetControls updatable = new SpritePuppetControls(sprite);
         Position p = new Position((int) pos.x + diff.getY(), (int) pos.y + diff.getX());
-
-	System.out.printf("Sprite pos %f %f %f\n", pos.x, pos.y, pos.z);
 
 	if(a == AnimationType.no) {
 	    updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)

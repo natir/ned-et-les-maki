@@ -36,7 +36,7 @@
  </tile>
  <tile id="6">
   <properties>
-   <property name="type" value="pink_plate"/>
+   <property name="type" value="orange_plate"/>
   </properties>
  </tile>
  <tile id="7">
@@ -67,6 +67,11 @@
  <tile id="25">
   <properties>
    <property name="type" value="box"/>
+  </properties>
+ </tile>
+ <tile id="26">
+  <properties>
+   <property name="title" value="blue_maki"/>
   </properties>
  </tile>
  <tile id="27">
