@@ -65,170 +65,167 @@ public class GameSystem extends VoidEntitySystem {
     @Mapper
     ComponentMapper<BlockOnPlate> blockOnPlateMapper;
 
-    
     @Inject
     public GameSystem(EntityIndexManager index) {
-	this.index = index;
+        this.index = index;
     }
 
     @Override
-    protected void processSystem() {}
-    
-    public ArrayList<Mouvement> moveEntity(Entity e, Position dirP) {
-	/*Check if move possible*/
-	Position oldP = this.getPosition(e);
-	
-	ArrayList<Mouvement> mouv = new ArrayList<Mouvement>();
-
-	for(int i = 0; i != this.getMovable(e); i++) {
-	    Position newP = PosOperation.sum(oldP, dirP);
-
-	    if(this.positionIsVoid(PosOperation.sum(oldP, dirP))) {
-		Square s = index.getSquare(newP.getX(), newP.getY());
-		
-		if(!this.testBlockedPlate(e, s)) {
-		    if(!PosOperation.equale(newP, this.getPosition(e))) {
-			if(index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
-			    Position diff = PosOperation.deduction(newP, oldP);
-			    Mouvement m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.no);
-
-			    if(e == ((Game) this.world).getNed()) {
-				if(diff.getX() > 0) {
-				    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_right);
-				}
-				else if(diff.getX() < 0) {
-				    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_left);
-				}
-				else if(diff.getY() > 0) {
-				    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_down);
-				}
-				else if(diff.getY() < 0) {
-				    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_up);
-				}
-			    }
-
-			    mouv.add(m);
-
-			    e.getComponent(Position.class).setX(newP.getX());
-			    e.getComponent(Position.class).setY(newP.getY());
-			}
-		    }
-		}
-	    }
-	    else {
-		if(this.isPusherEntity(e))
-		{	
-		    Entity nextE = index.getEntity(newP.getX(), newP.getY()).get(0);
-		    if(this.isPushableEntity(nextE)) {
-			mouv.addAll(this.moveEntity(nextE, dirP));
-		    }
-		}
-		
-		return mouv;
-	    }
-	}
-
-	return mouv;
+    protected void processSystem() {
     }
 
-    private boolean testBlockedPlate(Entity eMove, Square obj) {	
-	if(obj == null) {
-	    return false;
-	}
+    public ArrayList<Mouvement> moveEntity(Entity e, Position dirP) {
+        /*Check if move possible*/
+        Position oldP = this.getPosition(e);
 
-	ArrayList<Entity> array = obj.getWith(Plate.class);
-	
-	if(array.size() == 0) {
-	    return false;
-	}
+        ArrayList<Mouvement> mouv = new ArrayList<Mouvement>();
 
-	Entity plate = obj.getWith(Plate.class).get(0);
-	Plate p = plate.getComponent(Plate.class);
-	BlockOnPlate b = blockOnPlateMapper.getSafe(eMove);
+        for (int i = 0; i != this.getMovable(e); i++) {
+            Position newP = PosOperation.sum(oldP, dirP);
 
-	if(b == null)
-	{
-	    return false;
-	}
+            if (this.positionIsVoid(PosOperation.sum(oldP, dirP))) {
+                Square s = index.getSquare(newP.getX(), newP.getY());
 
-	if(p.isPlate()) {
-	    if(b.block()) {
-		return true;
-	    }
-	}
-	
-	return false;
+                if (!this.testBlockedPlate(e, s)) {
+                    if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
+                        Position diff = PosOperation.deduction(newP, oldP);
+                        Mouvement m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.no);
+
+                        if (e == ((Game) this.world).getNed()) {
+                            if (diff.getX() > 0) {
+                                m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_right);
+                            } else if (diff.getX() < 0) {
+                                m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_left);
+                            } else if (diff.getY() > 0) {
+                                m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_down);
+                            } else if (diff.getY() < 0) {
+                                m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_up);
+                            }
+                        }
+
+                        mouv.add(m);
+
+                        e.getComponent(Position.class).setX(newP.getX());
+                        e.getComponent(Position.class).setY(newP.getY());
+                    }
+                }
+            } else {
+                if (this.isPusherEntity(e)) {
+                    Entity nextE = index.getEntity(newP.getX(), newP.getY()).get(0);
+                    if (this.isPushableEntity(nextE)) {
+                        mouv.addAll(this.moveEntity(nextE, dirP));
+                    }
+                }
+
+                return mouv;
+            }
+        }
+
+        return mouv;
+    }
+    
+    private boolean testBlockedPlate(Entity eMove, Square obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        ArrayList<Entity> array = obj.getWith(Plate.class);
+
+        if (array.size() == 0) {
+            return false;
+        }
+
+        Entity plate = obj.getWith(Plate.class).get(0);
+        Plate p = plate.getComponent(Plate.class);
+        BlockOnPlate b = blockOnPlateMapper.getSafe(eMove);
+
+        if (b == null) {
+            return false;
+        }
+
+        if (p.isPlate()) {
+            if (b.block()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public boolean positionIsVoid(Position p) {
-	ArrayList<Entity> tmpE = index.getEntity(p.getX(), p.getY());
+        Square s = index.getSquare(p.getX(), p.getY());
+        
+        if (s != null) {
+            ArrayList<Entity> plate = s.getWith(Plate.class);
+            ArrayList<Entity> all = s.getAll();
+        
+            if (all.size() == plate.size()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
 
-	if(tmpE != null) {
-	    if(tmpE.size() != 0) {
-		return false;
-	    }
-	}
-
-	return true;
+        return true;
     }
 
     public boolean isPushableEntity(Entity e) {
-	Pushable p = this.pushableMapper.getSafe(e);
+        Pushable p = this.pushableMapper.getSafe(e);
 
-	if(p != null) {
-	    if(p.isPushable()) {
-		return true;
-	    }
-	}
+        if (p != null) {
+            if (p.isPushable()) {
+                return true;
+            }
+        }
 
-	return false;
+        return false;
     }
 
     public boolean isPusherEntity(Entity e) {
-	Pusher p = this.pusherMapper.getSafe(e);
+        Pusher p = this.pusherMapper.getSafe(e);
 
-	if(p != null) {
-	    if(p.isPusher()) {
-		return true;
-	    }
-	}
+        if (p != null) {
+            if (p.isPusher()) {
+                return true;
+            }
+        }
 
-	return false;
+        return false;
     }
 
     public Position getPosition(Entity e) {
-	Position p = this.positionMapper.getSafe(e);
-	
-	if(p != null) {
-	    return p;
-	}
-	
-	return new Position(-1, -1);
+        Position p = this.positionMapper.getSafe(e);
+
+        if (p != null) {
+            return p;
+        }
+
+        return new Position(-1, -1);
     }
-    
+
     public int getMovable(Entity e) {
-	Movable m = this.movableMapper.getSafe(e);
+        Movable m = this.movableMapper.getSafe(e);
 
-	if(m != null) {
-	    return m.getNbCase();
-	}
+        if (m != null) {
+            return m.getNbCase();
+        }
 
-	return 0;
+        return 0;
     }
 
     public void printIndex() {
-	for(int i = 0; i != 15; i++) {
-	    for(int j = 0; j != 15; j++) {
-		Square s = index.getSquare(i, j);
-		if(s != null) {
-		    ArrayList<Entity> array = s.getAll();
+        for (int i = 0; i != 15; i++) {
+            for (int j = 0; j != 15; j++) {
+                Square s = index.getSquare(i, j);
+                if (s != null) {
+                    ArrayList<Entity> array = s.getAll();
                     for (Entity e : array) {
                         System.out.printf("[%d, %d] : ", i, j);
                         System.out.print(e);
                         System.out.print("\n");
                     }
-		}
-	    }
-	}
+                }
+            }
+        }
     }
 }
