@@ -355,10 +355,13 @@ public class StartGameTrigger extends Trigger {
 	Entity plate = game.createEntity();
 	plate.addComponent(new Color(color));
 	plate.addComponent(new Plate(true));
+	plate.addComponent(new Position(x, y));
 	
-	s.add(plate);
+        indexSystem.added(plate);
 	game.addEntity(plate);
         
+	System.out.printf("Create plate : %d %d", x, y);
+
 	createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, plate);
 
         return plate;

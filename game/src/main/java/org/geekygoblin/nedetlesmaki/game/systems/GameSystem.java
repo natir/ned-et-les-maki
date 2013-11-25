@@ -75,8 +75,7 @@ public class GameSystem extends VoidEntitySystem {
     protected void processSystem() {}
     
     public ArrayList<Mouvement> moveEntity(Entity e, Position dirP) {
-	this.printIndex();
-	System.out.print("\nmoveEntity call : ");
+	System.out.print("\n\n\nmoveEntity call : ");
 	System.out.print(e);
 	System.out.print(" ");
 	dirP.print();
@@ -143,9 +142,6 @@ public class GameSystem extends VoidEntitySystem {
 
 	int trueX = newP.getX();
 	int trueY = newP.getY();
-    
-	// System.out.print("Diff P : ");
-	// dirP.print();
 
 	if(newP.getX() >= 14) { newP.setX(14); }
 	if(newP.getX() <= 0) { newP.setX(0); }
@@ -236,6 +232,7 @@ public class GameSystem extends VoidEntitySystem {
 	ArrayList<Entity> array = obj.getWith(Plate.class);
 	
 	if(array.size() == 0) {
+	    System.out.print("Array equale to 0\n");
 	    return false;
 	}
 
@@ -265,13 +262,15 @@ public class GameSystem extends VoidEntitySystem {
 
 	Position old = new Position(base, y);
 
-	for(int i = base + (1 * mul); i != max && i != 15 && i != 0; i += 1 * mul) {
+	for(int i = base; i != max + (1 * mul) && i != 15 && i != 0; i += 1 * mul) {
 	    Square s = this.index.getSquare(i, y);
 	    
 	    if(s != null) {
+		System.out.printf("S isn't null x %d", i);
 		ArrayList<Entity> array = s.getWith(Position.class);
 		
 		if(array.size() != 0) {
+		    System.out.print("Array size is 0");
 		    if(this.testBlockedPlate(eMove, s)) {
 			return old;
 		    }
@@ -299,13 +298,15 @@ public class GameSystem extends VoidEntitySystem {
 
 	Position old = new Position(x, base);
 
-	for(int i = base + (1 * mul); i != max && i != 15 && i != 0; i += 1 * mul) {
+	for(int i = base; i != max + (1 * mul) && i != 15 && i != 0; i += 1 * mul) {
 	    Square s = this.index.getSquare(x, i);
 	
 	    if(s != null) {
+	        System.out.printf("S isn't null x %d", i);
 	        ArrayList<Entity> array = s.getWith(Position.class);
 		
 		if(array.size() != 0) {
+		    System.out.print("Array size is 0\n");
 		    if(this.testBlockedPlate(eMove, s)) {
 			return old;
 		    }
