@@ -75,29 +75,19 @@ public class GameSystem extends VoidEntitySystem {
     protected void processSystem() {}
     
     public ArrayList<Mouvement> moveEntity(Entity e, Position dirP) {
-	System.out.print("\n\n\nmoveEntity call : ");
-	System.out.print(e);
-	System.out.print(" ");
-	dirP.print();
-
 	/*Check if move possible*/
 	Position oldP = this.getPosition(e);
 	
 	ArrayList<Mouvement> mouv = new ArrayList<Mouvement>();
 
 	for(int i = 0; i != this.getMovable(e); i++) {
-	    System.out.printf("get in boucle, %d\n", i);
 	    Position newP = PosOperation.sum(oldP, dirP);
 
 	    if(this.positionIsVoid(PosOperation.sum(oldP, dirP))) {
-		System.out.print("Position is void\n");
 		Square s = index.getSquare(newP.getX(), newP.getY());
 		
 		if(!this.testBlockedPlate(e, s)) {
 		    if(!PosOperation.equale(newP, this.getPosition(e))) {
-			System.out.print("\nCurrent oldPos : ");
-			oldP.print();
-			System.out.print("\n\n");
 			if(index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
 			    Position diff = PosOperation.deduction(newP, oldP);
 			    Mouvement m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.no);
@@ -121,13 +111,6 @@ public class GameSystem extends VoidEntitySystem {
 
 			    e.getComponent(Position.class).setX(newP.getX());
 			    e.getComponent(Position.class).setY(newP.getY());
-
-			    System.out.printf("\nMouv Array : %d", mouv.size());  
-			    System.out.print("\n\n");
-			    // oldP = PosOperation.deduction(oldP, dirP);
-			    // System.out.print("\nChange oldPos : ");
-			    // oldP.print();
-			    // System.out.print("\n\n");
 			}
 		    }
 		}
@@ -148,13 +131,7 @@ public class GameSystem extends VoidEntitySystem {
 	return mouv;
     }
 
-    private boolean testBlockedPlate(Entity eMove, Square obj) {
-	System.out.print("testBlockedPlate call : ");
-	System.out.print(eMove);
-	System.out.print(" ");
-	System.out.print(obj);
-	System.out.print("\n");
-	
+    private boolean testBlockedPlate(Entity eMove, Square obj) {	
 	if(obj == null) {
 	    return false;
 	}
@@ -162,7 +139,6 @@ public class GameSystem extends VoidEntitySystem {
 	ArrayList<Entity> array = obj.getWith(Plate.class);
 	
 	if(array.size() == 0) {
-	    System.out.print("Array equale to 0\n");
 	    return false;
 	}
 
@@ -186,13 +162,9 @@ public class GameSystem extends VoidEntitySystem {
 
     public boolean positionIsVoid(Position p) {
 	ArrayList<Entity> tmpE = index.getEntity(p.getX(), p.getY());
-	System.out.print("Arrray : ");
-	System.out.print(tmpE);
-	System.out.print("\n");
+
 	if(tmpE != null) {
-	    System.out.print("Ouups\n");
 	    if(tmpE.size() != 0) {
-		System.out.printf("Size : %d\n", tmpE.size());
 		return false;
 	    }
 	}
@@ -250,12 +222,11 @@ public class GameSystem extends VoidEntitySystem {
 		Square s = index.getSquare(i, j);
 		if(s != null) {
 		    ArrayList<Entity> array = s.getAll();
-		    for(Iterator it = array.iterator(); it.hasNext();) {
-			Entity e = (Entity) it.next(); 
-			System.out.printf("[%d, %d] : ", i, j);
-			System.out.print(e);
-			System.out.print("\n");
-		    }
+                    for (Entity e : array) {
+                        System.out.printf("[%d, %d] : ", i, j);
+                        System.out.print(e);
+                        System.out.print("\n");
+                    }
 		}
 	    }
 	}

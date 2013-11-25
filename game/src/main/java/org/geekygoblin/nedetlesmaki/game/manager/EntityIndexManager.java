@@ -32,8 +32,6 @@ import com.artemis.EntityManager;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Mapper;
 
-import org.geekygoblin.nedetlesmaki.game.NamedEntities;
-import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
@@ -46,8 +44,8 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Movable;
 @Singleton
 public class EntityIndexManager extends EntityManager {
     
-    private Square[][] index;
-    private Stack<ArrayList<Mouvement>> oldIndex;
+    private final Square[][] index;
+    private final Stack<ArrayList<Mouvement>> oldIndex;
     
     @Mapper
     ComponentMapper<Position> positionMapper;

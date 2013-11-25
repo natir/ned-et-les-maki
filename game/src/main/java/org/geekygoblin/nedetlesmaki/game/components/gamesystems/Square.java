@@ -27,12 +27,9 @@ import java.util.ArrayList;
 import com.artemis.Component;
 import com.artemis.Entity;
 
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
-import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
-
 public class Square extends Component {
 
-    private ArrayList<Entity> array;
+    private final ArrayList<Entity> array;
 
     public Square() {
 	this.array = new ArrayList();
@@ -45,11 +42,7 @@ public class Square extends Component {
     public void remove(Entity del) {
 	for(Iterator it = this.array.iterator(); it.hasNext();) {
 	    Entity e = (Entity) it.next();
-	    System.out.print("Call remove : ");
-	    System.out.print(del.getId());
-	    System.out.print(" ");
-	    System.out.print(e.getId());
-	    System.out.print("\n");	    
+	    
 	    if(e.getId() == del.getId()) {
 		it.remove();
 	    }
@@ -58,15 +51,13 @@ public class Square extends Component {
 
     public ArrayList<Entity> getWith(Class componentClass) {
 	ArrayList<Entity> ret = new ArrayList();
-
-	for(Iterator it = this.array.iterator(); it.hasNext();) {
-	    Entity e = (Entity) it.next();
-	    Object c = e.getComponent(componentClass);
-	    
-	    if(c != null) {
-		ret.add(e);
-	    }
-	}
+        for (Entity e : this.array) {
+            Object c = e.getComponent(componentClass);
+            
+            if(c != null) {
+                ret.add(e);
+            }
+        }
 
 	return ret;
     }
