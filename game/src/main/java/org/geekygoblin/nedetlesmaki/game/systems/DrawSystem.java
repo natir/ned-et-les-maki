@@ -33,6 +33,7 @@ import im.bci.lwjgl.nuit.utils.LwjglHelper;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import im.bci.nanim.IAnimationFrame;
 import im.bci.nanim.IAnimationImage;
+import im.bci.nanim.IPlay;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,10 +56,10 @@ import org.lwjgl.util.vector.Vector2f;
  * @author devnewton
  */
 public class DrawSystem extends EntitySystem {
-
-    private static final int SCREEN_WIDTH = 1280;
-    private static final int SCREEN_HEIGHT = 800;
-
+    
+    public static final int SCREEN_WIDTH = 1280;
+    public static final int SCREEN_HEIGHT = 800;
+    
     @Mapper
     ComponentMapper<ZOrder> zOrderMapper;
     @Mapper
@@ -85,15 +86,16 @@ public class DrawSystem extends EntitySystem {
     };
     private SpriteProjector spriteProjector;
     private final Assets assets;
-
+    
     @Inject
     public DrawSystem(Assets assets) {
         super(Aspect.getAspectForAll(ZOrder.class).one(Level.class, MainMenu.class, Dialog.class, Sprite.class));
         this.assets = assets;
     }
-
+    
     @Override
     protected void processEntities(ImmutableBag<Entity> entities) {
+        GL11.glClearColor(99f/255f, 201f/255f, 183f/255f, 1f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
         List<Entity> entititesSortedByZ = new ArrayList<>(entities.size());
         for (int i = 0, n = entities.size(); i < n; ++i) {
@@ -103,13 +105,12 @@ public class DrawSystem extends EntitySystem {
             }
         }
         Collections.sort(entititesSortedByZ, zComparator);
-
+        
         GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_TRANSFORM_BIT | GL11.GL_HINT_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_SCISSOR_BIT | GL11.GL_LINE_BIT | GL11.GL_TEXTURE_BIT);
         GL11.glViewport(0, 0, LwjglHelper.getWidth(), LwjglHelper.getHeight());
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
-
         //
         final float aspect = (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT;
         int screenWidth = LwjglHelper.getWidth();
@@ -135,7 +136,7 @@ public class DrawSystem extends EntitySystem {
         GL11.glDisable(GL11.GL_SCISSOR_TEST);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
-
+        
         Game game = (Game) world;
         Entity ned = game.getNed();
         if (null != ned) {
@@ -143,7 +144,7 @@ public class DrawSystem extends EntitySystem {
             Vector2f nedPos = spriteProjector.project(nedSprite.getPosition());
             GL11.glTranslatef(-nedPos.x, -nedPos.y, 0.0f);
         }
-
+        
         for (Entity e : entititesSortedByZ) {
             MainMenu mainMenu = mainMenuMapper.getSafe(e);
             if (null != mainMenu) {
@@ -166,30 +167,56 @@ public class DrawSystem extends EntitySystem {
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPopMatrix();
         GL11.glPopAttrib();
-
+        
     }
-
+    
     @Override
     protected boolean checkProcessing() {
         return true;
     }
-
+    
     private void drawLevel(Level level) {
-
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glBegin(GL11.GL_POINTS);
-
-        GL11.glColor3f(1f, 0f, 0f);
-        GL11.glVertex2f(100, 0);
-        GL11.glColor3f(0f, 1f, 0f);
-        GL11.glVertex2f(0, 100);
-        GL11.glColor3f(1f, 1f, 1f);
-        GL11.glVertex2f(0, 0);
+        
+        GL11.glPushMatrix();
+        GL11.glLoadIdentity();
+        IPlay backgroundAnimationPlay = level.getBackground();
+        backgroundAnimationPlay.update((long) (world.getDelta() * 1000L));
+        final IAnimationFrame currentFrame = backgroundAnimationPlay.getCurrentFrame();
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, currentFrame.getImage().getId());
+        float x1 = -SCREEN_WIDTH / 2.0f;
+        float x2 = SCREEN_WIDTH / 2.0f;
+        float y1 = SCREEN_HEIGHT / 2.0f;
+        float y2 = -SCREEN_HEIGHT / 2.0f;
+        float u1 = currentFrame.getU1();
+        float u2 = currentFrame.getU2();
+        
+        float v1 = currentFrame.getV2();
+        float v2 = currentFrame.getV1();
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glTexCoord2f(u1, v1);
+        GL11.glVertex2f(x1, y2);
+        GL11.glTexCoord2f(u2, v1);
+        GL11.glVertex2f(x2, y2);
+        GL11.glTexCoord2f(u2, v2);
+        GL11.glVertex2f(x2, y1);
+        GL11.glTexCoord2f(u1, v2);
+        GL11.glVertex2f(x1, y1);
         GL11.glEnd();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glPopMatrix();
 
+        /*GL11.glDisable(GL11.GL_TEXTURE_2D);
+         GL11.glBegin(GL11.GL_POINTS);
+
+         GL11.glColor3f(1f, 0f, 0f);
+         GL11.glVertex2f(100, 0);
+         GL11.glColor3f(0f, 1f, 0f);
+         GL11.glVertex2f(0, 100);
+         GL11.glColor3f(1f, 1f, 1f);
+         GL11.glVertex2f(0, 0);
+         GL11.glEnd();
+         GL11.glEnable(GL11.GL_TEXTURE_2D);*/
     }
-
+    
     private void drawSprite(Sprite sprite) {
         GL11.glPushMatrix();
         Vector2f pos = spriteProjector.project(sprite.getPosition());
@@ -202,7 +229,7 @@ public class DrawSystem extends EntitySystem {
             GL11.glEnable(GL11.GL_BLEND);
         }
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, image.getId());
-
+        
         final float u1, u2;
         if (sprite.isMirrorX()) {
             u1 = frame.getU2();
@@ -211,7 +238,7 @@ public class DrawSystem extends EntitySystem {
             u1 = frame.getU1();
             u2 = frame.getU2();
         }
-
+        
         final float v1, v2;
         if (sprite.isMirrorY()) {
             v1 = frame.getV1();
@@ -251,7 +278,7 @@ public class DrawSystem extends EntitySystem {
             GL11.glPopMatrix();
         }
     }
-
+    
     public void setSpriteProjector(SpriteProjector spriteProjector) {
         this.spriteProjector = spriteProjector;
     }
