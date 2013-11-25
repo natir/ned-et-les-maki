@@ -84,8 +84,6 @@ public class IngameInputSystem extends EntityProcessingSystem {
                     Entity ned = game.getNed();
 
         	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1)));
-		    System.out.print("Ned :");
-		    ned.getComponent(Position.class).print();
 
 		    ned.changedInWorld();
 		}
@@ -94,9 +92,6 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		    
         	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1)));
 
-		    System.out.print("Ned :");
-		    ned.getComponent(Position.class).print();
-
 		    ned.changedInWorld();
 		}
 		else if (controls.getLeft().isActivated()) {
@@ -104,17 +99,12 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		    
         	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0)));
 		
-        	    System.out.print("Ned :");
-		    ned.getComponent(Position.class).print();
-
                     ned.changedInWorld();
 		}
 		else if (controls.getRight().isActivated()) {
 		    Entity ned = game.getNed();
 
 		    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0)));	    
-        	    System.out.print("Ned :");
-		    ned.getComponent(Position.class).print();
 
                     ned.changedInWorld();
 		}
