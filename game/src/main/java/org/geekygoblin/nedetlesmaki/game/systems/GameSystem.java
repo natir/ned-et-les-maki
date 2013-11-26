@@ -103,7 +103,7 @@ public class GameSystem extends VoidEntitySystem {
         for (int i = 0; i != this.getMovable(e); i++) {
             Position newP = PosOperation.sum(oldP, dirP);
 
-            if (i > this.getBoost(e)) {
+            if (i > this.getBoost(e) - 1) {
                 e.getComponent(Pusher.class).setPusher(true);
             }
 
