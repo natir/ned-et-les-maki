@@ -40,6 +40,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.StopOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Boostable;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
@@ -66,6 +67,8 @@ public class GameSystem extends VoidEntitySystem {
     @Mapper
     ComponentMapper<Plate> plateMapper;
     @Mapper
+    ComponentMapper<Boostable> boostMapper;
+    @Mapper
     ComponentMapper<BlockOnPlate> blockOnPlateMapper;
     @Mapper
     ComponentMapper<StopOnPlate> stopOnPlateMapper;
@@ -88,10 +91,19 @@ public class GameSystem extends VoidEntitySystem {
         for (int i = 0; i != this.getMovable(e); i++) {
             Position newP = PosOperation.sum(oldP, dirP);
 
+            if (this.getBoost(e) > i) {
+                e.getComponent(Pusher.class).setPusher(true);
+            }
+            
             if (this.positionIsVoid(newP)) {
                 Square s = index.getSquare(newP.getX(), newP.getY());
                 if (this.testStopOnPlate(e, s)) {
                     mouv.add(runValideMove(oldP, newP, e));
+
+                    if (this.getBoost(e) != -1) {
+                        e.getComponent(Pusher.class).setPusher(false);
+                    }
+                    
                     return mouv;
                 }
                 if (!this.testBlockedPlate(e, s)) {
@@ -109,6 +121,10 @@ public class GameSystem extends VoidEntitySystem {
                     }
                 }
 
+                if (this.getBoost(e) != -1) {
+                    e.getComponent(Pusher.class).setPusher(false);
+                }
+                
                 return mouv;
             }
         }
@@ -259,6 +275,16 @@ public class GameSystem extends VoidEntitySystem {
         return 0;
     }
 
+    public int getBoost(Entity e) {
+        Boostable b = this.boostMapper.getSafe(e);
+
+        if (b != null) {
+            return b.getNbCase();
+        }
+
+        return -1;
+    }
+    
     public void printIndex() {
         for (int i = 0; i != 15; i++) {
             for (int j = 0; j != 15; j++) {
