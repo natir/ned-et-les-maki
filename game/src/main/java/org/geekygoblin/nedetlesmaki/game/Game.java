@@ -30,6 +30,7 @@ import im.bci.lwjgl.nuit.NuitToolkit;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.game.systems.DebugSpriteSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.DialogSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
@@ -64,6 +65,7 @@ public class Game extends World {
 	setSystem(new TriggerWhenRemovedSystem());
 	setSystem(new MainMenuSystem());
 	setSystem(new DialogSystem());
+        setSystem(new DebugSpriteSystem());
 	setManager(new GroupManager());
 
 	initialize();
