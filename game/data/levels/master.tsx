@@ -71,7 +71,7 @@
  </tile>
  <tile id="26">
   <properties>
-   <property name="title" value="blue_maki"/>
+   <property name="type" value="blue_plate"/>
   </properties>
  </tile>
  <tile id="27">

@@ -253,7 +253,7 @@ public class StartGameTrigger extends Trigger {
 
     private Entity createBlueMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-
+        
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(15));
         maki.addComponent(new Boostable(3));
@@ -354,12 +354,7 @@ public class StartGameTrigger extends Trigger {
     }
 
     private Entity createPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer, ColorType color) {
-        Square s = indexSystem.getSquare(x, y);
-	
-	if(s == null) {
-	    s = new Square();
-        }
-
+        
 	Entity plate = game.createEntity();
 	plate.addComponent(new Color(color));
 	plate.addComponent(new Plate(true));
