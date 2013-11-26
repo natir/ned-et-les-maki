@@ -25,7 +25,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.artemis.Entity;
 import com.artemis.ComponentMapper;

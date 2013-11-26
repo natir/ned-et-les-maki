@@ -59,9 +59,7 @@ import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.SpriteProjector;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -173,7 +171,7 @@ public class StartGameTrigger extends Trigger {
 
     private Entity createDecoration(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity decoration = game.createEntity();
-        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_BELOW, decoration).setLabel(x + "," + y);
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_BELOW, decoration);
         game.addEntity(decoration);
         return decoration;
     }
@@ -377,32 +375,5 @@ public class StartGameTrigger extends Trigger {
         final float tileWidth = tmx.getMap().getTilewidth();
         final float tileHeight = tmx.getMap().getTileheight();
         game.getSystem(DrawSystem.class).setSpriteProjector(new IsometricSpriteProjector(tileWidth, tileHeight));
-    }
-
-    private static class IsometricSpriteProjector implements SpriteProjector {
-
-        private final float tileWidth;
-        private final float tileHeight;
-
-        public IsometricSpriteProjector(float tileWidth, float tileHeight) {
-            this.tileWidth = tileWidth;
-            this.tileHeight = tileHeight;
-        }
-
-        @Override
-        public Vector2f project(Vector3f pos) {
-            return new Vector2f(-(pos.x - pos.y) * tileWidth / 2.0f, (pos.x + pos.y) * tileHeight / 2.0f - pos.z);
-        }
-
-            @Override
-            public int compare(Vector3f v1, Vector3f v2) {
-                float d1 = v1.x + v1.y + v1.z;
-                float d2 = v2.x + v2.y + v2.z;
-                if (Math.abs(d1 - d2) < 0.1f) {
-                    return Float.compare(d1, d2);
-                } else {
-                    return 0;
-                }
-            }
     }
 }
