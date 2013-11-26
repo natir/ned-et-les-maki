@@ -126,6 +126,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 		.stopAnimation();
 	}
 
+        sprite.setPosition(new Vector3f(p.getX(), p.getY(), pos.z));
+        
 	e.addComponent(updatable);
         e.changedInWorld();
     }
