@@ -135,7 +135,9 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
                     .stopAnimation();
         } else if (a == AnimationType.box_destroy) {
-            sprite = new Sprite();
+            //sprite = new Sprite();
+            //TODO pourquoi créer un nouvel objet sprite sans le stocker quelquepart? qu'est-ce que tu veux faire?
+            throw new RuntimeException("TODO");
         } else if (a == AnimationType.maki_green_one) {
             updatable.startAnimation(makiAnim.getAnimationByName("maki_green_one"))
                     .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
@@ -149,8 +151,6 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
                     .stopAnimation();
         }
-
-        sprite.setPosition(new Vector3f(p.getX(), p.getY(), pos.z));
 
         e.addComponent(updatable);
         e.changedInWorld();
