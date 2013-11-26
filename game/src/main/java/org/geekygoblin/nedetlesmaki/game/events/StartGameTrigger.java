@@ -51,6 +51,8 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Rooted;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.StopOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyable;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyer;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
@@ -260,6 +262,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Pushable(true));
         maki.addComponent(new StopOnPlate(true));
         maki.addComponent(new Color(ColorType.blue));
+        maki.addComponent(new Destroyer(true));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
@@ -304,7 +307,8 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Pusher(false));
         maki.addComponent(new Pushable(true));
         maki.addComponent(new StopOnPlate(true));
-        maki.addComponent(new Color(ColorType.green));
+        maki.addComponent(new Color(ColorType.blue));
+         maki.addComponent(new Destroyer(true));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
@@ -320,6 +324,7 @@ public class StartGameTrigger extends Trigger {
         box.addComponent(new Pushable(true));
         box.addComponent(new Color(ColorType.no));
         box.addComponent(new BlockOnPlate(true));
+        box.addComponent(new Destroyable(true));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, box);
         game.addEntity(box);
         indexSystem.added(box);
