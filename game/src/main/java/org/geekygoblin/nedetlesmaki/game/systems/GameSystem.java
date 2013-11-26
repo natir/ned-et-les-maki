@@ -37,6 +37,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pusher;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Movable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.StopOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
@@ -63,7 +64,11 @@ public class GameSystem extends VoidEntitySystem {
     @Mapper
     ComponentMapper<Movable> movableMapper;
     @Mapper
+    ComponentMapper<Plate> plateMapper;
+    @Mapper
     ComponentMapper<BlockOnPlate> blockOnPlateMapper;
+    @Mapper
+    ComponentMapper<StopOnPlate> stopOnPlateMapper;
 
     @Inject
     public GameSystem(EntityIndexManager index) {
@@ -83,32 +88,15 @@ public class GameSystem extends VoidEntitySystem {
         for (int i = 0; i != this.getMovable(e); i++) {
             Position newP = PosOperation.sum(oldP, dirP);
 
-            if (this.positionIsVoid(PosOperation.sum(oldP, dirP))) {
+            if (this.positionIsVoid(newP)) {
                 Square s = index.getSquare(newP.getX(), newP.getY());
-
-                if (!this.testBlockedPlate(e, s)) {
-                    if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
-                        Position diff = PosOperation.deduction(newP, oldP);
-                        Mouvement m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.no);
-
-                        if (e == ((Game) this.world).getNed()) {
-                            if (diff.getX() > 0) {
-                                m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_right);
-                            } else if (diff.getX() < 0) {
-                                m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_left);
-                            } else if (diff.getY() > 0) {
-                                m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_down);
-                            } else if (diff.getY() < 0) {
-                                m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_up);
-                            }
-                        }
-
-                        mouv.add(m);
-
-                        e.getComponent(Position.class).setX(newP.getX());
-                        e.getComponent(Position.class).setY(newP.getY());
-                    }
+                if (this.testStopOnPlate(e, s)) {
+                    mouv.add(runValideMove(oldP, newP, e));
+                    return mouv;
                 }
+                if (!this.testBlockedPlate(e, s)) {
+                        mouv.add(runValideMove(oldP, newP, e)); 
+                   }
             } else {
                 if (this.isPusherEntity(e)) {
                     Entity nextE = index.getEntity(newP.getX(), newP.getY()).get(0);
@@ -123,7 +111,61 @@ public class GameSystem extends VoidEntitySystem {
 
         return mouv;
     }
-    
+
+    private Mouvement runValideMove(Position oldP, Position newP, Entity e) {
+        if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
+            Position diff = PosOperation.deduction(newP, oldP);
+            Mouvement m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.no);
+
+            if (e == ((Game) this.world).getNed()) {
+                if (diff.getX() > 0) {
+                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_right);
+                } else if (diff.getX() < 0) {
+                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_left);
+                } else if (diff.getY() > 0) {
+                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_down);
+                } else if (diff.getY() < 0) {
+                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_up);
+                }
+            }
+
+            e.getComponent(Position.class).setX(newP.getX());
+            e.getComponent(Position.class).setY(newP.getY());
+
+            return m;
+        }
+        
+        return null;
+    }
+
+    private boolean testStopOnPlate(Entity eMove, Square obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        ArrayList<Entity> array = obj.getWith(Plate.class);
+
+        if (array.size() == 0) {
+            return false;
+        }
+
+        Entity plate = obj.getWith(Plate.class).get(0);
+        Plate p = plateMapper.getSafe(plate);
+        StopOnPlate b = stopOnPlateMapper.getSafe(eMove);
+
+        if (b == null) {
+            return false;
+        }
+
+        if (p.isPlate()) {
+            if (b.stop()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private boolean testBlockedPlate(Entity eMove, Square obj) {
         if (obj == null) {
             return false;
@@ -154,11 +196,11 @@ public class GameSystem extends VoidEntitySystem {
 
     public boolean positionIsVoid(Position p) {
         Square s = index.getSquare(p.getX(), p.getY());
-        
+
         if (s != null) {
             ArrayList<Entity> plate = s.getWith(Plate.class);
             ArrayList<Entity> all = s.getAll();
-        
+
             if (all.size() == plate.size()) {
                 return true;
             } else {
