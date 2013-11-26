@@ -31,6 +31,10 @@ public enum AnimationType {
     ned_right,
     ned_left,
     ned_down,
-    ned_up;
+    ned_up,
+    ned_push_right,
+    ned_push_left,
+    ned_push_down,
+    ned_push_up;
 }
  

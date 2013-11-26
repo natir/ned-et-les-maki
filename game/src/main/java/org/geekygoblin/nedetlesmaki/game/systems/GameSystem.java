@@ -59,7 +59,7 @@ public class GameSystem extends VoidEntitySystem {
 
     private EntityIndexManager index;
     private boolean run;
-    
+
     @Mapper
     ComponentMapper<Pushable> pushableMapper;
     @Mapper
@@ -87,18 +87,18 @@ public class GameSystem extends VoidEntitySystem {
 
     @Override
     protected void processSystem() {
-        if(this.run) {
+        if (this.run) {
             this.endOfLevel();
         }
     }
 
     public ArrayList<Mouvement> moveEntity(Entity e, Position dirP) {
         this.run = true;
-        
+
         /*Check if move possible*/
         Position oldP = this.getPosition(e);
 
-        ArrayList<Mouvement> mouv = new ArrayList<Mouvement>();
+        ArrayList<Mouvement> mouv = new ArrayList();
 
         for (int i = 0; i != this.getMovable(e); i++) {
             Position newP = PosOperation.sum(oldP, dirP);
@@ -110,7 +110,7 @@ public class GameSystem extends VoidEntitySystem {
             if (this.positionIsVoid(newP)) {
                 Square s = index.getSquare(newP.getX(), newP.getY());
                 if (this.testStopOnPlate(e, s)) {
-                    mouv.add(runValideMove(oldP, newP, e));
+                    mouv.add(runValideMove(oldP, newP, e, false));
 
                     if (this.getBoost(e) != 20) {
                         e.getComponent(Pusher.class).setPusher(false);
@@ -119,7 +119,7 @@ public class GameSystem extends VoidEntitySystem {
                     return mouv;
                 }
                 if (!this.testBlockedPlate(e, s)) {
-                    mouv.add(runValideMove(oldP, newP, e));
+                    mouv.add(runValideMove(oldP, newP, e, false));
                 }
             } else {
                 if (this.isPusherEntity(e)) {
@@ -127,10 +127,10 @@ public class GameSystem extends VoidEntitySystem {
                     if (!aNextE.isEmpty()) {
                         Entity nextE = aNextE.get(0);
                         if (this.isPushableEntity(nextE)) {
-                            ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP);   
-                            if(recMouv.size() != 0) {
+                            ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP);
+                            if (!recMouv.isEmpty()) {
                                 mouv.addAll(recMouv);
-                                mouv.add(runValideMove(oldP, newP, e));
+                                mouv.add(runValideMove(oldP, newP, e, true));
                             }
                         }
                     }
@@ -139,7 +139,7 @@ public class GameSystem extends VoidEntitySystem {
                 if (this.getBoost(e) != 20) {
                     e.getComponent(Pusher.class).setPusher(false);
                 }
-         
+
                 return mouv;
             }
         }
@@ -147,20 +147,36 @@ public class GameSystem extends VoidEntitySystem {
         return mouv;
     }
 
-    private Mouvement runValideMove(Position oldP, Position newP, Entity e) {
+    private Mouvement runValideMove(Position oldP, Position newP, Entity e, boolean push) {
         if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
             Position diff = PosOperation.deduction(newP, oldP);
             Mouvement m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.no);
 
             if (e == ((Game) this.world).getNed()) {
                 if (diff.getX() > 0) {
-                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_right);
+                    if (push) {
+                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_push_right);
+                    } else {
+                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_right);
+                    }
                 } else if (diff.getX() < 0) {
-                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_left);
+                    if (push) {
+                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_push_left);
+                    } else {
+                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_left);
+                    }
                 } else if (diff.getY() > 0) {
-                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_down);
+                    if (push) {
+                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_push_down);
+                    } else {
+                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_down);
+                    }
                 } else if (diff.getY() < 0) {
-                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_up);
+                    if (push) {
+                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_push_up);
+                    } else {
+                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_up);
+                    }
                 }
             }
 
