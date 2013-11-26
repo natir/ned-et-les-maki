@@ -99,10 +99,13 @@ public class GameSystem extends VoidEntitySystem {
                    }
             } else {
                 if (this.isPusherEntity(e)) {
-                    Entity nextE = index.getEntity(newP.getX(), newP.getY()).get(0);
-                    if (this.isPushableEntity(nextE)) {
-                        mouv.addAll(this.moveEntity(nextE, dirP));
-                        mouv.add(runValideMove(oldP, newP, e));
+                    ArrayList<Entity> aNextE = index.getSquare(newP.getX(), newP.getY()).getWith(Pushable.class);
+                    if(!aNextE.isEmpty()) {
+                        Entity nextE = aNextE.get(0);
+                        if (this.isPushableEntity(nextE)) {
+                            mouv.addAll(this.moveEntity(nextE, dirP));
+                            mouv.add(runValideMove(oldP, newP, e));
+                        }
                     }
                 }
 
