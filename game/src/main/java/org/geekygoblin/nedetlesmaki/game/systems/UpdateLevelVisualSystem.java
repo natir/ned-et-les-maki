@@ -133,6 +133,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             updatable.startAnimation(nedAnim.getAnimationByName("push_up"))
                     .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
                     .stopAnimation();
+        } else if (a == AnimationType.box_destroy) {
+            sprite = new Sprite();
         }
 
         sprite.setPosition(new Vector3f(p.getX(), p.getY(), pos.z));

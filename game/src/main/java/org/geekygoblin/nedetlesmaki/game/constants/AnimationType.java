@@ -35,6 +35,7 @@ public enum AnimationType {
     ned_push_right,
     ned_push_left,
     ned_push_down,
-    ned_push_up;
+    ned_push_up,
+    box_destroy;
 }
  

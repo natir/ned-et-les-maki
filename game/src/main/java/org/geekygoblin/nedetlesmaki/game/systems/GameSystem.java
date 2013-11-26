@@ -43,6 +43,8 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.StopOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Boostable;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyer;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyable;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
@@ -57,7 +59,7 @@ import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 @Singleton
 public class GameSystem extends VoidEntitySystem {
 
-    private EntityIndexManager index;
+    private final EntityIndexManager index;
     private boolean run;
 
     @Mapper
@@ -78,7 +80,11 @@ public class GameSystem extends VoidEntitySystem {
     ComponentMapper<BlockOnPlate> blockOnPlateMapper;
     @Mapper
     ComponentMapper<StopOnPlate> stopOnPlateMapper;
-
+    @Mapper
+    ComponentMapper<Destroyer> destroyerMapper;
+    @Mapper
+    ComponentMapper<Destroyable> destroyableMapper;
+    
     @Inject
     public GameSystem(EntityIndexManager index) {
         this.index = index;
@@ -127,10 +133,17 @@ public class GameSystem extends VoidEntitySystem {
                     if (!aNextE.isEmpty()) {
                         Entity nextE = aNextE.get(0);
                         if (this.isPushableEntity(nextE)) {
-                            ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP);
-                            if (!recMouv.isEmpty()) {
-                                mouv.addAll(recMouv);
-                                mouv.add(runValideMove(oldP, newP, e, true));
+                            if (this.isDestroyer(e)) {
+                                if (this.isDestroyable(nextE)) {
+                                    mouv.add(destroyMove(nextE));
+                                    mouv.add(runValideMove(oldP, newP, e, false));
+                                }
+                            } else {
+                                ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP);
+                                if (!recMouv.isEmpty()) {
+                                    mouv.addAll(recMouv);
+                                    mouv.add(runValideMove(oldP, newP, e, true));
+                                }
                             }
                         }
                     }
@@ -176,6 +189,7 @@ public class GameSystem extends VoidEntitySystem {
                         m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_push_up);
                     } else {
                         m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_up);
+
                     }
                 }
             }
@@ -189,14 +203,21 @@ public class GameSystem extends VoidEntitySystem {
         return null;
     }
 
+    public Mouvement destroyMove(Entity e) {
+        this.index.deleted(e);
+        return new Mouvement(e).addPosition(new Position(0, 0)).addAnimation(AnimationType.box_destroy);
+    }
+
     private boolean testStopOnPlate(Entity eMove, Square obj) {
         if (obj == null) {
             return false;
+
         }
 
-        ArrayList<Entity> array = obj.getWith(Plate.class);
+        ArrayList<Entity> array = obj.getWith(Plate.class
+        );
 
-        if (array.size() == 0) {
+        if (array.isEmpty()) {
             return false;
         }
 
@@ -204,7 +225,8 @@ public class GameSystem extends VoidEntitySystem {
         Plate p = plateMapper.getSafe(plate);
         StopOnPlate b = stopOnPlateMapper.getSafe(eMove);
 
-        if (b == null) {
+        if (b
+                == null) {
             return false;
         }
 
@@ -222,11 +244,13 @@ public class GameSystem extends VoidEntitySystem {
     private boolean testBlockedPlate(Entity eMove, Square obj) {
         if (obj == null) {
             return false;
+
         }
 
-        ArrayList<Entity> array = obj.getWith(Plate.class);
+        ArrayList<Entity> array = obj.getWith(Plate.class
+        );
 
-        if (array.size() == 0) {
+        if (array.isEmpty()) {
             return false;
         }
 
@@ -234,7 +258,8 @@ public class GameSystem extends VoidEntitySystem {
         Plate p = plate.getComponent(Plate.class);
         BlockOnPlate b = blockOnPlateMapper.getSafe(eMove);
 
-        if (b == null) {
+        if (b
+                == null) {
             return false;
         }
 
@@ -251,10 +276,12 @@ public class GameSystem extends VoidEntitySystem {
         Square s = index.getSquare(p.getX(), p.getY());
 
         if (s != null) {
-            ArrayList<Entity> plate = s.getWith(Plate.class);
+            ArrayList<Entity> plate = s.getWith(Plate.class
+            );
             ArrayList<Entity> all = s.getAll();
 
-            if (all.size() == plate.size()) {
+            if (all.size()
+                    == plate.size()) {
                 return true;
             } else {
                 return false;
@@ -318,6 +345,30 @@ public class GameSystem extends VoidEntitySystem {
         return 20;
     }
 
+    public boolean isDestroyer(Entity e) {
+        Destroyer d = this.destroyerMapper.getSafe(e);
+
+        if (d != null) {
+            if (d.destroyer()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isDestroyable(Entity e) {
+        Destroyable d = this.destroyableMapper.getSafe(e);
+
+        if (d != null) {
+            if (d.destroyable()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private void endOfLevel() {
         ImmutableBag<Entity> plateGroup = this.index.getAllPlate();
 
@@ -328,9 +379,11 @@ public class GameSystem extends VoidEntitySystem {
             Position p = this.positionMapper.getSafe(platE);
             Color colorPlate = this.colorMapper.getSafe(platE);
 
-            ArrayList<Entity> colorEntity = this.index.getSquare(p.getX(), p.getY()).getWith(Color.class);
+            ArrayList<Entity> colorEntity = this.index.getSquare(p.getX(), p.getY()).getWith(Color.class
+            );
 
-            if (colorEntity.size() == 2) {
+            if (colorEntity.size()
+                    == 2) {
                 Color colorA = this.colorMapper.getSafe(colorEntity.get(0));
                 Color colorB = this.colorMapper.getSafe(colorEntity.get(1));
                 if (colorA != colorB && !plate.isPlate()) {
