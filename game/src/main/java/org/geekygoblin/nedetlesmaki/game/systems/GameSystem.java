@@ -95,13 +95,14 @@ public class GameSystem extends VoidEntitySystem {
                     return mouv;
                 }
                 if (!this.testBlockedPlate(e, s)) {
-                        mouv.add(runValideMove(oldP, newP, e)); 
+                        mouv.add(runValideMove(oldP, newP, e));
                    }
             } else {
                 if (this.isPusherEntity(e)) {
                     Entity nextE = index.getEntity(newP.getX(), newP.getY()).get(0);
                     if (this.isPushableEntity(nextE)) {
                         mouv.addAll(this.moveEntity(nextE, dirP));
+                        mouv.add(runValideMove(oldP, newP, e));
                     }
                 }
 
