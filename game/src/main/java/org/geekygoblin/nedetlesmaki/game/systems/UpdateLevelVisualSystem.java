@@ -97,6 +97,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         Position p = new Position((int) pos.x + diff.getY(), (int) pos.y + diff.getX());
         
         IAnimationCollection nedAnim = this.assets.getAnimations("ned.nanim");
+        IAnimationCollection makiAnim = this.assets.getAnimations("maki.nanim");
         
         if (a == AnimationType.no) {
             updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
@@ -135,6 +136,18 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .stopAnimation();
         } else if (a == AnimationType.box_destroy) {
             sprite = new Sprite();
+        } else if (a == AnimationType.maki_green_one) {
+            updatable.startAnimation(makiAnim.getAnimationByName("maki_green_one"))
+                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .stopAnimation();
+        } else if (a == AnimationType.maki_orange_one) {
+            updatable.startAnimation(makiAnim.getAnimationByName("maki_orange_one"))
+                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .stopAnimation();
+        } else if (a == AnimationType.maki_blue_one) {
+            updatable.startAnimation(makiAnim.getAnimationByName("maki_blue_one"))
+                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .stopAnimation();
         }
 
         sprite.setPosition(new Vector3f(p.getX(), p.getY(), pos.z));
