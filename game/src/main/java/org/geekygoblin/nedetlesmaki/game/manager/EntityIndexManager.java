@@ -65,7 +65,9 @@ public class EntityIndexManager extends EntityManager {
 	Position p = e.getComponent(Position.class);
 	
 	if(p != null) {
-	    this.index[p.getX()][p.getY()] = new Square();
+	    if(this.index[p.getX()][p.getY()] == null) {
+                this.index[p.getX()][p.getY()] = new Square();
+            }
 	    this.index[p.getX()][p.getY()].add(e);
 	    super.added(e);
 	}
