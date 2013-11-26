@@ -24,7 +24,6 @@ package org.geekygoblin.nedetlesmaki.game.systems;
 import javax.inject.Inject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Iterator;
 
 import com.artemis.ComponentMapper;
@@ -66,27 +65,27 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     public UpdateLevelVisualSystem(Assets assets, EntityIndexManager indexSystem) {
         this.assets = assets;
         this.nbIndexSaved = 0;
-	this.index = indexSystem;	
+        this.index = indexSystem;
     }
 
     @Override
     protected void processSystem() {
         game = (Game) world;
- 
-	if (index.sizeOfStack() != nbIndexSaved) {
-	    nbIndexSaved = index.sizeOfStack();
-	    ArrayList<Mouvement> change = this.index.getChangement();
 
-	    if(change != null) {
-		for (int i = 0; i != change.size(); i++) {  
+        if (index.sizeOfStack() != nbIndexSaved) {
+            nbIndexSaved = index.sizeOfStack();
+            ArrayList<Mouvement> change = this.index.getChangement();
 
-		    List<Position> tmpLP = change.get(i).getPositionList();
-		    List<AnimationType> tmpLA = change.get(i).getAnimationList();
-		    for(Iterator itP = tmpLP.iterator(), itA = tmpLA.iterator(); itP.hasNext() || itA.hasNext();) {
-			this.moveSprite(change.get(i).getEntity(), (Position) itP.next(), (AnimationType) itA.next());
+            if (change != null) {
+                for (int i = 0; i != change.size(); i++) {
+
+                    ArrayList<Position> tmpLP = change.get(i).getPositionList();
+                    ArrayList<AnimationType> tmpLA = change.get(i).getAnimationList();
+                    for (Iterator itP = tmpLP.iterator(), itA = tmpLA.iterator(); itP.hasNext() || itA.hasNext();) {
+                        this.moveSprite(change.get(i).getEntity(), (Position) itP.next(), (AnimationType) itA.next());
                     }
-		}
-	    }
+                }
+            }
         }
     }
 
@@ -96,39 +95,132 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         Vector3f pos = sprite.getPosition();
         SpritePuppetControls updatable = new SpritePuppetControls(sprite);
         Position p = new Position((int) pos.x + diff.getY(), (int) pos.y + diff.getX());
-
-	if(a == AnimationType.no) {
-	    updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
-		.stopAnimation();
+        
+        IAnimationCollection nedAnim = this.assets.getAnimations("ned.nanim");
+        
+        if (a == AnimationType.no) {
+            updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .stopAnimation();
+        } else if (a == AnimationType.ned_right) {
+            updatable.startAnimation(nedAnim.getAnimationByName("walk_right"))
+                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .stopAnimation();
+        } else if (a == AnimationType.ned_left) {
+            updatable.startAnimation(nedAnim.getAnimationByName("walk_left"))
+                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .stopAnimation();
+        } else if (a == AnimationType.ned_down) {
+            updatable.startAnimation(nedAnim.getAnimationByName("walk_down"))
+                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .stopAnimation();
+        } else if (a == AnimationType.ned_up) {
+            updatable.startAnimation(nedAnim.getAnimationByName("walk_up"))
+                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .stopAnimation();
+        } else if (a == AnimationType.ned_push_right) {
+            updatable.startAnimation(nedAnim.getAnimationByName("push_right"))
+                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .stopAnimation();
+        } else if (a == AnimationType.ned_push_left) {
+            updatable.startAnimation(nedAnim.getAnimationByName("push_left"))
+                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .stopAnimation();
+        } else if (a == AnimationType.ned_push_down) {
+            updatable.startAnimation(nedAnim.getAnimationByName("push_down"))
+                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .stopAnimation();
+        } else if (a == AnimationType.ned_push_up) {
+            updatable.startAnimation(nedAnim.getAnimationByName("push_up"))
+                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .stopAnimation();
         }
-	else if(a == AnimationType.ned_right) {
-	    IAnimationCollection anims = this.assets.getAnimations("ned.nanim");
-            updatable.startAnimation(anims.getAnimationByName("walk_right"))
-		.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
-                .stopAnimation();
-	}
-	else if(a == AnimationType.ned_left) {
-	    IAnimationCollection anims = this.assets.getAnimations("ned.nanim");
-            updatable.startAnimation(anims.getAnimationByName("walk_left"))
-		.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
-		.stopAnimation();
-	}
-	else if(a == AnimationType.ned_down) {
-	    IAnimationCollection anims = this.assets.getAnimations("ned.nanim");
-            updatable.startAnimation(anims.getAnimationByName("walk_down"))
-		.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
-		.stopAnimation();
-	}
-	else if(a == AnimationType.ned_up) {
-	    IAnimationCollection anims = this.assets.getAnimations("ned.nanim");
-            updatable.startAnimation(anims.getAnimationByName("walk_up"))
-		.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
-		.stopAnimation();
-	}
 
         sprite.setPosition(new Vector3f(p.getX(), p.getY(), pos.z));
-        
-	e.addComponent(updatable);
+
+        e.addComponent(updatable);
         e.changedInWorld();
     }
+
+//    ArrayList<Mouvement> compressMouvement(ArrayList<Mouvement> mouv) {
+//        ArrayList<Mouvement> compress = new ArrayList();
+//
+//        if (mouv.size() > 1) {
+//            Mouvement old = mouv.get(0);
+//
+//            for (int i = 1; i != mouv.size(); i++) {
+//                if (this.compareAnimationList(old.getAnimationList(), mouv.get(i).getAnimationList())&& this.comparePositionList(old.getPositionList(), mouv.get(i).getPositionList()) && old.getEntity() == mouv.get(i).getEntity()) {
+//                    compress.add(new Mouvement(old.getAnimationList(), PosOperation.sum(old), null)))
+//                }
+//            }
+//        }
+//
+//        return compress;
+//    }
+//
+//    boolean compareAnimationList(ArrayList<AnimationType> lA, ArrayList<AnimationType> lB) {
+//        if (lA.size() != lB.size()) {
+//            return false;
+//        }
+//
+//        if (lA.size() >= 2) {
+//            Iterator itA = lA.iterator();
+//            Iterator itB = lB.iterator();
+//            AnimationType animA = (AnimationType) itA.next();
+//            AnimationType animB = (AnimationType) itB.next();
+//            
+//            while (itA.hasNext() && itB.hasNext()) {
+//                if (animA != animB) {
+//                    return false;
+//                }
+//                
+//                animA = (AnimationType) itA.next();
+//                animB = (AnimationType) itB.next();    
+//            }
+//            
+//            return true;
+//        }
+//        else if (lA.size() == 1) {
+//            Iterator itA = lA.iterator();
+//            Iterator itB = lB.iterator();
+//            AnimationType animA = (AnimationType) itA.next();
+//            AnimationType animB = (AnimationType) itB.next();
+//            
+//            return animA == animB;
+//        }
+//        
+//        return false;
+//    }
+//    
+//    boolean comparePositionList(ArrayList<Position> lA, ArrayList<Position> lB) {
+//        if (lA.size() != lB.size()) {
+//            return false;
+//        }
+//
+//        if (lA.size() >= 2) {
+//            Iterator itA = lA.iterator();
+//            Iterator itB = lB.iterator();
+//            Position posA = (Position) itA.next();
+//            Position posB = (Position) itB.next();
+//            
+//            while (itA.hasNext() && itB.hasNext()) {
+//                if (!PosOperation.equale(posA, posB)) {
+//                    return false;
+//                }
+//                
+//                posA = (Position) itA.next();
+//                posB = (Position) itB.next();    
+//            }
+//            
+//            return true;
+//        }
+//        else if (lA.size() == 1) {
+//            Iterator itA = lA.iterator();
+//            Iterator itB = lB.iterator();
+//            Position posA = (Position) itA.next();
+//            Position posB = (Position) itB.next();
+//            
+//        }
+//        
+//        return false;
+//    }
 }

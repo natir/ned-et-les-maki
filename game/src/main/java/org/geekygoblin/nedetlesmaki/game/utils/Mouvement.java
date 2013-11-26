@@ -35,13 +35,13 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 public class Mouvement {
 
     private Entity e;
-    private ArrayList<Position> lP;
-    private ArrayList<AnimationType> lA;
+    private final ArrayList<Position> lP;
+    private final ArrayList<AnimationType> lA;
 
     public Mouvement(Entity e) {
 	this.e = e;
-	this.lP = new ArrayList<Position>();
-	this.lA = new ArrayList<AnimationType>();
+	this.lP = new ArrayList();
+	this.lA = new ArrayList();
     }
 
     public void setEntity(Entity e) {
