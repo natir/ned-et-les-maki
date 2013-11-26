@@ -102,7 +102,7 @@ public class GameSystem extends VoidEntitySystem {
         for (int i = 0; i != this.getMovable(e); i++) {
             Position newP = PosOperation.sum(oldP, dirP);
 
-            if (this.getBoost(e) > i) {
+            if (i > this.getBoost(e)) {
                 e.getComponent(Pusher.class).setPusher(true);
             }
 
@@ -111,7 +111,7 @@ public class GameSystem extends VoidEntitySystem {
                 if (this.testStopOnPlate(e, s)) {
                     mouv.add(runValideMove(oldP, newP, e));
 
-                    if (this.getBoost(e) != -1) {
+                    if (this.getBoost(e) != 20) {
                         e.getComponent(Pusher.class).setPusher(false);
                     }
 
@@ -132,7 +132,7 @@ public class GameSystem extends VoidEntitySystem {
                     }
                 }
 
-                if (this.getBoost(e) != -1) {
+                if (this.getBoost(e) != 20) {
                     e.getComponent(Pusher.class).setPusher(false);
                 }
          
@@ -293,7 +293,7 @@ public class GameSystem extends VoidEntitySystem {
             return b.getNbCase();
         }
 
-        return -1;
+        return 20;
     }
 
     private void endOfLevel() {
