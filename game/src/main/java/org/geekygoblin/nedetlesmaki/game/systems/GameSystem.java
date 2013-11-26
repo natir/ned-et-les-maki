@@ -84,7 +84,7 @@ public class GameSystem extends VoidEntitySystem {
     ComponentMapper<Destroyer> destroyerMapper;
     @Mapper
     ComponentMapper<Destroyable> destroyableMapper;
-    
+
     @Inject
     public GameSystem(EntityIndexManager index) {
         this.index = index;
@@ -116,7 +116,7 @@ public class GameSystem extends VoidEntitySystem {
             if (this.positionIsVoid(newP)) {
                 Square s = index.getSquare(newP.getX(), newP.getY());
                 if (this.testStopOnPlate(e, s)) {
-                    mouv.add(runValideMove(oldP, newP, e, false));
+                    mouv.add(stopOnPlateMove(oldP, newP, e, false));
 
                     if (this.getBoost(e) != 20) {
                         e.getComponent(Pusher.class).setPusher(false);
@@ -194,6 +194,36 @@ public class GameSystem extends VoidEntitySystem {
                 }
             }
 
+            e.getComponent(Position.class).setX(newP.getX());
+            e.getComponent(Position.class).setY(newP.getY());
+
+            return m;
+        }
+
+        return null;
+    }
+
+    private Mouvement stopOnPlateMove(Position oldP, Position newP, Entity e, boolean push) {
+        if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
+            Position diff = PosOperation.deduction(newP, oldP);
+            Mouvement m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.no);
+
+            Square obj = index.getSquare(newP.getX(), newP.getY());
+            Entity plate = obj.getWith(Plate.class).get(0);
+
+            Color plateC = this.colorMapper.getSafe(plate);
+            Color makiC = this.colorMapper.getSafe(e);
+            
+            if (plateC.getColor() == makiC.getColor()) {
+                if(plateC.getColor() == ColorType.green) {
+                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.maki_green_one); 
+                } else if(plateC.getColor() == ColorType.orange) {
+                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.maki_orange_one);
+                } else if(plateC.getColor() == ColorType.blue) {
+                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.maki_blue_one);
+                }
+            }
+            
             e.getComponent(Position.class).setX(newP.getX());
             e.getComponent(Position.class).setY(newP.getY());
 
