@@ -48,6 +48,7 @@ import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.game.constants.AnimationType;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 
 /**
  *
@@ -193,7 +194,9 @@ public class GameSystem extends VoidEntitySystem {
 
         if (p.isPlate()) {
             if (b.stop()) {
-                return true;
+                if (this.colorMapper.getSafe(plate).getColor() == this.colorMapper.getSafe(eMove).getColor() && this.colorMapper.getSafe(eMove).getColor() != ColorType.orange) {
+                    return true;
+                }
             }
         }
 
