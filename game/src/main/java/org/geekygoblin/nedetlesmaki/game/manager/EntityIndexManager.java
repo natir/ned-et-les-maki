@@ -31,7 +31,10 @@ import com.artemis.Entity;
 import com.artemis.EntityManager;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Mapper;
+import com.artemis.managers.GroupManager;
+import com.artemis.utils.ImmutableBag;
 
+import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
@@ -145,5 +148,9 @@ public class EntityIndexManager extends EntityManager {
 
     public Square[][] getThisWorld() {
 	return this.index;
+    }
+    
+    public ImmutableBag<Entity> getAllPlate() {
+        return world.getManager(GroupManager.class).getEntities(Group.PLATE);
     }
 }

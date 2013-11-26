@@ -30,5 +30,6 @@ package org.geekygoblin.nedetlesmaki.game;
 public class Group {
     
     public static final String LEVEL = "LEVEL";
+    public static final String PLATE = "PLATE";
     
 }

@@ -49,7 +49,6 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pusher;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Rooted;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.StopOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
@@ -362,6 +361,7 @@ public class StartGameTrigger extends Trigger {
 	
         indexSystem.added(plate);
 	game.addEntity(plate);
+        game.getManager(GroupManager.class).add(plate, Group.PLATE);
         
 	createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, plate);
 
