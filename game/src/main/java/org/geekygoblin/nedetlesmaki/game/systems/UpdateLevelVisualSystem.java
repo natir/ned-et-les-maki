@@ -95,6 +95,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         
         IAnimationCollection nedAnim = this.assets.getAnimations("ned.nanim");
         IAnimationCollection makiAnim = this.assets.getAnimations("maki.nanim");
+        IAnimationCollection plateAnim = this.assets.getAnimations("plate.nanim");
+        IAnimationCollection boxAnim = this.assets.getAnimations("box.nanim");
         
         if (a == AnimationType.no) {
             updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
@@ -132,7 +134,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
                     .stopAnimation();
         } else if (a == AnimationType.box_destroy) {
-            e.removeComponent(sprite);
+            updatable.startAnimation(boxAnim.getAnimationByName("destroy"))
+                    .stopAnimation();
         } else if (a == AnimationType.maki_green_one) {
             updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
                     .startAnimation(makiAnim.getAnimationByName("maki_green_one"))
@@ -156,6 +159,15 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         } else if (a == AnimationType.maki_blue_out) {
             updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
                     .startAnimation(makiAnim.getAnimationByName("maki_blue_out"))
+                    .stopAnimation();
+        } else if (a == AnimationType.clean_green_plate) {
+            updatable.startAnimation(plateAnim.getAnimationByName("clean_green_plate"))
+                    .stopAnimation();
+        } else if (a == AnimationType.clean_orange_plate) {
+            updatable.startAnimation(plateAnim.getAnimationByName("clean_orange_plate"))
+                    .stopAnimation();
+        } else if (a == AnimationType.maki_blue_out) {
+            updatable.startAnimation(plateAnim.getAnimationByName("clean_blue_plate"))
                     .stopAnimation();
         }
 
