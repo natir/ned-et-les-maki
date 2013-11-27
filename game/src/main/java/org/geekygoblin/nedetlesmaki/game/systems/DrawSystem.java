@@ -77,7 +77,8 @@ public class DrawSystem extends EntitySystem {
             if (result == 0) {
                 Sprite s1 = spriteMapper.get(o1);
                 Sprite s2 = spriteMapper.get(o2);
-                if (null != s1 && null != s2) {
+                result = Integer.compare(null != s1 ? 1 : 0, null != s2 ? 1 : 0);
+                if (result == 0 && null != s1 && null != s2) {
                     result = spriteProjector.compare(s1.getPosition(), s2.getPosition());
                 }
             }
