@@ -115,7 +115,7 @@ public class GameSystem extends VoidEntitySystem {
             if (this.positionIsVoid(newP)) {
                 Square s = index.getSquare(newP.getX(), newP.getY());
                 if (this.testStopOnPlate(e, s)) {
-                    mouv.add(stopOnPlateMove(oldP, newP, e, false));
+                    mouv.add(this.runValideMove(oldP, newP, e, false));
 
                     if (this.getBoost(e) != 20) {
                         e.getComponent(Pusher.class).setPusher(false);
@@ -161,11 +161,20 @@ public class GameSystem extends VoidEntitySystem {
 
     private Mouvement runValideMove(Position oldP, Position newP, Entity e, boolean push) {
         Position diff = PosOperation.deduction(newP, oldP);
-        
+
+
         if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
-            
+
             Mouvement m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.no);
 
+            if (makiMoveOnePlate(newP, e)) {
+                m = makiPlateMove(oldP, newP, e, true);
+            }
+
+            if (makiMoveOutPlate(oldP, e)) {
+                m = makiPlateMove(oldP, newP, e, false);
+            }
+            
             if (e == ((Game) this.world).getNed()) {
                 if (diff.getX() > 0) {
                     if (push) {
@@ -204,39 +213,108 @@ public class GameSystem extends VoidEntitySystem {
         return null;
     }
 
-    private Mouvement stopOnPlateMove(Position oldP, Position newP, Entity e, boolean push) {
-        if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
-            Position diff = PosOperation.deduction(newP, oldP);
-            Mouvement m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.no);
+    private Mouvement makiPlateMove(Position oldP, Position newP, Entity e, boolean getOne) {
 
-            Square obj = index.getSquare(newP.getX(), newP.getY());
-            Entity plate = obj.getWith(Plate.class).get(0);
+        Mouvement m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.no);
 
-            Color plateC = this.colorMapper.getSafe(plate);
-            Color makiC = this.colorMapper.getSafe(e);
-            
-            if (plateC.getColor() == makiC.getColor()) {
-                if(plateC.getColor() == ColorType.green) {
-                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.maki_green_one); 
-                } else if(plateC.getColor() == ColorType.orange) {
-                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.maki_orange_one);
-                } else if(plateC.getColor() == ColorType.blue) {
-                    m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.maki_blue_one);
-                }
-            }
-            
-            e.getComponent(Position.class).setX(newP.getX());
-            e.getComponent(Position.class).setY(newP.getY());
-
+        Square obj;
+        
+        if(getOne) {
+            obj = index.getSquare(newP.getX(), newP.getY());
+        } else {
+            obj = index.getSquare(oldP.getX(), oldP.getY());
+        }
+        
+        if (obj == null) {
             return m;
         }
 
-        return null;
+        ArrayList<Entity> plates = obj.getWith(Plate.class);
+
+        if (plates.isEmpty()) {
+            return m;
+        }
+
+        Entity plate = plates.get(0);
+
+        Color plateC = this.colorMapper.getSafe(plate);
+        Color makiC = this.colorMapper.getSafe(e);
+
+        if (plateC.getColor() == makiC.getColor()) {
+            if (plateC.getColor() == ColorType.green) {
+                if (getOne) {
+                    m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_green_one);
+                } else {
+                    m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_green_out);
+                }
+            } else if (plateC.getColor() == ColorType.orange) {
+                if (getOne) {
+                    m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_orange_one);
+                } else {
+                    m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_orange_out);
+                }
+            } else if (plateC.getColor() == ColorType.blue) {
+                if (getOne) {
+                    m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_blue_one);
+                } else {
+                    m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_blue_out);
+                }
+            }
+        }
+
+        return m;
     }
 
     public Mouvement destroyMove(Entity e) {
         this.index.deleted(e);
         return new Mouvement(e).addPosition(new Position(0, 0)).addAnimation(AnimationType.box_destroy);
+    }
+
+    public boolean makiMoveOnePlate(Position newP, Entity e) {
+        Square s = this.index.getSquare(newP.getX(), newP.getY());
+
+        if (s == null) {
+            return false;
+        }
+
+        ArrayList<Entity> plates = s.getWith(Plate.class);
+
+        if (plates.isEmpty()) {
+            return false;
+        }
+
+        if (this.colorMapper.getSafe(e) == null) {
+            return false;
+        }
+
+        if (this.colorMapper.getSafe(e).getColor() == this.colorMapper.getSafe(plates.get(0)).getColor()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean makiMoveOutPlate(Position oldP, Entity e) {
+        Square s = this.index.getSquare(oldP.getX(), oldP.getY());
+
+        if (s == null) {
+            return false;
+        }
+
+        ArrayList<Entity> plates = s.getWith(Plate.class);
+        if (plates.isEmpty()) {
+            return false;
+        }
+
+        if (this.colorMapper.getSafe(e) == null) {
+            return false;
+        }
+
+        if (this.colorMapper.getSafe(e).getColor() == this.colorMapper.getSafe(plates.get(0)).getColor()) {
+            return true;
+        }
+
+        return false;
     }
 
     private boolean testStopOnPlate(Entity eMove, Square obj) {
@@ -256,8 +334,7 @@ public class GameSystem extends VoidEntitySystem {
         Plate p = plateMapper.getSafe(plate);
         StopOnPlate b = stopOnPlateMapper.getSafe(eMove);
 
-        if (b
-                == null) {
+        if (b == null) {
             return false;
         }
 
@@ -412,7 +489,7 @@ public class GameSystem extends VoidEntitySystem {
             if (colorEntity.size() == 2) {
                 Color colorA = this.colorMapper.getSafe(colorEntity.get(0));
                 Color colorB = this.colorMapper.getSafe(colorEntity.get(1));
-                
+
                 if (colorA.getColor() != colorB.getColor() && !plate.isPlate()) {
                     return;
                 }
