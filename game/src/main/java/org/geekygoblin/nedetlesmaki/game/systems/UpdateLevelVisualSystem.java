@@ -75,7 +75,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 
             if (change != null) {
                 for (int i = 0; i != change.size(); i++) {
-
+                    
                     ArrayList<Position> tmpLP = change.get(i).getPositionList();
                     ArrayList<AnimationType> tmpLA = change.get(i).getAnimationList();
                     for (Iterator itP = tmpLP.iterator(), itA = tmpLA.iterator(); itP.hasNext() || itA.hasNext();) {
@@ -91,7 +91,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         Sprite sprite = e.getComponent(Sprite.class);
         Vector3f pos = sprite.getPosition();
         SpritePuppetControls updatable = new SpritePuppetControls(sprite);
-        Position p = new Position((int) pos.x + diff.getY(), (int) pos.y + diff.getX());
+        Position p = new Position((int) diff.getY(), (int) diff.getX());
         
         IAnimationCollection nedAnim = this.assets.getAnimations("ned.nanim");
         IAnimationCollection makiAnim = this.assets.getAnimations("maki.nanim");
@@ -153,86 +153,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         e.changedInWorld();
     }
 
-//    ArrayList<Mouvement> compressMouvement(ArrayList<Mouvement> mouv) {
-//        ArrayList<Mouvement> compress = new ArrayList();
-//
-//        if (mouv.size() > 1) {
-//            Mouvement old = mouv.get(0);
-//
-//            for (int i = 1; i != mouv.size(); i++) {
-//                if (this.compareAnimationList(old.getAnimationList(), mouv.get(i).getAnimationList())&& this.comparePositionList(old.getPositionList(), mouv.get(i).getPositionList()) && old.getEntity() == mouv.get(i).getEntity()) {
-//                    compress.add(new Mouvement(old.getAnimationList(), PosOperation.sum(old), null)))
-//                }
-//            }
-//        }
-//
-//        return compress;
-//    }
-//
-//    boolean compareAnimationList(ArrayList<AnimationType> lA, ArrayList<AnimationType> lB) {
-//        if (lA.size() != lB.size()) {
-//            return false;
-//        }
-//
-//        if (lA.size() >= 2) {
-//            Iterator itA = lA.iterator();
-//            Iterator itB = lB.iterator();
-//            AnimationType animA = (AnimationType) itA.next();
-//            AnimationType animB = (AnimationType) itB.next();
-//            
-//            while (itA.hasNext() && itB.hasNext()) {
-//                if (animA != animB) {
-//                    return false;
-//                }
-//                
-//                animA = (AnimationType) itA.next();
-//                animB = (AnimationType) itB.next();    
-//            }
-//            
-//            return true;
-//        }
-//        else if (lA.size() == 1) {
-//            Iterator itA = lA.iterator();
-//            Iterator itB = lB.iterator();
-//            AnimationType animA = (AnimationType) itA.next();
-//            AnimationType animB = (AnimationType) itB.next();
-//            
-//            return animA == animB;
-//        }
-//        
-//        return false;
-//    }
-//    
-//    boolean comparePositionList(ArrayList<Position> lA, ArrayList<Position> lB) {
-//        if (lA.size() != lB.size()) {
-//            return false;
-//        }
-//
-//        if (lA.size() >= 2) {
-//            Iterator itA = lA.iterator();
-//            Iterator itB = lB.iterator();
-//            Position posA = (Position) itA.next();
-//            Position posB = (Position) itB.next();
-//            
-//            while (itA.hasNext() && itB.hasNext()) {
-//                if (!PosOperation.equale(posA, posB)) {
-//                    return false;
-//                }
-//                
-//                posA = (Position) itA.next();
-//                posB = (Position) itB.next();    
-//            }
-//            
-//            return true;
-//        }
-//        else if (lA.size() == 1) {
-//            Iterator itA = lA.iterator();
-//            Iterator itB = lB.iterator();
-//            Position posA = (Position) itA.next();
-//            Position posB = (Position) itB.next();
-//            
-//        }
-//        
-//        return false;
-//    }
+    private boolean canMove() {
+        return world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty();
+    }
 }

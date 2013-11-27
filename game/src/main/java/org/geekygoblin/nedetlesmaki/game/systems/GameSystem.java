@@ -160,34 +160,36 @@ public class GameSystem extends VoidEntitySystem {
     }
 
     private Mouvement runValideMove(Position oldP, Position newP, Entity e, boolean push) {
+        Position diff = PosOperation.deduction(newP, oldP);
+        
         if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
-            Position diff = PosOperation.deduction(newP, oldP);
-            Mouvement m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.no);
+            
+            Mouvement m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.no);
 
             if (e == ((Game) this.world).getNed()) {
                 if (diff.getX() > 0) {
                     if (push) {
-                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_push_right);
+                        m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_push_right);
                     } else {
-                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_right);
+                        m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_right);
                     }
                 } else if (diff.getX() < 0) {
                     if (push) {
-                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_push_left);
+                        m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_push_left);
                     } else {
-                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_left);
+                        m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_left);
                     }
                 } else if (diff.getY() > 0) {
                     if (push) {
-                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_push_down);
+                        m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_push_down);
                     } else {
-                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_down);
+                        m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_down);
                     }
                 } else if (diff.getY() < 0) {
                     if (push) {
-                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_push_up);
+                        m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_push_up);
                     } else {
-                        m = new Mouvement(e).addPosition(diff).addAnimation(AnimationType.ned_up);
+                        m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_up);
 
                     }
                 }
@@ -305,12 +307,10 @@ public class GameSystem extends VoidEntitySystem {
         Square s = index.getSquare(p.getX(), p.getY());
 
         if (s != null) {
-            ArrayList<Entity> plate = s.getWith(Plate.class
-            );
+            ArrayList<Entity> plate = s.getWith(Plate.class);
             ArrayList<Entity> all = s.getAll();
 
-            if (all.size()
-                    == plate.size()) {
+            if (all.size() == plate.size()) {
                 return true;
             } else {
                 return false;
@@ -406,16 +406,14 @@ public class GameSystem extends VoidEntitySystem {
 
             Plate plate = this.plateMapper.getSafe(platE);
             Position p = this.positionMapper.getSafe(platE);
-            Color colorPlate = this.colorMapper.getSafe(platE);
 
-            ArrayList<Entity> colorEntity = this.index.getSquare(p.getX(), p.getY()).getWith(Color.class
-            );
+            ArrayList<Entity> colorEntity = this.index.getSquare(p.getX(), p.getY()).getWith(Color.class);
 
-            if (colorEntity.size()
-                    == 2) {
+            if (colorEntity.size() == 2) {
                 Color colorA = this.colorMapper.getSafe(colorEntity.get(0));
                 Color colorB = this.colorMapper.getSafe(colorEntity.get(1));
-                if (colorA != colorB && !plate.isPlate()) {
+                
+                if (colorA.getColor() != colorB.getColor() && !plate.isPlate()) {
                     return;
                 }
             } else {
