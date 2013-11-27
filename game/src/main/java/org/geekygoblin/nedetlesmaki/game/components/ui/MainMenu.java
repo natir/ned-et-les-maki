@@ -113,10 +113,10 @@ public class MainMenu extends Component {
             }
         });
         mainMenu.row();
-        mainMenu.cell(new Button(toolkit, "main.menu.button.resume"){
+        mainMenu.cell(new Button(toolkit, "main.menu.button.resume") {
             @Override
             public void onOK() {
-               game.addEntity(game.createEntity().addComponent(new Triggerable(hideMenuTrigger.get())));
+                game.addEntity(game.createEntity().addComponent(new Triggerable(hideMenuTrigger.get())));
             }
         });
         mainMenu.row();
@@ -195,5 +195,9 @@ public class MainMenu extends Component {
 
     public void show() {
         root.show(mainMenu);
+    }
+
+    public void showLevelMenu() {
+        root.show(levelSelector);
     }
 }

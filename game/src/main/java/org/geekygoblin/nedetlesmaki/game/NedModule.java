@@ -46,6 +46,7 @@ import org.geekygoblin.nedetlesmaki.game.components.ui.LevelSelector;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
+import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
@@ -77,6 +78,7 @@ public class NedModule extends AbstractModule {
 	bind(EntityIndexManager.class);
         bind(ShowMenuTrigger.class);
         bind(HideMenuTrigger.class);
+        bind(ShowLevelMenuTrigger.class);
         bind(Random.class).toInstance(new Random(42));
     }
 
