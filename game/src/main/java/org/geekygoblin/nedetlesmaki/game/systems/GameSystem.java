@@ -31,6 +31,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.ImmutableBag;
+import javax.inject.Provider;
 
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;
@@ -49,7 +50,9 @@ import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.game.constants.AnimationType;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
+import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
 
 /**
  *
@@ -58,6 +61,7 @@ import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 @Singleton
 public class GameSystem extends VoidEntitySystem {
 
+    private final Provider<ShowLevelMenuTrigger> showLevelMenuTrigger;
     private final EntityIndexManager index;
     private boolean run;
 
@@ -85,9 +89,10 @@ public class GameSystem extends VoidEntitySystem {
     ComponentMapper<Destroyable> destroyableMapper;
 
     @Inject
-    public GameSystem(EntityIndexManager index) {
+    public GameSystem(EntityIndexManager index, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger) {
         this.index = index;
         this.run = false;
+        this.showLevelMenuTrigger = showLevelMenuTrigger;
     }
 
     @Override
@@ -493,6 +498,6 @@ public class GameSystem extends VoidEntitySystem {
                 return;
             }
         }
-        System.out.print("End of level\n");
+        world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
     }
 }
