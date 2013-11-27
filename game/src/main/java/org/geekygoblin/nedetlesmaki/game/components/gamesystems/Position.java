@@ -53,6 +53,6 @@ public class Position extends Component {
     }
 
     public void print() {
-	System.out.printf("Pos : [%d, %d]\n", this.x, this.y);
+	System.out.printf("Pos : [%d, %d]%n", this.x, this.y);
     }
 }
