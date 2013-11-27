@@ -136,8 +136,7 @@ public class GameSystem extends VoidEntitySystem {
                                 if (this.isDestroyable(nextE)) {
                                     mouv.add(destroyMove(nextE));
                                     mouv.add(runValideMove(oldP, newP, e, false));
-                                }
-                                else {
+                                } else {
                                     ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP);
                                     if (!recMouv.isEmpty()) {
                                         mouv.addAll(recMouv);
@@ -169,7 +168,6 @@ public class GameSystem extends VoidEntitySystem {
     private Mouvement runValideMove(Position oldP, Position newP, Entity e, boolean push) {
         Position diff = PosOperation.deduction(newP, oldP);
 
-
         if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
 
             Mouvement m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.no);
@@ -181,7 +179,7 @@ public class GameSystem extends VoidEntitySystem {
             if (makiMoveOutPlate(oldP, e)) {
                 m = makiPlateMove(oldP, newP, e, false);
             }
-            
+
             if (e == ((Game) this.world).getNed()) {
                 if (diff.getX() > 0) {
                     if (push) {
@@ -224,13 +222,13 @@ public class GameSystem extends VoidEntitySystem {
         Mouvement m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.no);
 
         Square obj;
-        
-        if(getOne) {
+
+        if (getOne) {
             obj = index.getSquare(newP.getX(), newP.getY());
         } else {
             obj = index.getSquare(oldP.getX(), oldP.getY());
         }
-        
+
         if (obj == null) {
             return m;
         }
@@ -294,6 +292,7 @@ public class GameSystem extends VoidEntitySystem {
         }
 
         if (this.colorMapper.getSafe(e).getColor() == this.colorMapper.getSafe(plates.get(0)).getColor()) {
+            plates.get(0).getComponent(Plate.class).setMaki(true);
             return true;
         }
 
@@ -317,6 +316,7 @@ public class GameSystem extends VoidEntitySystem {
         }
 
         if (this.colorMapper.getSafe(e).getColor() == this.colorMapper.getSafe(plates.get(0)).getColor()) {
+            plates.get(0).getComponent(Plate.class).setMaki(false);
             return true;
         }
 
@@ -488,22 +488,11 @@ public class GameSystem extends VoidEntitySystem {
             Entity platE = plateGroup.get(i);
 
             Plate plate = this.plateMapper.getSafe(platE);
-            Position p = this.positionMapper.getSafe(platE);
 
-            ArrayList<Entity> colorEntity = this.index.getSquare(p.getX(), p.getY()).getWith(Color.class);
-
-            if (colorEntity.size() == 2) {
-                Color colorA = this.colorMapper.getSafe(colorEntity.get(0));
-                Color colorB = this.colorMapper.getSafe(colorEntity.get(1));
-
-                if (colorA.getColor() != colorB.getColor() && !plate.isPlate()) {
-                    return;
-                }
-            } else {
+            if (!plate.haveMaki()) {
                 return;
             }
         }
-
         System.out.print("End of level\n");
     }
 }
