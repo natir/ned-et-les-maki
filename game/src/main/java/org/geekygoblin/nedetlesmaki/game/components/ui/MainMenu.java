@@ -36,9 +36,13 @@ import im.bci.lwjgl.nuit.widgets.Root;
 import im.bci.lwjgl.nuit.widgets.Table;
 import im.bci.lwjgl.nuit.widgets.VideoConfigurator;
 import javax.inject.Inject;
+import javax.inject.Provider;
 import javax.inject.Singleton;
+import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.MainLoop;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
+import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
 
 @Singleton
 public class MainMenu extends Component {
@@ -53,12 +57,16 @@ public class MainMenu extends Component {
     private final MainLoop mainLoop;
     private final NuitToolkit toolkit;
     private final Assets assets;
+    private final Game game;
+    private final Provider<HideMenuTrigger> hideMenuTrigger;
 
     @Inject
-    public MainMenu(MainLoop mainLoop, NuitToolkit toolkit, Assets assets, LevelSelector levelSelector) throws LWJGLException {
+    public MainMenu(MainLoop mainLoop, Game game, NuitToolkit toolkit, Assets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger) throws LWJGLException {
         this.mainLoop = mainLoop;
         this.toolkit = toolkit;
         this.assets = assets;
+        this.game = game;
+        this.hideMenuTrigger = hideMenuTrigger;
         root = new Root(toolkit);
         this.levelSelector = levelSelector;
         root.add(levelSelector);
@@ -105,7 +113,12 @@ public class MainMenu extends Component {
             }
         });
         mainMenu.row();
-        mainMenu.cell(new Button(toolkit, "main.menu.button.resume"));
+        mainMenu.cell(new Button(toolkit, "main.menu.button.resume"){
+            @Override
+            public void onOK() {
+               game.addEntity(game.createEntity().addComponent(new Triggerable(hideMenuTrigger.get())));
+            }
+        });
         mainMenu.row();
         mainMenu.cell(new Button(toolkit, "main.menu.button.options") {
             @Override
