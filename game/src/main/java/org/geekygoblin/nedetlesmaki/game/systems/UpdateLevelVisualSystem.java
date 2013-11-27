@@ -134,28 +134,28 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         } else if (a == AnimationType.box_destroy) {
             e.removeComponent(sprite);
         } else if (a == AnimationType.maki_green_one) {
-            updatable.startAnimation(makiAnim.getAnimationByName("maki_green_one"))
-                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+            updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .startAnimation(makiAnim.getAnimationByName("maki_green_one"))
                     .stopAnimation();
         } else if (a == AnimationType.maki_orange_one) {
-            updatable.startAnimation(makiAnim.getAnimationByName("maki_orange_one"))
-                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+            updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .startAnimation(makiAnim.getAnimationByName("maki_orange_one"))
                     .stopAnimation();
         } else if (a == AnimationType.maki_blue_one) {
-            updatable.startAnimation(makiAnim.getAnimationByName("maki_blue_one"))
-                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+            updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"))
                     .stopAnimation();
         } else if (a == AnimationType.maki_green_out) {
-            updatable.startAnimation(makiAnim.getAnimationByName("maki_green_out"))
-                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+            updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .startAnimation(makiAnim.getAnimationByName("maki_green_out"))
                     .stopAnimation();
         } else if (a == AnimationType.maki_orange_out) {
-            updatable.startAnimation(makiAnim.getAnimationByName("maki_orange_out"))
-                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+            updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .startAnimation(makiAnim.getAnimationByName("maki_orange_out"))
                     .stopAnimation();
         } else if (a == AnimationType.maki_blue_out) {
-            updatable.startAnimation(makiAnim.getAnimationByName("maki_blue_out"))
-                    .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+            updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
+                    .startAnimation(makiAnim.getAnimationByName("maki_blue_out"))
                     .stopAnimation();
         }
 
