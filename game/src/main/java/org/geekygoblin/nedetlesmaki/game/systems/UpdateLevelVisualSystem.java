@@ -162,8 +162,4 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         e.addComponent(updatable);
         e.changedInWorld();
     }
-
-    private boolean canMove() {
-        return world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty();
-    }
 }
