@@ -157,11 +157,11 @@ public class StartGameTrigger extends Trigger {
 	case "wall":
 	    return createWall(tile, game, tmx, x, y, l, layer);
 	case "green_plate":
-	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.green);
+	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.green, false);
 	case "orange_plate":
-	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange);
+	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange, false);
 	case "blue_plate":
-	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue);
+	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue, false);
 	case "decoration":
 	default:
 	    return createDecoration(tile, game, tmx, x, y, l, layer);
@@ -278,7 +278,7 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
 	game.addEntity(maki);
         indexSystem.added(maki);
-	game.getManager(GroupManager.class).add(createPlate(tile, game, tmx, x, y, l, layer, ColorType.green), Group.LEVEL);
+	game.getManager(GroupManager.class).add(createPlate(tile, game, tmx, x, y, l, layer, ColorType.green, true), Group.LEVEL);
         return maki;
     }
 
@@ -292,7 +292,7 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
-	game.getManager(GroupManager.class).add(createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange), Group.LEVEL);
+	game.getManager(GroupManager.class).add(createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange, true), Group.LEVEL);
         return maki;
     }
 
@@ -310,7 +310,7 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
-	game.getManager(GroupManager.class).add(createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue), Group.LEVEL);
+	game.getManager(GroupManager.class).add(createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue, true), Group.LEVEL);
         return maki;
     }
 
@@ -355,11 +355,11 @@ public class StartGameTrigger extends Trigger {
 	return wall;
     }
 
-    private Entity createPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer, ColorType color) {
+    private Entity createPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer, ColorType color, boolean maki) {
         
 	Entity plate = game.createEntity();
 	plate.addComponent(new Color(color));
-	plate.addComponent(new Plate(true));
+	plate.addComponent(new Plate(true, maki));
 	plate.addComponent(new Position(x, y));
 	
         indexSystem.added(plate);

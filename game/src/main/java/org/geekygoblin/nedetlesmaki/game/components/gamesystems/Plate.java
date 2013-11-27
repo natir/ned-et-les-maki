@@ -34,8 +34,9 @@ public class Plate extends Component {
     
     private Color c;
     private boolean b;
+    private boolean maki;
 
-    public Plate(boolean b) {
+    public Plate(boolean b, boolean maki) {
 	this.b = b;
     }
 
@@ -45,5 +46,13 @@ public class Plate extends Component {
 
     public void setPlate(boolean b) {
 	this.b = b;
+    }
+    
+    public boolean haveMaki() {
+        return maki;
+    }
+
+    public void setMaki(boolean b) {
+	this.maki = b;
     }
 }
