@@ -137,6 +137,13 @@ public class GameSystem extends VoidEntitySystem {
                                     mouv.add(destroyMove(nextE));
                                     mouv.add(runValideMove(oldP, newP, e, false));
                                 }
+                                else {
+                                    ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP);
+                                    if (!recMouv.isEmpty()) {
+                                        mouv.addAll(recMouv);
+                                        mouv.add(runValideMove(oldP, newP, e, true));
+                                    }
+                                }
                             } else {
                                 ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP);
                                 if (!recMouv.isEmpty()) {
@@ -199,7 +206,6 @@ public class GameSystem extends VoidEntitySystem {
                         m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_push_up);
                     } else {
                         m = new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_up);
-
                     }
                 }
             }
@@ -402,7 +408,7 @@ public class GameSystem extends VoidEntitySystem {
 
         if (p != null) {
             if (p.isPushable()) {
-                return true;
+                return p.isPushable();
             }
         }
 
@@ -414,7 +420,7 @@ public class GameSystem extends VoidEntitySystem {
 
         if (p != null) {
             if (p.isPusher()) {
-                return true;
+                return p.isPusher();
             }
         }
 
