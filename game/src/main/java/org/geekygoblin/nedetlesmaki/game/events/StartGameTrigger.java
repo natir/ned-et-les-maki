@@ -278,7 +278,7 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
 	game.addEntity(maki);
         indexSystem.added(maki);
-	this.createPlate(tile, game, tmx, x, y, l, layer, ColorType.green);
+	game.getManager(GroupManager.class).add(createPlate(tile, game, tmx, x, y, l, layer, ColorType.green), Group.LEVEL);
         return maki;
     }
 
@@ -292,7 +292,7 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
-	this.createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange);
+	game.getManager(GroupManager.class).add(createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange), Group.LEVEL);
         return maki;
     }
 
@@ -310,7 +310,7 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
-	this.createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue);
+	game.getManager(GroupManager.class).add(createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue), Group.LEVEL);
         return maki;
     }
 
