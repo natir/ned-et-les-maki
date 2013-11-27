@@ -147,10 +147,6 @@ public class EntityIndexManager extends EntityManager {
 
 	return null;
     }
-
-    public Square[][] getThisWorld() {
-	return this.index;
-    }
     
     public ImmutableBag<Entity> getAllPlate() {
         return world.getManager(GroupManager.class).getEntities(Group.PLATE);
