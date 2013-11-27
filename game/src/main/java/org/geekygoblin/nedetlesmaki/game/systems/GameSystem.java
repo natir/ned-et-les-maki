@@ -498,6 +498,8 @@ public class GameSystem extends VoidEntitySystem {
                 return;
             }
         }
-        world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
+        if(world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty()) {
+            world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
+        }
     }
 }
