@@ -259,6 +259,7 @@ public class GameSystem extends VoidEntitySystem {
         if (plateC.getColor() == makiC.getColor()) {
             if (plateC.getColor() == ColorType.green) {
                 if (getOne) {
+                    m.add(new Mouvement(plate).addPosition(newP).addAnimation(AnimationType.disable_entity));
                     m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_green_one));
                 } else {
                     m.add(new Mouvement(plate).addPosition(oldP).addAnimation(AnimationType.clean_green_plate));
@@ -266,6 +267,7 @@ public class GameSystem extends VoidEntitySystem {
                 }
             } else if (plateC.getColor() == ColorType.orange) {
                 if (getOne) {
+                    m.add(new Mouvement(plate).addPosition(newP).addAnimation(AnimationType.disable_entity));
                     m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_orange_one));
                 } else {
                     m.add(new Mouvement(plate).addPosition(oldP).addAnimation(AnimationType.clean_orange_plate));
@@ -273,6 +275,7 @@ public class GameSystem extends VoidEntitySystem {
                 }
             } else if (plateC.getColor() == ColorType.blue) {
                 if (getOne) {
+                    m.add(new Mouvement(plate).addPosition(newP).addAnimation(AnimationType.disable_entity));
                     m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_blue_one));
                 } else {
                     m.add(new Mouvement(plate).addPosition(oldP).addAnimation(AnimationType.clean_blue_plate));
@@ -288,7 +291,7 @@ public class GameSystem extends VoidEntitySystem {
 
     public Mouvement destroyMove(Entity e) {
         this.index.deleted(e);
-        return new Mouvement(e).addPosition(new Position(0, 0)).addAnimation(AnimationType.box_destroy);
+        return new Mouvement(e).addPosition(new Position(0, 0)).addAnimation(AnimationType.box_destroy).addWaitBefore(0.5f);
     }
 
     public boolean makiMoveOnePlate(Position newP, Entity e) {

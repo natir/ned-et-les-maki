@@ -136,6 +136,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         } else if (a == AnimationType.box_destroy) {
             updatable.startAnimation(boxAnim.getAnimationByName("destroy"))
                     .stopAnimation();
+            e.removeComponent(sprite);
         } else if (a == AnimationType.maki_green_one) {
             updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
                     .startAnimation(makiAnim.getAnimationByName("maki_green_one"))
@@ -161,14 +162,19 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .startAnimation(makiAnim.getAnimationByName("maki_blue_out"))
                     .stopAnimation();
         } else if (a == AnimationType.clean_green_plate) {
+            e.enable();
             updatable.startAnimation(plateAnim.getAnimationByName("clean_green_plate"))
                     .stopAnimation();
         } else if (a == AnimationType.clean_orange_plate) {
+            e.enable();
             updatable.startAnimation(plateAnim.getAnimationByName("clean_orange_plate"))
                     .stopAnimation();
         } else if (a == AnimationType.maki_blue_out) {
+            e.enable();
             updatable.startAnimation(plateAnim.getAnimationByName("clean_blue_plate"))
                     .stopAnimation();
+        }  else if (a == AnimationType.disable_entity) {
+            e.disable();
         }
 
         e.addComponent(updatable);

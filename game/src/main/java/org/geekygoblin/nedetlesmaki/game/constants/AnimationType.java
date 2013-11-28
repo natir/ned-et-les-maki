@@ -45,6 +45,8 @@ public enum AnimationType {
     maki_blue_out,
     clean_green_plate,
     clean_orange_plate,
-    clean_blue_plate;
+    clean_blue_plate,
+    disable_entity,
+    active_entity;
 }
  
