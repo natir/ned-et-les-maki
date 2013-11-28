@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="isometric" width="15" height="15" tilewidth="56" tileheight="27">
  <tileset firstgid="1" source="master.tsx"/>
- <layer name="wall_n_ground" width="15" height="15">
+ <layer name="wall_n_ground" width="15" height="15" visible="0">
   <data encoding="csv">
 10,5,21,21,21,21,21,21,21,21,21,21,21,21,21,
 5,10,21,10,5,10,5,10,5,10,5,10,5,10,21,
@@ -20,7 +20,7 @@
 21,21,21,21,21,21,21,21,21,21,21,21,21,21,21
 </data>
  </layer>
- <layer name="stairs" width="15" height="15">
+ <layer name="stairs" width="15" height="15" visible="0">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
