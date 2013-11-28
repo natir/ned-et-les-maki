@@ -218,7 +218,6 @@ public class GameSystem extends VoidEntitySystem {
                     m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.no));
                 }
             }
-                
 
             e.getComponent(Position.class).setX(newP.getX());
             e.getComponent(Position.class).setY(newP.getY());
@@ -259,26 +258,20 @@ public class GameSystem extends VoidEntitySystem {
         if (plateC.getColor() == makiC.getColor()) {
             if (plateC.getColor() == ColorType.green) {
                 if (getOne) {
-                    m.add(new Mouvement(plate).addPosition(newP).addAnimation(AnimationType.disable_entity));
                     m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_green_one));
                 } else {
-                    m.add(new Mouvement(plate).addPosition(oldP).addAnimation(AnimationType.clean_green_plate));
                     m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_green_out));
                 }
             } else if (plateC.getColor() == ColorType.orange) {
                 if (getOne) {
-                    m.add(new Mouvement(plate).addPosition(newP).addAnimation(AnimationType.disable_entity));
                     m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_orange_one));
                 } else {
-                    m.add(new Mouvement(plate).addPosition(oldP).addAnimation(AnimationType.clean_orange_plate));
                     m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_orange_out));
                 }
             } else if (plateC.getColor() == ColorType.blue) {
                 if (getOne) {
-                    m.add(new Mouvement(plate).addPosition(newP).addAnimation(AnimationType.disable_entity));
                     m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_blue_one));
                 } else {
-                    m.add(new Mouvement(plate).addPosition(oldP).addAnimation(AnimationType.clean_blue_plate));
                     m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_blue_out));
                 }
             }
