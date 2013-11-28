@@ -30,11 +30,6 @@
     <property name="taiste" value="plop"/>
    </properties>
   </tile>
-  <tile id="5">
-   <properties>
-    <property name="type" value="ned"/>
-   </properties>
-  </tile>
   <tile id="6">
    <properties>
     <property name="type" value="orange_plate"/>
@@ -48,16 +43,6 @@
   <tile id="8">
    <properties>
     <property name="type" value="orange_maki"/>
-   </properties>
-  </tile>
-  <tile id="10">
-   <properties>
-    <property name="type" value="ned"/>
-   </properties>
-  </tile>
-  <tile id="15">
-   <properties>
-    <property name="type" value="ned"/>
    </properties>
   </tile>
   <tile id="20">
