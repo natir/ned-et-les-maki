@@ -515,6 +515,7 @@ public class GameSystem extends VoidEntitySystem {
         }
         if (world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty()) {
             world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
+            this.run = false;
         }
     }
 }
