@@ -291,7 +291,7 @@ public class GameSystem extends VoidEntitySystem {
 
     public Mouvement destroyMove(Entity e) {
         this.index.deleted(e);
-        return new Mouvement(e).addPosition(new Position(0, 0)).addAnimation(AnimationType.box_destroy).addWaitBefore(0.5f);
+        return new Mouvement(e).addPosition(new Position(0, 0)).addAnimation(AnimationType.box_destroy);
     }
 
     public boolean makiMoveOnePlate(Position newP, Entity e) {
