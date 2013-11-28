@@ -108,8 +108,12 @@ public class EntityIndexManager extends EntityManager {
 	    return false;
 	}
 	
+        if(x2 > 14 || x2 < 0 || y2 > 14 || y2 < 0) {
+	    return false;
+	}
+        
 	ArrayList<Entity> tmpE = index[x][y].getWith(Movable.class);
-
+        
 	Square newC = this.index[x2][y2];
 	
 	if(newC != null) {

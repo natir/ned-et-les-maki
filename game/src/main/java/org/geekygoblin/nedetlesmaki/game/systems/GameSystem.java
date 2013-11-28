@@ -173,9 +173,9 @@ public class GameSystem extends VoidEntitySystem {
     private ArrayList<Mouvement> runValideMove(Position oldP, Position newP, Entity e, boolean push) {
         Position diff = PosOperation.deduction(newP, oldP);
 
+        ArrayList<Mouvement> m = new ArrayList();
+        
         if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
-
-            ArrayList<Mouvement> m = new ArrayList();
 
             if (makiMoveOnePlate(newP, e)) {
                 m.addAll(makiPlateMove(oldP, newP, e, true));
@@ -226,7 +226,7 @@ public class GameSystem extends VoidEntitySystem {
             return m;
         }
 
-        return null;
+        return m;
     }
 
     private ArrayList<Mouvement> makiPlateMove(Position oldP, Position newP, Entity e, boolean getOne) {
