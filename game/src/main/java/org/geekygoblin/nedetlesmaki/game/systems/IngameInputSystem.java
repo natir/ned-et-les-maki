@@ -80,28 +80,28 @@ public class IngameInputSystem extends EntityProcessingSystem {
 		controls.getDown().poll();
 		controls.getRight().poll();
 		controls.getLeft().poll();
-                if (controls.getUp().isActivated()) {
+                if (controls.getUp().isPressed()) {
                     Entity ned = game.getNed();
 
         	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1)));
 
 		    ned.changedInWorld();
 		}
-		else if (controls.getDown().isActivated()) {
+		else if (controls.getDown().isPressed()) {
                     Entity ned = game.getNed();
 		    
         	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1)));
 
 		    ned.changedInWorld();
 		}
-		else if (controls.getLeft().isActivated()) {
+		else if (controls.getLeft().isPressed()) {
 		    Entity ned = game.getNed();
 		    
         	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0)));
 		
                     ned.changedInWorld();
 		}
-		else if (controls.getRight().isActivated()) {
+		else if (controls.getRight().isPressed()) {
 		    Entity ned = game.getNed();
 
 		    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0)));	    
