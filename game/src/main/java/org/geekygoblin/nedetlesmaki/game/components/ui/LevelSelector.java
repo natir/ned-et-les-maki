@@ -59,7 +59,7 @@ public class LevelSelector extends Container {
         this.toolkit = toolkit;
         this.assets = assets;
         this.startGameTrigger = startGameTrigger;
-        bulleAnimations = assets.getAnimations("bulle.nanim");
+        bulleAnimations = assets.getAnimations("bulle.nanim.gz");
         setFocusedChild(addButton("level.01.name", "levels/lvl01.tmx", 725, 695, 1));
         addButton("level.02.name", "levels/lvl02.tmx", 550, 674, -1);
         addButton("level.03.name", "levels/lvl03.tmx", 725, 653, 1);

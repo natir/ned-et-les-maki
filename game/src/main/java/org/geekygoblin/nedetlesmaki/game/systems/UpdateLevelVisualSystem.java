@@ -93,10 +93,10 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         SpritePuppetControls updatable = new SpritePuppetControls(sprite);
         Position p = new Position((int) diff.getY(), (int) diff.getX());
         
-        IAnimationCollection nedAnim = this.assets.getAnimations("ned.nanim");
-        IAnimationCollection makiAnim = this.assets.getAnimations("maki.nanim");
-        IAnimationCollection plateAnim = this.assets.getAnimations("plate.nanim");
-        IAnimationCollection boxAnim = this.assets.getAnimations("box.nanim");
+        IAnimationCollection nedAnim = this.assets.getAnimations("ned.nanim.gz");
+        IAnimationCollection makiAnim = this.assets.getAnimations("maki.nanim.gz");
+        IAnimationCollection plateAnim = this.assets.getAnimations("plate.nanim.gz");
+        IAnimationCollection boxAnim = this.assets.getAnimations("box.nanim.gz");
         
         if (a == AnimationType.no) {
             updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
