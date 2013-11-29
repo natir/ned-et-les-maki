@@ -19,51 +19,23 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
-
-import java.util.Iterator;
-import java.util.ArrayList;
+package org.geekygoblin.nedetlesmaki.game.utils;
 
 import com.artemis.Component;
 import com.artemis.Entity;
-import org.geekygoblin.nedetlesmaki.game.utils.FautLireLaDocDArtemisCrotteDeBiquetteFix;
 
-public class Square extends Component {
+/**
+ *
+ * @author devnewton
+ */
+public class FautLireLaDocDArtemisCrotteDeBiquetteFix {
 
-    private final ArrayList<Entity> array;
-
-    public Square() {
-	this.array = new ArrayList();
-    }
-
-    public boolean add(Entity e) {
-	return this.array.add(e);
-    }
-
-    public void remove(Entity del) {
-	for(Iterator it = this.array.iterator(); it.hasNext();) {
-	    Entity e = (Entity) it.next();
-	    
-	    if(e.getId() == del.getId()) {
-		it.remove();
-	    }
-	}
-    }
-
-    public ArrayList<Entity> getWith(Class componentClass) {
-	ArrayList<Entity> ret = new ArrayList();
-        for (Entity e : this.array) {
-            Object c = FautLireLaDocDArtemisCrotteDeBiquetteFix.getComponentSafeMaisLentSaMere(e, componentClass);
-            
-            if(c != null) {
-                ret.add(e);
-            }
+    public static <T extends Component> T getComponentSafeMaisLentSaMere(Entity e, Class<T> type) {
+        try {
+            return e.getComponent(type);
+        } catch (Exception ex) {
+            return null;
         }
-
-	return ret;
     }
 
-    public ArrayList<Entity> getAll() {
-	return this.array;
-    }
 }
