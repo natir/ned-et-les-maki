@@ -24,6 +24,7 @@
 package org.geekygoblin.nedetlesmaki.game.components.ui;
 
 import com.artemis.Component;
+import com.artemis.managers.GroupManager;
 import im.bci.lwjgl.nuit.NuitToolkit;
 import java.util.Arrays;
 
@@ -39,10 +40,12 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.game.Game;
+import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.MainLoop;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
+import org.lwjgl.opengl.GL11;
 
 @Singleton
 public class MainMenu extends Component {
@@ -104,7 +107,35 @@ public class MainMenu extends Component {
     }
 
     private void initMain() {
-        mainMenu = new Table(toolkit);
+        mainMenu = new Table(toolkit) {
+
+            @Override
+            public void draw() {
+                if (game.getManager(GroupManager.class).getEntities(Group.LEVEL).isEmpty()) {
+                    GL11.glBindTexture(GL11.GL_TEXTURE_2D, assets.getTexture("menu.png").getId());
+                    float x1 = 0;
+                    float x2 = getWidth();
+                    float y1 = 0;
+                    float y2 = getHeight();
+                    float u1 = 0;
+                    float v1 = 1;
+                    float u2 = 1;
+                    float v2 = 0;
+                    GL11.glBegin(GL11.GL_QUADS);
+                    GL11.glTexCoord2f(u1, v1);
+                    GL11.glVertex2f(x1, y2);
+                    GL11.glTexCoord2f(u2, v1);
+                    GL11.glVertex2f(x2, y2);
+                    GL11.glTexCoord2f(u2, v2);
+                    GL11.glVertex2f(x2, y1);
+                    GL11.glTexCoord2f(u1, v2);
+                    GL11.glVertex2f(x1, y1);
+                    GL11.glEnd();
+                }
+                super.draw();
+            }
+
+        };
         mainMenu.defaults().expand();
         mainMenu.cell(new Button(toolkit, "main.menu.button.start") {
             @Override
