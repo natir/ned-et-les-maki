@@ -65,7 +65,7 @@ public class LevelSelector extends Container {
         addButton("level.03.name", "levels/lvl03.tmx", 725, 653, 1);
         addButton("level.04.name", "levels/lvl04.tmx", 550, 632, -1);
         addButton("level.05.name", "levels/lvl05.tmx", 725, 611, 1);
-        addButton("level.06.name", "levels/lvl06.tmx", 550, 590, -1);
+        /*addButton("level.06.name", "levels/lvl06.tmx", 550, 590, -1);
         addButton("level.07.name", "levels/lvl07.tmx", 725, 569, 1);
         addButton("level.08.name", "levels/lvl08.tmx", 550, 548, -1);
         addButton("level.09.name", "levels/lvl09.tmx", 725, 527, 1);
@@ -88,7 +88,7 @@ public class LevelSelector extends Container {
         addButton("level.26.name", "levels/lvl26.tmx", 550, 170, -1);
         addButton("level.27.name", "levels/lvl27.tmx", 725, 149, 1);
         addButton("level.28.name", "levels/lvl28.tmx", 550, 129, -1);
-        addButton("level.29.name", "levels/lvl29.tmx", 725, 107, 1);
+        addButton("level.29.name", "levels/lvl29.tmx", 725, 107, 1);*/
         addButton("level.30.name", "levels/test.tmx", 550, 87, -1);
     }
 
