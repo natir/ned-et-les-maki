@@ -162,15 +162,12 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .startAnimation(makiAnim.getAnimationByName("maki_blue_out"))
                     .stopAnimation();
         } else if (a == AnimationType.clean_green_plate) {
-            e.enable();
             updatable.startAnimation(plateAnim.getAnimationByName("clean_green_plate"))
                     .stopAnimation();
         } else if (a == AnimationType.clean_orange_plate) {
-            e.enable();
             updatable.startAnimation(plateAnim.getAnimationByName("clean_orange_plate"))
                     .stopAnimation();
         } else if (a == AnimationType.maki_blue_out) {
-            e.enable();
             updatable.startAnimation(plateAnim.getAnimationByName("clean_blue_plate"))
                     .stopAnimation();
         }  else if (a == AnimationType.disable_entity) {
