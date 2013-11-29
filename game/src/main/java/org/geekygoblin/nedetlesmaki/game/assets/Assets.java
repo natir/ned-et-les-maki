@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.GZIPInputStream;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.xml.bind.JAXBException;
@@ -115,8 +116,14 @@ public class Assets {
                 animations.remove(name);
             }
         }
-        try (InputStream is = vfs.open(name)) {
+        try (InputStream vfsInputStream= vfs.open(name)) {
             logger.log(Level.FINE, "Load animation {0}", name);
+            InputStream is;
+            if(name.endsWith(".gz")) {
+                is = new GZIPInputStream(vfsInputStream);
+            } else {
+                is = vfsInputStream;
+            }
             NanimationCollection anim = new NanimationCollection(Nanim.parseFrom(is));
             putAnim(name, anim);
             return anim;
