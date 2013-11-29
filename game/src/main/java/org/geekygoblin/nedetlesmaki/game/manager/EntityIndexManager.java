@@ -39,6 +39,7 @@ import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Movable;
+import org.geekygoblin.nedetlesmaki.game.utils.FautLireLaDocDArtemisCrotteDeBiquetteFix;
 
 /**
  *
@@ -62,7 +63,7 @@ public class EntityIndexManager extends EntityManager {
 
     @Override
     public void added(Entity e) {
-	Position p = e.getComponent(Position.class);
+	Position p = FautLireLaDocDArtemisCrotteDeBiquetteFix.getComponentSafeMaisLentSaMere(e, Position.class);
 	
 	if(p != null) {
 	    if(this.index[p.getX()][p.getY()] == null) {
@@ -75,7 +76,7 @@ public class EntityIndexManager extends EntityManager {
 
     @Override
     public void deleted(Entity e) {
-	Position p = e.getComponent(Position.class);
+	Position p = FautLireLaDocDArtemisCrotteDeBiquetteFix.getComponentSafeMaisLentSaMere(e, Position.class);
 	
 	if(p != null) {
 	    this.index[p.getX()][p.getY()].remove(e);
