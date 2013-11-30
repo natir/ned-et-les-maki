@@ -65,7 +65,12 @@ public class NanimationCollection implements IAnimationCollection {
 
     @Override
     public Nanimation getAnimationByName(String name) {
-        return animations.get(name);
+        Nanimation nanimation = animations.get(name);
+        if(null != nanimation) {
+            return nanimation;
+        } else {
+            throw new RuntimeException("Unknown animation " + name);
+        }        
     }
 
     public Map<String, NanimationImage> getImages() {

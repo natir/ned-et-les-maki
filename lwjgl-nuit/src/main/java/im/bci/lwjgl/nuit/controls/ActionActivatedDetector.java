@@ -39,6 +39,15 @@ public class ActionActivatedDetector {
     public boolean isActivated() {
         return activated;
     }
+    
+    public boolean isPressed() {
+        for(Control control : action.getControls()) {
+            if(control.getValue() > control.getDeadZone()) {
+                return true;
+            }
+        }
+        return false;
+    }
         
     public void poll() {
         Control[] controls = action.getControls();
