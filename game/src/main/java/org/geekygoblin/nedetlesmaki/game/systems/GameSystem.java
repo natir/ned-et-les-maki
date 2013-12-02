@@ -183,6 +183,10 @@ public class GameSystem extends VoidEntitySystem {
 
             if (makiMoveOutPlate(oldP, e)) {
                 m.addAll(makiPlateMove(oldP, newP, e, false));
+                
+                if (makiMoveOnePlate(newP, e)) {
+                    m.addAll(makiPlateMove(oldP, newP, e, true));
+                }
             }
 
             if (e == ((Game) this.world).getNed()) {
