@@ -9,4 +9,4 @@ Exec=/opt/nedetlesmaki/nedetlesmaki-game.jar
 Name=Ned et les maki
 Comment=Ned et les maki
 Icon=/opt/nedetlesmaki/icon.png
-Name[fr_FR]=netetlesmaki.desktop
+Name[fr_FR]=nedetlesmaki.desktop

@@ -21,8 +21,8 @@
  */
 package org.geekygoblin.nedetlesmaki.game.systems;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.ImmutableBag;
-import javax.inject.Provider;
+import com.google.inject.Provider;
 
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;

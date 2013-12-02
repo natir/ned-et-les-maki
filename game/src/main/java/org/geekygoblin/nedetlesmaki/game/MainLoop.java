@@ -24,13 +24,13 @@
 package org.geekygoblin.nedetlesmaki.game;
 
 import com.artemis.Entity;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import im.bci.lwjgl.nuit.NuitToolkit;
 import im.bci.lwjgl.nuit.controls.Action;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controllers;

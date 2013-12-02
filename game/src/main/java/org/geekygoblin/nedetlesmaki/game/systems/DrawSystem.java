@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;

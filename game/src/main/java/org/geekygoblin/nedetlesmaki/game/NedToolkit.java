@@ -28,8 +28,8 @@ import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 
 /**
