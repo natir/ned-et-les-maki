@@ -35,38 +35,69 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 public class Mouvement {
 
     private Entity e;
-    private final ArrayList<Position> lP;
-    private final ArrayList<AnimationType> lA;
+    private final Mouvement_struct ms;
+    private final ArrayList<Mouvement_struct> list;
 
     public Mouvement(Entity e) {
 	this.e = e;
-	this.lP = new ArrayList();
-	this.lA = new ArrayList();
+        this.ms = new Mouvement_struct();
+	this.list = new ArrayList();
     }
 
     public void setEntity(Entity e) {
 	this.e = e;
     }
 
-    public Mouvement addPosition(Position p) {
-	this.lP.add(p);
+    public Mouvement setPosition(Position p) {
+	this.ms.p = p;
 	return this;
     }
 
-    public Mouvement addAnimation(AnimationType a) {
-	this.lA.add(a);
+    public Mouvement setAnimation(AnimationType a) {
+	this.ms.a = a;
 	return this;
+    }
+
+    public Mouvement setBeforeWait(int bw) {
+	this.ms.bw = bw;
+	return this;
+    }
+
+    public Mouvement saveMouvement() {
+        this.list.add(this.ms);
+        return this;
     }
 
     public Entity getEntity() {
 	return this.e;
     }
 
-    public ArrayList<Position> getPositionList() {
-	return this.lP;
+    public Position getPosition(int i) {
+	return this.list.get(i).p;
     }
 
-    public ArrayList<AnimationType> getAnimationList() {
-	return this.lA;
+    public AnimationType getAnimation(int i) {
+	return this.list.get(i).a;
+    }
+
+    public int getBeforeWait(int i) {
+	return this.list.get(i).bw;
+    }
+
+    public int size() {
+        return this.list.size();
+    }
+
+    private class Mouvement_struct {
+        
+        public Position p;
+        public AnimationType a;
+        public int bw;
+        
+        public Mouvement_struct() {
+            p = new Position(0, 0);
+            a = AnimationType.no;
+            bw = 0;
+        }
     }
 }

@@ -192,34 +192,34 @@ public class GameSystem extends VoidEntitySystem {
             if (e == ((Game) this.world).getNed()) {
                 if (diff.getX() > 0) {
                     if (push) {
-                        m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_push_right));
+                        m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.ned_push_right).saveMouvement());
                     } else {
-                        m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_right));
+                        m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.ned_right).saveMouvement());
                     }
                 } else if (diff.getX() < 0) {
                     if (push) {
-                        m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_push_left));
+                        m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.ned_push_left).saveMouvement());
                     } else {
-                        m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_left));
+                        m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.ned_left).saveMouvement());
                     }
                 } else if (diff.getY() > 0) {
                     if (push) {
-                        m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_push_down));
+                        m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.ned_push_down).saveMouvement());
                     } else {
-                        m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_down));
+                        m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.ned_down).saveMouvement());
                     }
                 } else if (diff.getY() < 0) {
                     if (push) {
-                        m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_push_up));
+                        m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.ned_push_up).saveMouvement());
                     } else {
-                        m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.ned_up));
+                        m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.ned_up).saveMouvement());
                     }
                 } else {
-                    m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.no));
+                    m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.no).saveMouvement());
                 }
             } else {
                 if(m.isEmpty()) {
-                    m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.no));
+                    m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.no).saveMouvement());
                 }
             }
 
@@ -262,25 +262,25 @@ public class GameSystem extends VoidEntitySystem {
         if (plateC.getColor() == makiC.getColor()) {
             if (plateC.getColor() == ColorType.green) {
                 if (getOne) {
-                    m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_green_one));
+                    m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.maki_green_one).saveMouvement());
                 } else {
-                    m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_green_out));
+                    m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.maki_green_out).saveMouvement());
                 }
             } else if (plateC.getColor() == ColorType.orange) {
                 if (getOne) {
-                    m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_orange_one));
+                    m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.maki_orange_one).saveMouvement());
                 } else {
-                    m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_orange_out));
+                    m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.maki_orange_out).saveMouvement());
                 }
             } else if (plateC.getColor() == ColorType.blue) {
                 if (getOne) {
-                    m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_blue_one));
+                    m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.maki_blue_one).saveMouvement());
                 } else {
-                    m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.maki_blue_out));
+                    m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.maki_blue_out).saveMouvement());
                 }
             }
         } else {
-            m.add(new Mouvement(e).addPosition(newP).addAnimation(AnimationType.no));
+            m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.no).saveMouvement());
         }
 
         return m;
@@ -288,7 +288,7 @@ public class GameSystem extends VoidEntitySystem {
 
     public Mouvement destroyMove(Entity e) {
         this.index.deleted(e);
-        return new Mouvement(e).addPosition(new Position(0, 0)).addAnimation(AnimationType.box_destroy);
+        return new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).saveMouvement();
     }
 
     public boolean makiMoveOnePlate(Position newP, Entity e) {
