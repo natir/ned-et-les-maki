@@ -31,7 +31,7 @@ import im.bci.lwjgl.nuit.widgets.Label;
 import im.bci.lwjgl.nuit.widgets.Root;
 import im.bci.nanim.IPlay;
 import java.util.ArrayList;
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.GL11;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <installation version="1.0">
     <info>
-        <appname>@{project.name}</appname>
+        <appname>nedetlesmaki</appname>
         <appversion>@{project.version}</appversion>
         <authors>
             <author name="Geeky Goblin Productions" email="al.jes@geekygoblin.org" />

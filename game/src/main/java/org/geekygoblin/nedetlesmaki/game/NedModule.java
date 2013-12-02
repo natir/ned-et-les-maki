@@ -34,7 +34,7 @@ import im.bci.nanim.PlayMode;
 import java.io.File;
 import java.util.Random;
 
-import javax.inject.Singleton;
+import com.google.inject.Singleton;
 
 import org.geekygoblin.nedetlesmaki.game.assets.Assets;
 import org.geekygoblin.nedetlesmaki.game.assets.VirtualFileSystem;

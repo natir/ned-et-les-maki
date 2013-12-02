@@ -26,14 +26,14 @@ THE SOFTWARE. -->
     <parent>
         <groupId>org.geekygoblin</groupId>
         <artifactId>nedetlesmaki</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>im.bci</groupId>
     <artifactId>lwjgl-nuit</artifactId>
     <packaging>jar</packaging>
     <name>lwjgl-nuit</name>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
