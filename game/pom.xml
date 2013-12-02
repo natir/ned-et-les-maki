@@ -345,6 +345,21 @@ THE SOFTWARE. -->
                                     </sources>
                                 </mapping>
                                 <mapping>
+                                    <directory>/opt/nedetlesmaki/lib</directory>
+                                    <username>root</username>
+                                    <groupname>root</groupname>
+                                    <sources>
+                                        <source>
+                                            <location>${basedir}/target/lib</location>
+                                            <targetArchitecture>x86_64</targetArchitecture>
+                                        </source>
+                                        <source>
+                                            <location>${basedir}/target/lib</location>
+                                            <targetArchitecture>i686</targetArchitecture>
+                                        </source>
+                                    </sources>
+                                </mapping>
+                                <mapping>
                                     <directory>/opt/nedetlesmaki/natives</directory>
                                     <username>root</username>
                                     <groupname>root</groupname>
