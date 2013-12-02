@@ -27,8 +27,8 @@ import com.artemis.Component;
 import im.bci.lwjgl.nuit.controls.Action;
 import im.bci.lwjgl.nuit.controls.ActionActivatedDetector;
 import im.bci.lwjgl.nuit.controls.KeyControl;
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.lwjgl.input.Keyboard;
 
 /**

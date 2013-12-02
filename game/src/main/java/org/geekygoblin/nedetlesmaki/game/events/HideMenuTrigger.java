@@ -24,7 +24,7 @@ THE SOFTWARE.
 package org.geekygoblin.nedetlesmaki.game.events;
 
 import com.artemis.Entity;
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 

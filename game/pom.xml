@@ -26,7 +26,7 @@ THE SOFTWARE. -->
     <parent>
         <groupId>org.geekygoblin</groupId>
         <artifactId>nedetlesmaki</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>0.1</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>nedetlesmaki-game</artifactId>
@@ -215,31 +215,6 @@ THE SOFTWARE. -->
     </dependencies>
     <profiles>
         <profile>
-            <id>src</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <version>2.4</version>
-                        <configuration>
-                            <descriptor>src/assembly/src.xml</descriptor>
-                            <finalName>nedetlesmaki-game-${project.version}-sources</finalName>
-                            <appendAssemblyId>false</appendAssemblyId>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
             <id>izpack</id>
             <build>
                 <plugins>
@@ -255,7 +230,7 @@ THE SOFTWARE. -->
                                     <goal>izpack</goal>
                                 </goals>
                                 <configuration>
-                                    <installerFile>${project.build.directory}/${project.build.finalName}-installer.jar</installerFile>
+                                    <installerFile>${project.build.directory}/nedetlesmaki-${project.version}-installer.jar</installerFile>
                                 </configuration>
                             </execution>
                         </executions>
@@ -288,8 +263,8 @@ THE SOFTWARE. -->
                                 <configuration>
                                     <headerType>gui</headerType>
                                     <dontWrapJar>false</dontWrapJar>
-                                    <outfile>${project.build.finalName}-installer.exe</outfile>
-                                    <jar>${project.build.finalName}-installer.jar</jar><!-- Copy manually 
+                                    <outfile>nedetlesmaki-${project.version}-installer.exe</outfile>
+                                    <jar>nedetlesmaki-${project.version}-installer.jar</jar><!-- Copy manually 
 										the file in ${basedir}. Without this, the generated exe will be bugged. -->
                                     <errTitle>Ned et les maki installer</errTitle>
                                     <jre>
@@ -303,8 +278,8 @@ THE SOFTWARE. -->
                                         <productVersion>1.0.0.0</productVersion>
                                         <txtProductVersion>${project.version}</txtProductVersion>
                                         <productName>Ned et les maki installer</productName>
-                                        <internalName>nedetlesmaki-game-installer</internalName>
-                                        <originalFilename>${project.build.finalName}-installer.exe</originalFilename>
+                                        <internalName>nedetlesmaki-installer</internalName>
+                                        <originalFilename>nedetlesmaki-${project.version}-installer.exe</originalFilename>
                                     </versionInfo>
                                 </configuration>
                             </execution>
@@ -331,13 +306,14 @@ THE SOFTWARE. -->
                         <configuration>
                             <copyright>2013 Geeky Goblin Productions</copyright>
                             <group>Application/Games</group>
+                            <name>nedetlesmaki</name>
                             <packager>devnewton</packager>
                             <requires>
                                 <require>java &gt; 1-1.7.0 </require>
                             </requires>
                             <mappings>
                                 <mapping>
-                                    <directory>/opt/${project.name}</directory>
+                                    <directory>/opt/nedetlesmaki</directory>
                                     <filemode>755</filemode>
                                     <username>root</username>
                                     <groupname>root</groupname>
@@ -349,7 +325,7 @@ THE SOFTWARE. -->
                                     </sources>
                                 </mapping>
                                 <mapping>
-                                    <directory>/opt/${project.name}</directory>
+                                    <directory>/opt/nedetlesmaki</directory>
                                     <username>root</username>
                                     <groupname>root</groupname>
                                     <sources>
@@ -359,7 +335,7 @@ THE SOFTWARE. -->
                                     </sources>
                                 </mapping>
                                 <mapping>
-                                    <directory>/opt/${project.name}/data</directory>
+                                    <directory>/opt/nedetlesmaki/data</directory>
                                     <username>root</username>
                                     <groupname>root</groupname>
                                     <sources>
@@ -369,7 +345,7 @@ THE SOFTWARE. -->
                                     </sources>
                                 </mapping>
                                 <mapping>
-                                    <directory>/opt/${project.name}/natives</directory>
+                                    <directory>/opt/nedetlesmaki/natives</directory>
                                     <username>root</username>
                                     <groupname>root</groupname>
                                     <sources>
@@ -394,7 +370,7 @@ THE SOFTWARE. -->
                                 </mapping>
                                 -->
                                 <mapping>
-                                    <directory>/opt/${project.name}/licences</directory>
+                                    <directory>/opt/nedetlesmaki/licences</directory>
                                     <username>root</username>
                                     <groupname>root</groupname>
                                     <sources>
@@ -421,7 +397,7 @@ THE SOFTWARE. -->
                                     <sources>
                                         <source>
                                             <location>${basedir}/src/rpm/run_nedetlesmaki.sh</location>
-                                            <destination>${project.name}</destination>
+                                            <destination>nedetlesmaki</destination>
                                         </source>
                                     </sources>
                                 </mapping>
@@ -509,7 +485,7 @@ THE SOFTWARE. -->
                                 </manifest>
                                 <manifestEntries>
                                     <mode>development</mode>
-                                    <Class-Path>/usr/share/java/lwjgl.jar /usr/share/java/lwjgl_util.jar /usr/share/java/lwjgl_test.jar /usr/share/java/jorbis.jar /usr/share/java/jogg.jar /usr/share/java/protobuf-java.jar</Class-Path>
+                                    <Class-Path>/usr/share/java/lwjgl.jar /usr/share/java/lwjgl_util.jar /usr/share/java/lwjgl_test.jar</Class-Path>
                                 </manifestEntries>
                             </archive>
                         </configuration>
@@ -525,7 +501,7 @@ THE SOFTWARE. -->
                                     <goal>jdeb</goal>
                                 </goals>
                                 <configuration>
-                                    <deb>${project.build.directory}/${project.artifactId}_${project.version}.deb</deb>
+                                    <deb>${project.build.directory}/nedetlesmaki_${project.version}.deb</deb>
                                     <dataSet>
                                         <data>
                                             <src>${project.build.directory}/${project.build.finalName}.jar</src>
@@ -533,7 +509,7 @@ THE SOFTWARE. -->
                                             <dst>${project.name}.jar</dst>
                                             <mapper>
                                                 <type>perm</type>
-                                                <prefix>/opt/${project.name}</prefix>
+                                                <prefix>/opt/nedetlesmaki</prefix>
                                                 <filemode>755</filemode>
                                             </mapper>
                                         </data>
@@ -542,7 +518,7 @@ THE SOFTWARE. -->
                                             <type>file</type>
                                             <mapper>
                                                 <type>perm</type>
-                                                <prefix>/opt/${project.name}</prefix>
+                                                <prefix>/opt/nedetlesmaki</prefix>
                                             </mapper>
                                         </data>
                                         <data>
@@ -550,7 +526,16 @@ THE SOFTWARE. -->
                                             <type>directory</type>
                                             <mapper>
                                                 <type>perm</type>
-                                                <prefix>/opt/${project.name}/data</prefix>
+                                                <prefix>/opt/nedetlesmaki/data</prefix>
+                                            </mapper>
+                                        </data>
+                                        <data>
+                                            <src>${basedir}/target/lib</src>
+                                            <type>directory</type>
+                                            <excludes>jinput*,lwjgl-2.7.1*,lwjgl_util-2.7.1*</excludes>
+                                            <mapper>
+                                                <type>perm</type>
+                                                <prefix>/opt/nedetlesmaki/lib</prefix>
                                             </mapper>
                                         </data>
                                         <data>
@@ -558,7 +543,7 @@ THE SOFTWARE. -->
                                             <type>directory</type>
                                             <mapper>
                                                 <type>perm</type>
-                                                <prefix>/opt/${project.name}/licences</prefix>
+                                                <prefix>/opt/nedetlesmaki/licences</prefix>
                                             </mapper>
                                         </data>
                                         <data>
