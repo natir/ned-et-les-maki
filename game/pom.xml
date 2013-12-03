@@ -383,7 +383,6 @@ THE SOFTWARE. -->
                                         </source>
                                     </sources>
                                 </mapping>
-                                -->
                                 <mapping>
                                     <directory>/opt/nedetlesmaki/licences</directory>
                                     <username>root</username>
