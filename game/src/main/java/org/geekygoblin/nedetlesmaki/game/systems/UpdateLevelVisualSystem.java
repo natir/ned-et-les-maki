@@ -76,14 +76,14 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             if (change != null) {
                 for (int i = 0; i != change.size(); i++) {
                     for (int j = 0; j != change.get(i).size(); j++) {
-                        this.moveSprite(change.get(i).getEntity(), change.get(i).getPosition(j), change.get(i).getAnimation(j));
+                        this.moveSprite(change.get(i).getEntity(), change.get(i).getPosition(j), change.get(i).getAnimation(j), change.get(i).getBeforeWait(j));
                     }
                 }
             }
         }
     }
 
-    private void moveSprite(Entity e, Position diff, AnimationType a) {
+    private void moveSprite(Entity e, Position diff, AnimationType a, float waitBefore) {
 
         Sprite sprite = e.getComponent(Sprite.class);
         Vector3f pos = sprite.getPosition();
@@ -131,7 +131,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
                     .stopAnimation();
         } else if (a == AnimationType.box_destroy) {
-            updatable.startAnimation(boxAnim.getAnimationByName("destroy"))
+            updatable.waitDuring(waitBefore)
+                    .startAnimation(boxAnim.getAnimationByName("destroy"))
                     .stopAnimation();
             e.removeComponent(sprite);
         } else if (a == AnimationType.maki_green_one) {

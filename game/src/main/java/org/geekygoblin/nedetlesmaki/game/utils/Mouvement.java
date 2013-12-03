@@ -58,7 +58,7 @@ public class Mouvement {
 	return this;
     }
 
-    public Mouvement setBeforeWait(int bw) {
+    public Mouvement setBeforeWait(float bw) {
 	this.ms.bw = bw;
 	return this;
     }
@@ -80,7 +80,7 @@ public class Mouvement {
 	return this.list.get(i).a;
     }
 
-    public int getBeforeWait(int i) {
+    public float getBeforeWait(int i) {
 	return this.list.get(i).bw;
     }
 
@@ -92,7 +92,7 @@ public class Mouvement {
         
         public Position p;
         public AnimationType a;
-        public int bw;
+        public float bw;
         
         public Mouvement_struct() {
             p = new Position(0, 0);
