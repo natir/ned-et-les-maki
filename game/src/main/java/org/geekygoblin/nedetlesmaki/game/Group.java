@@ -32,5 +32,5 @@ public class Group {
     public static final String DEBUG = "DEBUG";
     public static final String LEVEL = "LEVEL";
     public static final String PLATE = "PLATE";
-    
+    public static final String STAIRS = "STAIRS";
 }

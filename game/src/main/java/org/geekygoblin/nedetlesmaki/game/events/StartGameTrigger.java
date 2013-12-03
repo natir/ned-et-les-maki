@@ -54,6 +54,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyer;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Stairs;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
@@ -162,6 +163,8 @@ public class StartGameTrigger extends Trigger {
 	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange, false);
 	case "blue_plate":
 	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue, false);
+        case "stairs":
+	    return createStairs(tile, game, tmx, x, y, l, layer);
 	case "decoration":
 	default:
 	    return createDecoration(tile, game, tmx, x, y, l, layer);
@@ -369,6 +372,21 @@ public class StartGameTrigger extends Trigger {
 	createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, plate);
 
         return plate;
+    }
+
+    private Entity createStairs(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        Entity stairs = game.createEntity();
+
+        stairs.addComponent(new Position(x, y));
+        stairs.addComponent(new Stairs(false));
+
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.NONE, stairs);
+
+        game.addEntity(stairs);
+        indexSystem.added(stairs);
+        game.getManager(GroupManager.class).add(stairs, Group.STAIRS);
+
+        return stairs;
     }
 
     private void createProjector(Game game, TmxAsset tmx) {
