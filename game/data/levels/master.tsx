@@ -3,7 +3,7 @@
  <properties>
   <property name="debug" value="false"/>
  </properties>
- <image source="test.png" width="280" height="342"/>
+ <image source="master.png" width="280" height="342"/>
  <tile id="0">
   <properties>
    <property name="type" value="ned"/>
