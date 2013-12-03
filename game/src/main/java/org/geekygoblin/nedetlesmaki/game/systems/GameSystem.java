@@ -42,6 +42,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.StopOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Stairs;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Boostable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyer;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyable;
@@ -87,6 +88,8 @@ public class GameSystem extends VoidEntitySystem {
     ComponentMapper<Destroyer> destroyerMapper;
     @Mapper
     ComponentMapper<Destroyable> destroyableMapper;
+    @Mapper
+    ComponentMapper<Stairs> stairsMapper;
 
     @Inject
     public GameSystem(EntityIndexManager index, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger) {
@@ -98,14 +101,13 @@ public class GameSystem extends VoidEntitySystem {
     @Override
     protected void processSystem() {
         if (this.run) {
-            this.endOfLevel();
+            this.tryPlate();
         }
     }
 
     public ArrayList<Mouvement> moveEntity(Entity e, Position dirP) {
         this.run = true;
 
-        /*Check if move possible*/
         Position oldP = this.getPosition(e);
 
         ArrayList<Mouvement> mouv = new ArrayList();
@@ -132,6 +134,9 @@ public class GameSystem extends VoidEntitySystem {
                     mouv.addAll(runValideMove(oldP, newP, e, false));
                 }
             } else {
+                if (this.isStairs(newP)) {
+                    mouv.addAll(nedMoveOnStairs(oldP, newP, e));
+                }
                 if (this.isPusherEntity(e)) {
                     ArrayList<Entity> aNextE = index.getSquare(newP.getX(), newP.getY()).getWith(Pushable.class);
                     if (!aNextE.isEmpty()) {
@@ -174,7 +179,7 @@ public class GameSystem extends VoidEntitySystem {
         Position diff = PosOperation.deduction(newP, oldP);
 
         ArrayList<Mouvement> m = new ArrayList();
-        
+
         if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
 
             if (makiMoveOnePlate(newP, e)) {
@@ -183,7 +188,7 @@ public class GameSystem extends VoidEntitySystem {
 
             if (makiMoveOutPlate(oldP, e)) {
                 m.addAll(makiPlateMove(oldP, newP, e, false));
-                
+
                 if (makiMoveOnePlate(newP, e)) {
                     m.addAll(makiPlateMove(oldP, newP, e, true));
                 }
@@ -218,7 +223,7 @@ public class GameSystem extends VoidEntitySystem {
                     m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.no).saveMouvement());
                 }
             } else {
-                if(m.isEmpty()) {
+                if (m.isEmpty()) {
                     m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.no).saveMouvement());
                 }
             }
@@ -232,10 +237,39 @@ public class GameSystem extends VoidEntitySystem {
         return m;
     }
 
+    private ArrayList<Mouvement> nedMoveOnStairs(Position oldP, Position newP, Entity e) {
+        Position diff = PosOperation.deduction(newP, oldP);
+
+        ArrayList<Mouvement> m = new ArrayList();
+
+        if (e == ((Game) this.world).getNed()) {
+            if (diff.getX() > 0) {
+                m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.ned_right).saveMouvement());
+            } else if (diff.getX() < 0) {
+                m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.ned_left).saveMouvement());
+            } else if (diff.getY() > 0) {
+                m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.ned_down).saveMouvement());
+            } else if (diff.getY() < 0) {
+                m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.ned_up).saveMouvement());
+            } else {
+                m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.no).saveMouvement());
+            }
+        } else {
+            if (m.isEmpty()) {
+                m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.no).saveMouvement());
+            }
+        }
+
+        e.getComponent(Position.class).setX(newP.getX());
+        e.getComponent(Position.class).setY(newP.getY());
+
+        return m;
+    }
+
     private ArrayList<Mouvement> makiPlateMove(Position oldP, Position newP, Entity e, boolean getOne) {
 
         ArrayList<Mouvement> m = new ArrayList();
-        
+
         Square obj;
 
         if (getOne) {
@@ -246,9 +280,11 @@ public class GameSystem extends VoidEntitySystem {
 
         if (obj == null) {
             return m;
+
         }
 
-        ArrayList<Entity> plates = obj.getWith(Plate.class);
+        ArrayList<Entity> plates = obj.getWith(Plate.class
+        );
 
         if (plates.isEmpty()) {
             return m;
@@ -259,7 +295,8 @@ public class GameSystem extends VoidEntitySystem {
         Color plateC = this.colorMapper.getSafe(plate);
         Color makiC = this.colorMapper.getSafe(e);
 
-        if (plateC.getColor() == makiC.getColor()) {
+        if (plateC.getColor()
+                == makiC.getColor()) {
             if (plateC.getColor() == ColorType.green) {
                 if (getOne) {
                     m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.maki_green_one).saveMouvement());
@@ -296,19 +333,23 @@ public class GameSystem extends VoidEntitySystem {
 
         if (s == null) {
             return false;
+
         }
 
-        ArrayList<Entity> plates = s.getWith(Plate.class);
+        ArrayList<Entity> plates = s.getWith(Plate.class
+        );
 
         if (plates.isEmpty()) {
             return false;
         }
 
-        if (this.colorMapper.getSafe(e) == null) {
+        if (this.colorMapper.getSafe(e)
+                == null) {
             return false;
         }
 
-        if (this.colorMapper.getSafe(e).getColor() == this.colorMapper.getSafe(plates.get(0)).getColor()) {
+        if (this.colorMapper.getSafe(e)
+                .getColor() == this.colorMapper.getSafe(plates.get(0)).getColor()) {
             plates.get(0).getComponent(Plate.class).setMaki(true);
             return true;
         }
@@ -321,18 +362,22 @@ public class GameSystem extends VoidEntitySystem {
 
         if (s == null) {
             return false;
+
         }
 
-        ArrayList<Entity> plates = s.getWith(Plate.class);
+        ArrayList<Entity> plates = s.getWith(Plate.class
+        );
         if (plates.isEmpty()) {
             return false;
         }
 
-        if (this.colorMapper.getSafe(e) == null) {
+        if (this.colorMapper.getSafe(e)
+                == null) {
             return false;
         }
 
-        if (this.colorMapper.getSafe(e).getColor() == this.colorMapper.getSafe(plates.get(0)).getColor()) {
+        if (this.colorMapper.getSafe(e)
+                .getColor() == this.colorMapper.getSafe(plates.get(0)).getColor()) {
             plates.get(0).getComponent(Plate.class).setMaki(false);
             return true;
         }
@@ -357,7 +402,8 @@ public class GameSystem extends VoidEntitySystem {
         Plate p = plateMapper.getSafe(plate);
         StopOnPlate b = stopOnPlateMapper.getSafe(eMove);
 
-        if (b == null) {
+        if (b
+                == null) {
             return false;
         }
 
@@ -407,14 +453,36 @@ public class GameSystem extends VoidEntitySystem {
         Square s = index.getSquare(p.getX(), p.getY());
 
         if (s != null) {
-            ArrayList<Entity> plate = s.getWith(Plate.class);
+            ArrayList<Entity> plate = s.getWith(Plate.class
+            );
             ArrayList<Entity> all = s.getAll();
 
-            if (all.size() == plate.size()) {
+            if (all.size()
+                    == plate.size()) {
                 return true;
             } else {
                 return false;
             }
+        }
+
+        return true;
+    }
+
+    public boolean isStairs(Position newP) {
+        Square s = index.getSquare(newP.getX(), newP.getY());
+
+        ArrayList<Entity> stairsEntity = s.getWith(Stairs.class
+        );
+
+        if (stairsEntity.isEmpty()) {
+            return false;
+        }
+
+        Entity stairs = stairsEntity.get(0);
+        Stairs st = this.stairsMapper.getSafe(stairs);
+
+        if (!st.isOpen()) {
+            return false;
         }
 
         return true;
@@ -498,8 +566,11 @@ public class GameSystem extends VoidEntitySystem {
         return false;
     }
 
-    private void endOfLevel() {
+    private void tryPlate() {
         ImmutableBag<Entity> plateGroup = this.index.getAllPlate();
+
+        Entity ned = this.index.getNed();
+        Position nedP = this.positionMapper.getSafe(ned);
 
         for (int i = 0; i != plateGroup.size(); i++) {
             Entity platE = plateGroup.get(i);
@@ -510,9 +581,28 @@ public class GameSystem extends VoidEntitySystem {
                 return;
             }
         }
-        if (world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty()) {
-            world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
-            this.run = false;
+
+        ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
+
+        Entity stairs = stairsGroup.get(0);
+        Stairs stairsS = this.stairsMapper.getSafe(stairs);
+        stairsS.setStairs(true);
+    }
+
+    private void endOfLevel() {
+        ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
+
+        Entity stairs = stairsGroup.get(0);
+        Position stairsP = this.positionMapper.getSafe(stairs);
+        Stairs stairsS = this.stairsMapper.getSafe(stairs);
+
+        if (stairsS.isOpen()) {
+            if (world.getSystem(SpritePuppetControlSystem.class
+            ).getActives().isEmpty()) {
+                world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
+
+                this.run = false;
+            }
         }
     }
 }
