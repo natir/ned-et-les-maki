@@ -24,11 +24,6 @@
    <property name="type" value="green_maki"/>
   </properties>
  </tile>
- <tile id="4">
-  <properties>
-   <property name="taiste" value="plop"/>
-  </properties>
- </tile>
  <tile id="5">
   <properties>
    <property name="type" value="green_plate"/>
@@ -54,14 +49,74 @@
    <property name="type" value="orange_plate"/>
   </properties>
  </tile>
+ <tile id="11">
+  <properties>
+   <property name="type" value="stairs"/>
+  </properties>
+ </tile>
+ <tile id="12">
+  <properties>
+   <property name="type" value="stairs"/>
+  </properties>
+ </tile>
+ <tile id="13">
+  <properties>
+   <property name="type" value="stairs"/>
+  </properties>
+ </tile>
+ <tile id="14">
+  <properties>
+   <property name="type" value="stairs"/>
+  </properties>
+ </tile>
  <tile id="15">
   <properties>
    <property name="type" value="blue_plate"/>
   </properties>
  </tile>
+ <tile id="16">
+  <properties>
+   <property name="type" value="stairs"/>
+  </properties>
+ </tile>
+ <tile id="17">
+  <properties>
+   <property name="type" value="stairs"/>
+  </properties>
+ </tile>
+ <tile id="18">
+  <properties>
+   <property name="type" value="stairs"/>
+  </properties>
+ </tile>
+ <tile id="19">
+  <properties>
+   <property name="type" value="stairs"/>
+  </properties>
+ </tile>
  <tile id="20">
   <properties>
    <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="21">
+  <properties>
+   <property name="type" value="stairs"/>
+  </properties>
+ </tile>
+ <tile id="22">
+  <properties>
+   <property name="type" value="stairs"/>
+  </properties>
+ </tile>
+ <tile id="23">
+  <properties>
+   <property name="type" value="stairs"/>
+  </properties>
+ </tile>
+ <tile id="24">
+  <properties>
+   <property name="type" value="stairs"/>
   </properties>
  </tile>
  <tile id="25">
