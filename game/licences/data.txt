@@ -1,4 +1,6 @@
-* Unless specified otherwise, data (sounds, levels, images, animations...) are under the following licence:
+Unless specified otherwise, data (images, animations, levels, sounds, musics...) are under the following license:
+
+Authors: Geeky Goblin Productions (http://geekygoblin.org/), devnewton <devnewton@bci.im>, Pierre Marijon <pierre@marijon.fr>
 
 Free Art License 1.3 (FAL 1.3)
 
@@ -85,9 +87,4 @@ Sub-licenses are not authorized by this license. Any person wishing to make use 
 
 11. LEGAL FRAMEWORK
 This license is written with respect to both French law and the Berne Convention for the Protection of Literary and Artistic Works. 
-
-* Boxy-Bold.ttf
-
-License: CC0
-Author: cemkalyoncu, william.thompsonj, usr_share ( http://opengameart.org/content/boxy-bold-truetype-font )
 
