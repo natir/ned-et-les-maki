@@ -405,7 +405,7 @@ THE SOFTWARE. -->
                                     </sources>
                                 </mapping>
                                 <mapping>
-                                    <directory>/usr/bin</directory>
+                                    <directory>/usr/local/bin</directory>
                                     <filemode>755</filemode>
                                     <username>root</username>
                                     <groupname>root</groupname>
