@@ -395,6 +395,7 @@ THE SOFTWARE. -->
                                 </mapping>
                                 <mapping>
                                     <directory>/usr/share/applications</directory>
+				    <directoryIncluded>false</directoryIncluded>
                                     <username>root</username>
                                     <groupname>root</groupname>
                                     <sources>
@@ -404,7 +405,8 @@ THE SOFTWARE. -->
                                     </sources>
                                 </mapping>
                                 <mapping>
-                                    <directory>/usr/local/bin</directory>
+                                    <directory>/usr/bin</directory>
+				    <directoryIncluded>false</directoryIncluded>
                                     <filemode>755</filemode>
                                     <username>root</username>
                                     <groupname>root</groupname>
