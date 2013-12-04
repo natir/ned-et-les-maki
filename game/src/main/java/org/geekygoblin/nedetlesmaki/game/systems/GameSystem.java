@@ -136,6 +136,10 @@ public class GameSystem extends VoidEntitySystem {
             } else {
                 if (this.isStairs(newP)) {
                     mouv.addAll(nedMoveOnStairs(oldP, newP, e));
+                    if(mouv.isEmpty())
+                    {
+                        this.endOfLevel();
+                    }
                 }
                 if (this.isPusherEntity(e)) {
                     ArrayList<Entity> aNextE = index.getSquare(newP.getX(), newP.getY()).getWith(Pushable.class);
@@ -592,11 +596,14 @@ public class GameSystem extends VoidEntitySystem {
     private void endOfLevel() {
         ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
 
+        Entity ned = this.index.getNed();
+        Position nedP = this.positionMapper.getSafe(ned);
+        
         Entity stairs = stairsGroup.get(0);
         Position stairsP = this.positionMapper.getSafe(stairs);
         Stairs stairsS = this.stairsMapper.getSafe(stairs);
 
-        if (stairsS.isOpen()) {
+        if (stairsS.isOpen() && PosOperation.equale(nedP, stairsP)) {
             if (world.getSystem(SpritePuppetControlSystem.class
             ).getActives().isEmpty()) {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
