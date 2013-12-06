@@ -55,6 +55,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyer;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Stairs;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
@@ -101,6 +102,7 @@ public class StartGameTrigger extends Trigger {
         for (Entity e : game.getManager(GroupManager.class).getEntities(Group.LEVEL)) {
             entitiesToDelete.add(e);
         }
+        this.indexSystem.cleanIndex();
 	this.indexSystem.cleanStack();
 
         Entity level = game.createEntity();
@@ -281,7 +283,12 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
 	game.addEntity(maki);
         indexSystem.added(maki);
-	game.getManager(GroupManager.class).add(createPlate(tile, game, tmx, x, y, l, layer, ColorType.green, true), Group.LEVEL);
+
+        Entity plate = createPlate(tile, game, tmx, x, y, l, layer, ColorType.green, true);
+        if(plate != null) {
+            game.getManager(GroupManager.class).add(plate, Group.LEVEL);
+        }
+
         return maki;
     }
 
@@ -295,7 +302,12 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
-	game.getManager(GroupManager.class).add(createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange, true), Group.LEVEL);
+    
+        Entity plate = createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange, true);
+        if(plate != null) {
+            game.getManager(GroupManager.class).add(plate, Group.LEVEL);
+        }
+
         return maki;
     }
 
@@ -313,7 +325,12 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
-	game.getManager(GroupManager.class).add(createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue, true), Group.LEVEL);
+	
+        Entity plate = createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue, true);
+        if(plate != null) {
+            game.getManager(GroupManager.class).add(plate, Group.LEVEL);
+        }
+
         return maki;
     }
 
@@ -359,6 +376,14 @@ public class StartGameTrigger extends Trigger {
     }
 
     private Entity createPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer, ColorType color, boolean maki) {
+        Square s = this.indexSystem.getSquare(x, y);
+        if(s != null) {
+            ArrayList<Entity> plateInSquare = s.getWith(Plate.class);
+            if(!plateInSquare.isEmpty()) {
+                plateInSquare.get(0).getComponent(Plate.class).setMaki(true);
+                return null;
+            }
+        }
         
 	Entity plate = game.createEntity();
 	plate.addComponent(new Color(color));

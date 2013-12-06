@@ -136,7 +136,7 @@ public class GameSystem extends VoidEntitySystem {
             } else {
                 if (this.isStairs(newP)) {
                     mouv.addAll(nedMoveOnStairs(oldP, newP, e));
-                    if(mouv.isEmpty())
+                    if(!mouv.isEmpty())
                     {
                         this.endOfLevel();
                     }
@@ -475,8 +475,7 @@ public class GameSystem extends VoidEntitySystem {
     public boolean isStairs(Position newP) {
         Square s = index.getSquare(newP.getX(), newP.getY());
 
-        ArrayList<Entity> stairsEntity = s.getWith(Stairs.class
-        );
+        ArrayList<Entity> stairsEntity = s.getWith(Stairs.class);
 
         if (stairsEntity.isEmpty()) {
             return false;
@@ -573,13 +572,11 @@ public class GameSystem extends VoidEntitySystem {
     private void tryPlate() {
         ImmutableBag<Entity> plateGroup = this.index.getAllPlate();
 
-        Entity ned = this.index.getNed();
-        Position nedP = this.positionMapper.getSafe(ned);
-
         for (int i = 0; i != plateGroup.size(); i++) {
-            Entity platE = plateGroup.get(i);
+            Entity plateE = plateGroup.get(i);
 
-            Plate plate = this.plateMapper.getSafe(platE);
+            Plate plate = this.plateMapper.getSafe(plateE);
+            Position plateP = this.positionMapper.getSafe(plateE);
 
             if (!plate.haveMaki()) {
                 return;
