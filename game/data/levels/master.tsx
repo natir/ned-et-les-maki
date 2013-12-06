@@ -16,7 +16,7 @@
  </tile>
  <tile id="2">
   <properties>
-   <property name="type" value="green_maki"/>
+   <property name="type" value="green_maki_on_plate"/>
   </properties>
  </tile>
  <tile id="3">
@@ -36,7 +36,7 @@
  </tile>
  <tile id="7">
   <properties>
-   <property name="type" value="orange_maki"/>
+   <property name="type" value="orange_maki_on_plate"/>
   </properties>
  </tile>
  <tile id="8">
@@ -131,7 +131,7 @@
  </tile>
  <tile id="27">
   <properties>
-   <property name="type" value="blue_maki"/>
+   <property name="type" value="blue_maki_on_plate"/>
   </properties>
  </tile>
  <tile id="28">
