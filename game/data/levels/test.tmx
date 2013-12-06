@@ -20,7 +20,7 @@
 21,21,21,21,21,21,21,21,21,21,21,21,21,21,21
 </data>
  </layer>
- <layer name="game" width="15" height="15" visible="0">
+ <layer name="game" width="15" height="15">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
