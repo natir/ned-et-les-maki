@@ -329,7 +329,7 @@ public class GameSystem extends VoidEntitySystem {
 
     public Mouvement destroyMove(Entity e) {
         this.index.deleted(e);
-        return new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setBeforeWait(10.0f).saveMouvement();
+        return new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).saveMouvement();
     }
 
     public boolean makiMoveOnePlate(Position newP, Entity e) {
@@ -576,7 +576,6 @@ public class GameSystem extends VoidEntitySystem {
             Entity plateE = plateGroup.get(i);
 
             Plate plate = this.plateMapper.getSafe(plateE);
-            Position plateP = this.positionMapper.getSafe(plateE);
 
             if (!plate.haveMaki()) {
                 return;
