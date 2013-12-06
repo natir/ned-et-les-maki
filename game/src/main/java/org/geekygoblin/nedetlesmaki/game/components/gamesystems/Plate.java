@@ -38,6 +38,7 @@ public class Plate extends Component {
 
     public Plate(boolean b, boolean maki) {
 	this.b = b;
+        this.maki = maki;
     }
 
     public boolean isPlate() {

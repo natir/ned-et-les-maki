@@ -49,7 +49,7 @@ import org.geekygoblin.nedetlesmaki.game.utils.FautLireLaDocDArtemisCrotteDeBiqu
 @Singleton
 public class EntityIndexManager extends EntityManager {
     
-    private final Square[][] index;
+    private Square[][] index;
     private final Stack<ArrayList<Mouvement>> oldIndex;
     
     @Mapper
@@ -80,7 +80,10 @@ public class EntityIndexManager extends EntityManager {
 	Position p = FautLireLaDocDArtemisCrotteDeBiquetteFix.getComponentSafeMaisLentSaMere(e, Position.class);
 	
 	if(p != null) {
-	    this.index[p.getX()][p.getY()].remove(e);
+	    Square s = this.index[p.getX()][p.getY()];
+            if(s != null) {
+                s.remove(e);
+            }
 	    super.deleted(e);
     	}
     }
@@ -133,6 +136,10 @@ public class EntityIndexManager extends EntityManager {
 
     public boolean addMouvement(ArrayList<Mouvement> vM) {
         return this.oldIndex.add(vM);
+    }
+    
+    public void cleanIndex() {
+        this.index = new Square[15][15];
     }
     
     public void cleanStack() {
