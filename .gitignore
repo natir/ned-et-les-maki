@@ -14,8 +14,7 @@
 # Maven
 log/
 target/
-/release/nedetlesmaki-0.1-1.i686.rpm
-/release/nedetlesmaki-0.1-installer.jar
+/release/
 /game/nedetlesmaki-game-0.1-installer.exe
 /game/nedetlesmaki-0.1-installer.exe
 /game/nedetlesmaki-0.1-installer.jar
