@@ -94,6 +94,7 @@ THE SOFTWARE. -->
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
+                            <excludeTransitive>false</excludeTransitive>
                             <outputDirectory>${project.build.directory}/lib</outputDirectory>
                         </configuration>
                     </execution>

@@ -14,6 +14,7 @@
         <lwjgl-nuit.version>0.1</lwjgl-nuit.version>
         <libtiled-jaxb.version>0.1</libtiled-jaxb.version>
         <tablelayout.version>0.1</tablelayout.version>
+        <lwjgl.version>2.9.0</lwjgl.version>
     </properties>
     <modules>
         <module>game</module>
@@ -21,6 +22,7 @@
         <module>lwjgl-nuit</module>
         <module>libtiled-jaxb</module>
         <module>tablelayout</module>
+        <module>packages/deb</module>
         <module>packages/generic</module>
         <module>packages/win</module>
     </modules>
@@ -34,12 +36,12 @@
             <dependency>
                 <groupId>org.lwjgl.lwjgl</groupId>
                 <artifactId>lwjgl</artifactId>
-                <version>2.9.0</version>
+                <version>${lwjgl.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.lwjgl.lwjgl</groupId>
                 <artifactId>lwjgl_util</artifactId>
-                <version>2.9.0</version>
+                <version>${lwjgl.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jcraft</groupId>
@@ -93,97 +95,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <profiles>
-        <profile>
-            <id>deb</id>
-            <properties>
-                <lwjgl.jar.path>/usr/share/java/lwjgl.jar</lwjgl.jar.path>
-                <lwjgl_util.jar.path>/usr/share/java/lwjgl_util.jar</lwjgl_util.jar.path>
-                <jorbis.jar.path>/usr/share/java/jorbis.jar</jorbis.jar.path>
-                <jogg.jar.path>/usr/share/java/jogg.jar</jogg.jar.path>
-                <protobuf.jar.path>/usr/share/java/protobuf-java.jar</protobuf.jar.path>
-                <guice.jar.path>/usr/share/java/guice.jar</guice.jar.path>
-                <atinject-jsr330-api.path>/usr/share/java/atinject-jsr330-api.jar</atinject-jsr330-api.path>
-            </properties>
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.lwjgl.lwjgl</groupId>
-                        <artifactId>lwjgl</artifactId>
-                        <version>2.7.1</version>
-                        <scope>system</scope>
-                        <systemPath>${lwjgl.jar.path}</systemPath>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.lwjgl.lwjgl</groupId>
-                        <artifactId>lwjgl_util</artifactId>
-                        <version>2.7.1</version>
-                        <scope>system</scope>
-                        <systemPath>${lwjgl_util.jar.path}</systemPath>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jcraft</groupId>
-                        <artifactId>jorbis</artifactId>
-                        <version>0.0.17</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jcraft</groupId>
-                        <artifactId>jogg</artifactId>
-                        <version>0.0.17</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.google.protobuf</groupId>
-                        <artifactId>protobuf-java</artifactId>
-                        <version>2.4.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.google.inject</groupId>
-                        <artifactId>guice</artifactId>
-                        <version>3.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>net.onedaybeard.artemis</groupId>
-                        <artifactId>artemis-odb</artifactId>
-                        <version>0.4.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.l33tlabs.twl</groupId>
-                        <artifactId>pngdecoder</artifactId>
-                        <version>1.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>im.bci</groupId>
-                        <artifactId>libtiled</artifactId>
-                        <version>0.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>im.bci</groupId>
-                        <artifactId>lwjgl-nuit</artifactId>
-                        <version>${lwjgl-nuit.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>im.bci</groupId>
-                        <artifactId>libtiled-jaxb</artifactId>
-                        <version>${libtiled-jaxb.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.esotericsoftware</groupId>
-                        <artifactId>tablelayout</artifactId>
-                        <version>${tablelayout.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.geekygoblin</groupId>
-                        <artifactId>nedetlesmaki-game</artifactId>
-                        <version>${project.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.google.inject.extensions</groupId>
-                        <artifactId>guice-grapher</artifactId>
-                        <version>3.0</version>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
-        </profile>
-    </profiles>
 </project>
 
