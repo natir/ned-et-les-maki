@@ -18,7 +18,7 @@
     </locale>
 
     <variables>
-        <variable name="nedetlesmaki_build_final_name" value="@{project.build.finalName}"/>
+        <variable name="nedetlesmaki_build_final_name" value="nedetlesmaki-game-@{project.version}"/>
 	<variable name="ShowCreateDirectoryMessage" value="false"/>
     </variables>
 
@@ -39,9 +39,8 @@
     <packs>
         <pack name="Core" required="yes">
             <description>Core installation files</description>
-            <file src="../@{project.build.finalName}.jar" targetdir="$INSTALL_PATH" />
             <file src="../../src/izpack/icon.ico" targetdir="$INSTALL_PATH" />
-            <file src="../../README.txt" targetdir="$INSTALL_PATH" />
+            <file src="../../target/README.txt" targetdir="$INSTALL_PATH" />
             <file src="../../target/run_linux.sh" targetdir="$INSTALL_PATH" >
 		<os family="unix"/>
 	    </file>
@@ -51,10 +50,10 @@
             <file src="../../target/run_windows.bat" targetdir="$INSTALL_PATH" >
 		<os family="windows"/>
 	    </file>
-            <file src="../../data/icon.png" targetdir="$INSTALL_PATH" />
-            <fileset dir="../../licences" targetdir="$INSTALL_PATH/licences" override="true"/>
-	    <fileset dir="../../data" targetdir="$INSTALL_PATH/data" override="true" />
-            <fileset dir="../../target/lib" targetdir="$INSTALL_PATH/lib" override="true" />
+            <file src="../../../../game/data/icon.png" targetdir="$INSTALL_PATH" />
+            <fileset dir="../../../../licenses" targetdir="$INSTALL_PATH/licenses" override="true"/>
+	    <fileset dir="../../../../game/data" targetdir="$INSTALL_PATH/data" override="true" />
+            <fileset dir="../../target/lib" targetdir="$INSTALL_PATH" override="true" />
             <fileset dir="../../target/natives" targetdir="$INSTALL_PATH/natives" override="true">
 		<include name="*.so"/>
 		<os family="unix"/>
@@ -68,7 +67,7 @@
 		<include name="*.dll"/>
 		<os family="windows"/>
 	    </fileset>
-	    <executable type="bin" stage="never" targetfile="$INSTALL_PATH/@{project.build.finalName}.jar"/>
+	    <executable type="bin" stage="never" targetfile="$INSTALL_PATH/nedetlesmaki-game-@{project.version}.jar"/>
 	    <executable type="bin" stage="never" targetfile="$INSTALL_PATH/run_linux.sh">
 		<os family="unix"/>
 	    </executable>
