@@ -21,9 +21,16 @@
         <module>lwjgl-nuit</module>
         <module>libtiled-jaxb</module>
         <module>tablelayout</module>
+        <module>packages/generic</module>
+        <module>packages/win</module>
     </modules>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.geekygoblin</groupId>
+                <artifactId>nedetlesmaki-installer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.lwjgl.lwjgl</groupId>
                 <artifactId>lwjgl</artifactId>
