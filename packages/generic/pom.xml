@@ -26,11 +26,11 @@ THE SOFTWARE. -->
     <parent>
         <groupId>org.geekygoblin</groupId>
         <artifactId>nedetlesmaki</artifactId>
-        <version>0.1</version>
+        <version>0.2-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <artifactId>nedetlesmaki-installer</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <name>nedetlesmaki-installer</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -111,6 +111,7 @@ THE SOFTWARE. -->
                             <goal>izpack</goal>
                         </goals>
                         <configuration>
+                            <attach>true</attach>
                             <installerFile>${project.build.directory}/nedetlesmaki-installer-${project.version}.jar</installerFile>
                         </configuration>
                     </execution>
