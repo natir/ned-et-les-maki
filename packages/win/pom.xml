@@ -9,7 +9,7 @@
     <parent>
         <groupId>org.geekygoblin</groupId>
         <artifactId>nedetlesmaki</artifactId>
-        <version>0.1</version>
+        <version>0.2-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     <properties>
@@ -33,9 +33,9 @@
                                     <goal>copy-dependencies</goal>
                                 </goals>
                                 <configuration>
-                                    <includeArtifactIds>nedetlesmaki-installer</includeArtifactIds>
+                                    <includes>nedetlesmaki-installer*</includes>
                                     <excludeTransitive>true</excludeTransitive>
-                                    <outputDirectory>${basedir}</outputDirectory>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
@@ -54,8 +54,8 @@
                                 <configuration>
                                     <headerType>gui</headerType>
                                     <dontWrapJar>false</dontWrapJar>
-                                    <outfile>nedetlesmaki-installer-${project.version}.exe</outfile>
-                                    <jar>nedetlesmaki-installer-${project.version}.jar</jar>
+                                    <outfile>${project.build.directory}/nedetlesmaki-installer-${project.version}.exe</outfile>
+                                    <jar>${project.build.directory}/nedetlesmaki-installer-${project.version}.jar</jar>
                                     <errTitle>Ned et les maki installer</errTitle>
                                     <jre>
                                         <minVersion>1.7.0</minVersion>
