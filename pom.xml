@@ -25,6 +25,8 @@
         <module>packages/deb</module>
         <module>packages/generic</module>
         <module>packages/win</module>
+        <module>packages/rpm32</module>
+        <module>packages/rpm64</module>
     </modules>
     <dependencyManagement>
         <dependencies>

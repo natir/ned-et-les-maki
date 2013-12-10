@@ -59,7 +59,7 @@ THE SOFTWARE. -->
                                             <filtering>true</filtering>
                                         </resource>
                                         <resource>
-                                            <directory>${basedir}/src</directory>
+                                            <directory>${basedir}/../generic/src</directory>
                                             <filtering>true</filtering>
                                             <includes>
                                                 <include>README.txt</include>
@@ -112,14 +112,6 @@ THE SOFTWARE. -->
                                             </mapper>
                                         </data>
                                         <data>
-                                            <src>${basedir}/../../game/data/icon.png</src>
-                                            <type>file</type>
-                                            <mapper>
-                                                <type>perm</type>
-                                                <prefix>/opt/nedetlesmaki</prefix>
-                                            </mapper>
-                                        </data>
-                                        <data>
                                             <src>${basedir}/../../game/data</src>
                                             <type>directory</type>
                                             <mapper>
@@ -166,7 +158,7 @@ THE SOFTWARE. -->
                                             </mapper>
                                         </data>
                                         <data>
-                                            <src>${basedir}/../generic/src/README.txt</src>
+                                            <src>${project.build.directory}/README.txt</src>
                                             <type>file</type>
                                             <mapper>
                                                 <type>perm</type>
