@@ -37,7 +37,7 @@ import com.google.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
@@ -48,13 +48,13 @@ import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
  */
 @Singleton
 public class IngameInputSystem extends EntityProcessingSystem {
-    private final Assets assets;
+    private final IAssets assets;
     private final Provider<ShowMenuTrigger> showMenuTrigger;
     private final EntityIndexManager indexSystem;
     private final GameSystem gameSystem;
 
     @Inject
-    public IngameInputSystem(Assets assets, Provider<ShowMenuTrigger> showMenuTrigger, EntityIndexManager indexSystem, GameSystem gameSystem) {
+    public IngameInputSystem(IAssets assets, Provider<ShowMenuTrigger> showMenuTrigger, EntityIndexManager indexSystem, GameSystem gameSystem) {
         super(Aspect.getAspectForAll(IngameControls.class));
         this.assets = assets;
         this.showMenuTrigger = showMenuTrigger;

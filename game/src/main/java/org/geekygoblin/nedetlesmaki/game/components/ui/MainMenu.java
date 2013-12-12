@@ -42,7 +42,7 @@ import com.google.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.MainLoop;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
 import org.lwjgl.opengl.GL11;
@@ -59,12 +59,12 @@ public class MainMenu extends Component {
     private final LevelSelector levelSelector;
     private final MainLoop mainLoop;
     private final NuitToolkit toolkit;
-    private final Assets assets;
+    private final IAssets assets;
     private final Game game;
     private final Provider<HideMenuTrigger> hideMenuTrigger;
 
     @Inject
-    public MainMenu(MainLoop mainLoop, Game game, NuitToolkit toolkit, Assets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger) throws LWJGLException {
+    public MainMenu(MainLoop mainLoop, Game game, NuitToolkit toolkit, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger) throws LWJGLException {
         this.mainLoop = mainLoop;
         this.toolkit = toolkit;
         this.assets = assets;

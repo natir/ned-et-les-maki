@@ -27,7 +27,6 @@ import de.matthiasmann.twl.utils.PNGDecoder;
 import im.bci.lwjgl.nuit.utils.IconLoader;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
-import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.NanimationCollection;
 import im.bci.nanim.NanimParser.Nanim;
 import java.awt.Font;
@@ -36,9 +35,7 @@ import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.ReferenceQueue;
 import java.nio.ByteBuffer;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -46,7 +43,6 @@ import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import javax.xml.bind.JAXBException;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -54,68 +50,31 @@ import org.lwjgl.opengl.GL11;
  * @author devnewton
  */
 @Singleton
-public class Assets {
+public class AssetsLoader {
 
     private VirtualFileSystem vfs;
-    private final HashMap<String/* name */, TextureWeakReference> textures = new HashMap<>();
-    private final ReferenceQueue<Texture> texturesReferenceQueue = new ReferenceQueue<>();
-    private final HashMap<String/* name */, AnimationCollectionWeakReference> animations = new HashMap<>();
-    private final ReferenceQueue<NanimationCollection> animationsReferenceQueue = new ReferenceQueue<>();
-    private final HashMap<String/* name */, TrueTypeFontWeakReference> fonts = new HashMap<>();
-    private final ReferenceQueue<TrueTypeFont> fontsReferenceQueue = new ReferenceQueue<>();
-    private final TmxAssetLoader tmxLoader;
     private final Logger logger;
 
     @Inject
-    public Assets(VirtualFileSystem vfs, Logger logger) {
+    public AssetsLoader(VirtualFileSystem vfs, Logger logger) {
         this.vfs = vfs;
         this.logger = logger;
-        tmxLoader = new TmxAssetLoader(this);
     }
 
     public void setVfs(VirtualFileSystem vfs) {
-        clearAll();
         this.vfs = vfs;
     }
 
-    public TmxAsset getTmx(String name) {
-        try {
-            return tmxLoader.load(name);
-        } catch (JAXBException | IOException e) {
-             throw new RuntimeException("Cannot load map " + name, e);
-        }
-    }
-
-    public Texture getTexture(String name) {
-        TextureWeakReference textureRef = textures.get(name);
-        if (textureRef != null) {
-            Texture texture = textureRef.get();
-            if (texture != null) {
-                return texture;
-            } else {
-                textures.remove(name);
-            }
-        }
+    public Texture loadTexture(String name) {
         try {
             logger.log(Level.FINE, "Load texture {0}", name);
-            Texture texture = loadPngTexture(name);
-            putTexture(name, texture);
-            return texture;
+            return loadPngTexture(name);
         } catch (IOException e) {
             throw new RuntimeException("Cannot load texture " + name, e);
         }
     }
 
-    public IAnimationCollection getAnimations(String name) {
-        AnimationCollectionWeakReference animRef = animations.get(name);
-        if (null != animRef) {
-            NanimationCollection anim = animRef.get();
-            if (null != anim) {
-                return anim;
-            } else {
-                animations.remove(name);
-            }
-        }
+    public NanimationCollection loadAnimations(String name) {
         try (InputStream vfsInputStream= vfs.open(name)) {
             logger.log(Level.FINE, "Load animation {0}", name);
             InputStream is;
@@ -125,7 +84,6 @@ public class Assets {
                 is = vfsInputStream;
             }
             NanimationCollection anim = new NanimationCollection(Nanim.parseFrom(is));
-            putAnim(name, anim);
             return anim;
         } catch (IOException e) {
             throw new RuntimeException("Cannot load animation " + name, e);
@@ -133,11 +91,8 @@ public class Assets {
     }
 
     public Texture grabScreenToTexture() {
-        final String name = "!screenCapture_" + new Date().getTime();
-        logger.log(Level.FINE, "Load animation {0}", name);
         int maxSize = GL11.glGetInteger(GL11.GL_MAX_TEXTURE_SIZE);
         Texture texture = new Texture(Math.min(maxSize, LwjglHelper.getWidth()), Math.min(maxSize, LwjglHelper.getHeight()), false);
-        putTexture(name, texture);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getId());
         LwjglHelper.setupGLTextureParams();
         GL11.glCopyTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGB, 0, 0, texture.getWidth(), texture.getHeight(), 0);
@@ -177,62 +132,11 @@ public class Assets {
         }
     }
 
-    public void clearUseless() {
-        System.gc();
-        TextureWeakReference tex;
-        while ((tex = (TextureWeakReference) texturesReferenceQueue.poll()) != null) {
-            tex.delete();
-        }
-
-        AnimationCollectionWeakReference ani;
-        while ((ani = (AnimationCollectionWeakReference) animationsReferenceQueue.poll()) != null) {
-            ani.delete();
-        }
-    }
-
-    public void clearAll() {
-        for (TextureWeakReference ref : textures.values()) {
-            ref.delete();
-        }
-        textures.clear();
-
-        for (AnimationCollectionWeakReference ref : animations.values()) {
-            ref.delete();
-        }
-        animations.clear();
-
-        for (TrueTypeFontWeakReference ref : fonts.values()) {
-            ref.delete();
-        }
-        fonts.clear();
-    }
-
-    InputStream open(String name) throws FileNotFoundException {
+    public InputStream open(String name) throws FileNotFoundException {
         return vfs.open(name);
     }
 
-    private void putAnim(String name, NanimationCollection anim) {
-        animations.put(name, new AnimationCollectionWeakReference(name, anim, animationsReferenceQueue));
-    }
-
-    private void putTexture(String name, Texture texture) {
-        textures.put(name, new TextureWeakReference(name, texture, texturesReferenceQueue));
-    }
-
-    private void putFont(String name, TrueTypeFont font) {
-        fonts.put(name, new TrueTypeFontWeakReference(name, font, fontsReferenceQueue));
-    }
-
-    public TrueTypeFont getFont(String name) {
-        TrueTypeFontWeakReference fontRef = fonts.get(name);
-        if (fontRef != null) {
-            TrueTypeFont font = fontRef.get();
-            if (font != null) {
-                return font;
-            } else {
-                fonts.remove(name);
-            }
-        }
+    public TrueTypeFont loadFont(String name) {
         logger.log(Level.FINE, "Load font {0}", name);
         Font f;
         try (InputStream is = vfs.open(name)) {
@@ -243,19 +147,14 @@ public class Assets {
         }
         TrueTypeFont font = new FontAsset(f, true, new char[0], new HashMap<Character, BufferedImage>());
         font.setCorrection(false);
-        putFont(name, font);
         return font;
-    }
-
-    public InputStream getIcon(String name) throws FileNotFoundException {
-        return vfs.open(name);
     }
 
     public void setIcon() {
         try (InputStream is = vfs.open("icon.png")) {
             IconLoader.setIcon(is);
         } catch (IOException ex) {
-            Logger.getLogger(Assets.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AssetsLoader.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

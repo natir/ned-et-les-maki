@@ -23,50 +23,18 @@ THE SOFTWARE.
 */
 package org.geekygoblin.nedetlesmaki.game.assets;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.IntBuffer;
-import org.lwjgl.opengl.GL11;
-
 /**
  *
  * @author devnewton
  */
-public class Texture implements ITexture {
+public interface ITexture {
 
-    private int id;
-    private int width, height;
-    private boolean alpha;
+    int getHeight();
 
-    public Texture(int width, int height, boolean alpha) {
-        ByteBuffer temp = ByteBuffer.allocateDirect(4);
-        temp.order(ByteOrder.nativeOrder());
-        IntBuffer intBuffer = temp.asIntBuffer();
-        GL11.glGenTextures(intBuffer);
-        id = intBuffer.get(0);
-        this.width = width;
-        this.height = height;
-        this.alpha = alpha;
-    }
+    int getId();
 
-    @Override
-    public int getId() {
-        return id;
-    }
+    int getWidth();
 
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public boolean hasAlpha() {
-        return alpha;
-    }
+    boolean hasAlpha();
+    
 }

@@ -36,7 +36,8 @@ import java.util.Random;
 
 import com.google.inject.Singleton;
 
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.geekygoblin.nedetlesmaki.game.assets.GarbageCollectedAssets;
+import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.assets.VirtualFileSystem;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.TriggerableWhenRemoved;
@@ -66,7 +67,7 @@ public class NedModule extends AbstractModule {
         bind(VirtualFileSystem.class).toInstance(new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data")));
 
         bind(Preferences.class);
-        bind(Assets.class);
+        bind(IAssets.class).to(GarbageCollectedAssets.class);
         bind(NuitToolkit.class).to(NedToolkit.class);
         bind(LevelSelector.class);
         bind(IngameInputSystem.class);
@@ -106,7 +107,7 @@ public class NedModule extends AbstractModule {
 
     @Provides
     @NamedEntities.Intro
-    public Entity createIntro(Game game, Assets assets, Dialog dialogComponent, ShowMenuTrigger showMenuTrigger) {
+    public Entity createIntro(Game game, IAssets assets, Dialog dialogComponent, ShowMenuTrigger showMenuTrigger) {
         IAnimationCollection animations = assets.getAnimations("intro.nanim.gz");
         dialogComponent.addTirade(animations.getAnimationByName("reveil").start(PlayMode.LOOP), "dialog.intro.reveil.1", "dialog.intro.reveil.2");
         dialogComponent.addTirade(animations.getAnimationByName("tour_au_loin").start(PlayMode.LOOP), "dialog.intro.tour_au_loin.1", "dialog.intro.tour_au_loin.2");

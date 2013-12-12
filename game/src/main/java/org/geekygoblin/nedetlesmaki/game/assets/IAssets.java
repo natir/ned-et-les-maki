@@ -21,46 +21,36 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game;
 
-import im.bci.lwjgl.nuit.NuitToolkit;
+package org.geekygoblin.nedetlesmaki.game.assets;
+
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
+import im.bci.nanim.IAnimationCollection;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  *
  * @author devnewton
  */
-@Singleton
-public class NedToolkit extends NuitToolkit {
+public interface IAssets {
 
-    private final IAssets assets;
-    private static final String[] messagesBundles = new String[]{"messages", "nuit_messages"};
+    void clearAll();
 
-    @Inject
-    public NedToolkit(IAssets assets) {
-        this.assets = assets;
-    }
+    void clearUseless();
 
-    @Override
-    protected TrueTypeFont createFont() {
-        return assets.getFont("prout");
-    }
+    IAnimationCollection getAnimations(String name);
 
-    @Override
-    public String getMessage(String key) {
-        for (String bundleName : messagesBundles) {
-            ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
-            if (bundle.containsKey(key)) {
-                return bundle.getString(key);
-            }
-        }
-        Logger.getLogger(getClass().getName()).log(Level.WARNING, "No translation for {0}", key);
-        return key;
-    }
+    TrueTypeFont getFont(String name);
+
+    ITexture getTexture(String name);
+
+    TmxAsset getTmx(String name);
+
+    Texture grabScreenToTexture();
+
+    void setIcon();
+
+    InputStream open(String name) throws FileNotFoundException;
+    
 }

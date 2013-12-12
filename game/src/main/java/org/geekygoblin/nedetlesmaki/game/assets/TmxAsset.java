@@ -37,11 +37,11 @@ import java.util.List;
  */
 public class TmxAsset {
 
-    private final Assets assets;
+    private final IAssets assets;
     private final TmxMap map;
     private final HashMap<TmxTileInstance, IAnimationCollection> tileAnimations = new HashMap<>();
 
-    public TmxAsset(Assets assets, TmxMap map) {
+    public TmxAsset(IAssets assets, TmxMap map) {
         this.assets = assets;
         this.map = map;
     }
@@ -61,7 +61,7 @@ public class TmxAsset {
 
     private IAnimationCollection createAnimationFromTile(TmxTileInstance tile) {
         final TmxFrame frame = tile.getTile().getFrame();
-        Texture texture = assets.getTexture(frame.getImage().getSource());
+        ITexture texture = assets.getTexture(frame.getImage().getSource());
         final float width = texture.getWidth();
         final float height = texture.getHeight();
         final float u1 = frame.getX1() / width;

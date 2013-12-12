@@ -36,7 +36,7 @@ import im.bci.nanim.PlayMode;
  */
 public class TextureAnimationCollectionWrapper implements IAnimationCollection, IAnimation, IAnimationFrame, IAnimationImage {
 
-    private final Texture texture;
+    private final ITexture texture;
     private final Play play;
     private final float u1, v1, u2, v2;
 
@@ -115,7 +115,7 @@ public class TextureAnimationCollectionWrapper implements IAnimationCollection, 
         }
     }
 
-    public TextureAnimationCollectionWrapper(Texture texture, float u1, float v1, float u2, float v2) {
+    public TextureAnimationCollectionWrapper(ITexture texture, float u1, float v1, float u2, float v2) {
         this.texture = texture;
         this.u1 = u1;
         this.v1 = v1;

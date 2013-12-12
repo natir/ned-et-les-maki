@@ -40,7 +40,7 @@ import java.util.Comparator;
 import java.util.List;
 import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
@@ -86,10 +86,10 @@ public class DrawSystem extends EntitySystem {
         }
     };
     private SpriteProjector spriteProjector;
-    private final Assets assets;
+    private final IAssets assets;
 
     @Inject
-    public DrawSystem(Assets assets) {
+    public DrawSystem(IAssets assets) {
         super(Aspect.getAspectForAll(ZOrder.class).one(Level.class, MainMenu.class, Dialog.class, Sprite.class));
         this.assets = assets;
     }
