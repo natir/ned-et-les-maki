@@ -14,10 +14,12 @@ public class FixedValue<C, T extends C> extends Value<C, T> {
 		this.value = value;
 	}
 
+        @Override
 	public float get (T table) {
 		return value;
 	}
 
+        @Override
 	public float get (Cell<C,T> cell) {
 		return value;
 	}

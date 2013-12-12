@@ -36,7 +36,7 @@ import java.util.List;
  * @author Nathan Sweet
  */
 abstract public class BaseTableLayout<C, T extends C> {
-    static public final int CENTER = 1 << 0;
+    static public final int CENTER = 1;
     static public final int TOP = 1 << 1;
     static public final int BOTTOM = 1 << 2;
     static public final int LEFT = 1 << 3;
@@ -50,9 +50,9 @@ abstract public class BaseTableLayout<C, T extends C> {
     T table;
     private int columns, rows;
 
-    private final ArrayList<Cell<C, T>> cells = new ArrayList<Cell<C, T>>(4);
+    private final ArrayList<Cell<C, T>> cells = new ArrayList<>(4);
     private final Cell<C, T> cellDefaults;
-    private final ArrayList<Cell<C, T>> columnDefaults = new ArrayList<Cell<C, T>>(2);
+    private final ArrayList<Cell<C, T>> columnDefaults = new ArrayList<>(2);
     private Cell<C, T> rowDefaults;
 
     private boolean sizeInvalid = true;
@@ -334,47 +334,47 @@ abstract public class BaseTableLayout<C, T extends C> {
      * specified value.
      */
     public BaseTableLayout<C, T> pad(float pad) {
-        padTop = new FixedValue<C, T>(toolkit, pad);
-        padLeft = new FixedValue<C, T>(toolkit, pad);
-        padBottom = new FixedValue<C, T>(toolkit, pad);
-        padRight = new FixedValue<C, T>(toolkit, pad);
+        padTop = new FixedValue<>(toolkit, pad);
+        padLeft = new FixedValue<>(toolkit, pad);
+        padBottom = new FixedValue<>(toolkit, pad);
+        padRight = new FixedValue<>(toolkit, pad);
         sizeInvalid = true;
         return this;
     }
 
     public BaseTableLayout<C, T> pad(float top, float left, float bottom, float right) {
-        padTop = new FixedValue<C, T>(toolkit, top);
-        padLeft = new FixedValue<C, T>(toolkit, left);
-        padBottom = new FixedValue<C, T>(toolkit, bottom);
-        padRight = new FixedValue<C, T>(toolkit, right);
+        padTop = new FixedValue<>(toolkit, top);
+        padLeft = new FixedValue<>(toolkit, left);
+        padBottom = new FixedValue<>(toolkit, bottom);
+        padRight = new FixedValue<>(toolkit, right);
         sizeInvalid = true;
         return this;
     }
 
     /** Padding at the top edge of the table. */
     public BaseTableLayout<C, T> padTop(float padTop) {
-        this.padTop = new FixedValue<C, T>(toolkit, padTop);
+        this.padTop = new FixedValue<>(toolkit, padTop);
         sizeInvalid = true;
         return this;
     }
 
     /** Padding at the left edge of the table. */
     public BaseTableLayout<C, T> padLeft(float padLeft) {
-        this.padLeft = new FixedValue<C, T>(toolkit, padLeft);
+        this.padLeft = new FixedValue<>(toolkit, padLeft);
         sizeInvalid = true;
         return this;
     }
 
     /** Padding at the bottom edge of the table. */
     public BaseTableLayout<C, T> padBottom(float padBottom) {
-        this.padBottom = new FixedValue<C, T>(toolkit, padBottom);
+        this.padBottom = new FixedValue<>(toolkit, padBottom);
         sizeInvalid = true;
         return this;
     }
 
     /** Padding at the right edge of the table. */
     public BaseTableLayout<C, T> padRight(float padRight) {
-        this.padRight = new FixedValue<C, T>(toolkit, padRight);
+        this.padRight = new FixedValue<>(toolkit, padRight);
         sizeInvalid = true;
         return this;
     }
@@ -578,8 +578,6 @@ abstract public class BaseTableLayout<C, T extends C> {
     private void computeSize() {
         sizeInvalid = false;
 
-        ArrayList<Cell<C, T>> cells = this.cells;
-
         if (cells.size() > 0 && !cells.get(cells.size() - 1).endRow)
             endRow();
 
@@ -760,8 +758,6 @@ abstract public class BaseTableLayout<C, T extends C> {
      * of the table.
      */
     public void layout(float layoutX, float layoutY, float layoutWidth, float layoutHeight) {
-        ArrayList<Cell<C, T>> cells = this.cells;
-
         if (sizeInvalid)
             computeSize();
 
@@ -776,31 +772,31 @@ abstract public class BaseTableLayout<C, T extends C> {
 
         // Size columns and rows between min and pref size using (preferred -
         // min) size to weight distribution of extra space.
-        float[] columnWeightedWidth;
+        float[] localColumnWeightedWidth;
         float totalGrowWidth = tablePrefWidth - tableMinWidth;
         if (totalGrowWidth == 0)
-            columnWeightedWidth = columnMinWidth;
+            localColumnWeightedWidth = columnMinWidth;
         else {
             float extraWidth = Math.min(totalGrowWidth, Math.max(0, layoutWidth - tableMinWidth));
-            columnWeightedWidth = this.columnWeightedWidth = ensureSize(this.columnWeightedWidth, columns);
+            localColumnWeightedWidth = this.columnWeightedWidth = ensureSize(this.columnWeightedWidth, columns);
             for (int i = 0; i < columns; i++) {
                 float growWidth = columnPrefWidth[i] - columnMinWidth[i];
                 float growRatio = growWidth / (float) totalGrowWidth;
-                columnWeightedWidth[i] = columnMinWidth[i] + extraWidth * growRatio;
+                localColumnWeightedWidth[i] = columnMinWidth[i] + extraWidth * growRatio;
             }
         }
 
-        float[] rowWeightedHeight;
+        float[] localRowWeightedHeight;
         float totalGrowHeight = tablePrefHeight - tableMinHeight;
         if (totalGrowHeight == 0)
-            rowWeightedHeight = rowMinHeight;
+            localRowWeightedHeight = rowMinHeight;
         else {
-            rowWeightedHeight = this.rowWeightedHeight = ensureSize(this.rowWeightedHeight, rows);
+            localRowWeightedHeight = this.rowWeightedHeight = ensureSize(this.rowWeightedHeight, rows);
             float extraHeight = Math.min(totalGrowHeight, Math.max(0, layoutHeight - tableMinHeight));
             for (int i = 0; i < rows; i++) {
                 float growHeight = rowPrefHeight[i] - rowMinHeight[i];
                 float growRatio = growHeight / (float) totalGrowHeight;
-                rowWeightedHeight[i] = rowMinHeight[i] + extraHeight * growRatio;
+                localRowWeightedHeight[i] = rowMinHeight[i] + extraHeight * growRatio;
             }
         }
 
@@ -812,8 +808,8 @@ abstract public class BaseTableLayout<C, T extends C> {
 
             float spannedWeightedWidth = 0;
             for (int column = c.column, nn = column + c.colspan; column < nn; column++)
-                spannedWeightedWidth += columnWeightedWidth[column];
-            float weightedHeight = rowWeightedHeight[c.row];
+                spannedWeightedWidth += localColumnWeightedWidth[column];
+            float weightedHeight = localRowWeightedHeight[c.row];
 
             float prefWidth = w(c.prefWidth, c);
             float prefHeight = h(c.prefHeight, c);
@@ -883,7 +879,7 @@ abstract public class BaseTableLayout<C, T extends C> {
 
             float extraWidth = 0;
             for (int column = c.column, nn = column + c.colspan; column < nn; column++)
-                extraWidth += columnWeightedWidth[column] - columnWidth[column];
+                extraWidth += localColumnWeightedWidth[column] - columnWidth[column];
             extraWidth -= Math.max(0, c.computedPadLeft + c.computedPadRight);
 
             extraWidth /= c.colspan;

@@ -7,6 +7,7 @@ abstract public class TableValue<C, T extends C> extends Value<C, T> {
         super(toolkit);
     }
 
+        @Override
     public float get (Cell<C,T> cell) {
 		return get((T)cell.getLayout().getTable());
 	}

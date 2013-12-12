@@ -68,6 +68,7 @@ abstract public class Value<C, T extends C> {
 	/** Returns a value that is a percentage of the table's width. */
 	static public <C, T extends C> Value<C, T> percentWidth (Toolkit<C, T> toolkit, final float percent) {
 		return new TableValue<C, T>(toolkit) {
+                        @Override
 			public float get (T table) {
 				return toolkit.getWidth(table) * percent;
 			}
@@ -77,6 +78,7 @@ abstract public class Value<C, T extends C> {
 	/** Returns a value that is a percentage of the table's height. */
 	static public <C, T extends C> Value<C, T> percentHeight (Toolkit<C, T> toolkit, final float percent) {
 		return new TableValue<C, T>(toolkit) {
+                        @Override
 			public float get (T table) {
 				return toolkit.getHeight(table) * percent;
 			}
@@ -86,10 +88,12 @@ abstract public class Value<C, T extends C> {
 	/** Returns a value that is a percentage of the specified widget's width. */
 	static public <C, T extends C> Value<C, T> percentWidth (Toolkit<C, T> toolkit, final float percent, final C widget) {
 		return new Value<C, T>(toolkit) {
+                        @Override
 			public float get (Cell<C, T> cell) {
 				return toolkit.getWidth(widget) * percent;
 			}
 
+                        @Override
 			public float get (Object table) {
 				return toolkit.getWidth(widget) * percent;
 			}
@@ -99,6 +103,7 @@ abstract public class Value<C, T extends C> {
 	/** Returns a value that is a percentage of the specified widget's height. */
 	static public <C, T extends C> Value<C, T> percentHeight (Toolkit<C, T> toolkit, final float percent, final C widget) {
 		return new TableValue<C, T>(toolkit) {
+                        @Override
 			public float get (Object table) {
 				return toolkit.getHeight(widget) * percent;
 			}
