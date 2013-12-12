@@ -6,6 +6,7 @@ public class PrefHeightValue<C, T extends C> extends CellValue<C, T> {
         super(toolkit);
     }
 
+    @Override
     public float get (Cell<C,T> cell) {
         if (cell == null) throw new RuntimeException("prefHeight can only be set on a cell property.");
         C widget = cell.widget;
