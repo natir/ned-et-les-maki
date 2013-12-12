@@ -39,7 +39,7 @@ import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.constants.AnimationType;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 
 import org.lwjgl.util.vector.Vector3f;
@@ -55,12 +55,12 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     @Mapper
     ComponentMapper<Plate> plateMapper;
 
-    private final Assets assets;
+    private final IAssets assets;
     private int nbIndexSaved;
     private final EntityIndexManager index;
 
     @Inject
-    public UpdateLevelVisualSystem(Assets assets, EntityIndexManager indexSystem) {
+    public UpdateLevelVisualSystem(IAssets assets, EntityIndexManager indexSystem) {
         this.assets = assets;
         this.nbIndexSaved = 0;
         this.index = indexSystem;

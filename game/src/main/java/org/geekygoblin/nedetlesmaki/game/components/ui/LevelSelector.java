@@ -35,7 +35,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
 import org.lwjgl.opengl.GL11;
@@ -50,11 +50,11 @@ public class LevelSelector extends Container {
     private final Game game;
     private final IAnimationCollection bulleAnimations;
     private final NuitToolkit toolkit;
-    private final Assets assets;
+    private final IAssets assets;
     private final Provider<StartGameTrigger> startGameTrigger;
 
     @Inject
-    public LevelSelector(Game game, NuitToolkit toolkit, Assets assets, Provider<StartGameTrigger> startGameTrigger) {
+    public LevelSelector(Game game, NuitToolkit toolkit, IAssets assets, Provider<StartGameTrigger> startGameTrigger) {
         this.game = game;
         this.toolkit = toolkit;
         this.assets = assets;

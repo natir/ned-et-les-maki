@@ -37,10 +37,10 @@ import javax.xml.bind.JAXBException;
  */
 public class TmxAssetLoader extends TmxLoader {
 
-    private final Assets assets;
+    private final IAssets assets;
     private String parentDir;
 
-    public TmxAssetLoader(Assets assets) {
+    public TmxAssetLoader(IAssets assets) {
         this.assets = assets;
     }
 

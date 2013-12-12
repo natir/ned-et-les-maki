@@ -31,7 +31,7 @@ import im.bci.lwjgl.nuit.controls.Action;
 import im.bci.lwjgl.nuit.utils.LwjglHelper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controllers;
 import org.lwjgl.input.Keyboard;
@@ -51,7 +51,7 @@ public class MainLoop {
     private boolean closeRequested;
     private NuitToolkit toolkit;
     private Game game;
-    private Assets assets;
+    private IAssets assets;
 
     @Inject
     public MainLoop(Logger logger, Preferences preferences) {
@@ -62,7 +62,7 @@ public class MainLoop {
     }
 
     @Inject
-    public void init(Assets assets, NuitToolkit toolkit, Game game, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.Intro Entity intro) {
+    public void init(IAssets assets, NuitToolkit toolkit, Game game, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.Intro Entity intro) {
         this.toolkit = toolkit;
         this.game = game;
         this.assets = assets;

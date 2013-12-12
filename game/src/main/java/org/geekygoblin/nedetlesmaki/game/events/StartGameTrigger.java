@@ -37,7 +37,7 @@ import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
-import org.geekygoblin.nedetlesmaki.game.assets.Assets;
+import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.assets.TextureAnimationCollectionWrapper;
 import org.geekygoblin.nedetlesmaki.game.assets.TmxAsset;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
@@ -70,7 +70,7 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class StartGameTrigger extends Trigger {
 
-    private final Assets assets;
+    private final IAssets assets;
     private final Entity mainMenu;
     private final Entity ingameControls;
     private final EntityIndexManager indexSystem;
@@ -78,7 +78,7 @@ public class StartGameTrigger extends Trigger {
     private final Random random;
 
     @Inject
-    public StartGameTrigger(Assets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, Random random) {
+    public StartGameTrigger(IAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, Random random) {
         this.assets = assets;
         this.mainMenu = mainMenu;
         this.ingameControls = ingameControls;
