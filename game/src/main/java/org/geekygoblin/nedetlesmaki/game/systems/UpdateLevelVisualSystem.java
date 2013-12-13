@@ -24,7 +24,6 @@ package org.geekygoblin.nedetlesmaki.game.systems;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;

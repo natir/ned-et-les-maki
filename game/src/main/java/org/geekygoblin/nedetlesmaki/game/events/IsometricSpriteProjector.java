@@ -27,7 +27,12 @@ public class IsometricSpriteProjector implements SpriteProjector {
     public Vector2f project(Vector3f pos) {
         return new Vector2f(-(pos.x - pos.y) * tileWidth / 2.0f, (pos.x + pos.y) * tileHeight / 2.0f - pos.z);
     }
-
+    @Override
+    public Vector3f unProject(Vector2f screenPos) {
+        float tx = screenPos.x / tileWidth;
+        float ty = screenPos.y / tileHeight;
+        return new Vector3f(ty - tx, tx + ty, 0.0f);
+    }
     @Override
     public int compare(Vector3f v1, Vector3f v2) {
         float d1 = v1.x + v1.y + v1.z;

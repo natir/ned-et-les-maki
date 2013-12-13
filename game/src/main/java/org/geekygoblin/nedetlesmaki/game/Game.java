@@ -41,6 +41,7 @@ import org.geekygoblin.nedetlesmaki.game.systems.SpritePuppetControlSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.TriggerWhenRemovedSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
+import org.geekygoblin.nedetlesmaki.game.systems.TintMouseSelectionSystem;
 import org.lwjgl.LWJGLException;
 
 /**
@@ -60,6 +61,7 @@ public class Game extends World {
 	setSystem(updateLevelVisualSystem);
 	setSystem(new SpriteAnimateSystem());
 	setSystem(new SpritePuppetControlSystem());
+        setSystem(new TintMouseSelectionSystem());
 	setSystem(drawSystem);
 	setSystem(new TriggerSystem());
 	setSystem(new TriggerWhenRemovedSystem());

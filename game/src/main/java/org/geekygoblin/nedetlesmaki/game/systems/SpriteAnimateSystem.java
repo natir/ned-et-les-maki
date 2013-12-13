@@ -28,6 +28,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
+import im.bci.nanim.IPlay;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 
 /**
@@ -46,7 +47,10 @@ public class SpriteAnimateSystem extends EntityProcessingSystem {
     @Override
     protected void process(Entity entity) {
         Sprite sprite = spriteMapper.get(entity);
-        sprite.getPlay().update((long) (world.getDelta() * 1000L));
+        final IPlay play = sprite.getPlay();
+        if(null != play) {
+            play.update((long) (world.getDelta() * 1000L));
+        }
     }
 
 }

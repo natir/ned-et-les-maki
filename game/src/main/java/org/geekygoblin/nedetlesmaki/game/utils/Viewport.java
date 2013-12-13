@@ -21,21 +21,13 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game.systems;
 
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
+package org.geekygoblin.nedetlesmaki.game.utils;
 
 /**
  *
  * @author devnewton
  */
-public interface SpriteProjector {
-
-    Vector2f project(Vector3f pos);
-
-    Vector3f unProject(Vector2f pos);
-
-    int compare(Vector3f a, Vector3f b);
-
+public class Viewport {
+    public int x, y, width, height;
 }

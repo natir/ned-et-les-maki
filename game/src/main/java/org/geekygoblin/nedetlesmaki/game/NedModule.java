@@ -111,9 +111,9 @@ public class NedModule extends AbstractModule {
     public Entity createIntro(Game game, final IAssets assets, Dialog dialogComponent, ShowMenuTrigger showMenuTrigger) {
         IAnimationCollection animations = assets.getAnimations("intro.nanim.gz");
         dialogComponent.addTirade(animations.getAnimationByName("reveil").start(PlayMode.LOOP), "dialog.intro.reveil.1", "dialog.intro.reveil.2");
-        dialogComponent.addTirade(animations.getAnimationByName("tour_au_loin").start(PlayMode.LOOP), "dialog.intro.tour_au_loin.1", "dialog.intro.tour_au_loin.2");
+        /*dialogComponent.addTirade(animations.getAnimationByName("tour_au_loin").start(PlayMode.LOOP), "dialog.intro.tour_au_loin.1", "dialog.intro.tour_au_loin.2");
         dialogComponent.addTirade(animations.getAnimationByName("pied_de_la_tour").start(PlayMode.LOOP), "dialog.intro.pied_de_la_tour.1", "dialog.intro.pied_de_la_tour.2", "dialog.intro.pied_de_la_tour.3");
-        dialogComponent.addTirade(animations.getAnimationByName("dans_la_tour").start(PlayMode.LOOP), "dialog.intro.dans_la_tour.1");
+        dialogComponent.addTirade(animations.getAnimationByName("dans_la_tour").start(PlayMode.LOOP), "dialog.intro.dans_la_tour.1");*/
         Entity intro = game.createEntity();
         intro.addComponent(dialogComponent);
         intro.addComponent(new ZOrder(ZOrders.DIALOG));
