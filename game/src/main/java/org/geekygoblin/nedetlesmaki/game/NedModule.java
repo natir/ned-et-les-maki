@@ -49,6 +49,7 @@ import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
+import org.geekygoblin.nedetlesmaki.game.events.Trigger;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
@@ -107,7 +108,7 @@ public class NedModule extends AbstractModule {
 
     @Provides
     @NamedEntities.Intro
-    public Entity createIntro(Game game, IAssets assets, Dialog dialogComponent, ShowMenuTrigger showMenuTrigger) {
+    public Entity createIntro(Game game, final IAssets assets, Dialog dialogComponent, ShowMenuTrigger showMenuTrigger) {
         IAnimationCollection animations = assets.getAnimations("intro.nanim.gz");
         dialogComponent.addTirade(animations.getAnimationByName("reveil").start(PlayMode.LOOP), "dialog.intro.reveil.1", "dialog.intro.reveil.2");
         dialogComponent.addTirade(animations.getAnimationByName("tour_au_loin").start(PlayMode.LOOP), "dialog.intro.tour_au_loin.1", "dialog.intro.tour_au_loin.2");
@@ -116,7 +117,14 @@ public class NedModule extends AbstractModule {
         Entity intro = game.createEntity();
         intro.addComponent(dialogComponent);
         intro.addComponent(new ZOrder(ZOrders.DIALOG));
-        intro.addComponent(new TriggerableWhenRemoved(showMenuTrigger));
+        intro.addComponent(new TriggerableWhenRemoved(showMenuTrigger).add(new Trigger() {
+
+            @Override
+            public void process(Game game) {
+
+                assets.forceAnimationUnload("intro.nanim.gz");
+            }
+        }));
         game.addEntity(intro);
         return intro;
     }
