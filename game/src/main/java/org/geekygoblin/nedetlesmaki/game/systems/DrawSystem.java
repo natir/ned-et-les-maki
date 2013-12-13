@@ -46,10 +46,13 @@ import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.geekygoblin.nedetlesmaki.game.components.ui.Dialog;
+import org.geekygoblin.nedetlesmaki.game.utils.Viewport;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
@@ -87,6 +90,7 @@ public class DrawSystem extends EntitySystem {
     };
     private SpriteProjector spriteProjector;
     private final IAssets assets;
+    private final Viewport viewPort = new Viewport();
 
     @Inject
     public DrawSystem(IAssets assets) {
@@ -108,23 +112,12 @@ public class DrawSystem extends EntitySystem {
         Collections.sort(entititesSortedByZ, zComparator);
 
         GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_TRANSFORM_BIT | GL11.GL_HINT_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_SCISSOR_BIT | GL11.GL_LINE_BIT | GL11.GL_TEXTURE_BIT);
-        GL11.glViewport(0, 0, LwjglHelper.getWidth(), LwjglHelper.getHeight());
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
-        //
-        final float aspect = (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT;
-        int screenWidth = LwjglHelper.getWidth();
-        int screenHeight = LwjglHelper.getHeight();
-        int viewWidth = screenWidth;
-        int viewHeight = (int) (screenWidth / aspect);
-        if (viewHeight > screenHeight) {
-            viewHeight = screenHeight;
-            viewWidth = (int) (screenHeight * aspect);
-        }
-        int vportX = (screenWidth - viewWidth) / 2;
-        int vportY = (screenHeight - viewHeight) / 2;
-        GL11.glViewport(vportX, vportY, viewWidth, viewHeight);
+
+        updateViewPort();
+        GL11.glViewport(viewPort.x, viewPort.y, viewPort.width, viewPort.height);
         GLU.gluOrtho2D(-SCREEN_WIDTH / 2.0f, SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, -SCREEN_HEIGHT / 2.0f);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glPushMatrix();
@@ -219,56 +212,59 @@ public class DrawSystem extends EntitySystem {
     }
 
     private void drawSprite(Sprite sprite) {
-        GL11.glPushMatrix();
         Vector2f pos = spriteProjector.project(sprite.getPosition());
-        GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
-        GL11.glRotatef(sprite.getRotate(), 0, 0, 1.0f);
-        GL11.glScalef(sprite.getScale(), sprite.getScale(), 1);
-        final IAnimationFrame frame = sprite.getPlay().getCurrentFrame();
-        final IAnimationImage image = frame.getImage();
-        if (image.hasAlpha()) {
-            GL11.glEnable(GL11.GL_BLEND);
-        }
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, image.getId());
+        final IPlay play = sprite.getPlay();
+        if (null != play) {
+            GL11.glPushMatrix();
+            GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
+            GL11.glRotatef(sprite.getRotate(), 0, 0, 1.0f);
+            GL11.glScalef(sprite.getScale(), sprite.getScale(), 1);
+            final IAnimationFrame frame = play.getCurrentFrame();
+            final IAnimationImage image = frame.getImage();
+            if (image.hasAlpha()) {
+                GL11.glEnable(GL11.GL_BLEND);
+            }
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, image.getId());
 
-        final float u1, u2;
-        if (sprite.isMirrorX()) {
-            u1 = frame.getU2();
-            u2 = frame.getU1();
-        } else {
-            u1 = frame.getU1();
-            u2 = frame.getU2();
-        }
+            final float u1, u2;
+            if (sprite.isMirrorX()) {
+                u1 = frame.getU2();
+                u2 = frame.getU1();
+            } else {
+                u1 = frame.getU1();
+                u2 = frame.getU2();
+            }
 
-        final float v1, v2;
-        if (sprite.isMirrorY()) {
-            v1 = frame.getV1();
-            v2 = frame.getV2();
-        } else {
-            v1 = frame.getV2();
-            v2 = frame.getV1();
+            final float v1, v2;
+            if (sprite.isMirrorY()) {
+                v1 = frame.getV1();
+                v2 = frame.getV2();
+            } else {
+                v1 = frame.getV2();
+                v2 = frame.getV1();
+            }
+            final Color color = sprite.getColor();
+            GL11.glColor4ub(color.getRedByte(), color.getGreenByte(), color.getBlueByte(), color.getAlphaByte());
+            float x1 = -sprite.getWidth() / 2.0f;
+            float x2 = sprite.getWidth() / 2.0f;
+            float y1 = -sprite.getHeight() / 2.0f;
+            float y2 = sprite.getHeight() / 2.0f;
+            GL11.glBegin(GL11.GL_QUADS);
+            GL11.glTexCoord2f(u1, v1);
+            GL11.glVertex2f(x1, y2);
+            GL11.glTexCoord2f(u2, v1);
+            GL11.glVertex2f(x2, y2);
+            GL11.glTexCoord2f(u2, v2);
+            GL11.glVertex2f(x2, y1);
+            GL11.glTexCoord2f(u1, v2);
+            GL11.glVertex2f(x1, y1);
+            GL11.glEnd();
+            GL11.glColor3f(1f, 1f, 1f);
+            if (image.hasAlpha()) {
+                GL11.glDisable(GL11.GL_BLEND);
+            }
+            GL11.glPopMatrix();
         }
-        final Color color = sprite.getColor();
-        GL11.glColor4ub(color.getRedByte(), color.getGreenByte(), color.getBlueByte(), color.getAlphaByte());
-        float x1 = -sprite.getWidth() / 2.0f;
-        float x2 = sprite.getWidth() / 2.0f;
-        float y1 = -sprite.getHeight() / 2.0f;
-        float y2 = sprite.getHeight() / 2.0f;
-        GL11.glBegin(GL11.GL_QUADS);
-        GL11.glTexCoord2f(u1, v1);
-        GL11.glVertex2f(x1, y2);
-        GL11.glTexCoord2f(u2, v1);
-        GL11.glVertex2f(x2, y2);
-        GL11.glTexCoord2f(u2, v2);
-        GL11.glVertex2f(x2, y1);
-        GL11.glTexCoord2f(u1, v2);
-        GL11.glVertex2f(x1, y1);
-        GL11.glEnd();
-        GL11.glColor3f(1f, 1f, 1f);
-        if (image.hasAlpha()) {
-            GL11.glDisable(GL11.GL_BLEND);
-        }
-        GL11.glPopMatrix();
         if (null != sprite.getLabel()) {
             GL11.glPushMatrix();
             GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
@@ -286,6 +282,37 @@ public class DrawSystem extends EntitySystem {
 
     public SpriteProjector getSpriteProjector() {
         return spriteProjector;
+    }
+
+    public Vector3f getMouseSpritePos(int yAdjust) {
+        if (null != spriteProjector) {
+            float mouseX = (Mouse.getX() - viewPort.x) * SCREEN_WIDTH / viewPort.width - SCREEN_WIDTH / 2.0f;
+            float mouseY = SCREEN_HEIGHT - ((Mouse.getY() + yAdjust - viewPort.y) * SCREEN_HEIGHT / viewPort.height) - SCREEN_HEIGHT / 2.0f;
+            Entity ned = ((Game) world).getNed();
+            if (null != ned) {
+                Sprite nedSprite = spriteMapper.get(ned);
+                Vector2f nedPos = spriteProjector.project(nedSprite.getPosition());
+                mouseX += nedPos.x;
+                mouseY += nedPos.y;
+            }
+            return spriteProjector.unProject(new Vector2f(mouseX, mouseY));
+        } else {
+            return null;
+        }
+    }
+
+    private void updateViewPort() {
+        final float aspect = (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT;
+        int screenWidth = LwjglHelper.getWidth();
+        int screenHeight = LwjglHelper.getHeight();
+        viewPort.width = screenWidth;
+        viewPort.height = (int) (screenWidth / aspect);
+        if (viewPort.height > screenHeight) {
+            viewPort.height = screenHeight;
+            viewPort.width = (int) (screenHeight * aspect);
+        }
+        viewPort.x = (screenWidth - viewPort.width) / 2;
+        viewPort.y = (screenHeight - viewPort.height) / 2;
     }
 
 }

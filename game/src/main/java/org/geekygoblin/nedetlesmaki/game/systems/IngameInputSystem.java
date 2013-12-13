@@ -1,26 +1,26 @@
 /*
-The MIT License (MIT)
+ The MIT License (MIT)
 
-Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2013 devnewton <devnewton@bci.im>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 package org.geekygoblin.nedetlesmaki.game.systems;
 
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
@@ -33,6 +33,7 @@ import com.artemis.systems.EntityProcessingSystem;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import im.bci.lwjgl.nuit.utils.LwjglHelper;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
@@ -41,6 +42,9 @@ import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import org.geekygoblin.nedetlesmaki.game.events.IsometricSpriteProjector;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
@@ -48,27 +52,23 @@ import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
  */
 @Singleton
 public class IngameInputSystem extends EntityProcessingSystem {
-    private final IAssets assets;
+
     private final Provider<ShowMenuTrigger> showMenuTrigger;
     private final EntityIndexManager indexSystem;
     private final GameSystem gameSystem;
 
     @Inject
-    public IngameInputSystem(IAssets assets, Provider<ShowMenuTrigger> showMenuTrigger, EntityIndexManager indexSystem, GameSystem gameSystem) {
+    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, EntityIndexManager indexSystem, GameSystem gameSystem) {
         super(Aspect.getAspectForAll(IngameControls.class));
-        this.assets = assets;
         this.showMenuTrigger = showMenuTrigger;
-	this.indexSystem = indexSystem;
-	this.gameSystem = gameSystem;
+        this.indexSystem = indexSystem;
+        this.gameSystem = gameSystem;
     }
-
-    @Mapper
-    ComponentMapper<Sprite> spriteMapper;
 
     @Override
     protected void process(Entity e) {
         if (e.isEnabled()) {
-	    Game game = (Game) world;
+            Game game = (Game) world;
 
             IngameControls controls = e.getComponent(IngameControls.class);
             controls.getShowMenu().poll();
@@ -76,38 +76,27 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(showMenuTrigger.get())));
             }
             if (canMoveNed()) {
-		controls.getUp().poll();
-		controls.getDown().poll();
-		controls.getRight().poll();
-		controls.getLeft().poll();
+                controls.getUp().poll();
+                controls.getDown().poll();
+                controls.getRight().poll();
+                controls.getLeft().poll();
                 if (controls.getUp().isPressed()) {
                     Entity ned = game.getNed();
-
-        	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1)));
-
-		    ned.changedInWorld();
-		}
-		else if (controls.getDown().isPressed()) {
+                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1)));
+                    ned.changedInWorld();
+                } else if (controls.getDown().isPressed()) {
                     Entity ned = game.getNed();
-		    
-        	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1)));
-
-		    ned.changedInWorld();
-		}
-		else if (controls.getLeft().isPressed()) {
-		    Entity ned = game.getNed();
-		    
-        	    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0)));
-		
+                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1)));
                     ned.changedInWorld();
-		}
-		else if (controls.getRight().isPressed()) {
-		    Entity ned = game.getNed();
-
-		    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0)));	    
-
+                } else if (controls.getLeft().isPressed()) {
+                    Entity ned = game.getNed();
+                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0)));
                     ned.changedInWorld();
-		}
+                } else if (controls.getRight().isPressed()) {
+                    Entity ned = game.getNed();
+                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0)));
+                    ned.changedInWorld();
+                }
             }
         }
     }
