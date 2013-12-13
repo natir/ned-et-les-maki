@@ -34,6 +34,7 @@ import com.artemis.utils.ImmutableBag;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.TriggerableWhenRemoved;
+import org.geekygoblin.nedetlesmaki.game.events.Trigger;
 
 /**
  *
@@ -50,7 +51,9 @@ public class TriggerWhenRemovedSystem extends EntityProcessingSystem {
 
     @Override
     protected void removed(Entity e) {
-        triggerableMapper.get(e).getTrigger().process((Game) world);
+        for (Trigger trigger : triggerableMapper.get(e).getTriggers()) {
+            trigger.process((Game) world);
+        }
     }
 
     @Override

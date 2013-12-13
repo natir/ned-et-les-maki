@@ -5,21 +5,28 @@
 package org.geekygoblin.nedetlesmaki.game.components;
 
 import com.artemis.Component;
+import java.util.ArrayList;
+import java.util.List;
 import org.geekygoblin.nedetlesmaki.game.events.Trigger;
 
 /**
  *
  * @author devnewton
  */
-public class TriggerableWhenRemoved extends Component {
+public final class TriggerableWhenRemoved extends Component {
 
-    private Trigger trigger;
+    private final List<Trigger> triggers = new ArrayList<>();
 
     public TriggerableWhenRemoved(Trigger trigger) {
-        this.trigger = trigger;
+        this.triggers.add(trigger);
+    }
+    
+    public TriggerableWhenRemoved add(Trigger trigger) {
+        this.triggers.add(trigger);
+        return this;
     }
 
-    public Trigger getTrigger() {
-        return trigger;
+    public List<Trigger> getTriggers() {
+        return triggers;
     }
 }

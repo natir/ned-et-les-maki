@@ -38,6 +38,8 @@ public interface IAssets {
     void clearAll();
 
     void clearUseless();
+    
+    void forceAnimationUnload(String name);
 
     IAnimationCollection getAnimations(String name);
 

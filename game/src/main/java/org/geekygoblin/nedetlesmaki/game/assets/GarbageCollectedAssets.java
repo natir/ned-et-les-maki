@@ -34,6 +34,8 @@ import java.io.InputStream;
 import java.lang.ref.ReferenceQueue;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
 
 /**
@@ -50,10 +52,12 @@ public class GarbageCollectedAssets implements IAssets {
     private final ReferenceQueue<NanimationCollection> animationsReferenceQueue = new ReferenceQueue<>();
     private final HashMap<String/* name */, TrueTypeFontWeakReference> fonts = new HashMap<>();
     private final ReferenceQueue<TrueTypeFont> fontsReferenceQueue = new ReferenceQueue<>();
+    private final Logger logger;
 
     @Inject
-    public GarbageCollectedAssets(AssetsLoader assets) {
+    public GarbageCollectedAssets(AssetsLoader assets, Logger logger) {
         this.assets = assets;
+        this.logger = logger;
     }
 
     @Override
@@ -177,4 +181,18 @@ public class GarbageCollectedAssets implements IAssets {
     public InputStream open(String name) throws FileNotFoundException {
         return assets.open(name);
     }
+
+    @Override
+    public void forceAnimationUnload(String name) {
+        clearUseless();
+        AnimationCollectionWeakReference animation = animations.get(name);
+        if(null != animation) {
+            if(null != animation.get()) {
+                logger.log(Level.WARNING, "Force still referenced animation ''{0}'' unload.", name);
+            }
+            animation.delete();
+            animations.remove(name);
+        }
+    }
+
 }
