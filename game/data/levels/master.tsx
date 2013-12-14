@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="tatami" tilewidth="56" tileheight="57">
+<tileset name="tatami" tilewidth="56" tileheight="57" spacing="1" margin="1">
  <properties>
   <property name="debug" value="false"/>
  </properties>
