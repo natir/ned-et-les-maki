@@ -33,17 +33,18 @@ import com.artemis.systems.EntityProcessingSystem;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import im.bci.lwjgl.nuit.utils.LwjglHelper;
+import im.bci.lwjgl.nuit.controls.Action;
+import im.bci.lwjgl.nuit.controls.ActionActivatedDetector;
+import im.bci.lwjgl.nuit.controls.KeyControl;
+import im.bci.lwjgl.nuit.controls.MouseButtonControl;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
-import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
-import org.geekygoblin.nedetlesmaki.game.events.IsometricSpriteProjector;
-import org.lwjgl.input.Mouse;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -56,6 +57,10 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private final Provider<ShowMenuTrigger> showMenuTrigger;
     private final EntityIndexManager indexSystem;
     private final GameSystem gameSystem;
+    private final ActionActivatedDetector mouseClick = new ActionActivatedDetector(new Action("click", new MouseButtonControl(0)));
+    
+        @Mapper
+    ComponentMapper<Sprite> spriteMapper;
 
     @Inject
     public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, EntityIndexManager indexSystem, GameSystem gameSystem) {
@@ -80,20 +85,45 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 controls.getDown().poll();
                 controls.getRight().poll();
                 controls.getLeft().poll();
-                if (controls.getUp().isPressed()) {
-                    Entity ned = game.getNed();
+                mouseClick.poll();
+                boolean upPressed = controls.getUp().isPressed();
+                boolean downPressed = controls.getDown().isPressed();
+                boolean leftPressed = controls.getLeft().isPressed();
+                boolean rightPressed = controls.getRight().isPressed();
+                Entity ned = game.getNed();
+                if (mouseClick.isPressed()) {
+                    Vector3f selectedPosition = game.getSystem(TintMouseSelectionSystem.class).getSelectedSprite().getPosition();
+                    Vector3f nedPosition = spriteMapper.get(ned).getPosition();
+                    int nedX = Math.round(nedPosition.x);
+                    int nedY = Math.round(nedPosition.y);
+                    int selectedX = Math.round(selectedPosition.x);
+                    int selectedY = Math.round(selectedPosition.y);
+                    
+                    if(nedX == selectedX) {
+                        if(nedY<selectedY) {
+                            rightPressed = true;
+                        } else if(nedY>selectedY) {
+                            leftPressed = true;
+                        }
+                    } else if(nedY == selectedY) {
+                        if(nedX<selectedX) {
+                            downPressed = true;
+                        } else if(nedX>selectedX) {
+                            upPressed = true;
+                        }
+                    }
+                }
+                if (upPressed) {
+
                     indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1)));
                     ned.changedInWorld();
-                } else if (controls.getDown().isPressed()) {
-                    Entity ned = game.getNed();
+                } else if (downPressed) {
                     indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1)));
                     ned.changedInWorld();
-                } else if (controls.getLeft().isPressed()) {
-                    Entity ned = game.getNed();
+                } else if (leftPressed) {
                     indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0)));
                     ned.changedInWorld();
-                } else if (controls.getRight().isPressed()) {
-                    Entity ned = game.getNed();
+                } else if (rightPressed) {
                     indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0)));
                     ned.changedInWorld();
                 }
