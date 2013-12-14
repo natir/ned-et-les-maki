@@ -28,8 +28,6 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import com.google.inject.Inject;
-import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.lwjgl.input.Mouse;
@@ -47,7 +45,6 @@ public class TintMouseSelectionSystem extends EntityProcessingSystem {
     private Vector3f mousePos;
     private float nearestSpriteDistance;
     private Sprite nearestSprite;
-
     private Entity debugMouseSprite;
 
     public TintMouseSelectionSystem() {
@@ -93,5 +90,9 @@ public class TintMouseSelectionSystem extends EntityProcessingSystem {
         if (null != nearestSprite) {
             nearestSprite.setColor((Color) Color.ORANGE);
         }
+    }
+
+    Sprite getSelectedSprite() {
+        return nearestSprite;
     }
 }
