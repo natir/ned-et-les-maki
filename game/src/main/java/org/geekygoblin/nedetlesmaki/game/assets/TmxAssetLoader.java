@@ -1,35 +1,31 @@
 /*
-The MIT License (MIT)
+ The MIT License (MIT)
 
-Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2013 devnewton <devnewton@bci.im>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 package org.geekygoblin.nedetlesmaki.game.assets;
 
 import im.bci.tmxloader.TmxLoader;
 import im.bci.tmxloader.TmxMap;
 import im.bci.tmxloader.TmxTileset;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -44,22 +40,17 @@ public class TmxAssetLoader extends TmxLoader {
         this.assets = assets;
     }
 
-    public TmxAsset load(String name) throws JAXBException, IOException {
-        try (InputStream is = assets.open(name)) {
-            parentDir = name.substring(0, name.lastIndexOf('/') + 1);
-            TmxMap map = load(is);
-            adjustImagesSource(map);
-            return new TmxAsset(assets, map);
-        }
+    public TmxAsset loadTmx(String name) {
+        parentDir = name.substring(0, name.lastIndexOf('/') + 1);
+        TmxMap map = load(assets.getText(name));
+        adjustImagesSource(map);
+        return new TmxAsset(assets, map);
     }
 
     @Override
-    protected InputStream openExternalTileset(String source) {
-        try {
-            return assets.open(parentDir + source);
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
-        }
+    protected String openExternalTileset(String source) {
+        return assets.getText(parentDir + source);
+
     }
     /* public static void main(String[] args) throws Exception {
      TmxFileLoader f = new TmxFileLoader();
@@ -68,7 +59,7 @@ public class TmxAssetLoader extends TmxLoader {
      }*/
 
     private void adjustImagesSource(TmxMap map) {
-        for(TmxTileset tileset : map.getTilesets()) {
+        for (TmxTileset tileset : map.getTilesets()) {
             tileset.getImage().setSource(parentDir + tileset.getImage().getSource());
         }
     }

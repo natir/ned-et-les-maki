@@ -23,39 +23,49 @@ THE SOFTWARE.
 */
 package im.bci.tmxloader;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.xml.bind.JAXBException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author devnewton
  */
-public class TmxFileLoader extends TmxLoader {
+public class TmxTile {
 
-    private File parentDir;
+    private int id;
+    private List<TmxProperty> properties = new ArrayList<>();
+    private TmxFrame frame;
 
-    public TmxMap load(File file) throws JAXBException, IOException {
-        parentDir = file.getParentFile();
-        try (FileInputStream is = new FileInputStream(file)) {
-            return load(is);
-        }
+    public int getId() {
+        return id;
     }
 
-    @Override
-    protected InputStream openExternalTileset(String source) {
-        try {
-            return new FileInputStream(new File(parentDir, source));
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
-        }
+    public void setId(int id) {
+        this.id = id;
     }
-    /* public static void main(String[] args) throws Exception {
-     TmxFileLoader f = new TmxFileLoader();
-     TmxMap lol = f.load(new File("/home/tralala/dev/ned-et-les-maki/game/data/levels/test.tmx"));
-     System.out.print(lol);
-     }*/
+
+    public List<TmxProperty> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(List<TmxProperty> properties) {
+        this.properties = properties;
+    }
+
+    public String getProperty(String name, String defaultValue) {
+        for (TmxProperty p : properties) {
+            if (p.getName().equals(name)) {
+                return p.getValue();
+            }
+        }
+        return defaultValue;
+    }
+
+    public TmxFrame getFrame() {
+        return frame;
+    }
+
+    public void setFrame(TmxFrame frame) {
+        this.frame = frame;
+    }
 }

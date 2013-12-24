@@ -23,21 +23,54 @@ THE SOFTWARE.
 */
 package im.bci.tmxloader;
 
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.util.EnumSet;
+import java.util.Objects;
 
 /**
  *
  * @author devnewton
  */
-@XmlEnum
-public enum TmxMapOrientation {
-    @XmlEnumValue("orthogonal")
-    ORTHOGONAL,
-    
-    @XmlEnumValue("isometric")
-    ISOMETRIC,
-    
-    @XmlEnumValue("staggered")
-    STAGGERED    
+public class TmxTileInstance {
+
+    private final TmxTile tile;
+    private final EnumSet<TmxTileInstanceEffect> effect;
+
+    public TmxTileInstance(TmxTile tile, EnumSet<TmxTileInstanceEffect> effect) {
+        this.tile = tile;
+        this.effect = effect;
+    }
+
+    public TmxTile getTile() {
+        return tile;
+    }
+
+    public EnumSet<TmxTileInstanceEffect> getEffect() {
+        return effect;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.tile);
+        hash = 89 * hash + Objects.hashCode(this.effect);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TmxTileInstance other = (TmxTileInstance) obj;
+        if (!Objects.equals(this.tile, other.tile)) {
+            return false;
+        }
+        if (!Objects.equals(this.effect, other.effect)) {
+            return false;
+        }
+        return true;
+    }
 }

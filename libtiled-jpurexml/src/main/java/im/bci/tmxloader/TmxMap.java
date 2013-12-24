@@ -25,33 +25,69 @@ package im.bci.tmxloader;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "tile")
-public class TmxTile {
+public class TmxMap {
 
-    private int id;
+    private int width;
+    private int height;
+    private int tilewidth;
+    private int tileheight;
+    private TmxMapOrientation orientation;
+    private List<TmxTileset> tilesets = new ArrayList<>();
     private List<TmxProperty> properties = new ArrayList<>();
-    private TmxFrame frame;
+    private List<TmxLayer> layers = new ArrayList<>();
 
-    @XmlAttribute
-    public int getId() {
-        return id;
+    public TmxMapOrientation getOrientation() {
+        return orientation;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrientation(TmxMapOrientation orientation) {
+        this.orientation = orientation;
     }
 
-    @XmlElementWrapper(name = "properties")
-    @XmlElement(name = "property")
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getTilewidth() {
+        return tilewidth;
+    }
+
+    public void setTilewidth(int tilewidth) {
+        this.tilewidth = tilewidth;
+    }
+
+    public int getTileheight() {
+        return tileheight;
+    }
+
+    public void setTileheight(int tileheight) {
+        this.tileheight = tileheight;
+    }
+
+    public List<TmxTileset> getTilesets() {
+        return tilesets;
+    }
+
+    public void setTilesets(List<TmxTileset> tilesets) {
+        this.tilesets = tilesets;
+    }
+
     public List<TmxProperty> getProperties() {
         return properties;
     }
@@ -60,20 +96,13 @@ public class TmxTile {
         this.properties = properties;
     }
 
-    public String getProperty(String name, String defaultValue) {
-        for (TmxProperty p : properties) {
-            if (p.getName().equals(name)) {
-                return p.getValue();
-            }
-        }
-        return defaultValue;
+    public List<TmxLayer> getLayers() {
+        return layers;
     }
 
-    public TmxFrame getFrame() {
-        return frame;
+    public void setLayers(List<TmxLayer> layers) {
+        this.layers = layers;
     }
-
-    public void setFrame(TmxFrame frame) {
-        this.frame = frame;
-    }
+    
+    
 }

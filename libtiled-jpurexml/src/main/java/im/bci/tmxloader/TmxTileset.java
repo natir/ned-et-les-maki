@@ -26,17 +26,11 @@ package im.bci.tmxloader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "tileset")
 public class TmxTileset {
 
     private String source;
@@ -50,7 +44,6 @@ public class TmxTileset {
     private final TreeMap<Integer/*id*/, TmxTile> tilesById = new TreeMap<>();
     private List<TmxTile> tiles = new ArrayList<>();
 
-    @XmlAttribute
     public String getSource() {
         return source;
     }
@@ -59,7 +52,6 @@ public class TmxTileset {
         this.source = source;
     }
 
-    @XmlAttribute
     public int getFirstgid() {
         return firstgid;
     }
@@ -68,7 +60,6 @@ public class TmxTileset {
         this.firstgid = firstgid;
     }
 
-    @XmlAttribute
     public String getName() {
         return name;
     }
@@ -77,7 +68,6 @@ public class TmxTileset {
         this.name = name;
     }
 
-    @XmlAttribute
     public int getTilewidth() {
         return tilewidth;
     }
@@ -86,7 +76,6 @@ public class TmxTileset {
         this.tilewidth = tilewidth;
     }
 
-    @XmlAttribute
     public int getTileheight() {
         return tileheight;
     }
@@ -95,7 +84,6 @@ public class TmxTileset {
         this.tileheight = tileheight;
     }
 
-    @XmlAttribute
     public int getSpacing() {
         return spacing;
     }
@@ -104,7 +92,6 @@ public class TmxTileset {
         this.spacing = spacing;
     }
 
-    @XmlAttribute
     public int getMargin() {
         return margin;
     }
@@ -113,8 +100,6 @@ public class TmxTileset {
         this.margin = margin;
     }
 
-    @XmlElementWrapper(name = "properties")
-    @XmlElement(name = "property")
     public List<TmxProperty> getProperties() {
         return properties;
     }
@@ -123,7 +108,6 @@ public class TmxTileset {
         this.properties = properties;
     }
 
-    @XmlElement(name = "image")
     public TmxImage getImage() {
         return image;
     }
@@ -132,7 +116,6 @@ public class TmxTileset {
         this.image = image;
     }
 
-    @XmlElement(name = "tile")
     public List<TmxTile> getTiles() {
         return tiles;
     }
@@ -141,26 +124,24 @@ public class TmxTileset {
         this.tiles = tiles;
     }
 
-    public void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    public void afterUnmarshal() {
         this.tilesById.clear();
         for (TmxTile tile : tiles) {
             this.tilesById.put(tile.getId(), tile);
         }
-        if (null == source) {
-            final int maxX = image.getWidth() - margin;
-            final int maxY = image.getHeight() - margin;
-            int id = 0;
-            for (int y = margin; y < maxY; y += tileheight + spacing) {
-                for (int x = margin; x < maxX; x += tilewidth + spacing) {
-                    TmxTile tile = tilesById.get(id);
-                    if (null == tile) {
-                        tile = new TmxTile();
-                        tile.setId(id);
-                        tilesById.put(id, tile);
-                    }
-                    tile.setFrame(new TmxFrame(image, x, y, x + tilewidth, y + tileheight));
-                    ++id;
+        final int maxX = image.getWidth() - margin;
+        final int maxY = image.getHeight() - margin;
+        int id = 0;
+        for (int y = margin; y < maxY; y += tileheight + spacing) {
+            for (int x = margin; x < maxX; x += tilewidth + spacing) {
+                TmxTile tile = tilesById.get(id);
+                if (null == tile) {
+                    tile = new TmxTile();
+                    tile.setId(id);
+                    tilesById.put(id, tile);
                 }
+                tile.setFrame(new TmxFrame(image, x, y, x + tilewidth, y + tileheight));
+                ++id;
             }
         }
     }

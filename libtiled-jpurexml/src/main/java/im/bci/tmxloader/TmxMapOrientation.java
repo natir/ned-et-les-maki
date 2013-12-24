@@ -23,34 +23,12 @@ THE SOFTWARE.
 */
 package im.bci.tmxloader;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "property")
-public class TmxProperty {
-
-    private String name, value;
-
-    @XmlAttribute
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @XmlAttribute
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
+public enum TmxMapOrientation {
+    ORTHOGONAL,
+    ISOMETRIC,
+    STAGGERED    
 }

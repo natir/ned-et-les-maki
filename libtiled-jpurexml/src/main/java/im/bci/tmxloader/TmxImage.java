@@ -23,54 +23,37 @@ THE SOFTWARE.
 */
 package im.bci.tmxloader;
 
-import java.util.EnumSet;
-import java.util.Objects;
-
 /**
  *
  * @author devnewton
  */
-public class TmxTileInstance {
+public class TmxImage {
 
-    private TmxTile tile;
-    private EnumSet<TmxTileInstanceEffect> effect;
+    private String source;
+    private int width, height;
 
-    public TmxTileInstance(TmxTile tile, EnumSet<TmxTileInstanceEffect> effect) {
-        this.tile = tile;
-        this.effect = effect;
+    public String getSource() {
+        return source;
     }
 
-    public TmxTile getTile() {
-        return tile;
+    public void setSource(String source) {
+        this.source = source;
     }
 
-    public EnumSet<TmxTileInstanceEffect> getEffect() {
-        return effect;
+    public int getWidth() {
+        return width;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + Objects.hashCode(this.tile);
-        hash = 89 * hash + Objects.hashCode(this.effect);
-        return hash;
+    public void setWidth(int width) {
+        this.width = width;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final TmxTileInstance other = (TmxTileInstance) obj;
-        if (!Objects.equals(this.tile, other.tile)) {
-            return false;
-        }
-        if (!Objects.equals(this.effect, other.effect)) {
-            return false;
-        }
-        return true;
+    public int getHeight() {
+        return height;
     }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    
 }
