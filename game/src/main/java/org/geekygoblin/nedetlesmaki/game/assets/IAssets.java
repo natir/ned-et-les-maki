@@ -26,8 +26,6 @@ package org.geekygoblin.nedetlesmaki.game.assets;
 
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import im.bci.nanim.IAnimationCollection;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 /**
  *
@@ -53,6 +51,6 @@ public interface IAssets {
 
     void setIcon();
 
-    InputStream open(String name) throws FileNotFoundException;
+    String getText(String name);
     
 }

@@ -12,7 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <lwjgl-nuit.version>0.1</lwjgl-nuit.version>
-        <libtiled-jaxb.version>0.1</libtiled-jaxb.version>
+        <libtiled-jpurexml.version>0.2-SNAPSHOT</libtiled-jpurexml.version>
         <tablelayout.version>0.1</tablelayout.version>
         <lwjgl.version>2.9.0</lwjgl.version>
     </properties>
@@ -20,7 +20,7 @@
         <module>game</module>
         <module>game-graph-generator</module>
         <module>lwjgl-nuit</module>
-        <module>libtiled-jaxb</module>
+        <module>libtiled-jpurexml</module>
         <module>tablelayout</module>
         <module>packages/deb</module>
         <module>packages/generic</module>
@@ -72,8 +72,8 @@
             </dependency>
             <dependency>
                 <groupId>im.bci</groupId>
-                <artifactId>libtiled-jaxb</artifactId>
-                <version>${libtiled-jaxb.version}</version>
+                <artifactId>libtiled-jpurexml</artifactId>
+                <version>${libtiled-jpurexml.version}</version>
             </dependency>
             <dependency>
                 <groupId>im.bci</groupId>

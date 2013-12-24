@@ -28,15 +28,12 @@ import com.google.inject.Singleton;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.NanimationCollection;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.ref.ReferenceQueue;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -144,12 +141,8 @@ public class GarbageCollectedAssets implements IAssets {
 
     @Override
     public TmxAsset getTmx(String name) {
-        try {
-            TmxAssetLoader tmxLoader = new TmxAssetLoader(this);
-            return tmxLoader.load(name);
-        } catch (JAXBException | IOException e) {
-             throw new RuntimeException("Cannot load map " + name, e);
-        }
+        TmxAssetLoader tmxLoader = new TmxAssetLoader(this);
+        return tmxLoader.loadTmx(name);
     }
 
     @Override
@@ -178,16 +171,16 @@ public class GarbageCollectedAssets implements IAssets {
     }
 
     @Override
-    public InputStream open(String name) throws FileNotFoundException {
-        return assets.open(name);
+    public String getText(String name) {
+        return assets.loadText(name);
     }
 
     @Override
     public void forceAnimationUnload(String name) {
         clearUseless();
         AnimationCollectionWeakReference animation = animations.get(name);
-        if(null != animation) {
-            if(null != animation.get()) {
+        if (null != animation) {
+            if (null != animation.get()) {
                 logger.log(Level.WARNING, "Force still referenced animation ''{0}'' unload.", name);
             }
             animation.delete();

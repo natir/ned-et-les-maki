@@ -24,21 +24,16 @@
 package im.bci.tmxloader;
 
 import java.util.Scanner;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "data")
 public class TmxData {
 
     private String encoding;
     private String data;
 
-    @XmlAttribute
     public String getEncoding() {
         return encoding;
     }
@@ -47,7 +42,6 @@ public class TmxData {
         this.encoding = encoding;
     }
 
-    @XmlValue
     public String getData() {
         return data;
     }

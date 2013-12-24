@@ -43,6 +43,9 @@ import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Scanner;
 import org.lwjgl.opengl.GL11;
 
 /**
@@ -132,8 +135,16 @@ public class AssetsLoader {
         }
     }
 
-    public InputStream open(String name) throws FileNotFoundException {
-        return vfs.open(name);
+    public String loadText(String name) {
+        try(InputStream is = vfs.open(name); Scanner s = new Scanner(is, "UTF-8").useDelimiter("\\Z")) {
+            return s.next();
+        } catch (FileNotFoundException ex) {
+            logger.log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Cannot find text file: " + name, ex);
+        } catch(IOException ex) {
+            logger.log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Cannot load text file: " + name, ex);
+        }
     }
 
     public TrueTypeFont loadFont(String name) {

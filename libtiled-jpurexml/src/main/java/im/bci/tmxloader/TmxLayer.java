@@ -25,17 +25,11 @@ package im.bci.tmxloader;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "layer")
 public class TmxLayer {
 
     private String name;
@@ -45,7 +39,6 @@ public class TmxLayer {
     private TmxData data;
     private TmxTileInstance tiles[][];
 
-    @XmlAttribute
     public String getName() {
         return name;
     }
@@ -54,7 +47,6 @@ public class TmxLayer {
         this.name = name;
     }
 
-    @XmlAttribute
     public int getWidth() {
         return width;
     }
@@ -63,7 +55,6 @@ public class TmxLayer {
         this.width = width;
     }
 
-    @XmlAttribute
     public int getHeight() {
         return height;
     }
@@ -72,8 +63,6 @@ public class TmxLayer {
         this.height = height;
     }
 
-    @XmlElementWrapper(name = "properties")
-    @XmlElement(name = "property")
     public List<TmxProperty> getProperties() {
         return properties;
     }
@@ -82,7 +71,6 @@ public class TmxLayer {
         this.properties = properties;
     }
 
-    @XmlElement
     public TmxData getData() {
         return data;
     }
@@ -99,7 +87,7 @@ public class TmxLayer {
         return tiles[x][y];
     }
 
-    public void afterUnmarshal(Unmarshaller unmarshaller, Object parent) {
+    public void afterUnmarshal() {
         tiles = new TmxTileInstance[width][height];
     }
 }

@@ -201,7 +201,7 @@ THE SOFTWARE. -->
         </dependency>
         <dependency>
             <groupId>im.bci</groupId>
-            <artifactId>libtiled-jaxb</artifactId>
+            <artifactId>libtiled-jpurexml</artifactId>
         </dependency>
         <dependency>
             <groupId>im.bci</groupId>

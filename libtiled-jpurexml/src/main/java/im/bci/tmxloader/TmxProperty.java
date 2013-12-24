@@ -23,44 +23,28 @@ THE SOFTWARE.
 */
 package im.bci.tmxloader;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  *
  * @author devnewton
  */
-@XmlRootElement(name = "image")
-public class TmxImage {
+public class TmxProperty {
 
-    private String source;
-    private int width, height;
+    private String name, value;
 
-    @XmlAttribute
-    public String getSource() {
-        return source;
+    public String getName() {
+        return name;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @XmlAttribute
-    public int getWidth() {
-        return width;
+    public String getValue() {
+        return value;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    @XmlAttribute
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-    
 }

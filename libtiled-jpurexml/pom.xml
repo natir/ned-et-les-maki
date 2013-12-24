@@ -30,14 +30,21 @@ THE SOFTWARE. -->
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>im.bci</groupId>
-    <artifactId>libtiled-jaxb</artifactId>
+    <artifactId>libtiled-jpurexml</artifactId>
     <packaging>jar</packaging>
-    <name>libtiled-jaxb</name>
-    <version>0.1</version>
+    <name>libtiled-jpurexml</name>
+    <version>0.2-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.asilvestre</groupId>
+            <artifactId>jpurexml</artifactId>
+            <version>0.10</version>
+        </dependency>
+    </dependencies>
     <build>
         <resources>
             <resource>
