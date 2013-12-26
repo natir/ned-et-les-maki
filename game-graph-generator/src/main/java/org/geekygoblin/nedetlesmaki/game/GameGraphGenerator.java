@@ -70,6 +70,7 @@ public class GameGraphGenerator {
 
     public static String fixGrapherBug(String s) {
         s = s.replaceAll("style=invis", "style=solid");
+        s = s.replaceAll(" margin=(\\S+), ", " margin=\"$1\", ");
         return s;
     }
 
