@@ -129,24 +129,32 @@ public class TmxTileset {
         for (TmxTile tile : tiles) {
             this.tilesById.put(tile.getId(), tile);
         }
-        final int maxX = image.getWidth() - margin;
-        final int maxY = image.getHeight() - margin;
-        int id = 0;
-        for (int y = margin; y < maxY; y += tileheight + spacing) {
-            for (int x = margin; x < maxX; x += tilewidth + spacing) {
-                TmxTile tile = tilesById.get(id);
-                if (null == tile) {
-                    tile = new TmxTile();
-                    tile.setId(id);
-                    tilesById.put(id, tile);
+        if (null != image) {
+            final int maxX = image.getWidth() - margin;
+            final int maxY = image.getHeight() - margin;
+            int id = 0;
+            for (int y = margin; y < maxY; y += tileheight + spacing) {
+                for (int x = margin; x < maxX; x += tilewidth + spacing) {
+                    TmxTile tile = tilesById.get(id);
+                    if (null == tile) {
+                        tile = new TmxTile();
+                        tile.setId(id);
+                        tilesById.put(id, tile);
+                    }
+                    if(null == tile.getFrame()) {
+                        tile.setFrame(new TmxFrame(image, x, y, x + tilewidth, y + tileheight));
+                    }
+                    ++id;
                 }
-                tile.setFrame(new TmxFrame(image, x, y, x + tilewidth, y + tileheight));
-                ++id;
             }
         }
     }
 
     TmxTile getTileById(int i) {
         return tilesById.get(i);
+    }
+
+    public String getProperty(String name, String defaultValue) {
+        return TmxUtils.getProperty(properties, name, defaultValue);
     }
 }
