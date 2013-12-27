@@ -55,10 +55,10 @@ public class TmxLoader {
     }
 
     private void parseMap(XmlTag xmlMap, TmxMap map) throws NumberFormatException {
-        map.setWidth(getMandatoryIntAttribute(xmlMap,"width"));
-        map.setHeight(getMandatoryIntAttribute(xmlMap,"height"));
-        map.setTilewidth(getMandatoryIntAttribute(xmlMap,"tilewidth"));
-        map.setTileheight(getMandatoryIntAttribute(xmlMap,"tileheight"));
+        map.setWidth(getMandatoryIntAttribute(xmlMap, "width"));
+        map.setHeight(getMandatoryIntAttribute(xmlMap, "height"));
+        map.setTilewidth(getMandatoryIntAttribute(xmlMap, "tilewidth"));
+        map.setTileheight(getMandatoryIntAttribute(xmlMap, "tileheight"));
         map.setOrientation(TmxMapOrientation.valueOf(xmlMap.attributes.get("orientation").toUpperCase()));
         map.setProperties(parseProperties(findChild(xmlMap, "properties")));
         List<TmxLayer> layers = new ArrayList<>();
@@ -91,8 +91,8 @@ public class TmxLoader {
         for (TmxLayer layer : map.getLayers()) {
             int[][] data = new int[layer.getWidth()][layer.getHeight()];
             layer.getData().decodeTo(layer.getWidth(), layer.getHeight(), data);
-            for (int x = 0; x < map.getWidth(); ++x) {
-                for (int y = 0; y < map.getHeight(); ++y) {
+            for (int x = 0; x < layer.getWidth(); ++x) {
+                for (int y = 0; y < layer.getHeight(); ++y) {
                     int gid = data[x][y];
                     if (0 != gid) {
                         EnumSet<TmxTileInstanceEffect> effects = EnumSet.noneOf(TmxTileInstanceEffect.class);
@@ -126,10 +126,12 @@ public class TmxLoader {
         for (TmxTileset tileset : map.getTilesets()) {
             final String source = tileset.getSource();
             if (null != source) {
-                parseTileset(XmlParser.parseXml(openExternalTileset(source)).root, tileset);
+                parseTileset(XmlParser.parseXml(openExternalTileset(source)).root, map, tileset);
                 String tilesetDir = source.substring(0, source.lastIndexOf('/') + 1);
                 final TmxImage image = tileset.getImage();
-                tileset.getImage().setSource(tilesetDir + image.getSource());
+                if (null != image) {
+                    tileset.getImage().setSource(tilesetDir + image.getSource());
+                }
                 tileset.afterUnmarshal();
             }
         }
@@ -157,10 +159,10 @@ public class TmxLoader {
                 TmxTileset tileset = new TmxTileset();
                 String source = child.attributes.get("source");
                 if (null != source) {
-                    tileset.setFirstgid(getMandatoryIntAttribute(child,"firstgid"));
+                    tileset.setFirstgid(getMandatoryIntAttribute(child, "firstgid"));
                     tileset.setSource(source);
                 } else {
-                    parseTileset(child, tileset);
+                    parseTileset(child, map, tileset);
                     tileset.afterUnmarshal();
                 }
                 tilesets.add(tileset);
@@ -170,18 +172,18 @@ public class TmxLoader {
         map.setTilesets(tilesets);
     }
 
-    private void parseTileset(XmlTag xmlTileset, TmxTileset tileset) {
+    private void parseTileset(XmlTag xmlTileset, TmxMap map, TmxTileset tileset) {
         tileset.setName(xmlTileset.attributes.get("name"));
-        tileset.setMargin(getIntAttribute(xmlTileset,"margin",0));
-        tileset.setSpacing(getIntAttribute(xmlTileset,"spacing",0));
-        tileset.setTilewidth(getMandatoryIntAttribute(xmlTileset,"tilewidth"));
-        tileset.setTileheight(getMandatoryIntAttribute(xmlTileset,"tileheight"));
+        tileset.setMargin(getIntAttribute(xmlTileset, "margin", 0));
+        tileset.setSpacing(getIntAttribute(xmlTileset, "spacing", 0));
+        tileset.setTilewidth(getIntAttribute(xmlTileset, "tilewidth", map.getTilewidth()));
+        tileset.setTileheight(getIntAttribute(xmlTileset, "tileheight", map.getTileheight()));
         tileset.setProperties(parseProperties(findChild(xmlTileset, "properties")));
         tileset.setImage(parseImage(findChild(xmlTileset, "image")));
         List<TmxTile> tiles = new ArrayList<>();
         for (XmlTag child : xmlTileset.children) {
             if ("tile".equals(child.name)) {
-                tiles.add(parseTile(child));
+                tiles.add(parseTile(tileset, child));
             }
         }
         tileset.setTiles(tiles);
@@ -191,25 +193,36 @@ public class TmxLoader {
         if (null != xmlImage) {
             TmxImage image = new TmxImage();
             image.setSource(xmlImage.attributes.get("source"));
-            image.setWidth(getMandatoryIntAttribute(xmlImage,"width"));
-            image.setHeight(getMandatoryIntAttribute(xmlImage,"height"));
+            image.setWidth(getMandatoryIntAttribute(xmlImage, "width"));
+            image.setHeight(getMandatoryIntAttribute(xmlImage, "height"));
             return image;
         } else {
             return null;
         }
     }
 
-    private TmxTile parseTile(XmlTag xmlTile) {
+    private TmxTile parseTile(TmxTileset tileset, XmlTag xmlTile) {
         TmxTile tile = new TmxTile();
-        tile.setId(getMandatoryIntAttribute(xmlTile,"id"));
+        tile.setId(getMandatoryIntAttribute(xmlTile, "id"));
         tile.setProperties(parseProperties(findChild(xmlTile, "properties")));
+        XmlTag xmlImage = findChild(xmlTile, "image");
+        if (null != xmlImage) {
+            TmxImage image = new TmxImage();
+            image.setSource(xmlImage.attributes.get("source"));
+            image.setWidth(getIntAttribute(xmlImage, "width", tileset.getTilewidth()));
+            image.setHeight(getIntAttribute(xmlImage, "height", tileset.getTileheight()));
+            TmxFrame frame = new TmxFrame(image, 0, 0, image.getWidth(), image.getHeight());
+            tile.setFrame(frame);
+        }
         return tile;
     }
 
     private void parseLayer(XmlTag xmlLayer, TmxLayer layer) {
         layer.setName(xmlLayer.attributes.get("name"));
-        layer.setWidth(getMandatoryIntAttribute(xmlLayer,"width"));
-        layer.setHeight(getMandatoryIntAttribute(xmlLayer,"height"));
+        layer.setX(getIntAttribute(xmlLayer, "x", 0));
+        layer.setY(getIntAttribute(xmlLayer, "x", 0));
+        layer.setWidth(getMandatoryIntAttribute(xmlLayer, "width"));
+        layer.setHeight(getMandatoryIntAttribute(xmlLayer, "height"));
         layer.setProperties(parseProperties(findChild(xmlLayer, "properties")));
         layer.setData(parseData(findChild(xmlLayer, "data")));
     }
@@ -220,19 +233,19 @@ public class TmxLoader {
         data.setData(xmlData.content);
         return data;
     }
-    
+
     private static int getIntAttribute(XmlTag xml, String name, int defaultValue) {
-        String value=  xml.attributes.get(name);
-        if(null != value) {
+        String value = xml.attributes.get(name);
+        if (null != value) {
             return Integer.parseInt(value);
         } else {
-            return defaultValue; 
+            return defaultValue;
         }
     }
-    
+
     private static int getMandatoryIntAttribute(XmlTag xml, String name) {
-        String value=  xml.attributes.get(name);
-        if(null != value) {
+        String value = xml.attributes.get(name);
+        if (null != value) {
             return Integer.parseInt(value);
         } else {
             throw new RuntimeException("Missing attribute " + name + " for tag " + xml.name);

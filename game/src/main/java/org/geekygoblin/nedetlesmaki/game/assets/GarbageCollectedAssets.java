@@ -28,7 +28,6 @@ import com.google.inject.Singleton;
 import im.bci.lwjgl.nuit.utils.TrueTypeFont;
 import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.NanimationCollection;
-import java.io.IOException;
 import java.lang.ref.ReferenceQueue;
 import java.util.Date;
 import java.util.HashMap;
