@@ -1,26 +1,26 @@
 /*
-The MIT License (MIT)
+ The MIT License (MIT)
 
-Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2013 devnewton <devnewton@bci.im>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 package org.geekygoblin.nedetlesmaki.game;
 
 import im.bci.lwjgl.nuit.controls.Control;
@@ -92,7 +92,7 @@ public class Preferences {
     }
 
     public boolean getBoolean(String name, boolean defaultValue) {
-        return Boolean.valueOf(store.getProperty(name, String.valueOf(defaultValue)));
+        return Boolean.valueOf(getSystemOrStoreProperty(name, String.valueOf(defaultValue)));
     }
 
     public void putInt(String name, int value) {
@@ -100,7 +100,7 @@ public class Preferences {
     }
 
     public int getInt(String name, int defaultValue) {
-        return Integer.valueOf(store.getProperty(name, String.valueOf(defaultValue)));
+        return Integer.valueOf(getSystemOrStoreProperty(name, String.valueOf(defaultValue)));
     }
 
     public void putControl(String name, Control value) {
@@ -114,14 +114,23 @@ public class Preferences {
     }
 
     Control getControl(String name, Control defaultValue) {
-        String controllerName = store.getProperty(name + ".controller");
-        String controlName = store.getProperty(name + ".control");
+        String controllerName = getSystemOrStoreProperty(name + ".controller", null);
+        String controlName = getSystemOrStoreProperty(name + ".control", null);
         for (Control control : ControlsUtils.getPossibleControls()) {
             if (control.getControllerName().equals(controllerName) && control.getName().equals(controlName)) {
                 return control;
             }
         }
         return defaultValue;
+    }
+
+    private String getSystemOrStoreProperty(String name, String defaultValue) {
+        final String systemProperty = System.getProperty("nedetlesmaki."+name);
+        if (null != systemProperty) {
+            return systemProperty;
+        } else {
+            return store.getProperty(name, defaultValue);
+        }
     }
 
 }
