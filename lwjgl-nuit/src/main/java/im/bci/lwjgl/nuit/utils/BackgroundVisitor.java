@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,20 +21,23 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.lwjgl.nuit.widgets;
+package im.bci.lwjgl.nuit.utils;
 
-import im.bci.lwjgl.nuit.utils.WidgetVisitor;
+import im.bci.lwjgl.nuit.background.ColoredBackground;
+import im.bci.lwjgl.nuit.background.NullBackground;
+import im.bci.lwjgl.nuit.background.TexturedBackground;
+import im.bci.lwjgl.nuit.widgets.Widget;
 
-public class NullWidget extends Widget {
+/**
+ *
+ * @author devnewton
+ */
+public interface BackgroundVisitor {
 
-    @Override
-    public boolean isFocusable() {
-        return false;
-    }
+    void visit(Widget widget, ColoredBackground background);
 
-    @Override
-    public void accept(WidgetVisitor visitor) {
-        visitor.visit(this);
-    }
+    void visit(Widget widget, NullBackground background);
+
+    void visit(Widget widget, TexturedBackground background);
 
 }

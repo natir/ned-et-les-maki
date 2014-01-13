@@ -1,29 +1,29 @@
 /*
-The MIT License (MIT)
+ The MIT License (MIT)
 
-Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2013 devnewton <devnewton@bci.im>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 package im.bci.lwjgl.nuit.widgets;
 
-import org.lwjgl.opengl.GL11;
+import im.bci.lwjgl.nuit.utils.WidgetVisitor;
 
 public class Container extends Widget {
 
@@ -50,7 +50,7 @@ public class Container extends Widget {
         }
     }
 
-    private boolean isFocusSucked() {
+    public boolean isFocusSucked() {
         final Widget currentFocusedChild = getFocusedChild();
         return null == currentFocusedChild || currentFocusedChild.isSuckingFocus();
     }
@@ -114,45 +114,23 @@ public class Container extends Widget {
     }
 
     @Override
-    public void draw() {
-        drawChildren();
-        Widget focused = getFocusedChild();
-        if (null != focused) {
-            drawFocus(focused);
-        }
-    }
-
-    protected void drawFocus(Widget focused) {
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glLineWidth(2.0f);
-        if(isFocusSucked()) {
-            GL11.glColor3f(0.5f, 0.5f, 0.5f);
-        }
-        GL11.glBegin(GL11.GL_LINE_LOOP);
-        GL11.glVertex2f(focused.getX(), focused.getY());
-        GL11.glVertex2f(focused.getX() + focused.getWidth(), focused.getY());
-        GL11.glVertex2f(focused.getX() + focused.getWidth(), focused.getY() + focused.getHeight());
-        GL11.glVertex2f(focused.getX(), focused.getY() + focused.getHeight());
-        GL11.glVertex2f(focused.getX(), focused.getY());
-        GL11.glEnd();
-        GL11.glColor3f(1, 1, 1);
-        GL11.glLineWidth(1.0f);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-    }
-    
-    @Override
-	public void onMouseMove(float mouseX, float mouseY) {
-        for(Widget child : getChildren()) {
-            if(mouseX >= child.getX() && mouseX <= (child.getX() + child.getWidth()) && mouseY >= child.getY() && mouseY <= (child.getY() + child.getHeight())) {
-            	if(child.isFocusable() && !isFocusSucked()) {
-            		setFocusedChild(child);
-            	}
-            	child.onMouseMove(mouseX, mouseY);
+    public void onMouseMove(float mouseX, float mouseY) {
+        for (Widget child : getChildren()) {
+            if (mouseX >= child.getX() && mouseX <= (child.getX() + child.getWidth()) && mouseY >= child.getY() && mouseY <= (child.getY() + child.getHeight())) {
+                if (child.isFocusable() && !isFocusSucked()) {
+                    setFocusedChild(child);
+                }
+                child.onMouseMove(mouseX, mouseY);
             }
         }
-	}
+    }
 
     protected void setFocusedChild(Widget focusedChild) {
         this.focusedChild = focusedChild;
+    }
+
+    @Override
+    public void accept(WidgetVisitor visitor) {
+        visitor.visit(this);
     }
 }

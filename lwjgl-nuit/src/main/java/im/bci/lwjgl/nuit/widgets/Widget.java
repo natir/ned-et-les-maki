@@ -1,42 +1,53 @@
 /*
-The MIT License (MIT)
+ The MIT License (MIT)
 
-Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2013 devnewton <devnewton@bci.im>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 package im.bci.lwjgl.nuit.widgets;
 
+import im.bci.lwjgl.nuit.background.Background;
+import im.bci.lwjgl.nuit.background.NullBackground;
+import im.bci.lwjgl.nuit.utils.WidgetVisitor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.lwjgl.util.vector.Vector2f;
+public abstract class Widget {
 
-public class Widget {
+    private float x, y, width, height;
+    private Background background = NullBackground.INSTANCE;
+    private final List<Widget> children = new ArrayList<>();
+
+    public Background getBackground() {
+        return background;
+    }
+
+    public void setBackground(Background background) {
+        this.background = background;
+    }
 
     public List<Widget> getChildren() {
         return children;
     }
-    private float x, y, width, height;
-    private final List<Widget> children = new ArrayList<>();
 
     public boolean isFocusable() {
         return true;
@@ -92,15 +103,7 @@ public class Widget {
         return null;
     }
 
-    public void draw() {
-        drawChildren();
-    }
-
-    protected void drawChildren() {
-        for (Widget child : children) {
-            child.draw();
-        }
-    }
+    public abstract void accept(WidgetVisitor visitor);
 
     public void add(Widget child) {
         children.remove(child);
@@ -182,7 +185,7 @@ public class Widget {
             float closestLeftChildLengthSquared = Float.MAX_VALUE;
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterX() < widget.getCenterX()) {
-                    float lenghtSquared = new Vector2f(w.getCenterX() - widget.getCenterX(), w.getCenterY() - widget.getCenterY()).lengthSquared();
+                    float lenghtSquared = distanceSquared(w, widget);
                     if (null == closestLeftChild || lenghtSquared < closestLeftChildLengthSquared) {
                         closestLeftChildLengthSquared = lenghtSquared;
                         closestLeftChild = w;
@@ -200,7 +203,7 @@ public class Widget {
             float closestLeftChildLengthSquared = Float.MAX_VALUE;
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterX() > widget.getCenterX()) {
-                    float lenghtSquared = new Vector2f(w.getCenterX() - widget.getCenterX(), w.getCenterY() - widget.getCenterY()).lengthSquared();
+                    float lenghtSquared = distanceSquared(w, widget);
                     if (null == closestLeftChild || lenghtSquared < closestLeftChildLengthSquared) {
                         closestLeftChildLengthSquared = lenghtSquared;
                         closestLeftChild = w;
@@ -218,7 +221,7 @@ public class Widget {
             float closestLeftChildLengthSquared = Float.MAX_VALUE;
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterY() < widget.getCenterY()) {
-                    float lenghtSquared = new Vector2f(w.getCenterX() - widget.getCenterX(), w.getCenterY() - widget.getCenterY()).lengthSquared();
+                    float lenghtSquared = distanceSquared(w, widget);
                     if (null == closestLeftChild || lenghtSquared < closestLeftChildLengthSquared) {
                         closestLeftChildLengthSquared = lenghtSquared;
                         closestLeftChild = w;
@@ -236,7 +239,7 @@ public class Widget {
             float closestLeftChildLengthSquared = Float.MAX_VALUE;
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterY() > widget.getCenterY()) {
-                    float lenghtSquared = new Vector2f(w.getCenterX() - widget.getCenterX(), w.getCenterY() - widget.getCenterY()).lengthSquared();
+                    float lenghtSquared = distanceSquared(w, widget);
                     if (null == closestLeftChild || lenghtSquared < closestLeftChildLengthSquared) {
                         closestLeftChildLengthSquared = lenghtSquared;
                         closestLeftChild = w;
@@ -245,6 +248,12 @@ public class Widget {
             }
         }
         return closestLeftChild;
+    }
+
+    private static float distanceSquared(Widget w1, Widget w2) {
+        float dx = w1.getCenterX() - w2.getCenterX();
+        float dy = w1.getCenterY() - w2.getCenterY();
+        return dx * dx + dy * dy;
     }
 
     protected Widget getTopLeftFocusableChild() {

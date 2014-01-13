@@ -21,8 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package im.bci.lwjgl.nuit.utils;
+package im.bci.lwjgl.nuit.lwjgl;
 
+import im.bci.lwjgl.nuit.NuitFont;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -54,7 +55,7 @@ import org.lwjgl.util.glu.GLU;
  *
  * @new version edited by David Aaron Muhar (bobjob)
  */
-public class TrueTypeFont {
+public class TrueTypeFont implements NuitFont {
 
     public enum Align {
 
@@ -295,6 +296,7 @@ public class TrueTypeFont {
         GL11.glVertex2f(drawX + DrawWidth, drawY);
     }
 
+    @Override
     public int getWidth(String whatchars) {
         int totalwidth = 0;
         IntObject intObject = null;
@@ -318,6 +320,7 @@ public class TrueTypeFont {
         return fontHeight;
     }
 
+    @Override
     public int getHeight(String HeightString) {
         return fontHeight;
     }

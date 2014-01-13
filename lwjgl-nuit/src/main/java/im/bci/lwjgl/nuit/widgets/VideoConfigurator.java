@@ -31,7 +31,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import im.bci.lwjgl.nuit.NuitToolkit;
-import im.bci.lwjgl.nuit.utils.LwjglHelper;
+import im.bci.lwjgl.nuit.lwjgl.LwjglHelper;
+import im.bci.lwjgl.nuit.utils.WidgetVisitor;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -155,5 +156,10 @@ public class VideoConfigurator extends Table {
             resolutions.add(new VideoResolution(m.getWidth(), m.getHeight()));
         }
         return new ArrayList<>(resolutions);
+    }
+    
+        @Override
+    public void accept(WidgetVisitor visitor) {
+        visitor.visit(this);
     }
 }

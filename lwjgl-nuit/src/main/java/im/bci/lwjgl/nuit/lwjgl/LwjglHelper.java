@@ -21,7 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.lwjgl.nuit.utils;
+package im.bci.lwjgl.nuit.lwjgl;
 
 import java.lang.reflect.Method;
 import java.util.logging.Level;

@@ -21,20 +21,37 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.lwjgl.nuit.widgets;
+package org.geekygoblin.nedetlesmaki.game;
 
-import im.bci.lwjgl.nuit.utils.WidgetVisitor;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import im.bci.lwjgl.nuit.NuitTranslator;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class NullWidget extends Widget {
+/**
+ *
+ * @author devnewton
+ */
+@Singleton
+public class NedNuitTranslator implements NuitTranslator {
 
-    @Override
-    public boolean isFocusable() {
-        return false;
+    private static final String[] messagesBundles = new String[]{"messages", "nuit_messages"};
+
+    @Inject
+    public NedNuitTranslator() {
     }
 
     @Override
-    public void accept(WidgetVisitor visitor) {
-        visitor.visit(this);
+    public String getMessage(String key) {
+        for (String bundleName : messagesBundles) {
+            ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
+            if (bundle.containsKey(key)) {
+                return bundle.getString(key);
+            }
+        }
+        Logger.getLogger(getClass().getName()).log(Level.WARNING, "No translation for {0}", key);
+        return key;
     }
-
 }

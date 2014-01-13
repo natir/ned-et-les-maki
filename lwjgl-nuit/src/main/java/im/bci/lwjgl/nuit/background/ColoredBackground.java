@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,20 +21,45 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.lwjgl.nuit.widgets;
+package im.bci.lwjgl.nuit.background;
 
-import im.bci.lwjgl.nuit.utils.WidgetVisitor;
+import im.bci.lwjgl.nuit.utils.BackgroundVisitor;
+import im.bci.lwjgl.nuit.widgets.Widget;
 
-public class NullWidget extends Widget {
+/**
+ *
+ * @author devnewton
+ */
+public class ColoredBackground implements Background {
 
-    @Override
-    public boolean isFocusable() {
-        return false;
+    private final float red, green, blue, alpha;
+
+    public ColoredBackground(float r, float g, float b, float a) {
+        this.red = r;
+        this.green = g;
+        this.blue = b;
+        this.alpha = a;
+    }
+
+    public float getRed() {
+        return red;
+    }
+
+    public float getGreen() {
+        return green;
+    }
+
+    public float getBlue() {
+        return blue;
+    }
+
+    public float getAlpha() {
+        return alpha;
     }
 
     @Override
-    public void accept(WidgetVisitor visitor) {
-        visitor.visit(this);
+    public void accept(Widget widget, BackgroundVisitor visitor) {
+        visitor.visit(widget, this);
     }
 
 }

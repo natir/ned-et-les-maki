@@ -21,7 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package im.bci.lwjgl.nuit.utils;
+package im.bci.lwjgl.nuit.lwjgl;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;

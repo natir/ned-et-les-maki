@@ -24,9 +24,9 @@
 package org.geekygoblin.nedetlesmaki.game.assets;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
-import im.bci.lwjgl.nuit.utils.IconLoader;
-import im.bci.lwjgl.nuit.utils.LwjglHelper;
-import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+import im.bci.lwjgl.nuit.lwjgl.IconLoader;
+import im.bci.lwjgl.nuit.lwjgl.LwjglHelper;
+import im.bci.lwjgl.nuit.lwjgl.TrueTypeFont;
 import im.bci.nanim.NanimationCollection;
 import im.bci.nanim.NanimParser.Nanim;
 import java.awt.Font;

@@ -23,17 +23,17 @@
  */
 package im.bci.lwjgl.nuit.widgets;
 
+import im.bci.lwjgl.nuit.NuitFont;
 import im.bci.lwjgl.nuit.NuitToolkit;
 import im.bci.lwjgl.nuit.controls.Action;
 import im.bci.lwjgl.nuit.controls.Control;
 import im.bci.lwjgl.nuit.controls.ControlActivatedDetector;
 import im.bci.lwjgl.nuit.controls.ControlsUtils;
 import im.bci.lwjgl.nuit.controls.NullControl;
-import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+import im.bci.lwjgl.nuit.utils.WidgetVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.lwjgl.opengl.GL11;
 
 public class ControlsConfigurator extends Table {
 
@@ -120,9 +120,28 @@ public class ControlsConfigurator extends Table {
         private boolean suckFocus;
         private Control controlToBeConfirmed;
 
+        public String getText() {
+            String text = null;
+            if (suckFocus) {
+                if (null != controlToBeConfirmed) {
+                    text = toolkit.getMessage("nuit.controls.configurator.press.key.again");
+                } else {
+                    text = toolkit.getMessage("nuit.controls.configurator.press.key");
+                }
+            } else if (null != getControl()) {
+                text = toolkit.getMessage(getControl().getName());
+            }
+            return text;
+        }        
+
         public abstract Control getControl();
 
         public abstract void setControl(Control control);
+
+        @Override
+        public void accept(WidgetVisitor visitor) {
+            visitor.visit(this);
+        }
 
         @Override
         public boolean isFocusWhore() {
@@ -161,7 +180,7 @@ public class ControlsConfigurator extends Table {
                             }
                         }
                         suckFocus = false;
-                        if(null == controlToBeConfirmed || controlToBeConfirmed.equals(control.getControl())) {
+                        if (null == controlToBeConfirmed || controlToBeConfirmed.equals(control.getControl())) {
                             setControl(control.getControl());
                         } else {
                             setControl(NullControl.INSTANCE);
@@ -174,40 +193,14 @@ public class ControlsConfigurator extends Table {
         }
 
         @Override
-        public void draw() {
-            String text = null;
-            if (suckFocus) {
-                if (null != controlToBeConfirmed) {
-                    text = toolkit.getMessage("nuit.controls.configurator.press.key.again");
-                } else {
-                    text = toolkit.getMessage("nuit.controls.configurator.press.key");
-                }
-            } else if (null != getControl()) {
-                text = toolkit.getMessage(getControl().getName());
-            }
-
-            if (null != text) {
-                GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_ENABLE_BIT);
-                GL11.glEnable(GL11.GL_BLEND);
-                GL11.glPushMatrix();
-                TrueTypeFont font = toolkit.getFont();
-                GL11.glTranslatef(getX() + getWidth() / 2.0f - font.getWidth(text) / 4.0f, getY() + getHeight() / 2.0f + font.getHeight(text) / 2.0f, 0.0f);
-                GL11.glScalef(1, -1, 1);
-                font.drawString(text);
-                GL11.glPopAttrib();
-                GL11.glPopMatrix();
-            }
-        }
-
-        @Override
         public float getMinWidth() {
-            TrueTypeFont font = toolkit.getFont();
+            NuitFont font = toolkit.getFont();
             return Math.max(font.getWidth(toolkit.getMessage("nuit.controls.configurator.press.key")), font.getWidth(getControl().getName()));
         }
 
         @Override
         public float getMinHeight() {
-            TrueTypeFont font = toolkit.getFont();
+            NuitFont font = toolkit.getFont();
             return Math.max(font.getHeight(toolkit.getMessage("nuit.controls.configurator.press.key")), font.getHeight(getControl().getName()));
         }
 
@@ -251,6 +244,11 @@ public class ControlsConfigurator extends Table {
         for (Control control : ControlsUtils.getPossibleControls()) {
             possibleControls.add(new ControlActivatedDetector(control));
         }
+    }
+
+    @Override
+    public void accept(WidgetVisitor visitor) {
+        visitor.visit(this);
     }
 
 }

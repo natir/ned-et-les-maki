@@ -35,6 +35,9 @@ import java.io.File;
 import java.util.Random;
 
 import com.google.inject.Singleton;
+import im.bci.lwjgl.nuit.NuitRenderer;
+import im.bci.lwjgl.nuit.NuitTranslator;
+import im.bci.lwjgl.nuit.lwjgl.TrueTypeFont;
 
 import org.geekygoblin.nedetlesmaki.game.assets.GarbageCollectedAssets;
 import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
@@ -69,15 +72,17 @@ public class NedModule extends AbstractModule {
 
         bind(Preferences.class);
         bind(IAssets.class).to(GarbageCollectedAssets.class);
-        bind(NuitToolkit.class).to(NedToolkit.class);
+        bind(NuitRenderer.class).to(NedNuitRenderer.class);
+        bind(NuitTranslator.class).to(NedNuitTranslator.class);
+        bind(NuitToolkit.class).to(NedNuitToolkit.class);
         bind(LevelSelector.class);
         bind(IngameInputSystem.class);
         bind(MainLoop.class);
         bind(Dialog.class);
-	bind(GameSystem.class);
+        bind(GameSystem.class);
         bind(DrawSystem.class);
-	bind(UpdateLevelVisualSystem.class);
-	bind(EntityIndexManager.class);
+        bind(UpdateLevelVisualSystem.class);
+        bind(EntityIndexManager.class);
         bind(ShowMenuTrigger.class);
         bind(HideMenuTrigger.class);
         bind(ShowLevelMenuTrigger.class);
@@ -93,6 +98,12 @@ public class NedModule extends AbstractModule {
         mainMenu.addComponent(new ZOrder(ZOrders.MENU));
         game.addEntity(mainMenu);
         return mainMenu;
+    }
+    
+    @Provides
+    @NamedEntities.DefaultFont
+    public TrueTypeFont createDefaultFont(IAssets assets) {
+        return assets.getFont("prout");
     }
 
     @Provides
@@ -112,8 +123,8 @@ public class NedModule extends AbstractModule {
         IAnimationCollection animations = assets.getAnimations("intro.nanim.gz");
         dialogComponent.addTirade(animations.getAnimationByName("reveil").start(PlayMode.LOOP), "dialog.intro.reveil.1", "dialog.intro.reveil.2");
         /*dialogComponent.addTirade(animations.getAnimationByName("tour_au_loin").start(PlayMode.LOOP), "dialog.intro.tour_au_loin.1", "dialog.intro.tour_au_loin.2");
-        dialogComponent.addTirade(animations.getAnimationByName("pied_de_la_tour").start(PlayMode.LOOP), "dialog.intro.pied_de_la_tour.1", "dialog.intro.pied_de_la_tour.2", "dialog.intro.pied_de_la_tour.3");
-        dialogComponent.addTirade(animations.getAnimationByName("dans_la_tour").start(PlayMode.LOOP), "dialog.intro.dans_la_tour.1");*/
+         dialogComponent.addTirade(animations.getAnimationByName("pied_de_la_tour").start(PlayMode.LOOP), "dialog.intro.pied_de_la_tour.1", "dialog.intro.pied_de_la_tour.2", "dialog.intro.pied_de_la_tour.3");
+         dialogComponent.addTirade(animations.getAnimationByName("dans_la_tour").start(PlayMode.LOOP), "dialog.intro.dans_la_tour.1");*/
         Entity intro = game.createEntity();
         intro.addComponent(dialogComponent);
         intro.addComponent(new ZOrder(ZOrders.DIALOG));
