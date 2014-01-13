@@ -21,36 +21,43 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+package org.geekygoblin.nedetlesmaki.game;
 
-package org.geekygoblin.nedetlesmaki.game.assets;
-
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import im.bci.lwjgl.nuit.NuitTranslator;
+import im.bci.lwjgl.nuit.background.TexturedBackground;
+import im.bci.lwjgl.nuit.lwjgl.LwjglNuitRenderer;
 import im.bci.lwjgl.nuit.lwjgl.TrueTypeFont;
-import im.bci.nanim.IAnimationCollection;
+import im.bci.nanim.IAnimationImage;
+import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 
 /**
  *
  * @author devnewton
  */
-public interface IAssets {
+@Singleton
+public class NedNuitRenderer extends LwjglNuitRenderer {
 
-    void clearAll();
+    private final IAssets assets;
 
-    void clearUseless();
-    
-    void forceAnimationUnload(String name);
+    @Inject
+    public NedNuitRenderer(NuitTranslator translator, @NamedEntities.DefaultFont TrueTypeFont font, IAssets assets) {
+        super(translator, font);
+        this.assets = assets;
+    }
 
-    IAnimationCollection getAnimations(String name);
+    @Override
+    protected int getBackgroundTextureId(TexturedBackground background) {
+        Object texture = background.getTexture();
+        if (texture instanceof String) {
+            return assets.getTexture((String) texture).getId();
+        } else if (texture instanceof IAnimationImage) {
+            IAnimationImage image = (IAnimationImage) texture;
+            return image.getId();
+        } else {
+            throw new RuntimeException("Unknow texture background type: " + background.getClass().getName());
+        }
+    }
 
-    TrueTypeFont getFont(String name);
-
-    ITexture getTexture(String name);
-
-    TmxAsset getTmx(String name);
-
-    Texture grabScreenToTexture();
-
-    void setIcon();
-
-    String getText(String name);
-    
 }

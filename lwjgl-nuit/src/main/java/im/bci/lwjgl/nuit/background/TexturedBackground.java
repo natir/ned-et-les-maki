@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,20 +21,55 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.lwjgl.nuit.widgets;
+package im.bci.lwjgl.nuit.background;
 
-import im.bci.lwjgl.nuit.utils.WidgetVisitor;
+import im.bci.lwjgl.nuit.utils.BackgroundVisitor;
+import im.bci.lwjgl.nuit.widgets.Widget;
 
-public class NullWidget extends Widget {
+/**
+ *
+ * @author devnewton
+ */
+public class TexturedBackground implements Background {
 
-    @Override
-    public boolean isFocusable() {
-        return false;
+    private final Object texture;
+    private final float u1, v1, u2, v2;
+
+    public TexturedBackground(Object texture, float u1, float v1, float u2, float v2) {
+        this.texture = texture;
+        this.u1 = u1;
+        this.v1 = v1;
+        this.u2 = u2;
+        this.v2 = v2;
+    }
+
+    public TexturedBackground(Object texture) {
+        this(texture, 0, 0, 1, 1);
+    }
+
+    public float getU1() {
+        return u1;
+    }
+
+    public float getV1() {
+        return v1;
+    }
+
+    public float getU2() {
+        return u2;
+    }
+
+    public float getV2() {
+        return v2;
+    }
+
+    public Object getTexture() {
+        return texture;
     }
 
     @Override
-    public void accept(WidgetVisitor visitor) {
-        visitor.visit(this);
+    public void accept(Widget widget, BackgroundVisitor visitor) {
+        visitor.visit(widget, this);
     }
 
 }

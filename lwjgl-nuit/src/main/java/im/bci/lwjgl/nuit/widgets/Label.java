@@ -23,10 +23,8 @@
  */
 package im.bci.lwjgl.nuit.widgets;
 
-import org.lwjgl.opengl.GL11;
-
 import im.bci.lwjgl.nuit.NuitToolkit;
-import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+import im.bci.lwjgl.nuit.utils.WidgetVisitor;
 
 public class Label extends Widget {
 
@@ -43,21 +41,16 @@ public class Label extends Widget {
         return false;
     }
 
-    @Override
-    public void draw() {
-        GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_ENABLE_BIT);
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glPushMatrix();
-        TrueTypeFont font = toolkit.getFont();
-        String translatedText = toolkit.getMessage(text);
-        GL11.glTranslatef(getX() + getWidth() / 2.0f - font.getWidth(translatedText) / 4.0f, getY() + getHeight() / 2.0f + font.getHeight(translatedText) / 2.0f, 0.0f);
-        GL11.glScalef(1, -1, 1);
-        font.drawString(translatedText);
-        GL11.glPopAttrib();
-        GL11.glPopMatrix();
-    }
-
     public void setText(String text) {
         this.text = text;
+    }
+
+    @Override
+    public void accept(WidgetVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    public String getText() {
+        return text;
     }
 }

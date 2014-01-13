@@ -36,6 +36,12 @@ import java.lang.annotation.Target;
  * @author devnewton
  */
 public interface NamedEntities {
+    
+    @BindingAnnotation
+    @Target({FIELD, PARAMETER, METHOD})
+    @Retention(RUNTIME)
+    public @interface DefaultFont {
+    }
 
     @BindingAnnotation
     @Target({FIELD, PARAMETER, METHOD})

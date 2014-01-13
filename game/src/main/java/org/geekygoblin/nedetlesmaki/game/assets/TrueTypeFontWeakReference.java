@@ -23,7 +23,7 @@ THE SOFTWARE.
 */
 package org.geekygoblin.nedetlesmaki.game.assets;
 
-import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+import im.bci.lwjgl.nuit.lwjgl.TrueTypeFont;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;

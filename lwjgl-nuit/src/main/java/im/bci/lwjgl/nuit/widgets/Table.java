@@ -30,6 +30,7 @@ import java.util.List;
 import com.esotericsoftware.tablelayout.BaseTableLayout;
 import com.esotericsoftware.tablelayout.Cell;
 import com.esotericsoftware.tablelayout.Value;
+import im.bci.lwjgl.nuit.utils.WidgetVisitor;
 
 public class Table extends Container {
 
@@ -151,6 +152,11 @@ public class Table extends Container {
             cellWidget.setWidth(c.getWidgetWidth());
             cellWidget.setHeight(c.getWidgetHeight());
         }
+    }
+    
+        @Override
+    public void accept(WidgetVisitor visitor) {
+        visitor.visit(this);
     }
 
 }

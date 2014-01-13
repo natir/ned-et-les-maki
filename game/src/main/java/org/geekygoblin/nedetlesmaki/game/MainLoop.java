@@ -28,7 +28,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import im.bci.lwjgl.nuit.NuitToolkit;
 import im.bci.lwjgl.nuit.controls.Action;
-import im.bci.lwjgl.nuit.utils.LwjglHelper;
+import im.bci.lwjgl.nuit.lwjgl.LwjglHelper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
