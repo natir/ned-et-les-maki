@@ -35,6 +35,7 @@ public abstract class Widget {
 
     private float x, y, width, height;
     private Background background = NullBackground.INSTANCE;
+    private boolean mustDrawFocus = true;
     private final List<Widget> children = new ArrayList<>();
 
     public Background getBackground() {
@@ -309,5 +310,13 @@ public abstract class Widget {
     }
 
     public void onShow() {
+    }
+
+    public boolean mustDrawFocus() {
+        return mustDrawFocus;
+    }
+
+    public void setMustDrawFocus(boolean drawFocus) {
+        this.mustDrawFocus = drawFocus;
     }
 }
