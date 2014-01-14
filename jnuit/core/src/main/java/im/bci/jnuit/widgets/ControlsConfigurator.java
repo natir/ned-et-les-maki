@@ -28,7 +28,6 @@ import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.controls.Action;
 import im.bci.jnuit.controls.Control;
 import im.bci.jnuit.controls.ControlActivatedDetector;
-import im.bci.jnuit.lwjgl.LwjglNuitControls;
 import im.bci.jnuit.controls.NullControl;
 import im.bci.jnuit.visitors.WidgetVisitor;
 

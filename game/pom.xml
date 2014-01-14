@@ -205,7 +205,7 @@ THE SOFTWARE. -->
         </dependency>
         <dependency>
             <groupId>im.bci</groupId>
-            <artifactId>lwjgl-nuit</artifactId>
+            <artifactId>jnuit-lwjgl</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.inject</groupId>
