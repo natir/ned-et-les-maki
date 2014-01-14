@@ -23,10 +23,10 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components.ui;
 
-import im.bci.lwjgl.nuit.NuitToolkit;
-import im.bci.lwjgl.nuit.widgets.Button;
-import im.bci.lwjgl.nuit.widgets.Container;
-import im.bci.lwjgl.nuit.widgets.Widget;
+import im.bci.jnuit.NuitToolkit;
+import im.bci.jnuit.widgets.Button;
+import im.bci.jnuit.widgets.Container;
+import im.bci.jnuit.widgets.Widget;
 import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.IAnimationFrame;
 import im.bci.nanim.IPlay;
@@ -34,7 +34,7 @@ import im.bci.nanim.PlayMode;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import im.bci.lwjgl.nuit.background.TexturedBackground;
+import im.bci.jnuit.background.TexturedBackground;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;

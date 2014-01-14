@@ -21,36 +21,31 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+package im.bci.jnuit.widgets;
 
-package org.geekygoblin.nedetlesmaki.game.assets;
+import im.bci.jnuit.NuitToolkit;
+import im.bci.jnuit.visitors.WidgetVisitor;
 
-import im.bci.jnuit.lwjgl.TrueTypeFont;
-import im.bci.nanim.IAnimationCollection;
+public class Root extends Stack {
 
-/**
- *
- * @author devnewton
- */
-public interface IAssets {
+    private final NuitToolkit toolkit;
 
-    void clearAll();
+    public Root(NuitToolkit tk) {
+        this.toolkit = tk;
+        setWidth(1280);
+        setHeight(800);
+    }
 
-    void clearUseless();
+    @Override
+    public void update() {
+        toolkit.update(this);
+        for (Widget child : getChildren()) {
+            child.update();
+        }
+    }
     
-    void forceAnimationUnload(String name);
-
-    IAnimationCollection getAnimations(String name);
-
-    TrueTypeFont getFont(String name);
-
-    ITexture getTexture(String name);
-
-    TmxAsset getTmx(String name);
-
-    Texture grabScreenToTexture();
-
-    void setIcon();
-
-    String getText(String name);
-    
+        @Override
+    public void accept(WidgetVisitor visitor) {
+        visitor.visit(this);
+    }
 }

@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,36 +21,20 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+package im.bci.jnuit.lwjgl;
 
-package org.geekygoblin.nedetlesmaki.game.assets;
-
-import im.bci.jnuit.lwjgl.TrueTypeFont;
-import im.bci.nanim.IAnimationCollection;
+import im.bci.jnuit.NuitTranslator;
+import java.util.ResourceBundle;
 
 /**
  *
  * @author devnewton
  */
-public interface IAssets {
+public class LwjglNuitTranslator implements NuitTranslator {
 
-    void clearAll();
+    @Override
+    public String getMessage(String key) {
+        return ResourceBundle.getBundle("nuit_messages").getString(key);
+    }
 
-    void clearUseless();
-    
-    void forceAnimationUnload(String name);
-
-    IAnimationCollection getAnimations(String name);
-
-    TrueTypeFont getFont(String name);
-
-    ITexture getTexture(String name);
-
-    TmxAsset getTmx(String name);
-
-    Texture grabScreenToTexture();
-
-    void setIcon();
-
-    String getText(String name);
-    
 }

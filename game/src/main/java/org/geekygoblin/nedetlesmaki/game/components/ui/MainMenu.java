@@ -25,24 +25,24 @@ package org.geekygoblin.nedetlesmaki.game.components.ui;
 
 import com.artemis.Component;
 import com.artemis.managers.GroupManager;
-import im.bci.lwjgl.nuit.NuitToolkit;
+import im.bci.jnuit.NuitToolkit;
 import java.util.Arrays;
 
 import org.lwjgl.LWJGLException;
 
-import im.bci.lwjgl.nuit.widgets.AudioConfigurator;
-import im.bci.lwjgl.nuit.widgets.Button;
-import im.bci.lwjgl.nuit.widgets.ControlsConfigurator;
-import im.bci.lwjgl.nuit.widgets.Root;
-import im.bci.lwjgl.nuit.widgets.Table;
-import im.bci.lwjgl.nuit.widgets.VideoConfigurator;
+import im.bci.jnuit.widgets.AudioConfigurator;
+import im.bci.jnuit.widgets.Button;
+import im.bci.jnuit.widgets.ControlsConfigurator;
+import im.bci.jnuit.widgets.Root;
+import im.bci.jnuit.widgets.Table;
+import im.bci.jnuit.widgets.VideoConfigurator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import im.bci.lwjgl.nuit.background.Background;
-import im.bci.lwjgl.nuit.background.TexturedBackground;
-import im.bci.lwjgl.nuit.NuitRenderer;
-import im.bci.lwjgl.nuit.background.ColoredBackground;
+import im.bci.jnuit.background.Background;
+import im.bci.jnuit.background.TexturedBackground;
+import im.bci.jnuit.NuitRenderer;
+import im.bci.jnuit.background.ColoredBackground;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.MainLoop;

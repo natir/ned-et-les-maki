@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,36 +21,55 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+package im.bci.jnuit.background;
 
-package org.geekygoblin.nedetlesmaki.game.assets;
-
-import im.bci.jnuit.lwjgl.TrueTypeFont;
-import im.bci.nanim.IAnimationCollection;
+import im.bci.jnuit.visitors.BackgroundVisitor;
+import im.bci.jnuit.widgets.Widget;
 
 /**
  *
  * @author devnewton
  */
-public interface IAssets {
+public class TexturedBackground implements Background {
 
-    void clearAll();
+    private final Object texture;
+    private final float u1, v1, u2, v2;
 
-    void clearUseless();
-    
-    void forceAnimationUnload(String name);
+    public TexturedBackground(Object texture, float u1, float v1, float u2, float v2) {
+        this.texture = texture;
+        this.u1 = u1;
+        this.v1 = v1;
+        this.u2 = u2;
+        this.v2 = v2;
+    }
 
-    IAnimationCollection getAnimations(String name);
+    public TexturedBackground(Object texture) {
+        this(texture, 0, 0, 1, 1);
+    }
 
-    TrueTypeFont getFont(String name);
+    public float getU1() {
+        return u1;
+    }
 
-    ITexture getTexture(String name);
+    public float getV1() {
+        return v1;
+    }
 
-    TmxAsset getTmx(String name);
+    public float getU2() {
+        return u2;
+    }
 
-    Texture grabScreenToTexture();
+    public float getV2() {
+        return v2;
+    }
 
-    void setIcon();
+    public Object getTexture() {
+        return texture;
+    }
 
-    String getText(String name);
-    
+    @Override
+    public void accept(Widget widget, BackgroundVisitor visitor) {
+        visitor.visit(widget, this);
+    }
+
 }

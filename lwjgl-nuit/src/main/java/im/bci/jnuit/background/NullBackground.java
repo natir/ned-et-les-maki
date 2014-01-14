@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -22,35 +22,20 @@
  THE SOFTWARE.
  */
 
-package org.geekygoblin.nedetlesmaki.game.assets;
+package im.bci.jnuit.background;
 
-import im.bci.jnuit.lwjgl.TrueTypeFont;
-import im.bci.nanim.IAnimationCollection;
+import im.bci.jnuit.visitors.BackgroundVisitor;
+import im.bci.jnuit.widgets.Widget;
 
 /**
  *
  * @author devnewton
  */
-public interface IAssets {
+public class NullBackground implements Background{
+    public static final NullBackground INSTANCE = new NullBackground();
 
-    void clearAll();
-
-    void clearUseless();
-    
-    void forceAnimationUnload(String name);
-
-    IAnimationCollection getAnimations(String name);
-
-    TrueTypeFont getFont(String name);
-
-    ITexture getTexture(String name);
-
-    TmxAsset getTmx(String name);
-
-    Texture grabScreenToTexture();
-
-    void setIcon();
-
-    String getText(String name);
-    
+    @Override
+    public void accept(Widget widget, BackgroundVisitor visitor) {
+        visitor.visit(widget, this);
+    }
 }

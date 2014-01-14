@@ -21,36 +21,36 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+package im.bci.jnuit.widgets;
 
-package org.geekygoblin.nedetlesmaki.game.assets;
+import im.bci.jnuit.NuitToolkit;
+import im.bci.jnuit.visitors.WidgetVisitor;
 
-import im.bci.jnuit.lwjgl.TrueTypeFont;
-import im.bci.nanim.IAnimationCollection;
+public class Label extends Widget {
 
-/**
- *
- * @author devnewton
- */
-public interface IAssets {
+    private String text;
+    private final NuitToolkit toolkit;
 
-    void clearAll();
+    public Label(NuitToolkit toolkit, String text) {
+        this.toolkit = toolkit;
+        this.text = text;
+    }
 
-    void clearUseless();
-    
-    void forceAnimationUnload(String name);
+    @Override
+    public boolean isFocusable() {
+        return false;
+    }
 
-    IAnimationCollection getAnimations(String name);
+    public void setText(String text) {
+        this.text = text;
+    }
 
-    TrueTypeFont getFont(String name);
+    @Override
+    public void accept(WidgetVisitor visitor) {
+        visitor.visit(this);
+    }
 
-    ITexture getTexture(String name);
-
-    TmxAsset getTmx(String name);
-
-    Texture grabScreenToTexture();
-
-    void setIcon();
-
-    String getText(String name);
-    
+    public String getText() {
+        return text;
+    }
 }
