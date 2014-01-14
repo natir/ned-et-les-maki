@@ -27,7 +27,7 @@ import com.artemis.Entity;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
-import im.bci.lwjgl.nuit.NuitToolkit;
+import im.bci.jnuit.NuitToolkit;
 import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.PlayMode;
 
@@ -35,9 +35,11 @@ import java.io.File;
 import java.util.Random;
 
 import com.google.inject.Singleton;
-import im.bci.lwjgl.nuit.NuitRenderer;
-import im.bci.lwjgl.nuit.NuitTranslator;
-import im.bci.lwjgl.nuit.lwjgl.TrueTypeFont;
+import im.bci.jnuit.NuitControls;
+import im.bci.jnuit.NuitRenderer;
+import im.bci.jnuit.NuitTranslator;
+import im.bci.jnuit.lwjgl.LwjglNuitControls;
+import im.bci.jnuit.lwjgl.TrueTypeFont;
 
 import org.geekygoblin.nedetlesmaki.game.assets.GarbageCollectedAssets;
 import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
@@ -74,6 +76,7 @@ public class NedModule extends AbstractModule {
         bind(IAssets.class).to(GarbageCollectedAssets.class);
         bind(NuitRenderer.class).to(NedNuitRenderer.class);
         bind(NuitTranslator.class).to(NedNuitTranslator.class);
+        bind(NuitControls.class).toInstance(new LwjglNuitControls());
         bind(NuitToolkit.class).to(NedNuitToolkit.class);
         bind(LevelSelector.class);
         bind(IngameInputSystem.class);

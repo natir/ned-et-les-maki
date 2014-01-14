@@ -21,37 +21,59 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game;
+package im.bci.jnuit.lwjgl.controls;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import im.bci.jnuit.NuitTranslator;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import im.bci.jnuit.controls.Control;
+import org.lwjgl.input.Mouse;
 
-/**
- *
- * @author devnewton
- */
-@Singleton
-public class NedNuitTranslator implements NuitTranslator {
+public class MouseButtonControl implements Control {
 
-    private static final String[] messagesBundles = new String[]{"messages", "nuit_messages"};
+    private final int button;
 
-    @Inject
-    public NedNuitTranslator() {
+    public MouseButtonControl(int button) {
+        this.button = button;
     }
 
     @Override
-    public String getMessage(String key) {
-        for (String bundleName : messagesBundles) {
-            ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
-            if (bundle.containsKey(key)) {
-                return bundle.getString(key);
-            }
-        }
-        Logger.getLogger(getClass().getName()).log(Level.WARNING, "No translation for {0}", key);
-        return key;
+    public String getName() {
+        return Mouse.getButtonName(button);
     }
+
+    @Override
+    public float getDeadZone() {
+        return 0.1f;
+    }
+
+    @Override
+    public float getValue() {
+        return Mouse.isButtonDown(button) ? 1.0f : 0.0f;
+    }
+
+    @Override
+    public String getControllerName() {
+        return "Mouse";
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + this.button;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MouseButtonControl other = (MouseButtonControl) obj;
+        if (this.button != other.button) {
+            return false;
+        }
+        return true;
+    }
+
 }

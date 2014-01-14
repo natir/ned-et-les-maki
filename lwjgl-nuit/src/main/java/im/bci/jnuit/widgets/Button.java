@@ -21,36 +21,43 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+package im.bci.jnuit.widgets;
 
-package org.geekygoblin.nedetlesmaki.game.assets;
+import im.bci.jnuit.NuitToolkit;
+import im.bci.jnuit.visitors.WidgetVisitor;
 
-import im.bci.jnuit.lwjgl.TrueTypeFont;
-import im.bci.nanim.IAnimationCollection;
+public class Button extends Widget {
 
-/**
- *
- * @author devnewton
- */
-public interface IAssets {
+    private final String text;
+    private final NuitToolkit toolkit;
 
-    void clearAll();
+    public Button(NuitToolkit toolkit, String text) {
+        this.toolkit = toolkit;
+        this.text = text;
+    }
 
-    void clearUseless();
-    
-    void forceAnimationUnload(String name);
+    public String getText() {
+        return text;
+    }
 
-    IAnimationCollection getAnimations(String name);
+    @Override
+    public void onMouseClick(float mouseX, float mouseY) {
+        this.onOK();
+    }
 
-    TrueTypeFont getFont(String name);
+    @Override
+    public float getMinWidth() {
+        return toolkit.getFont().getWidth(toolkit.getMessage(text));
+    }
 
-    ITexture getTexture(String name);
+    @Override
+    public float getMinHeight() {
+        return toolkit.getFont().getHeight(toolkit.getMessage(text));
+    }
 
-    TmxAsset getTmx(String name);
+    @Override
+    public void accept(WidgetVisitor visitor) {
+        visitor.visit(this);
+    }
 
-    Texture grabScreenToTexture();
-
-    void setIcon();
-
-    String getText(String name);
-    
 }

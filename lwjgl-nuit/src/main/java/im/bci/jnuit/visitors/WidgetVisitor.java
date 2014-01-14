@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,36 +21,50 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+package im.bci.jnuit.visitors;
 
-package org.geekygoblin.nedetlesmaki.game.assets;
-
-import im.bci.jnuit.lwjgl.TrueTypeFont;
-import im.bci.nanim.IAnimationCollection;
+import im.bci.jnuit.widgets.AudioConfigurator;
+import im.bci.jnuit.widgets.Button;
+import im.bci.jnuit.widgets.Container;
+import im.bci.jnuit.widgets.ControlsConfigurator;
+import im.bci.jnuit.widgets.ControlsConfigurator.ControlConfigurator;
+import im.bci.jnuit.widgets.Label;
+import im.bci.jnuit.widgets.NullWidget;
+import im.bci.jnuit.widgets.Root;
+import im.bci.jnuit.widgets.Select;
+import im.bci.jnuit.widgets.Stack;
+import im.bci.jnuit.widgets.Table;
+import im.bci.jnuit.widgets.Toggle;
+import im.bci.jnuit.widgets.VideoConfigurator;
 
 /**
  *
  * @author devnewton
  */
-public interface IAssets {
+public interface WidgetVisitor {
 
-    void clearAll();
+    void visit(Button widget);
 
-    void clearUseless();
-    
-    void forceAnimationUnload(String name);
+    void visit(Container widget);
 
-    IAnimationCollection getAnimations(String name);
+    void visit(Table widget);
 
-    TrueTypeFont getFont(String name);
+    void visit(ControlsConfigurator widget);
 
-    ITexture getTexture(String name);
+    void visit(AudioConfigurator widget);
 
-    TmxAsset getTmx(String name);
+    void visit(VideoConfigurator widget);
 
-    Texture grabScreenToTexture();
+    void visit(Label widget);
 
-    void setIcon();
+    void visit(NullWidget widget);
 
-    String getText(String name);
-    
+    void visit(Select widget);
+
+    void visit(Stack widget);
+
+    void visit(Toggle widget);
+
+    void visit(ControlConfigurator widget);
+
 }

@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,36 +21,45 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+package im.bci.jnuit.background;
 
-package org.geekygoblin.nedetlesmaki.game.assets;
-
-import im.bci.jnuit.lwjgl.TrueTypeFont;
-import im.bci.nanim.IAnimationCollection;
+import im.bci.jnuit.visitors.BackgroundVisitor;
+import im.bci.jnuit.widgets.Widget;
 
 /**
  *
  * @author devnewton
  */
-public interface IAssets {
+public class ColoredBackground implements Background {
 
-    void clearAll();
+    private final float red, green, blue, alpha;
 
-    void clearUseless();
-    
-    void forceAnimationUnload(String name);
+    public ColoredBackground(float r, float g, float b, float a) {
+        this.red = r;
+        this.green = g;
+        this.blue = b;
+        this.alpha = a;
+    }
 
-    IAnimationCollection getAnimations(String name);
+    public float getRed() {
+        return red;
+    }
 
-    TrueTypeFont getFont(String name);
+    public float getGreen() {
+        return green;
+    }
 
-    ITexture getTexture(String name);
+    public float getBlue() {
+        return blue;
+    }
 
-    TmxAsset getTmx(String name);
+    public float getAlpha() {
+        return alpha;
+    }
 
-    Texture grabScreenToTexture();
+    @Override
+    public void accept(Widget widget, BackgroundVisitor visitor) {
+        visitor.visit(widget, this);
+    }
 
-    void setIcon();
-
-    String getText(String name);
-    
 }

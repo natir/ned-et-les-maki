@@ -24,16 +24,16 @@
 package org.geekygoblin.nedetlesmaki.game.components.ui;
 
 import com.artemis.Component;
-import im.bci.lwjgl.nuit.NuitToolkit;
-import im.bci.lwjgl.nuit.widgets.Button;
-import im.bci.lwjgl.nuit.widgets.Container;
-import im.bci.lwjgl.nuit.widgets.Label;
-import im.bci.lwjgl.nuit.widgets.Root;
+import im.bci.jnuit.NuitToolkit;
+import im.bci.jnuit.widgets.Button;
+import im.bci.jnuit.widgets.Container;
+import im.bci.jnuit.widgets.Label;
+import im.bci.jnuit.widgets.Root;
 import im.bci.nanim.IPlay;
 import java.util.ArrayList;
 import com.google.inject.Inject;
-import im.bci.lwjgl.nuit.background.TexturedBackground;
-import im.bci.lwjgl.nuit.NuitRenderer;
+import im.bci.jnuit.background.TexturedBackground;
+import im.bci.jnuit.NuitRenderer;
 import im.bci.nanim.IAnimationFrame;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.lwjgl.LWJGLException;

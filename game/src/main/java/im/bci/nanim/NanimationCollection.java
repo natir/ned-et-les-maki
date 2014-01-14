@@ -1,6 +1,6 @@
 package im.bci.nanim;
 
-import im.bci.lwjgl.nuit.lwjgl.LwjglHelper;
+import im.bci.jnuit.lwjgl.LwjglHelper;
 import im.bci.nanim.NanimParser.Nanim;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

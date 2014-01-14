@@ -25,10 +25,10 @@ package org.geekygoblin.nedetlesmaki.game;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import im.bci.lwjgl.nuit.NuitTranslator;
-import im.bci.lwjgl.nuit.background.TexturedBackground;
-import im.bci.lwjgl.nuit.lwjgl.LwjglNuitRenderer;
-import im.bci.lwjgl.nuit.lwjgl.TrueTypeFont;
+import im.bci.jnuit.NuitTranslator;
+import im.bci.jnuit.background.TexturedBackground;
+import im.bci.jnuit.lwjgl.LwjglNuitRenderer;
+import im.bci.jnuit.lwjgl.TrueTypeFont;
 import im.bci.nanim.IAnimationImage;
 import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 

@@ -21,36 +21,20 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+package im.bci.jnuit.widgets;
 
-package org.geekygoblin.nedetlesmaki.game.assets;
+import im.bci.jnuit.visitors.WidgetVisitor;
 
-import im.bci.jnuit.lwjgl.TrueTypeFont;
-import im.bci.nanim.IAnimationCollection;
+public class NullWidget extends Widget {
 
-/**
- *
- * @author devnewton
- */
-public interface IAssets {
+    @Override
+    public boolean isFocusable() {
+        return false;
+    }
 
-    void clearAll();
+    @Override
+    public void accept(WidgetVisitor visitor) {
+        visitor.visit(this);
+    }
 
-    void clearUseless();
-    
-    void forceAnimationUnload(String name);
-
-    IAnimationCollection getAnimations(String name);
-
-    TrueTypeFont getFont(String name);
-
-    ITexture getTexture(String name);
-
-    TmxAsset getTmx(String name);
-
-    Texture grabScreenToTexture();
-
-    void setIcon();
-
-    String getText(String name);
-    
 }

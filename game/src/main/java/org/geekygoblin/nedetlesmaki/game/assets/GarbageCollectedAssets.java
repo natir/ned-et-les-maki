@@ -25,7 +25,7 @@ package org.geekygoblin.nedetlesmaki.game.assets;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import im.bci.lwjgl.nuit.lwjgl.TrueTypeFont;
+import im.bci.jnuit.lwjgl.TrueTypeFont;
 import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.NanimationCollection;
 import java.lang.ref.ReferenceQueue;
