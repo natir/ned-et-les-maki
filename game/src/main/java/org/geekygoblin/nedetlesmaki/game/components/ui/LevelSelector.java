@@ -117,6 +117,7 @@ public class LevelSelector extends Container {
 
         public LevelSelectorButton(NuitToolkit toolkit, String text, String levelName, int orientation) {
             super(toolkit, text);
+            setMustDrawFocus(false);
             this.orientation = orientation;
             this.levelName = levelName;
         }
@@ -130,7 +131,7 @@ public class LevelSelector extends Container {
         public void update() {
             backgroundAnimationPlay.update((long) (game.getDelta() * 1000L));
             final IAnimationFrame currentFrame = backgroundAnimationPlay.getCurrentFrame();
-            setBackground(new TexturedBackground(currentFrame.getImage(), orientation > 0 ? currentFrame.getU1(): currentFrame.getU2(), currentFrame.getV1(), orientation > 0 ? currentFrame.getU2(): currentFrame.getU1(), currentFrame.getV2()));
+            setBackground(new TexturedBackground(currentFrame.getImage(), orientation > 0 ? currentFrame.getU1() : currentFrame.getU2(), currentFrame.getV1(), orientation > 0 ? currentFrame.getU2() : currentFrame.getU1(), currentFrame.getV2()));
             super.update();
         }
 
