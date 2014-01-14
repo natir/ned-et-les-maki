@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,28 +21,22 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
+package im.bci.jnuit;
 
-package org.geekygoblin.nedetlesmaki.game;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import im.bci.jnuit.NuitControls;
-import im.bci.jnuit.NuitDisplay;
-import im.bci.jnuit.NuitRenderer;
-import im.bci.jnuit.NuitToolkit;
-import im.bci.jnuit.NuitTranslator;
-import im.bci.jnuit.lwjgl.TrueTypeFont;
+import im.bci.jnuit.display.VideoResolution;
+import java.util.List;
 
 /**
  *
  * @author devnewton
  */
-@Singleton
-public class NedNuitToolkit extends NuitToolkit {
+public interface NuitDisplay {
 
-    @Inject
-    public NedNuitToolkit(NuitDisplay display, NuitTranslator translator, @NamedEntities.DefaultFont TrueTypeFont font, NuitRenderer renderer, NuitControls controls) {
-        super(display, controls, translator, font, renderer);
-    }
+    List<VideoResolution> listResolutions();
+
+    void changeResolution(VideoResolution resolution, boolean fullscreen);
     
+    VideoResolution getResolution();
+    
+    boolean isFullscreen();
 }
