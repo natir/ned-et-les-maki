@@ -23,7 +23,6 @@
  */
 package im.bci.jnuit;
 
-
 import im.bci.jnuit.controls.Action;
 import im.bci.jnuit.controls.ActionActivatedDetector;
 import im.bci.jnuit.widgets.Root;
@@ -36,6 +35,7 @@ import com.esotericsoftware.tablelayout.Cell;
 import com.esotericsoftware.tablelayout.Toolkit;
 import im.bci.jnuit.controls.Control;
 import im.bci.jnuit.controls.Pointer;
+import im.bci.jnuit.display.VideoResolution;
 import java.util.List;
 
 public class NuitToolkit extends Toolkit<Widget, Table> {
@@ -49,12 +49,14 @@ public class NuitToolkit extends Toolkit<Widget, Table> {
     private final Pointer pointer = new Pointer();
     private float oldPointerX, oldPointerY;
     private Boolean oldIsMouseButtonDown;
+    private final NuitDisplay display;
 
-    public NuitToolkit(NuitControls controls, NuitTranslator translator, NuitFont font, NuitRenderer renderer) {
+    public NuitToolkit(NuitDisplay display, NuitControls controls, NuitTranslator translator, NuitFont font, NuitRenderer renderer) {
         this.font = font;
         this.translator = translator;
         this.renderer = renderer;
         this.controls = controls;
+        this.display = display;
         menuUp = new ActionActivatedDetector(new Action("nuit.action.menu.up", controls.getDefaultMenuUpControls()));
         menuDown = new ActionActivatedDetector(new Action("nuit.action.menu.down", controls.getDefaultMenuDownControls()));
         menuLeft = new ActionActivatedDetector(new Action("nuit.action.menu.left", controls.getDefaultMenuLeftControls()));
@@ -221,6 +223,22 @@ public class NuitToolkit extends Toolkit<Widget, Table> {
 
     public List<Control> getPossibleControls() {
         return controls.getPossibleControls();
+    }
+
+    public List<VideoResolution> listResolutions() {
+        return display.listResolutions();
+    }
+
+    public void changeResolution(VideoResolution resolution, boolean fullscreen) {
+        display.changeResolution(resolution, fullscreen);
+    }
+
+    public VideoResolution getResolution() {
+        return display.getResolution();
+    }
+
+    public boolean isFullscreen() {
+        return display.isFullscreen();
     }
 
 }
