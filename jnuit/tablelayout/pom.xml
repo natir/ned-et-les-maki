@@ -24,15 +24,15 @@ THE SOFTWARE. -->
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.geekygoblin</groupId>
-        <artifactId>nedetlesmaki</artifactId>
+        <groupId>im.bci</groupId>
+        <artifactId>jnuit</artifactId>
         <version>0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>im.bci</groupId>
-    <artifactId>lwjgl-nuit</artifactId>
+    <groupId>com.esotericsoftware</groupId>
+    <artifactId>tablelayout</artifactId>
     <packaging>jar</packaging>
-    <name>lwjgl-nuit</name>
+    <name>tablelayout</name>
     <version>0.1</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -56,20 +56,6 @@ THE SOFTWARE. -->
             </plugin>
         </plugins>
     </build>
-    <dependencies>
-        <dependency>
-            <groupId>org.lwjgl.lwjgl</groupId>
-            <artifactId>lwjgl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.lwjgl.lwjgl</groupId>
-            <artifactId>lwjgl_util</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.esotericsoftware</groupId>
-            <artifactId>tablelayout</artifactId>
-        </dependency>
-    </dependencies>
 </project>
 
 

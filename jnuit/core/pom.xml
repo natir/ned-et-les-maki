@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- The MIT License (MIT)
 
-Copyright (c) 2013 devnewton <devnewton@bci.im>
+Copyright (c) 2014 devnewton <devnewton@bci.im>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,16 +24,15 @@ THE SOFTWARE. -->
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.geekygoblin</groupId>
-        <artifactId>nedetlesmaki</artifactId>
+        <groupId>im.bci</groupId>
+        <artifactId>jnuit</artifactId>
         <version>0.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>com.esotericsoftware</groupId>
-    <artifactId>tablelayout</artifactId>
+    <groupId>im.bci</groupId>
+    <artifactId>jnuit-core</artifactId>
     <packaging>jar</packaging>
-    <name>tablelayout</name>
-    <version>0.1</version>
+    <name>jnuit-core</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -56,6 +55,12 @@ THE SOFTWARE. -->
             </plugin>
         </plugins>
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>tablelayout</artifactId>
+        </dependency>
+    </dependencies>
 </project>
 
 
