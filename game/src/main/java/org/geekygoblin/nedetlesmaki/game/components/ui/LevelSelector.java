@@ -40,7 +40,6 @@ import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
-import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -64,8 +63,8 @@ public class LevelSelector extends Container {
         this.startGameTrigger = startGameTrigger;
         this.showMenuTrigger = showMenuTrigger;
         bulleAnimations = assets.getAnimations("bulle.nanim.gz");
-        setFocusedChild(addButton("level.01.name", "levels/lvl01.tmx", 725, 695, 1));
         setBackground(new TexturedBackground("tour.png"));
+        setFocusedChild(addButton("level.01.name", "levels/lvl01.tmx", 725, 695, 1));
         addButton("level.02.name", "levels/lvl02.tmx", 550, 674, -1);
         addButton("level.03.name", "levels/lvl03.tmx", 725, 653, 1);
         addButton("level.04.name", "levels/lvl04.tmx", 550, 632, -1);
@@ -131,7 +130,7 @@ public class LevelSelector extends Container {
         public void update() {
             backgroundAnimationPlay.update((long) (game.getDelta() * 1000L));
             final IAnimationFrame currentFrame = backgroundAnimationPlay.getCurrentFrame();
-            setBackground(new TexturedBackground(currentFrame.getImage(), orientation > 0 ? currentFrame.getU1() : currentFrame.getU2(), currentFrame.getV1(), orientation > 0 ? currentFrame.getU2() : currentFrame.getU1(), currentFrame.getV2()));
+            setBackground(new TexturedBackground(currentFrame.getImage(), orientation < 0 ? currentFrame.getU1() : currentFrame.getU2(), currentFrame.getV1(), orientation < 0 ? currentFrame.getU2() : currentFrame.getU1(), currentFrame.getV2()));
             super.update();
         }
 

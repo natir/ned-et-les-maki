@@ -35,30 +35,30 @@ import java.util.Locale;
  */
 @Singleton
 public class NedNuitTranslator extends NuitTranslator {
-    
+
     @Inject
     public NedNuitTranslator() {
         if (Locale.getDefault().getLanguage().equals(new Locale("fr").getLanguage())) {
             setCurrentLocale(NuitLocale.FRENCH);
         }
-        
+
         addEnglish();
         addFrench();
         addLevelNumbers();
     }
 
     private void addLevelNumbers() {
-        final NuitLocale[] locales = NuitLocale.values();
-        
-        for (int i = 0; i < locales.length; ++i) {
-            String index = String.valueOf(i);
-            if (i < 10) {
-                index = "0" + index;
+        for (NuitLocale locale : NuitLocale.values()) {
+            for (int i = 0; i < 30; ++i) {
+                String index = String.valueOf(i);
+                if (i < 10) {
+                    index = "0" + index;
+                }
+                addTranslation(locale, "level." + index + ".name", index);
             }
-            addTranslation(locales[i], "level." + index + ".name", index);
         }
     }
-    
+
     private void addEnglish() {
         addTranslation(NuitLocale.ENGLISH, "main.menu.button.start", "START");
         addTranslation(NuitLocale.ENGLISH, "main.menu.button.resume", "RESUME");
@@ -68,7 +68,7 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.audio", "AUDIO");
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.controls", "CONTROLS");
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.back", "BACK");
-        
+
         addTranslation(NuitLocale.ENGLISH, "dialog.button.next", "Next");
         addTranslation(NuitLocale.ENGLISH, "dialog.button.previous", "Previous");
         addTranslation(NuitLocale.ENGLISH, "dialog.intro.reveil.1", "Zzz...");
@@ -80,7 +80,7 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.ENGLISH, "dialog.intro.pied_de_la_tour.3", "But...");
         addTranslation(NuitLocale.ENGLISH, "dialog.intro.dans_la_tour.1", "And now?");
     }
-    
+
     private void addFrench() {
         addTranslation(NuitLocale.FRENCH, "main.menu.button.start", "DEMARRER");
         addTranslation(NuitLocale.FRENCH, "main.menu.button.resume", "CONTINUER");
@@ -90,7 +90,7 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.FRENCH, "options.menu.button.audio", "AUDIO");
         addTranslation(NuitLocale.FRENCH, "options.menu.button.controls", "CONTROLES");
         addTranslation(NuitLocale.FRENCH, "options.menu.button.back", "RETOUR");
-        
+
         addTranslation(NuitLocale.FRENCH, "dialog.button.next", "Suite");
         addTranslation(NuitLocale.FRENCH, "dialog.button.previous", "Retour");
         addTranslation(NuitLocale.FRENCH, "dialog.intro.reveil.1", "Zzz...");
