@@ -10,17 +10,15 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <lwjgl-nuit.version>0.1</lwjgl-nuit.version>
+        <jnuit.version>0.2-SNAPSHOT</jnuit.version>
         <libtiled-jpurexml.version>0.2-SNAPSHOT</libtiled-jpurexml.version>
-        <tablelayout.version>0.1</tablelayout.version>
         <lwjgl.version>2.9.0</lwjgl.version>
     </properties>
     <modules>
         <module>game</module>
         <module>game-graph-generator</module>
-        <module>lwjgl-nuit</module>
+        <module>jnuit</module>
         <module>libtiled-jpurexml</module>
-        <module>tablelayout</module>
         <module>packages/deb</module>
         <module>packages/generic</module>
         <module>packages/win</module>
@@ -62,7 +60,7 @@
             <dependency>
                 <groupId>net.onedaybeard.artemis</groupId>
                 <artifactId>artemis-odb</artifactId>
-                <version>0.4.0</version>
+                <version>0.5.0</version>
             </dependency>
             <dependency>
                 <groupId>org.l33tlabs.twl</groupId>
@@ -76,13 +74,8 @@
             </dependency>
             <dependency>
                 <groupId>im.bci</groupId>
-                <artifactId>lwjgl-nuit</artifactId>
-                <version>${lwjgl-nuit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.esotericsoftware</groupId>
-                <artifactId>tablelayout</artifactId>
-                <version>${tablelayout.version}</version>
+                <artifactId>jnuit-lwjgl</artifactId>
+                <version>${jnuit.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.geekygoblin</groupId>

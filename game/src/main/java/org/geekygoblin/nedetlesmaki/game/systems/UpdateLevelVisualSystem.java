@@ -93,6 +93,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         IAnimationCollection makiAnim = this.assets.getAnimations("maki.nanim.gz");
         IAnimationCollection plateAnim = this.assets.getAnimations("plate.nanim.gz");
         IAnimationCollection boxAnim = this.assets.getAnimations("box.nanim.gz");
+        IAnimationCollection stairsAnim = this.assets.getAnimations("stairs.nanim.gz");
         
         if (a == AnimationType.no) {
             updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
@@ -169,6 +170,18 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .stopAnimation();
         }  else if (a == AnimationType.disable_entity) {
             e.disable();
+        } else if (a == AnimationType.stairs_up) {
+            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_up"))
+                    .stopAnimation();
+        }  else if (a == AnimationType.stairs_down) {
+            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_down"))
+                    .stopAnimation();
+        }  else if (a == AnimationType.stairs_left) {
+            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_left"))
+                    .stopAnimation();
+        }  else if (a == AnimationType.stairs_right) {
+            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_right"))
+                    .stopAnimation();
         }
 
         e.addComponent(updatable);

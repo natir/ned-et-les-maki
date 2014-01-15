@@ -47,6 +47,10 @@ public enum AnimationType {
     clean_orange_plate,
     clean_blue_plate,
     disable_entity,
-    active_entity;
+    active_entity,
+    stairs_up,
+    stairs_down,
+    stairs_left,
+    stairs_right;
 }
  

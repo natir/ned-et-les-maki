@@ -24,17 +24,19 @@
 package org.geekygoblin.nedetlesmaki.game.components.ui;
 
 import com.artemis.Component;
-import im.bci.lwjgl.nuit.NuitToolkit;
-import im.bci.lwjgl.nuit.widgets.Button;
-import im.bci.lwjgl.nuit.widgets.Container;
-import im.bci.lwjgl.nuit.widgets.Label;
-import im.bci.lwjgl.nuit.widgets.Root;
+import im.bci.jnuit.NuitToolkit;
+import im.bci.jnuit.widgets.Button;
+import im.bci.jnuit.widgets.Container;
+import im.bci.jnuit.widgets.Label;
+import im.bci.jnuit.widgets.Root;
 import im.bci.nanim.IPlay;
 import java.util.ArrayList;
 import com.google.inject.Inject;
+import im.bci.jnuit.background.TexturedBackground;
+import im.bci.jnuit.NuitRenderer;
+import im.bci.nanim.IAnimationFrame;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.lwjgl.LWJGLException;
-import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -49,6 +51,7 @@ public class Dialog extends Component {
     private IPlay currentPlay;
     private boolean finished;
     private final Label textLabel;
+    private final NuitRenderer nuitRenderer;
 
     private Sentence getCurrentSentence() {
         if (!sentences.isEmpty()) {
@@ -70,44 +73,10 @@ public class Dialog extends Component {
     }
 
     @Inject
-    public Dialog(NuitToolkit toolkit, Game game) throws LWJGLException {
+    public Dialog(NuitToolkit toolkit, NuitRenderer nuitRenderer, Game game) throws LWJGLException {
         this.game = game;
-        root = new Root(toolkit) {
-
-            @Override
-            protected void drawBackground() {
-                final Sentence currentSentence = getCurrentSentence();
-                if (null != currentSentence) {
-                    GL11.glBindTexture(GL11.GL_TEXTURE_2D, currentSentence.play.getCurrentFrame().getImage().getId());
-                    float x1 = 0;
-                    float x2 = root.getWidth();
-                    float y1 = 0;
-                    float y2 = root.getHeight();
-                    float u1 = 0;
-                    float v1 = 1;
-                    float u2 = 1;
-                    float v2 = 0;
-                    GL11.glBegin(GL11.GL_QUADS);
-                    GL11.glTexCoord2f(u1, v1);
-                    GL11.glVertex2f(x1, y2);
-                    GL11.glTexCoord2f(u2, v1);
-                    GL11.glVertex2f(x2, y2);
-                    GL11.glTexCoord2f(u2, v2);
-                    GL11.glVertex2f(x2, y1);
-                    GL11.glTexCoord2f(u1, v2);
-                    GL11.glVertex2f(x1, y1);
-                    GL11.glEnd();
-
-                    GL11.glDisable(GL11.GL_TEXTURE_2D);
-                    GL11.glColor4f(0, 0, 0, 0.5f);
-                    GL11.glRectf(getX(), getHeight() * 0.8f, getWidth(), getHeight());
-                    GL11.glColor4f(1, 1, 1, 1);
-                    GL11.glEnable(GL11.GL_TEXTURE_2D);
-
-                }
-            }
-
-        };
+        root = new Root(toolkit);
+        this.nuitRenderer = nuitRenderer;
         Container layout = new Container();
         root.add(layout);
 
@@ -152,19 +121,21 @@ public class Dialog extends Component {
         for (String sentence : sentences) {
             this.sentences.add(new Sentence(play, sentence));
         }
-       onChangeSentence();
+        onChangeSentence();
     }
 
     public void update() {
         Sentence currentSentence = getCurrentSentence();
         if (null != currentSentence) {
             currentSentence.play.update((long) (game.getDelta() * 1000L));
+            final IAnimationFrame frame = currentSentence.play.getCurrentFrame();
+            root.setBackground(new TexturedBackground(frame.getImage(), frame.getU1(), frame.getV1(), frame.getU2(), frame.getV2()));
         }
         root.update();
     }
 
     public void draw() {
-        root.draw();
+        nuitRenderer.render(root);
     }
 
     protected void onNext() {
@@ -180,11 +151,11 @@ public class Dialog extends Component {
         Sentence currentSentence = getCurrentSentence();
         if (null != currentSentence) {
             textLabel.setText(currentSentence.text);
-            if(currentPlay != currentSentence.play) {
+            if (currentPlay != currentSentence.play) {
                 currentPlay = currentSentence.play;
                 currentSentence.play.restart();
             }
-            
+
         }
     }
 

@@ -27,7 +27,7 @@ Create packages and installers
 
 Using maven 3 plugins, rpm and deb can be generated and also a generic [izpack](www.izpack.org) based installer.
 
-	mvn clean package -Pizpack,deb,rpm,rpm32
+	mvn clean package -Pizpack,deb,rpm
 
 Run
 ===
