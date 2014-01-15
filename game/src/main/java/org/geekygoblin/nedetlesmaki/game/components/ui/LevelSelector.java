@@ -23,10 +23,10 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components.ui;
 
-import im.bci.lwjgl.nuit.NuitToolkit;
-import im.bci.lwjgl.nuit.widgets.Button;
-import im.bci.lwjgl.nuit.widgets.Container;
-import im.bci.lwjgl.nuit.widgets.Widget;
+import im.bci.jnuit.NuitToolkit;
+import im.bci.jnuit.widgets.Button;
+import im.bci.jnuit.widgets.Container;
+import im.bci.jnuit.widgets.Widget;
 import im.bci.nanim.IAnimationCollection;
 import im.bci.nanim.IAnimationFrame;
 import im.bci.nanim.IPlay;
@@ -34,12 +34,12 @@ import im.bci.nanim.PlayMode;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import im.bci.jnuit.background.TexturedBackground;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
-import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -63,6 +63,7 @@ public class LevelSelector extends Container {
         this.startGameTrigger = startGameTrigger;
         this.showMenuTrigger = showMenuTrigger;
         bulleAnimations = assets.getAnimations("bulle.nanim.gz");
+        setBackground(new TexturedBackground("tour.png"));
         setFocusedChild(addButton("level.01.name", "levels/lvl01.tmx", 725, 695, 1));
         addButton("level.02.name", "levels/lvl02.tmx", 550, 674, -1);
         addButton("level.03.name", "levels/lvl03.tmx", 725, 653, 1);
@@ -96,54 +97,26 @@ public class LevelSelector extends Container {
     }
 
     @Override
-    public void draw() {
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, assets.getTexture("tour.png").getId());
-        float x1 = 0;
-        float x2 = getWidth();
-        float y1 = 0;
-        float y2 = getHeight();
-        float u1 = 0;
-        float v1 = 1;
-        float u2 = 1;
-        float v2 = 0;
-        GL11.glBegin(GL11.GL_QUADS);
-        GL11.glTexCoord2f(u1, v1);
-        GL11.glVertex2f(x1, y2);
-        GL11.glTexCoord2f(u2, v1);
-        GL11.glVertex2f(x2, y2);
-        GL11.glTexCoord2f(u2, v2);
-        GL11.glVertex2f(x2, y1);
-        GL11.glTexCoord2f(u1, v2);
-        GL11.glVertex2f(x1, y1);
-        GL11.glEnd();
-        super.draw();
-    }
-
-    @Override
-    protected void drawFocus(Widget focused) {
-        //NOTHING
-    }
-
-    @Override
     protected final void setFocusedChild(Widget focusedChild) {
         Widget oldFocusedChild = getFocusedChild();
         if (oldFocusedChild instanceof LevelSelectorButton) {
-            ((LevelSelectorButton) oldFocusedChild).backgroundAnimationPlay = bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP);
+            ((LevelSelectorButton) oldFocusedChild).setBackgroundAnimationPlay(bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP));
         }
         if (focusedChild instanceof LevelSelectorButton) {
-            ((LevelSelectorButton) focusedChild).backgroundAnimationPlay = bulleAnimations.getAnimationByName("bulle_selectionnee").start(PlayMode.LOOP);
+            ((LevelSelectorButton) focusedChild).setBackgroundAnimationPlay(bulleAnimations.getAnimationByName("bulle_selectionnee").start(PlayMode.LOOP));
         }
         super.setFocusedChild(focusedChild);
     }
 
     private class LevelSelectorButton extends Button {
 
-        IPlay backgroundAnimationPlay;
+        private IPlay backgroundAnimationPlay;
         private final int orientation;
         private final String levelName;
 
         public LevelSelectorButton(NuitToolkit toolkit, String text, String levelName, int orientation) {
             super(toolkit, text);
+            setMustDrawFocus(false);
             this.orientation = orientation;
             this.levelName = levelName;
         }
@@ -156,46 +129,24 @@ public class LevelSelector extends Container {
         @Override
         public void update() {
             backgroundAnimationPlay.update((long) (game.getDelta() * 1000L));
+            final IAnimationFrame currentFrame = backgroundAnimationPlay.getCurrentFrame();
+            setBackground(new TexturedBackground(currentFrame.getImage(), orientation < 0 ? currentFrame.getU1() : currentFrame.getU2(), currentFrame.getV1(), orientation < 0 ? currentFrame.getU2() : currentFrame.getU1(), currentFrame.getV2()));
             super.update();
         }
 
-        @Override
-        public void draw() {
-            final IAnimationFrame currentFrame = backgroundAnimationPlay.getCurrentFrame();
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, currentFrame.getImage().getId());
-            float x1 = getX();
-            float x2 = x1 + getWidth();
-            float y1 = getY();
-            float y2 = y1 + getHeight();
-            float u1;
-            float u2;
-            if (orientation < 0) {
-                u1 = currentFrame.getU1();
-                u2 = currentFrame.getU2();
-            } else {
-                u1 = currentFrame.getU2();
-                u2 = currentFrame.getU1();
-            }
-            float v1 = currentFrame.getV2();
-            float v2 = currentFrame.getV1();
-            GL11.glBegin(GL11.GL_QUADS);
-            GL11.glTexCoord2f(u1, v1);
-            GL11.glVertex2f(x1, y2);
-            GL11.glTexCoord2f(u2, v1);
-            GL11.glVertex2f(x2, y2);
-            GL11.glTexCoord2f(u2, v2);
-            GL11.glVertex2f(x2, y1);
-            GL11.glTexCoord2f(u1, v2);
-            GL11.glVertex2f(x1, y1);
-            GL11.glEnd();
-            super.draw();
+        /**
+         * @param backgroundAnimationPlay the backgroundAnimationPlay to set
+         */
+        public void setBackgroundAnimationPlay(IPlay backgroundAnimationPlay) {
+
+            this.backgroundAnimationPlay = backgroundAnimationPlay;
         }
 
     }
 
     private LevelSelectorButton addButton(String label, String levelName, int x, int y, int orientation) {
         LevelSelectorButton button = new LevelSelectorButton(toolkit, label, levelName, orientation);
-        button.backgroundAnimationPlay = bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP);
+        button.setBackgroundAnimationPlay(bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP));
         button.setWidth(button.getMinWidth() * 1.8f);
         button.setHeight(button.getMinHeight());
         if (orientation < 0) {

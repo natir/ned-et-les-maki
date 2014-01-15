@@ -129,15 +129,6 @@ THE SOFTWARE. -->
                                             </mapper>
                                         </data>
                                         <data>
-                                            <src>${basedir}/target/lib</src>
-                                            <type>directory</type>
-                                            <includes>lwjgl-nuit*</includes>
-                                            <mapper>
-                                                <type>perm</type>
-                                                <prefix>/opt/nedetlesmaki</prefix>
-                                            </mapper>
-                                        </data>
-                                        <data>
                                             <type>link</type>
                                             <linkTarget>/usr/share/java/lwjgl.jar</linkTarget>
                                             <linkName>/opt/nedetlesmaki/lwjgl-${lwjgl.version}.jar</linkName><!--renomme avec une fausse version pour ne pas avoir à manipuler le jar du jeu -->

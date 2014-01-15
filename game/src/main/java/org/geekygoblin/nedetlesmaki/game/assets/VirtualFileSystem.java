@@ -35,7 +35,7 @@ import java.util.Arrays;
  */
 public class VirtualFileSystem {
     
-    private File[] directories;
+    private final File[] directories;
     
     public VirtualFileSystem(File... dirs) {
         directories = Arrays.copyOf(dirs, dirs.length);

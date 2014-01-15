@@ -24,7 +24,7 @@
 
 package org.geekygoblin.nedetlesmaki.game.assets;
 
-import im.bci.lwjgl.nuit.utils.TrueTypeFont;
+import im.bci.jnuit.lwjgl.TrueTypeFont;
 import im.bci.nanim.IAnimationCollection;
 
 /**
