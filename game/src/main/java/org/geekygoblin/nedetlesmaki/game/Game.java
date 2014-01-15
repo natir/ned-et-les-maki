@@ -28,7 +28,7 @@ import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import im.bci.lwjgl.nuit.NuitToolkit;
+import im.bci.jnuit.NuitToolkit;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.systems.DebugSpriteSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.DialogSystem;
