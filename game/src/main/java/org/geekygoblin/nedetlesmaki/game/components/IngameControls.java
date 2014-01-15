@@ -24,9 +24,9 @@
 package org.geekygoblin.nedetlesmaki.game.components;
 
 import com.artemis.Component;
-import im.bci.lwjgl.nuit.controls.Action;
-import im.bci.lwjgl.nuit.controls.ActionActivatedDetector;
-import im.bci.lwjgl.nuit.controls.KeyControl;
+import im.bci.jnuit.controls.Action;
+import im.bci.jnuit.controls.ActionActivatedDetector;
+import im.bci.jnuit.lwjgl.controls.KeyControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.lwjgl.input.Keyboard;

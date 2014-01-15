@@ -165,9 +165,14 @@ public class StartGameTrigger extends Trigger {
 	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange, false);
 	case "blue_plate":
 	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue, false);
-        case "stairs":
-	    return createStairs(tile, game, tmx, x, y, l, layer);
-	case "decoration":
+                  case "stairs_close_up":
+	    return createStairs(tile, game, tmx, x, y, l, layer, 1);
+	case "stairs_close_down":
+	    return createStairs(tile, game, tmx, x, y, l, layer, 2);
+                  case "stairs_close_left":
+	    return createStairs(tile, game, tmx, x, y, l, layer, 3);
+                  case "stairs_close_right":
+	    return createStairs(tile, game, tmx, x, y, l, layer, 4);
 	default:
 	    return createDecoration(tile, game, tmx, x, y, l, layer);
         }
@@ -399,11 +404,11 @@ public class StartGameTrigger extends Trigger {
         return plate;
     }
 
-    private Entity createStairs(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+    private Entity createStairs(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer, int dir) {
         Entity stairs = game.createEntity();
 
         stairs.addComponent(new Position(x, y));
-        stairs.addComponent(new Stairs(false));
+        stairs.addComponent(new Stairs(false, dir));
 
         createSprite(tmx, x, y, l, tile, ApparitionEffect.NONE, stairs);
 

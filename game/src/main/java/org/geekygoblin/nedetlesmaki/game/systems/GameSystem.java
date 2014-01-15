@@ -572,6 +572,15 @@ public class GameSystem extends VoidEntitySystem {
     private void tryPlate() {
         ImmutableBag<Entity> plateGroup = this.index.getAllPlate();
 
+        ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
+        Entity stairs = stairsGroup.get(0);
+        Stairs stairsS = this.stairsMapper.getSafe(stairs);
+        
+        if(stairsS.isOpen())
+        {
+            return;
+        }
+        
         for (int i = 0; i != plateGroup.size(); i++) {
             Entity plateE = plateGroup.get(i);
 
@@ -582,11 +591,28 @@ public class GameSystem extends VoidEntitySystem {
             }
         }
 
-        ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
-
-        Entity stairs = stairsGroup.get(0);
-        Stairs stairsS = this.stairsMapper.getSafe(stairs);
         stairsS.setStairs(true);
+
+        ArrayList<Mouvement> tmpm = new ArrayList();
+
+        switch (stairsS.getDir()) {
+            case 1 :
+                tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_up).saveMouvement());
+                break;
+            case 2 :
+                tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_down).saveMouvement());
+                break;
+            case 3 :
+                tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_left).saveMouvement());
+                break;
+            case 4:
+                  tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_right).saveMouvement());
+                  break;
+            default :
+                tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_up).saveMouvement());
+        }
+        
+        this.index.addMouvement(tmpm);
     }
 
     private void endOfLevel() {
@@ -600,8 +626,7 @@ public class GameSystem extends VoidEntitySystem {
         Stairs stairsS = this.stairsMapper.getSafe(stairs);
 
         if (stairsS.isOpen() && PosOperation.equale(nedP, stairsP)) {
-            if (world.getSystem(SpritePuppetControlSystem.class
-            ).getActives().isEmpty()) {
+            if (world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty()) {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
 
                 this.run = false;

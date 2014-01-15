@@ -23,8 +23,9 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
-import im.bci.lwjgl.nuit.controls.Control;
-import im.bci.lwjgl.nuit.controls.ControlsUtils;
+import com.google.inject.Inject;
+import im.bci.jnuit.NuitControls;
+import im.bci.jnuit.controls.Control;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -41,8 +42,11 @@ public class Preferences {
 
     private final Properties store = new Properties();
     private static final String appName = "nedetlesmaki";
+    private final NuitControls controls;
 
-    public Preferences() {
+    @Inject
+    public Preferences(NuitControls controls) {
+        this.controls = controls;
         load();
     }
 
@@ -116,7 +120,7 @@ public class Preferences {
     Control getControl(String name, Control defaultValue) {
         String controllerName = getSystemOrStoreProperty(name + ".controller", null);
         String controlName = getSystemOrStoreProperty(name + ".control", null);
-        for (Control control : ControlsUtils.getPossibleControls()) {
+        for (Control control : controls.getPossibleControls()) {
             if (control.getControllerName().equals(controllerName) && control.getName().equals(controlName)) {
                 return control;
             }
