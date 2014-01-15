@@ -30,9 +30,11 @@ import com.artemis.Component;
 public class Stairs extends Component {
 
     private boolean open;
-
-    public Stairs(boolean o) {
+    private int dir;
+    
+    public Stairs(boolean o, int dir) {
 	this.open = o;
+                  this.dir = dir;
     }
 
     public boolean isOpen() {
@@ -41,5 +43,13 @@ public class Stairs extends Component {
 
     public void setStairs(boolean b) {
 	this.open = b;
+    }
+    
+    public int getDir() {
+                  return this.dir;
+    }
+    
+    public void setDir(int dir) {
+                  this.dir = dir;
     }
 }
