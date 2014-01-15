@@ -21,20 +21,15 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.jnuit.lwjgl;
-
-import im.bci.jnuit.NuitTranslator;
-import java.util.ResourceBundle;
+package im.bci.jnuit;
 
 /**
  *
  * @author devnewton
  */
-public class LwjglNuitTranslator implements NuitTranslator {
+public enum NuitLocale {
 
-    @Override
-    public String getMessage(String key) {
-        return ResourceBundle.getBundle("nuit_messages").getString(key);
-    }
+    ENGLISH,
+    FRENCH
 
 }

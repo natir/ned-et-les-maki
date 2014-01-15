@@ -25,33 +25,81 @@ package org.geekygoblin.nedetlesmaki.game;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import im.bci.jnuit.NuitLocale;
 import im.bci.jnuit.NuitTranslator;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Locale;
 
 /**
  *
  * @author devnewton
  */
 @Singleton
-public class NedNuitTranslator implements NuitTranslator {
-
-    private static final String[] messagesBundles = new String[]{"messages", "nuit_messages"};
-
+public class NedNuitTranslator extends NuitTranslator {
+    
     @Inject
     public NedNuitTranslator() {
+        if (Locale.getDefault().getLanguage().equals(new Locale("fr").getLanguage())) {
+            setCurrentLocale(NuitLocale.FRENCH);
+        }
+        
+        addEnglish();
+        addFrench();
+        addLevelNumbers();
     }
 
-    @Override
-    public String getMessage(String key) {
-        for (String bundleName : messagesBundles) {
-            ResourceBundle bundle = ResourceBundle.getBundle(bundleName);
-            if (bundle.containsKey(key)) {
-                return bundle.getString(key);
+    private void addLevelNumbers() {
+        final NuitLocale[] locales = NuitLocale.values();
+        
+        for (int i = 0; i < locales.length; ++i) {
+            String index = String.valueOf(i);
+            if (i < 10) {
+                index = "0" + index;
             }
+            addTranslation(locales[i], "level." + index + ".name", index);
         }
-        Logger.getLogger(getClass().getName()).log(Level.WARNING, "No translation for {0}", key);
-        return key;
+    }
+    
+    private void addEnglish() {
+        addTranslation(NuitLocale.ENGLISH, "main.menu.button.start", "START");
+        addTranslation(NuitLocale.ENGLISH, "main.menu.button.resume", "RESUME");
+        addTranslation(NuitLocale.ENGLISH, "main.menu.button.options", "OPTIONS");
+        addTranslation(NuitLocale.ENGLISH, "main.menu.button.quit", "QUIT");
+        addTranslation(NuitLocale.ENGLISH, "options.menu.button.video", "VIDEO");
+        addTranslation(NuitLocale.ENGLISH, "options.menu.button.audio", "AUDIO");
+        addTranslation(NuitLocale.ENGLISH, "options.menu.button.controls", "CONTROLS");
+        addTranslation(NuitLocale.ENGLISH, "options.menu.button.back", "BACK");
+        
+        addTranslation(NuitLocale.ENGLISH, "dialog.button.next", "Next");
+        addTranslation(NuitLocale.ENGLISH, "dialog.button.previous", "Previous");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.reveil.1", "Zzz...");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.reveil.2", "I'm tired.");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.tour_au_loin.1", "What?");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.tour_au_loin.2", "A tower?");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.pied_de_la_tour.1", "?");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.pied_de_la_tour.2", "Help us!");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.pied_de_la_tour.3", "But...");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.dans_la_tour.1", "And now?");
+    }
+    
+    private void addFrench() {
+        addTranslation(NuitLocale.FRENCH, "main.menu.button.start", "DEMARRER");
+        addTranslation(NuitLocale.FRENCH, "main.menu.button.resume", "CONTINUER");
+        addTranslation(NuitLocale.FRENCH, "main.menu.button.options", "OPTIONS");
+        addTranslation(NuitLocale.FRENCH, "main.menu.button.quit", "QUITTER");
+        addTranslation(NuitLocale.FRENCH, "options.menu.button.video", "VIDEO");
+        addTranslation(NuitLocale.FRENCH, "options.menu.button.audio", "AUDIO");
+        addTranslation(NuitLocale.FRENCH, "options.menu.button.controls", "CONTROLES");
+        addTranslation(NuitLocale.FRENCH, "options.menu.button.back", "RETOUR");
+        
+        addTranslation(NuitLocale.FRENCH, "dialog.button.next", "Suite");
+        addTranslation(NuitLocale.FRENCH, "dialog.button.previous", "Retour");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.reveil.1", "Zzz...");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.reveil.2", "C'est dur de se lever!");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.tour_au_loin.1", "Mais?");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.tour_au_loin.2", "Une tour?");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.pied_de_la_tour.1", "?");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.pied_de_la_tour.2", "Aidez-nous!");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.pied_de_la_tour.3", "Mais...");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.dans_la_tour.1", "Et maintenant que faire?");
     }
 }
