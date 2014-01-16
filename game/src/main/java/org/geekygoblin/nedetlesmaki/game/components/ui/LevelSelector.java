@@ -58,7 +58,6 @@ public class LevelSelector extends Container {
     public LevelSelector(Game game, NuitToolkit toolkit, IAssets assets, Provider<StartGameTrigger> startGameTrigger, Provider<ShowMenuTrigger> showMenuTrigger) {
         this.game = game;
         this.toolkit = toolkit;
-        this.assets = assets;
         this.startGameTrigger = startGameTrigger;
         this.showMenuTrigger = showMenuTrigger;
         bulleAnimations = assets.getAnimations("bulle.nanim.gz");
