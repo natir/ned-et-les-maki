@@ -51,7 +51,6 @@ public class LevelSelector extends Container {
     private final Game game;
     private final IAnimationCollection bulleAnimations;
     private final NuitToolkit toolkit;
-    private final IAssets assets;
     private final Provider<StartGameTrigger> startGameTrigger;
     private final Provider<ShowMenuTrigger> showMenuTrigger;
 
