@@ -55,7 +55,7 @@ public class NuitTranslator {
             }
         }
         if (null == message) {
-            message = "";
+            message = key;
         }
         return message;
     }
@@ -76,7 +76,7 @@ public class NuitTranslator {
         addTranslation(NuitLocale.ENGLISH, "nuit.action.menu.up", "Up");
         addTranslation(NuitLocale.ENGLISH, "nuit.action.menu.down", "Down");
         addTranslation(NuitLocale.ENGLISH, "nuit.action.menu.left", "Left");
-        addTranslation(NuitLocale.ENGLISH, "nuit.action.menu.left", "Right");
+        addTranslation(NuitLocale.ENGLISH, "nuit.action.menu.right", "Right");
         addTranslation(NuitLocale.ENGLISH, "nuit.action.menu.ok", "OK");
         addTranslation(NuitLocale.ENGLISH, "nuit.action.menu.cancel", "Cancel");
         addTranslation(NuitLocale.ENGLISH, "nuit.video.configurator.mode", "Mode");
@@ -102,7 +102,7 @@ public class NuitTranslator {
         addTranslation(NuitLocale.FRENCH, "nuit.action.menu.up", "Haut");
         addTranslation(NuitLocale.FRENCH, "nuit.action.menu.down", "Bas");
         addTranslation(NuitLocale.FRENCH, "nuit.action.menu.left", "Gauche");
-        addTranslation(NuitLocale.FRENCH, "nuit.action.menu.left", "Droite");
+        addTranslation(NuitLocale.FRENCH, "nuit.action.menu.right", "Droite");
         addTranslation(NuitLocale.FRENCH, "nuit.action.menu.ok", "OK");
         addTranslation(NuitLocale.FRENCH, "nuit.action.menu.cancel", "Annuler");
         addTranslation(NuitLocale.FRENCH, "nuit.video.configurator.mode", "Mode");
