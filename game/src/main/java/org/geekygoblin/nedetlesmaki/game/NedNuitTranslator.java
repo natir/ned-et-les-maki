@@ -49,7 +49,7 @@ public class NedNuitTranslator extends NuitTranslator {
 
     private void addLevelNumbers() {
         for (NuitLocale locale : NuitLocale.values()) {
-            for (int i = 0; i < 30; ++i) {
+            for (int i = 0; i <= 30; ++i) {
                 String index = String.valueOf(i);
                 if (i < 10) {
                     index = "0" + index;
