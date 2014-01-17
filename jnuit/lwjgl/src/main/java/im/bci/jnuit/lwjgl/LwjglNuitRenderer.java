@@ -25,6 +25,7 @@ package im.bci.jnuit.lwjgl;
 
 import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.NuitTranslator;
+import im.bci.jnuit.background.Background;
 import im.bci.jnuit.background.ColoredBackground;
 import im.bci.jnuit.background.NullBackground;
 import im.bci.jnuit.background.TexturedBackground;
@@ -99,13 +100,6 @@ public abstract class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisi
         GL11.glPopMatrix();
     }
 
-    protected void drawChildren(Widget widget) {
-        for (Widget child : widget.getChildren()) {
-            child.getBackground().accept(child, this);
-            child.accept(this);
-        }
-    }
-
     @Override
     public void visit(Widget widget, ColoredBackground background) {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -153,8 +147,15 @@ public abstract class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisi
     }
 
     private void drawContainer(Container widget) {
-        drawChildren(widget);
         Widget focused = widget.getFocusedChild();
+        for (Widget child : widget.getChildren()) {
+            Background background = child.getBackground();
+            if(focused == child && null != child.getFocusedBackground()) {
+                background = child.getFocusedBackground();
+            }
+            background.accept(child, this);
+            child.accept(this);
+        }        
         if (null != focused) {
             drawFocus(widget, focused);
         }
@@ -216,7 +217,10 @@ public abstract class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisi
 
     @Override
     public void visit(NullWidget widget) {
-        drawChildren(widget);
+        for (Widget child : widget.getChildren()) {
+            child.getBackground().accept(child, this);
+            child.accept(this);
+        }
     }
 
     @Override
