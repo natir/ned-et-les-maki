@@ -35,6 +35,7 @@ public abstract class Widget {
 
     private float x, y, width, height;
     private Background background = NullBackground.INSTANCE;
+    private Background focusedBackground = null;
     private boolean mustDrawFocus = true;
     private final List<Widget> children = new ArrayList<>();
 
@@ -44,6 +45,14 @@ public abstract class Widget {
 
     public void setBackground(Background background) {
         this.background = background;
+    }
+
+    public Background getFocusedBackground() {
+        return focusedBackground;
+    }
+
+    public void setFocusedBackground(Background focusedBackground) {
+        this.focusedBackground = focusedBackground;
     }
 
     public List<Widget> getChildren() {
