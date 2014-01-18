@@ -37,10 +37,20 @@ import com.artemis.utils.ImmutableBag;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
+import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Boostable;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyable;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyer;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Movable;
-import org.geekygoblin.nedetlesmaki.game.utils.FautLireLaDocDArtemisCrotteDeBiquetteFix;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pusher;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Stairs;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.StopOnPlate;
 
 /**
  *
@@ -52,9 +62,31 @@ public class EntityIndexManager extends EntityManager {
     private Square[][] index;
     private final Stack<ArrayList<Mouvement>> oldIndex;
     
+         @Mapper
+    ComponentMapper<Pushable> pushableMapper;
+    @Mapper
+    ComponentMapper<Pusher> pusherMapper;
     @Mapper
     ComponentMapper<Position> positionMapper;
-
+    @Mapper
+    ComponentMapper<Movable> movableMapper;
+    @Mapper
+    ComponentMapper<Plate> plateMapper;
+    @Mapper
+    ComponentMapper<Color> colorMapper;
+    @Mapper
+    ComponentMapper<Boostable> boostMapper;
+    @Mapper
+    ComponentMapper<BlockOnPlate> blockOnPlateMapper;
+    @Mapper
+    ComponentMapper<StopOnPlate> stopOnPlateMapper;
+    @Mapper
+    ComponentMapper<Destroyer> destroyerMapper;
+    @Mapper
+    ComponentMapper<Destroyable> destroyableMapper;
+    @Mapper
+    ComponentMapper<Stairs> stairsMapper;
+    
     @Inject
     public EntityIndexManager() {
 	super();
@@ -64,28 +96,29 @@ public class EntityIndexManager extends EntityManager {
 
     @Override
     public void added(Entity e) {
-	Position p = FautLireLaDocDArtemisCrotteDeBiquetteFix.getComponentSafeMaisLentSaMere(e, Position.class);
+        Position p = this.getPosition(e);
 	
-	if(p != null) {
-	    if(this.index[p.getX()][p.getY()] == null) {
+        if(p != null) {
+            if(this.index[p.getX()][p.getY()] == null) {
                 this.index[p.getX()][p.getY()] = new Square();
             }
-	    this.index[p.getX()][p.getY()].add(e);
-	    super.added(e);
-	}
+            this.index[p.getX()][p.getY()].add(e);
+            super.added(e);
+        }
     }
 
     @Override
     public void deleted(Entity e) {
-	Position p = FautLireLaDocDArtemisCrotteDeBiquetteFix.getComponentSafeMaisLentSaMere(e, Position.class);
+    Position p = this.getPosition(e);
 	
-	if(p != null) {
-	    Square s = this.index[p.getX()][p.getY()];
-            if(s != null) {
-                s.remove(e);
-            }
-	    super.deleted(e);
-    	}
+    if(p != null) {
+        Square s = this.index[p.getX()][p.getY()];
+        if(s != null) {
+            s.remove(e);
+        }
+        
+        super.deleted(e);
+        }
     }
 
      public ArrayList<Entity> getEntity(int x, int y) {
@@ -172,4 +205,179 @@ public class EntityIndexManager extends EntityManager {
     public Entity getNed() {
         return ((Game) world).getNed();
     }
+    
+    //Utills 
+    public boolean positionIsVoid(Position p) {
+        Square s = this.getSquare(p.getX(), p.getY());
+
+        if (s != null) {
+            ArrayList<Entity> plate = s.getWith(Plate.class
+            );
+            ArrayList<Entity> all = s.getAll();
+
+            if (all.size()
+                    == plate.size()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean isStairs(Position newP) {
+        Square s = this.getSquare(newP.getX(), newP.getY());
+
+        ArrayList<Entity> stairsEntity = s.getWith(Stairs.class);
+
+        if (stairsEntity.isEmpty()) {
+            return false;
+        }
+
+        Entity e = stairsEntity.get(0);
+        
+        Stairs st = this.getStairs(e);
+
+        if (st != null) {
+            if (st.isOpen()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isPushableEntity(Entity e) {
+        Pushable p = this.pushableMapper.getSafe(e);
+
+        if (p != null) {
+            if (p.isPushable()) {
+                return p.isPushable();
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isPusherEntity(Entity e) {
+        Pusher p = this.pusherMapper.getSafe(e);
+
+        if (p != null) {
+            if (p.isPusher()) {
+                return p.isPusher();
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isDestroyer(Entity e) {
+        Destroyer d = this.destroyerMapper.getSafe(e);
+
+        if (d != null) {
+            if (d.destroyer()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isDestroyable(Entity e) {
+        Destroyable d = this.destroyableMapper.getSafe(e);
+
+        if (d != null) {
+            if (d.destroyable()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean stopOnPlate(Entity e) {
+        StopOnPlate p = stopOnPlateMapper.getSafe(e);
+        
+        if(p == null) {
+            return false;
+        }
+        
+        return p.stop();
+    }
+
+    public boolean isBlockOnPlate(Entity e) {
+        BlockOnPlate p = blockOnPlateMapper.getSafe(e);
+        
+        if(p == null) {
+            return false;
+        }
+        
+        return p.block();
+    }
+    
+    public int getMovable(Entity e) {
+        Movable m = this.movableMapper.getSafe(e);
+
+        if (m != null) {
+            return m.getNbCase();
+        }
+
+        return 0;
+    }
+
+    public int getBoost(Entity e) {
+        Boostable b = this.boostMapper.getSafe(e);
+
+        if (b != null) {
+            return b.getNbCase();
+        }
+
+        return 20;
+    }
+
+    public Position getPosition(Entity e) {
+        Position p = this.positionMapper.getSafe(e);
+
+        if (p != null) {
+            return p;
+        }
+
+        return null;
+    }
+    
+    public Color getColor(Entity e) {
+        Color c = this.colorMapper.getSafe(e);
+         if (c == null) {
+            return null;
+        }
+        
+         return c;
+    }
+    
+    public ColorType getColorType(Entity e) {    
+         return this.getColor(e).getColor();
+    }
+    
+    public Plate getPlate(Entity e) {
+        Plate p = plateMapper.getSafe(e);
+        
+        if(p == null) {
+            return null;
+        }
+        
+        return p;
+    }
+    
+    public Stairs getStairs(Entity e) {
+
+        Stairs st = this.stairsMapper.getSafe(e);
+
+        if(st == null) {
+            return null;
+        }
+        
+        return st;
+    }
+    
 }
