@@ -61,13 +61,13 @@ public class Game extends World {
 	setSystem(updateLevelVisualSystem);
 	setSystem(new SpriteAnimateSystem());
 	setSystem(new SpritePuppetControlSystem());
-        setSystem(new TintMouseSelectionSystem());
+                  setSystem(new TintMouseSelectionSystem());
 	setSystem(drawSystem);
 	setSystem(new TriggerSystem());
 	setSystem(new TriggerWhenRemovedSystem());
 	setSystem(new MainMenuSystem());
 	setSystem(new DialogSystem());
-        setSystem(new DebugSpriteSystem());
+                  setSystem(new DebugSpriteSystem());
 	setManager(new GroupManager());
 
 	initialize();

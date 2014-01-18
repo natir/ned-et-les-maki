@@ -66,36 +66,11 @@ public class GameSystem extends VoidEntitySystem {
     private final EntityIndexManager index;
     private boolean run;
 
-    @Mapper
-    ComponentMapper<Pushable> pushableMapper;
-    @Mapper
-    ComponentMapper<Pusher> pusherMapper;
-    @Mapper
-    ComponentMapper<Position> positionMapper;
-    @Mapper
-    ComponentMapper<Movable> movableMapper;
-    @Mapper
-    ComponentMapper<Plate> plateMapper;
-    @Mapper
-    ComponentMapper<Color> colorMapper;
-    @Mapper
-    ComponentMapper<Boostable> boostMapper;
-    @Mapper
-    ComponentMapper<BlockOnPlate> blockOnPlateMapper;
-    @Mapper
-    ComponentMapper<StopOnPlate> stopOnPlateMapper;
-    @Mapper
-    ComponentMapper<Destroyer> destroyerMapper;
-    @Mapper
-    ComponentMapper<Destroyable> destroyableMapper;
-    @Mapper
-    ComponentMapper<Stairs> stairsMapper;
-
     @Inject
     public GameSystem(EntityIndexManager index, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger) {
+        this.showLevelMenuTrigger = showLevelMenuTrigger;
         this.index = index;
         this.run = false;
-        this.showLevelMenuTrigger = showLevelMenuTrigger;
     }
 
     @Override
@@ -108,23 +83,23 @@ public class GameSystem extends VoidEntitySystem {
     public ArrayList<Mouvement> moveEntity(Entity e, Position dirP) {
         this.run = true;
 
-        Position oldP = this.getPosition(e);
+        Position oldP = this.index.getPosition(e);
 
         ArrayList<Mouvement> mouv = new ArrayList();
 
-        for (int i = 0; i != this.getMovable(e); i++) {
+        for (int i = 0; i != this.index.getMovable(e); i++) {
             Position newP = PosOperation.sum(oldP, dirP);
 
-            if (i > this.getBoost(e) - 1) {
+            if (i > this.index.getBoost(e) - 1) {
                 e.getComponent(Pusher.class).setPusher(true);
             }
 
-            if (this.positionIsVoid(newP)) {
+            if (this.index.positionIsVoid(newP)) {
                 Square s = index.getSquare(newP.getX(), newP.getY());
                 if (this.testStopOnPlate(e, s)) {
                     mouv.addAll(this.runValideMove(oldP, newP, e, false));
 
-                    if (this.getBoost(e) != 20) {
+                    if (this.index.getBoost(e) != 20) {
                         e.getComponent(Pusher.class).setPusher(false);
                     }
 
@@ -134,20 +109,20 @@ public class GameSystem extends VoidEntitySystem {
                     mouv.addAll(runValideMove(oldP, newP, e, false));
                 }
             } else {
-                if (this.isStairs(newP)) {
+                if (this.index.isStairs(newP)) {
                     mouv.addAll(nedMoveOnStairs(oldP, newP, e));
                     if(!mouv.isEmpty())
                     {
                         this.endOfLevel();
                     }
                 }
-                if (this.isPusherEntity(e)) {
+                if (this.index.isPusherEntity(e)) {
                     ArrayList<Entity> aNextE = index.getSquare(newP.getX(), newP.getY()).getWith(Pushable.class);
                     if (!aNextE.isEmpty()) {
                         Entity nextE = aNextE.get(0);
-                        if (this.isPushableEntity(nextE)) {
-                            if (this.isDestroyer(e)) {
-                                if (this.isDestroyable(nextE)) {
+                        if (this.index.isPushableEntity(nextE)) {
+                            if (this.index.isDestroyer(e)) {
+                                if (this.index.isDestroyable(nextE)) {
                                     mouv.add(destroyMove(nextE));
                                     mouv.addAll(runValideMove(oldP, newP, e, false));
                                 } else {
@@ -168,7 +143,7 @@ public class GameSystem extends VoidEntitySystem {
                     }
                 }
 
-                if (this.getBoost(e) != 20) {
+                if (this.index.getBoost(e) != 20) {
                     e.getComponent(Pusher.class).setPusher(false);
                 }
 
@@ -296,11 +271,10 @@ public class GameSystem extends VoidEntitySystem {
 
         Entity plate = plates.get(0);
 
-        Color plateC = this.colorMapper.getSafe(plate);
-        Color makiC = this.colorMapper.getSafe(e);
+        Color plateC = this.index.getColor(plate);
+        Color makiC = this.index.getColor(e);
 
-        if (plateC.getColor()
-                == makiC.getColor()) {
+        if (plateC.getColor() == makiC.getColor()) {
             if (plateC.getColor() == ColorType.green) {
                 if (getOne) {
                     m.add(new Mouvement(e).setPosition(newP).setAnimation(AnimationType.maki_green_one).saveMouvement());
@@ -331,7 +305,7 @@ public class GameSystem extends VoidEntitySystem {
         this.index.deleted(e);
         return new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).saveMouvement();
     }
-
+     
     public boolean makiMoveOnePlate(Position newP, Entity e) {
         Square s = this.index.getSquare(newP.getX(), newP.getY());
 
@@ -347,13 +321,11 @@ public class GameSystem extends VoidEntitySystem {
             return false;
         }
 
-        if (this.colorMapper.getSafe(e)
-                == null) {
+        if (this.index.getColor(e) == null) {
             return false;
         }
 
-        if (this.colorMapper.getSafe(e)
-                .getColor() == this.colorMapper.getSafe(plates.get(0)).getColor()) {
+        if (this.index.getColorType(e)== this.index.getColorType(plates.get(0))) {
             plates.get(0).getComponent(Plate.class).setMaki(true);
             return true;
         }
@@ -375,13 +347,11 @@ public class GameSystem extends VoidEntitySystem {
             return false;
         }
 
-        if (this.colorMapper.getSafe(e)
-                == null) {
+        if (this.index.getColor(e) == null) {
             return false;
         }
 
-        if (this.colorMapper.getSafe(e)
-                .getColor() == this.colorMapper.getSafe(plates.get(0)).getColor()) {
+        if (this.index.getColorType(e) == this.index.getColorType(plates.get(0))) {
             plates.get(0).getComponent(Plate.class).setMaki(false);
             return true;
         }
@@ -403,17 +373,16 @@ public class GameSystem extends VoidEntitySystem {
         }
 
         Entity plate = obj.getWith(Plate.class).get(0);
-        Plate p = plateMapper.getSafe(plate);
-        StopOnPlate b = stopOnPlateMapper.getSafe(eMove);
+        Plate p = this.index.getPlate(plate);
+        boolean block = this.index.stopOnPlate(eMove);
 
-        if (b
-                == null) {
+        if (!block) {
             return false;
         }
 
         if (p.isPlate()) {
-            if (b.stop()) {
-                if (this.colorMapper.getSafe(plate).getColor() == this.colorMapper.getSafe(eMove).getColor() && this.colorMapper.getSafe(eMove).getColor() != ColorType.orange) {
+            if (block) {
+                if (this.index.getColorType(plate) == this.index.getColorType(eMove) && this.index.getColorType(eMove) != ColorType.orange) {
                     return true;
                 }
             }
@@ -437,144 +406,27 @@ public class GameSystem extends VoidEntitySystem {
 
         Entity plate = obj.getWith(Plate.class).get(0);
         Plate p = plate.getComponent(Plate.class);
-        BlockOnPlate b = blockOnPlateMapper.getSafe(eMove);
+        boolean block = this.index.isBlockOnPlate(eMove);
 
-        if (b
-                == null) {
+        if (!block) {
             return false;
         }
 
         if (p.isPlate()) {
-            if (b.block()) {
+            if (block) {
                 return true;
             }
         }
 
         return false;
     }
-
-    public boolean positionIsVoid(Position p) {
-        Square s = index.getSquare(p.getX(), p.getY());
-
-        if (s != null) {
-            ArrayList<Entity> plate = s.getWith(Plate.class
-            );
-            ArrayList<Entity> all = s.getAll();
-
-            if (all.size()
-                    == plate.size()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public boolean isStairs(Position newP) {
-        Square s = index.getSquare(newP.getX(), newP.getY());
-
-        ArrayList<Entity> stairsEntity = s.getWith(Stairs.class);
-
-        if (stairsEntity.isEmpty()) {
-            return false;
-        }
-
-        Entity stairs = stairsEntity.get(0);
-        Stairs st = this.stairsMapper.getSafe(stairs);
-
-        if (!st.isOpen()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public boolean isPushableEntity(Entity e) {
-        Pushable p = this.pushableMapper.getSafe(e);
-
-        if (p != null) {
-            if (p.isPushable()) {
-                return p.isPushable();
-            }
-        }
-
-        return false;
-    }
-
-    public boolean isPusherEntity(Entity e) {
-        Pusher p = this.pusherMapper.getSafe(e);
-
-        if (p != null) {
-            if (p.isPusher()) {
-                return p.isPusher();
-            }
-        }
-
-        return false;
-    }
-
-    public Position getPosition(Entity e) {
-        Position p = this.positionMapper.getSafe(e);
-
-        if (p != null) {
-            return p;
-        }
-
-        return new Position(-1, -1);
-    }
-
-    public int getMovable(Entity e) {
-        Movable m = this.movableMapper.getSafe(e);
-
-        if (m != null) {
-            return m.getNbCase();
-        }
-
-        return 0;
-    }
-
-    public int getBoost(Entity e) {
-        Boostable b = this.boostMapper.getSafe(e);
-
-        if (b != null) {
-            return b.getNbCase();
-        }
-
-        return 20;
-    }
-
-    public boolean isDestroyer(Entity e) {
-        Destroyer d = this.destroyerMapper.getSafe(e);
-
-        if (d != null) {
-            if (d.destroyer()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean isDestroyable(Entity e) {
-        Destroyable d = this.destroyableMapper.getSafe(e);
-
-        if (d != null) {
-            if (d.destroyable()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
+ 
     private void tryPlate() {
         ImmutableBag<Entity> plateGroup = this.index.getAllPlate();
 
         ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
         Entity stairs = stairsGroup.get(0);
-        Stairs stairsS = this.stairsMapper.getSafe(stairs);
+        Stairs stairsS = this.index.getStairs(stairs);
         
         if(stairsS.isOpen())
         {
@@ -584,7 +436,7 @@ public class GameSystem extends VoidEntitySystem {
         for (int i = 0; i != plateGroup.size(); i++) {
             Entity plateE = plateGroup.get(i);
 
-            Plate plate = this.plateMapper.getSafe(plateE);
+            Plate plate = this.index.getPlate(plateE);
 
             if (!plate.haveMaki()) {
                 return;
@@ -619,11 +471,11 @@ public class GameSystem extends VoidEntitySystem {
         ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
 
         Entity ned = this.index.getNed();
-        Position nedP = this.positionMapper.getSafe(ned);
+        Position nedP = this.index.getPosition(ned);
         
         Entity stairs = stairsGroup.get(0);
-        Position stairsP = this.positionMapper.getSafe(stairs);
-        Stairs stairsS = this.stairsMapper.getSafe(stairs);
+        Position stairsP = this.index.getPosition(stairs);
+        Stairs stairsS = this.index.getStairs(stairs);
 
         if (stairsS.isOpen() && PosOperation.equale(nedP, stairsP)) {
             if (world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty()) {
