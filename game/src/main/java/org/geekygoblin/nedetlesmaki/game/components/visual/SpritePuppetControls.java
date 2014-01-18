@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import com.artemis.Component;
 
 import im.bci.nanim.IAnimation;
+import im.bci.nanim.PlayMode;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -49,13 +50,23 @@ public final class SpritePuppetControls extends Component {
         return this;
     }
 
+    public SpritePuppetControls startAnimation(IAnimation animation, PlayMode mode) {
+        updaters.add(new SpriteStartAnimation(sprite, animation, mode));
+        return this;
+    }
+    
     public SpritePuppetControls startAnimation(IAnimation animation) {
-        updaters.add(new SpriteStartAnimation(sprite, animation));
+        updaters.add(new SpriteStartAnimation(sprite, animation, PlayMode.LOOP));
         return this;
     }
 
     public SpritePuppetControls stopAnimation() {
         updaters.add(new SpriteStopAnimation(sprite));
+        return this;
+    }
+    
+    public SpritePuppetControls waitAnimation() {
+        updaters.add(new SpriteWaitAnimation(sprite));
         return this;
     }
 
