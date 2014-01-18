@@ -25,8 +25,8 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 import com.artemis.Component;
+import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import org.geekygoblin.nedetlesmaki.game.utils.FautLireLaDocDArtemisCrotteDeBiquetteFix;
 
 public class Square extends Component {
 
@@ -51,16 +51,24 @@ public class Square extends Component {
     }
 
     public ArrayList<Entity> getWith(Class componentClass) {
-	ArrayList<Entity> ret = new ArrayList();
+        
+        if(this.array.isEmpty())
+        {
+            return new ArrayList();
+        }
+        
+        ComponentMapper access = ComponentMapper.getFor(componentClass, this.array.get(0).getWorld());
+        ArrayList<Entity> ret = new ArrayList();
         for (Entity e : this.array) {
-            Object c = FautLireLaDocDArtemisCrotteDeBiquetteFix.getComponentSafeMaisLentSaMere(e, componentClass);
+            Object c;
+            c = access.getSafe(e);
             
             if(c != null) {
                 ret.add(e);
             }
         }
 
-	return ret;
+        return ret;
     }
 
     public ArrayList<Entity> getAll() {

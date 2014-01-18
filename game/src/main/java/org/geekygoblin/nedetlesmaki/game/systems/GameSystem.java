@@ -314,8 +314,7 @@ public class GameSystem extends VoidEntitySystem {
 
         }
 
-        ArrayList<Entity> plates = s.getWith(Plate.class
-        );
+        ArrayList<Entity> plates = s.getWith(Plate.class);
 
         if (plates.isEmpty()) {
             return false;
