@@ -211,12 +211,10 @@ public class EntityIndexManager extends EntityManager {
         Square s = this.getSquare(p.getX(), p.getY());
 
         if (s != null) {
-            ArrayList<Entity> plate = s.getWith(Plate.class
-            );
+            ArrayList<Entity> plate = s.getWith(Plate.class);
             ArrayList<Entity> all = s.getAll();
 
-            if (all.size()
-                    == plate.size()) {
+            if (all.size() == plate.size()) {
                 return true;
             } else {
                 return false;

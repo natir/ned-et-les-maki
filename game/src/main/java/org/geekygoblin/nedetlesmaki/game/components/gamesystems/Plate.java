@@ -23,16 +23,12 @@ package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
 
 import com.artemis.Component;
 
-import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
-import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
-
 /**
  *
  * @author natir
  */
 public class Plate extends Component {
-    
-    private Color c;
+
     private boolean b;
     private boolean maki;
 
