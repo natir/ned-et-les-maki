@@ -103,6 +103,11 @@ public class Nanimation implements IAnimation {
                 ++this.currentFrameIndex;
             }
         }
+
+        @Override
+        public PlayMode getMode() {
+            return mode;
+        }
     }
 
     enum State {

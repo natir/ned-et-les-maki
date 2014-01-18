@@ -31,6 +31,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.VoidEntitySystem;
 
 import im.bci.nanim.IAnimationCollection;
+import im.bci.nanim.PlayMode;
 
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
@@ -171,17 +172,17 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         }  else if (a == AnimationType.disable_entity) {
             e.disable();
         } else if (a == AnimationType.stairs_up) {
-            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_up"))
-                    .stopAnimation();
+            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_up"), PlayMode.ONCE)
+                    .waitAnimation();
         }  else if (a == AnimationType.stairs_down) {
-            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_down"))
-                    .stopAnimation();
+            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_down"), PlayMode.ONCE)
+                    .waitAnimation();
         }  else if (a == AnimationType.stairs_left) {
-            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_left"))
-                    .stopAnimation();
+            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_left"), PlayMode.ONCE)
+                    .waitAnimation();
         }  else if (a == AnimationType.stairs_right) {
-            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_right"))
-                    .stopAnimation();
+            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_right"), PlayMode.ONCE)
+                    .waitAnimation();
         }
 
         e.addComponent(updatable);

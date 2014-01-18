@@ -36,6 +36,8 @@ public interface IPlay {
     void stop();
 
     boolean isStopped();
+    
+    PlayMode getMode();
 
     void update(long elapsedTime);
 

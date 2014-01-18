@@ -82,6 +82,8 @@ public class TextureAnimationCollectionWrapper implements IAnimationCollection, 
 
     public class Play implements IPlay {
 
+        private PlayMode mode;
+
         @Override
         public String getName() {
             return TextureAnimationCollectionWrapper.this.getName();
@@ -89,6 +91,7 @@ public class TextureAnimationCollectionWrapper implements IAnimationCollection, 
 
         @Override
         public void start(PlayMode mode) {
+            this.mode = mode;
         }
 
         @Override
@@ -113,6 +116,12 @@ public class TextureAnimationCollectionWrapper implements IAnimationCollection, 
         public IAnimationFrame getCurrentFrame() {
             return TextureAnimationCollectionWrapper.this;
         }
+
+        @Override
+        public PlayMode getMode() {
+            return mode;
+        }
+
     }
 
     public TextureAnimationCollectionWrapper(ITexture texture, float u1, float v1, float u2, float v2) {
