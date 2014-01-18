@@ -35,7 +35,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import im.bci.jnuit.controls.Action;
 import im.bci.jnuit.controls.ActionActivatedDetector;
-import im.bci.jnuit.lwjgl.controls.KeyControl;
 import im.bci.jnuit.lwjgl.controls.MouseButtonControl;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
@@ -44,7 +43,6 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
