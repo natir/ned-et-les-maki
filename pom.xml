@@ -11,14 +11,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <jnuit.version>0.2-SNAPSHOT</jnuit.version>
-        <libtiled-jpurexml.version>0.2-SNAPSHOT</libtiled-jpurexml.version>
+        <libtiled-jpurexml.version>0.2</libtiled-jpurexml.version>
         <lwjgl.version>2.9.0</lwjgl.version>
     </properties>
     <modules>
         <module>game</module>
         <module>game-graph-generator</module>
         <module>jnuit</module>
-        <module>libtiled-jpurexml</module>
         <module>packages/deb</module>
         <module>packages/generic</module>
         <module>packages/win</module>
