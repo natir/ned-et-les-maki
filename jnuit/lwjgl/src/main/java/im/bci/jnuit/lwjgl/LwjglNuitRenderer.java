@@ -29,7 +29,10 @@ import im.bci.jnuit.background.Background;
 import im.bci.jnuit.background.ColoredBackground;
 import im.bci.jnuit.background.NullBackground;
 import im.bci.jnuit.background.TexturedBackground;
+import im.bci.jnuit.border.ColoredBorder;
+import im.bci.jnuit.border.NullBorder;
 import im.bci.jnuit.visitors.BackgroundVisitor;
+import im.bci.jnuit.visitors.BorderVisitor;
 import im.bci.jnuit.visitors.WidgetVisitor;
 import im.bci.jnuit.widgets.AudioConfigurator;
 import im.bci.jnuit.widgets.Button;
@@ -54,6 +57,98 @@ public abstract class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisi
 
     private final NuitTranslator translator;
     private final TrueTypeFont font;
+    private final TopBorderRenderer topBorderRenderer = new TopBorderRenderer();
+    private final BottomBorderRenderer bottomBorderRenderer = new BottomBorderRenderer();
+    private final LeftBorderRenderer leftBorderRenderer = new LeftBorderRenderer();
+    private final RightBorderRenderer rightBorderRenderer = new RightBorderRenderer();
+
+    private class TopBorderRenderer implements BorderVisitor {
+
+        @Override
+        public void visit(Widget widget, NullBorder border) {
+        }
+
+        @Override
+        public void visit(Widget widget, ColoredBorder border) {
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glLineWidth(border.getSize());
+            GL11.glColor4f(border.getRed(), border.getGreen(), border.getBlue(), border.getAlpha());
+            GL11.glBegin(GL11.GL_LINES);
+            GL11.glVertex2f(widget.getX(), widget.getY());
+            GL11.glVertex2f(widget.getX() + widget.getWidth(), widget.getY());
+            GL11.glEnd();
+            GL11.glColor4f(1f, 1f, 1f, 1f);
+            GL11.glLineWidth(1.0f);
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+        }
+
+    }
+
+    private class BottomBorderRenderer implements BorderVisitor {
+
+        @Override
+        public void visit(Widget widget, NullBorder border) {
+        }
+
+        @Override
+        public void visit(Widget widget, ColoredBorder border) {
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+             GL11.glLineWidth(border.getSize());
+             GL11.glColor4f(border.getRed(), border.getGreen(), border.getBlue(), border.getAlpha());
+             GL11.glBegin(GL11.GL_LINES);
+             GL11.glVertex2f(widget.getX(), widget.getY() + widget.getHeight());
+             GL11.glVertex2f(widget.getX() + widget.getWidth(), widget.getY() + widget.getHeight());
+             GL11.glEnd();
+             GL11.glColor4f(1f, 1f, 1f, 1f);
+             GL11.glLineWidth(1.0f);
+             GL11.glEnable(GL11.GL_TEXTURE_2D);
+        }
+
+    }
+
+    private class LeftBorderRenderer implements BorderVisitor {
+
+        @Override
+        public void visit(Widget widget, NullBorder border) {
+        }
+
+        @Override
+        public void visit(Widget widget, ColoredBorder border) {
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glLineWidth(border.getSize());
+            GL11.glColor4f(border.getRed(), border.getGreen(), border.getBlue(), border.getAlpha());
+            GL11.glBegin(GL11.GL_LINES);
+            GL11.glVertex2f(widget.getX(), widget.getY());
+            GL11.glVertex2f(widget.getX(), widget.getY() + widget.getHeight());
+            GL11.glEnd();
+            GL11.glColor4f(1f, 1f, 1f, 1f);
+            GL11.glLineWidth(1.0f);
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+        }
+
+    }
+
+    private class RightBorderRenderer implements BorderVisitor {
+
+        @Override
+        public void visit(Widget widget, NullBorder border) {
+        }
+
+        @Override
+        public void visit(Widget widget, ColoredBorder border) {
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glLineWidth(border.getSize());
+            GL11.glColor4f(border.getRed(), border.getGreen(), border.getBlue(), border.getAlpha());
+            GL11.glBegin(GL11.GL_LINES);
+            GL11.glVertex2f(widget.getX() + widget.getWidth(), widget.getY());
+            GL11.glVertex2f(widget.getX() + widget.getWidth(), widget.getY() + widget.getHeight());
+            GL11.glEnd();
+            GL11.glColor4f(1f, 1f, 1f, 1f);
+            GL11.glLineWidth(1.0f);
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+        }
+
+    }
 
     public LwjglNuitRenderer(NuitTranslator translator, TrueTypeFont font) {
         this.translator = translator;
@@ -79,12 +174,20 @@ public abstract class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisi
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
-        root.getBackground().accept(root, this);
+        drawBackgroundAndBorder(root);
         drawStack(root);
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPopMatrix();
         GL11.glPopAttrib();
+    }
+
+    private void drawBackgroundAndBorder(Widget widget) {
+        widget.getBackground().accept(widget, this);
+        widget.getTopBorder().accept(widget, topBorderRenderer);
+        widget.getBottomBorder().accept(widget, bottomBorderRenderer);
+        widget.getLeftBorder().accept(widget, leftBorderRenderer);
+        widget.getRightBorder().accept(widget, rightBorderRenderer);
     }
 
     @Override
@@ -150,12 +253,12 @@ public abstract class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisi
         Widget focused = widget.getFocusedChild();
         for (Widget child : widget.getChildren()) {
             Background background = child.getBackground();
-            if(focused == child && null != child.getFocusedBackground()) {
+            if (focused == child && null != child.getFocusedBackground()) {
                 background = child.getFocusedBackground();
             }
-            background.accept(child, this);
+            drawBackgroundAndBorder(child);
             child.accept(this);
-        }        
+        }
         if (null != focused) {
             drawFocus(widget, focused);
         }
@@ -218,7 +321,7 @@ public abstract class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisi
     @Override
     public void visit(NullWidget widget) {
         for (Widget child : widget.getChildren()) {
-            child.getBackground().accept(child, this);
+            drawBackgroundAndBorder(child);
             child.accept(this);
         }
     }
@@ -244,7 +347,7 @@ public abstract class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisi
     private void drawStack(Stack widget) {
         Widget child = widget.getFocusedChild();
         if (null != child) {
-            child.getBackground().accept(child, this);
+            drawBackgroundAndBorder(child);
             child.accept(this);
         }
     }
