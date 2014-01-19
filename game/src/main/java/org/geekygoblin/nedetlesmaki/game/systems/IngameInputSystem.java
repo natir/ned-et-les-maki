@@ -83,11 +83,13 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 controls.getDown().poll();
                 controls.getRight().poll();
                 controls.getLeft().poll();
+                controls.getRet().poll();
                 mouseClick.poll();
                 boolean upPressed = controls.getUp().isPressed();
                 boolean downPressed = controls.getDown().isPressed();
                 boolean leftPressed = controls.getLeft().isPressed();
                 boolean rightPressed = controls.getRight().isPressed();
+                boolean retPressed = controls.getRet().isPressed();
                 Entity ned = game.getNed();
                 if (mouseClick.isPressed()) {
                     Vector3f selectedPosition = game.getSystem(TintMouseSelectionSystem.class).getSelectedSprite().getPosition();
@@ -124,6 +126,8 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 } else if (rightPressed) {
                     indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0)));
                     ned.changedInWorld();
+                } else if (retPressed) {
+                    System.out.println("R is pressed");
                 }
             }
         }
