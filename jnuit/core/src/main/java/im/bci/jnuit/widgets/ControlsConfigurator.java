@@ -25,6 +25,7 @@ package im.bci.jnuit.widgets;
 
 import im.bci.jnuit.NuitFont;
 import im.bci.jnuit.NuitToolkit;
+import im.bci.jnuit.border.ColoredBorder;
 import im.bci.jnuit.controls.Action;
 import im.bci.jnuit.controls.Control;
 import im.bci.jnuit.controls.ControlActivatedDetector;
@@ -41,15 +42,63 @@ public class ControlsConfigurator extends Table {
     private final NuitToolkit toolkit;
     private List<Action> resets;
     private final List<Action> defaults;
+    private Button defaultButton;
+    private Button resetButton;
+    private Button backButton;
+    private Label alternativeLabel;
+    private Label controlLabel;
+    private Label actionLabel;
+    private List<Label> actionNameLabels;
+    private List<ControlConfigurator> mainActionControls;
+    private List<ControlConfigurator> alternativeActionControls;
 
     public ControlsConfigurator(NuitToolkit toolkit, List<Action> actions, List<Action> defaults) {
         super(toolkit);
         this.toolkit = toolkit;
         this.actions = actions;
         this.defaults = defaults;
+        this.actionNameLabels = new ArrayList<Label>(actions.size());
+        this.mainActionControls = new ArrayList<ControlConfigurator>(actions.size());
+        this.alternativeActionControls = new ArrayList<ControlConfigurator>(actions.size());
         initResets();
         initPossibleControls();
         initUI(toolkit);
+    }
+
+    public List<Label> getActionNameLabels() {
+        return actionNameLabels;
+    }
+
+    public List<ControlConfigurator> getMainActionControls() {
+        return mainActionControls;
+    }
+
+    public List<ControlConfigurator> getAlternativeActionControls() {
+        return alternativeActionControls;
+    }
+
+    public Button getDefaultButton() {
+        return defaultButton;
+    }
+
+    public Button getResetButton() {
+        return resetButton;
+    }
+
+    public Button getBackButton() {
+        return backButton;
+    }
+
+    public Label getAlternativeLabel() {
+        return alternativeLabel;
+    }
+
+    public Label getControlLabel() {
+        return controlLabel;
+    }
+
+    public Label getActionLabel() {
+        return actionLabel;
     }
 
     private void initResets() {
@@ -61,12 +110,22 @@ public class ControlsConfigurator extends Table {
 
     private void initUI(NuitToolkit toolkit) {
         this.defaults().expand();
-        this.cell(new Label(toolkit, "nuit.controls.configurator.action"));
-        this.cell(new Label(toolkit, "nuit.controls.configurator.control"));
-        this.cell(new Label(toolkit, "nuit.controls.configurator.alternative"));
+        actionLabel = new Label(toolkit, "nuit.controls.configurator.action");
+        final ColoredBorder border = new ColoredBorder(0.7f, 0.7f, 0.7f, 1f, 2f);
+        actionLabel.setBottomBorder(border);
+        this.cell(actionLabel).fill();
+        controlLabel = new Label(toolkit, "nuit.controls.configurator.control");
+        controlLabel.setBottomBorder(border);
+        this.cell(controlLabel).fill();
+        alternativeLabel = new Label(toolkit, "nuit.controls.configurator.alternative");
+        alternativeLabel.setBottomBorder(border);
+        this.cell(alternativeLabel).fill();
         this.row();
         for (final Action action : actions) {
-            this.cell(new Label(toolkit, action.getName()));
+            final Label actionNameLabel = new Label(toolkit, action.getName());
+            actionNameLabel.setRightBorder(border);
+            this.cell(actionNameLabel).fill();
+            actionNameLabels.add(actionNameLabel);
             ControlConfigurator mainConfigurator = new ControlConfigurator() {
                 @Override
                 public Control getControl() {
@@ -79,6 +138,7 @@ public class ControlsConfigurator extends Table {
                 }
             };
             this.cell(mainConfigurator).fill();
+            mainActionControls.add(mainConfigurator);
             ControlConfigurator alternativeConfigurator = new ControlConfigurator() {
                 @Override
                 public Control getControl() {
@@ -92,26 +152,34 @@ public class ControlsConfigurator extends Table {
             };
             this.cell(alternativeConfigurator).fill();
             this.row();
+            alternativeActionControls.add(alternativeConfigurator);
         }
-
-        this.cell(new Button(toolkit, "nuit.controls.configurator.back") {
+        backButton = new Button(toolkit, "nuit.controls.configurator.back") {
             @Override
             public void onOK() {
                 onBack();
             }
-        });
-        this.cell(new Button(toolkit, "nuit.controls.configurator.resets") {
+        };
+        backButton.setTopBorder(border);
+        this.cell(backButton).fill();
+
+        resetButton = new Button(toolkit, "nuit.controls.configurator.resets") {
             @Override
             public void onOK() {
                 onReset();
             }
-        });
-        this.cell(new Button(toolkit, "nuit.controls.configurator.defaults") {
+        };
+        this.cell(resetButton).fill();
+        resetButton.setTopBorder(border);
+
+        defaultButton = new Button(toolkit, "nuit.controls.configurator.defaults") {
             @Override
             public void onOK() {
                 onDefaults();
             }
-        });
+        };
+        this.cell(defaultButton).fill();
+        defaultButton.setTopBorder(border);
     }
 
     public abstract class ControlConfigurator extends Widget {
@@ -131,7 +199,7 @@ public class ControlsConfigurator extends Table {
                 text = toolkit.getMessage(getControl().getName());
             }
             return text;
-        }        
+        }
 
         public abstract Control getControl();
 

@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,46 +21,19 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.jnuit.widgets;
+package im.bci.jnuit.visitors;
 
-import im.bci.jnuit.NuitToolkit;
-import im.bci.jnuit.visitors.WidgetVisitor;
+import im.bci.jnuit.border.ColoredBorder;
+import im.bci.jnuit.border.NullBorder;
+import im.bci.jnuit.widgets.Widget;
 
-public class Label extends Widget {
+/**
+ *
+ * @author devnewton
+ */
+public interface BorderVisitor {
 
-    private String text;
-    private final NuitToolkit toolkit;
+    void visit(Widget widget, NullBorder border);
+    void visit(Widget widget, ColoredBorder border);
 
-    public Label(NuitToolkit toolkit, String text) {
-        this.toolkit = toolkit;
-        this.text = text;
-    }
-
-    @Override
-    public boolean isFocusable() {
-        return false;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    @Override
-    public void accept(WidgetVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    @Override
-    public float getMinWidth() {
-        return toolkit.getFont().getWidth(toolkit.getMessage(text));
-    }
-
-    @Override
-    public float getMinHeight() {
-        return toolkit.getFont().getHeight(toolkit.getMessage(text));
-    }
 }
