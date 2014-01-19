@@ -25,6 +25,8 @@ package im.bci.jnuit.widgets;
 
 import im.bci.jnuit.background.Background;
 import im.bci.jnuit.background.NullBackground;
+import im.bci.jnuit.border.Border;
+import im.bci.jnuit.border.NullBorder;
 import im.bci.jnuit.visitors.WidgetVisitor;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,8 +38,41 @@ public abstract class Widget {
     private float x, y, width, height;
     private Background background = NullBackground.INSTANCE;
     private Background focusedBackground = null;
+    private Border topBorder = NullBorder.INSTANCE, bottomBorder = NullBorder.INSTANCE, leftBorder = NullBorder.INSTANCE, rightBorder = NullBorder.INSTANCE;
     private boolean mustDrawFocus = true;
     private final List<Widget> children = new ArrayList<>();
+
+    public Border getTopBorder() {
+        return topBorder;
+    }
+
+    public void setTopBorder(Border topBorder) {
+        this.topBorder = topBorder;
+    }
+
+    public Border getBottomBorder() {
+        return bottomBorder;
+    }
+
+    public void setBottomBorder(Border bottomBorder) {
+        this.bottomBorder = bottomBorder;
+    }
+
+    public Border getLeftBorder() {
+        return leftBorder;
+    }
+
+    public void setLeftBorder(Border leftBorder) {
+        this.leftBorder = leftBorder;
+    }
+
+    public Border getRightBorder() {
+        return rightBorder;
+    }
+
+    public void setRightBorder(Border rightBorder) {
+        this.rightBorder = rightBorder;
+    }
 
     public Background getBackground() {
         return background;
