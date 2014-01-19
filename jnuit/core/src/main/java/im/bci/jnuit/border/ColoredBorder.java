@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,46 +21,51 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.jnuit.widgets;
+package im.bci.jnuit.border;
 
-import im.bci.jnuit.NuitToolkit;
-import im.bci.jnuit.visitors.WidgetVisitor;
+import im.bci.jnuit.visitors.BorderVisitor;
+import im.bci.jnuit.widgets.Widget;
 
-public class Label extends Widget {
+/**
+ *
+ * @author devnewton
+ */
+public class ColoredBorder implements Border {
 
-    private String text;
-    private final NuitToolkit toolkit;
+    private final float red, green, blue, alpha, size;
 
-    public Label(NuitToolkit toolkit, String text) {
-        this.toolkit = toolkit;
-        this.text = text;
+    public ColoredBorder(float r, float g, float b, float a, float s) {
+        this.red = r;
+        this.green = g;
+        this.blue = b;
+        this.alpha = a;
+        this.size = s;
+
+    }
+
+    public float getRed() {
+        return red;
+    }
+
+    public float getGreen() {
+        return green;
+    }
+
+    public float getBlue() {
+        return blue;
+    }
+
+    public float getAlpha() {
+        return alpha;
+    }
+
+    public float getSize() {
+        return size;
     }
 
     @Override
-    public boolean isFocusable() {
-        return false;
+    public void accept(Widget widget, BorderVisitor visitor) {
+        visitor.visit(widget, this);
     }
 
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    @Override
-    public void accept(WidgetVisitor visitor) {
-        visitor.visit(this);
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    @Override
-    public float getMinWidth() {
-        return toolkit.getFont().getWidth(toolkit.getMessage(text));
-    }
-
-    @Override
-    public float getMinHeight() {
-        return toolkit.getFont().getHeight(toolkit.getMessage(text));
-    }
 }
