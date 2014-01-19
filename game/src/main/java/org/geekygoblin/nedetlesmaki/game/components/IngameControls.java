@@ -38,7 +38,7 @@ import org.lwjgl.input.Keyboard;
 @Singleton
 public class IngameControls extends Component {
 
-    private ActionActivatedDetector up, down, left, right, showMenu;
+    private ActionActivatedDetector up, down, left, right, ret, showMenu;
 
     @Inject
     public IngameControls() {
@@ -46,6 +46,7 @@ public class IngameControls extends Component {
         down = new ActionActivatedDetector(new Action("down", new KeyControl(Keyboard.KEY_DOWN)));
         left = new ActionActivatedDetector(new Action("left", new KeyControl(Keyboard.KEY_LEFT)));
         right = new ActionActivatedDetector(new Action("right", new KeyControl(Keyboard.KEY_RIGHT)));
+        ret = new ActionActivatedDetector(new Action("right", new KeyControl(Keyboard.KEY_R)));
         showMenu = new ActionActivatedDetector(new Action("menu", new KeyControl(Keyboard.KEY_ESCAPE)));
     }
 
@@ -81,6 +82,14 @@ public class IngameControls extends Component {
         this.right = right;
     }
 
+        public ActionActivatedDetector getRet() {
+        return ret;
+    }
+
+    public void setRet(ActionActivatedDetector ret) {
+        this.ret = ret;
+    }
+    
     public ActionActivatedDetector getShowMenu() {
         return showMenu;
     }
