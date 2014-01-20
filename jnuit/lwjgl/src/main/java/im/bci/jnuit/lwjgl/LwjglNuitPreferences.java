@@ -21,9 +21,9 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game;
+package im.bci.jnuit.lwjgl;
 
-import com.google.inject.Inject;
+import im.bci.jnuit.NuitPreferences;
 import im.bci.jnuit.NuitControls;
 import im.bci.jnuit.controls.Control;
 import java.io.File;
@@ -38,15 +38,15 @@ import java.util.logging.Logger;
  *
  * @author devnewton
  */
-public class Preferences {
+public class LwjglNuitPreferences implements NuitPreferences {
 
     private final Properties store = new Properties();
-    private static final String appName = "nedetlesmaki";
+    private final String appName;
     private final NuitControls controls;
 
-    @Inject
-    public Preferences(NuitControls controls) {
+    public LwjglNuitPreferences(NuitControls controls, String appName) {
         this.controls = controls;
+        this.appName = appName;
         load();
     }
 
@@ -56,11 +56,12 @@ public class Preferences {
             try (FileInputStream is = new FileInputStream(userConfigFile)) {
                 store.load(is);
             } catch (IOException ex) {
-                Logger.getLogger(Preferences.class.getName()).log(Level.WARNING, "Cannot load config from file " + userConfigFile, ex);
+                Logger.getLogger(LwjglNuitPreferences.class.getName()).log(Level.WARNING, "Cannot load config from file " + userConfigFile, ex);
             }
         }
     }
 
+    @Override
     public void saveConfig() {
         File userConfigFile = getUserConfigFilePath();
 
@@ -91,22 +92,27 @@ public class Preferences {
         return new File(getUserConfigDirPath(), "config.properties");
     }
 
+    @Override
     public void putBoolean(String name, boolean value) {
         store.setProperty(name, String.valueOf(value));
     }
 
+    @Override
     public boolean getBoolean(String name, boolean defaultValue) {
         return Boolean.valueOf(getSystemOrStoreProperty(name, String.valueOf(defaultValue)));
     }
 
+    @Override
     public void putInt(String name, int value) {
         store.setProperty(name, String.valueOf(value));
     }
 
+    @Override
     public int getInt(String name, int defaultValue) {
         return Integer.valueOf(getSystemOrStoreProperty(name, String.valueOf(defaultValue)));
     }
 
+    @Override
     public void putControl(String name, Control value) {
         if (null != value) {
             store.setProperty(name + ".controller", value.getControllerName());
@@ -117,7 +123,8 @@ public class Preferences {
         }
     }
 
-    Control getControl(String name, Control defaultValue) {
+    @Override
+    public Control getControl(String name, Control defaultValue) {
         String controllerName = getSystemOrStoreProperty(name + ".controller", null);
         String controlName = getSystemOrStoreProperty(name + ".control", null);
         for (Control control : controls.getPossibleControls()) {

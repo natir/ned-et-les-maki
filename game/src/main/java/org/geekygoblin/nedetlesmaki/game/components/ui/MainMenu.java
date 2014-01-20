@@ -47,7 +47,7 @@ import im.bci.jnuit.background.ColoredBackground;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.MainLoop;
-import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
+import im.bci.jnuit.lwjgl.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
 

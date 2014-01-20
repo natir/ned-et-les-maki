@@ -26,12 +26,13 @@ package org.geekygoblin.nedetlesmaki.game;
 import com.artemis.Entity;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import im.bci.jnuit.NuitPreferences;
 import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.controls.Action;
 import im.bci.jnuit.lwjgl.LwjglHelper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
+import im.bci.jnuit.lwjgl.assets.IAssets;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controllers;
 import org.lwjgl.input.Keyboard;
@@ -46,7 +47,7 @@ import org.lwjgl.opengl.DisplayMode;
 @Singleton
 public class MainLoop {
 
-    private final Preferences preferences;
+    private final NuitPreferences preferences;
     private final Logger logger;
     private boolean closeRequested;
     private NuitToolkit toolkit;
@@ -54,7 +55,7 @@ public class MainLoop {
     private IAssets assets;
 
     @Inject
-    public MainLoop(Logger logger, Preferences preferences) {
+    public MainLoop(Logger logger, NuitPreferences preferences) {
         this.logger = logger;
         this.preferences = preferences;
         setVideoMode();

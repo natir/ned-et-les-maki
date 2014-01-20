@@ -57,11 +57,6 @@
                 <version>0.5.0</version>
             </dependency>
             <dependency>
-                <groupId>org.l33tlabs.twl</groupId>
-                <artifactId>pngdecoder</artifactId>
-                <version>1.0</version>
-            </dependency>
-            <dependency>
                 <groupId>im.bci</groupId>
                 <artifactId>libtiled-jpurexml</artifactId>
                 <version>${libtiled-jpurexml.version}</version>

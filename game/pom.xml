@@ -192,14 +192,6 @@ THE SOFTWARE. -->
             <artifactId>artemis-odb</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.l33tlabs.twl</groupId>
-            <artifactId>pngdecoder</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>im.bci</groupId>
-            <artifactId>libtiled-jpurexml</artifactId>
-        </dependency>
-        <dependency>
             <groupId>im.bci</groupId>
             <artifactId>jnuit-lwjgl</artifactId>
         </dependency>

@@ -21,43 +21,52 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package org.geekygoblin.nedetlesmaki.game.assets;
+package im.bci.jnuit.lwjgl.assets;
 
-import im.bci.jnuit.lwjgl.TrueTypeFont;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.lwjgl.opengl.GL11;
 
 /**
  *
  * @author devnewton
  */
-public class TrueTypeFontWeakReference extends WeakReference<TrueTypeFont> {
+public class Texture implements ITexture {
 
-    Integer textureId;
-    String name;
-    private static final Logger logger = Logger.getLogger(TrueTypeFontWeakReference.class.getName());
+    private int id;
+    private int width, height;
+    private boolean alpha;
 
-    TrueTypeFontWeakReference(String name, TrueTypeFont font, ReferenceQueue<TrueTypeFont> queue) {
-        super(font, queue);
-        textureId = font.getFontTextureID();
-        this.name = name;
+    public Texture(int width, int height, boolean alpha) {
+        ByteBuffer temp = ByteBuffer.allocateDirect(4);
+        temp.order(ByteOrder.nativeOrder());
+        IntBuffer intBuffer = temp.asIntBuffer();
+        GL11.glGenTextures(intBuffer);
+        id = intBuffer.get(0);
+        this.width = width;
+        this.height = height;
+        this.alpha = alpha;
     }
 
-    void delete() {
-        if (null != textureId) {
-            logger.log(Level.FINE, "Unload font {0}", name);
-            ByteBuffer temp = ByteBuffer.allocateDirect(4);
-            temp.order(ByteOrder.nativeOrder());
-            IntBuffer intBuffer = temp.asIntBuffer();
-            intBuffer.put(textureId);
-            GL11.glDeleteTextures(intBuffer);
-            textureId = null;
-        }
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
+
+    @Override
+    public boolean hasAlpha() {
+        return alpha;
     }
 }

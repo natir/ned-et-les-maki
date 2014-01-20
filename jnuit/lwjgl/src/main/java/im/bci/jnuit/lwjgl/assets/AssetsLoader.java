@@ -21,7 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game.assets;
+package im.bci.jnuit.lwjgl.assets;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
 import im.bci.jnuit.lwjgl.IconLoader;
@@ -41,10 +41,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 import org.lwjgl.opengl.GL11;
 
@@ -52,16 +48,13 @@ import org.lwjgl.opengl.GL11;
  *
  * @author devnewton
  */
-@Singleton
 public class AssetsLoader {
 
     private VirtualFileSystem vfs;
-    private final Logger logger;
+    private static final Logger logger = Logger.getLogger(AssetsLoader.class.getName());
 
-    @Inject
-    public AssetsLoader(VirtualFileSystem vfs, Logger logger) {
+    public AssetsLoader(VirtualFileSystem vfs) {
         this.vfs = vfs;
-        this.logger = logger;
     }
 
     public void setVfs(VirtualFileSystem vfs) {
