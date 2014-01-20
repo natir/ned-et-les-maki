@@ -476,4 +476,9 @@ public class GameSystem extends VoidEntitySystem {
             }
         }
     }
+    
+    public void removeMove()
+    {
+        this.index.pop();
+    }
 }

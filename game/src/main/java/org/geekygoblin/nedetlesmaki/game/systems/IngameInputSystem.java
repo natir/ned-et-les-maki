@@ -127,7 +127,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
                     indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0)));
                     ned.changedInWorld();
                 } else if (retPressed) {
-                    System.out.println("R is pressed");
+                    gameSystem.removeMove();
                 }
             }
         }
