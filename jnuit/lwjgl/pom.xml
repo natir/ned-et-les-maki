@@ -71,7 +71,14 @@ THE SOFTWARE. -->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java</artifactId>
-            <version>2.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>im.bci</groupId>
+            <artifactId>libtiled-jpurexml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.l33tlabs.twl</groupId>
+            <artifactId>pngdecoder</artifactId>
         </dependency>
     </dependencies>
 </project>

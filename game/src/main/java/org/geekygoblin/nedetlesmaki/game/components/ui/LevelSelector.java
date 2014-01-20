@@ -33,7 +33,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import im.bci.jnuit.background.TexturedBackground;
 import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
+import im.bci.jnuit.lwjgl.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;

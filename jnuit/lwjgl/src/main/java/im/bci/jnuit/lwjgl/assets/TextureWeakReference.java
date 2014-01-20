@@ -21,20 +21,42 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package org.geekygoblin.nedetlesmaki.game.assets;
+package im.bci.jnuit.lwjgl.assets;
+
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.lwjgl.opengl.GL11;
 
 /**
  *
  * @author devnewton
  */
-public interface ITexture {
+public class TextureWeakReference extends WeakReference<Texture> {
 
-    int getHeight();
+    Integer textureId;
+    String name;
+    private static final Logger logger = Logger.getLogger(TextureWeakReference.class.getName());
 
-    int getId();
+    TextureWeakReference(String name, Texture texture, ReferenceQueue<Texture> queue) {
+        super(texture, queue);
+        textureId = texture.getId();
+        this.name = name;
+    }
 
-    int getWidth();
-
-    boolean hasAlpha();
-    
+    void delete() {
+        if (null != textureId) {
+            logger.log(Level.FINE, "Unload texture {0}", name);
+            ByteBuffer temp = ByteBuffer.allocateDirect(4);
+            temp.order(ByteOrder.nativeOrder());
+            IntBuffer intBuffer = temp.asIntBuffer();
+            intBuffer.put(textureId);
+            GL11.glDeleteTextures(intBuffer);
+            textureId = null;
+        }
+    }
 }

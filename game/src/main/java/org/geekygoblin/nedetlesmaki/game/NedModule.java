@@ -23,6 +23,7 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
+import im.bci.jnuit.lwjgl.LwjglNuitPreferences;
 import com.artemis.Entity;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -37,15 +38,19 @@ import java.util.Random;
 import com.google.inject.Singleton;
 import im.bci.jnuit.NuitControls;
 import im.bci.jnuit.NuitDisplay;
+import im.bci.jnuit.NuitPreferences;
 import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.NuitTranslator;
 import im.bci.jnuit.lwjgl.LwjglNuitControls;
 import im.bci.jnuit.lwjgl.LwjglNuitDisplay;
 import im.bci.jnuit.lwjgl.TrueTypeFont;
+import im.bci.jnuit.lwjgl.assets.AssetsLoader;
 
-import org.geekygoblin.nedetlesmaki.game.assets.GarbageCollectedAssets;
-import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
-import org.geekygoblin.nedetlesmaki.game.assets.VirtualFileSystem;
+import im.bci.jnuit.lwjgl.assets.GarbageCollectedAssets;
+import im.bci.jnuit.lwjgl.assets.IAssets;
+import im.bci.jnuit.lwjgl.assets.VirtualFileSystem;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.TriggerableWhenRemoved;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
@@ -71,11 +76,6 @@ public class NedModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        File applicationDir = Main.getApplicationDir();
-        bind(VirtualFileSystem.class).toInstance(new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data")));
-
-        bind(Preferences.class);
-        bind(IAssets.class).to(GarbageCollectedAssets.class);
         bind(NuitRenderer.class).to(NedNuitRenderer.class);
         bind(NuitTranslator.class).to(NedNuitTranslator.class);
         bind(NuitControls.class).toInstance(new LwjglNuitControls());
@@ -94,6 +94,20 @@ public class NedModule extends AbstractModule {
         bind(ShowLevelMenuTrigger.class);
         bind(Random.class).toInstance(new Random(42));
     }
+    
+    @Provides
+    @Singleton
+    public NuitPreferences createPreferences(NuitControls controls) {
+        return new LwjglNuitPreferences(controls, "nedetlesmaki");
+    }
+    
+    @Provides
+    @Singleton
+    public IAssets createAssets() {
+        File applicationDir = Main.getApplicationDir();
+        VirtualFileSystem vfs = new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data"));
+        return new GarbageCollectedAssets(new AssetsLoader(vfs));
+    }
 
     @Provides
     @NamedEntities.MainMenu
@@ -105,7 +119,7 @@ public class NedModule extends AbstractModule {
         game.addEntity(mainMenu);
         return mainMenu;
     }
-    
+
     @Provides
     @NamedEntities.DefaultFont
     public TrueTypeFont createDefaultFont(IAssets assets) {

@@ -21,10 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game.assets;
+package im.bci.jnuit.lwjgl.assets;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import im.bci.jnuit.lwjgl.TrueTypeFont;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.lwjgl.animation.NanimationCollection;
@@ -38,7 +36,6 @@ import java.util.logging.Logger;
  *
  * @author devnewton
  */
-@Singleton
 public class GarbageCollectedAssets implements IAssets {
 
     private final AssetsLoader assets;
@@ -48,12 +45,10 @@ public class GarbageCollectedAssets implements IAssets {
     private final ReferenceQueue<NanimationCollection> animationsReferenceQueue = new ReferenceQueue<>();
     private final HashMap<String/* name */, TrueTypeFontWeakReference> fonts = new HashMap<>();
     private final ReferenceQueue<TrueTypeFont> fontsReferenceQueue = new ReferenceQueue<>();
-    private final Logger logger;
+    private static final Logger logger = Logger.getLogger(GarbageCollectedAssets.class.getName());
 
-    @Inject
-    public GarbageCollectedAssets(AssetsLoader assets, Logger logger) {
+    public GarbageCollectedAssets(AssetsLoader assets) {
         this.assets = assets;
-        this.logger = logger;
     }
 
     @Override

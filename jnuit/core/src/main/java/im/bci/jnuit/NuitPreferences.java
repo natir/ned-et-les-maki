@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -22,35 +22,28 @@
  THE SOFTWARE.
  */
 
-package org.geekygoblin.nedetlesmaki.game.assets;
+package im.bci.jnuit;
 
-import im.bci.jnuit.lwjgl.TrueTypeFont;
-import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.controls.Control;
 
 /**
  *
  * @author devnewton
  */
-public interface IAssets {
+public interface NuitPreferences {
 
-    void clearAll();
+    boolean getBoolean(String name, boolean defaultValue);
 
-    void clearUseless();
-    
-    void forceAnimationUnload(String name);
+    Control getControl(String name, Control defaultValue);
 
-    IAnimationCollection getAnimations(String name);
+    int getInt(String name, int defaultValue);
 
-    TrueTypeFont getFont(String name);
+    void putBoolean(String name, boolean value);
 
-    ITexture getTexture(String name);
+    void putControl(String name, Control value);
 
-    TmxAsset getTmx(String name);
+    void putInt(String name, int value);
 
-    Texture grabScreenToTexture();
-
-    void setIcon();
-
-    String getText(String name);
+    void saveConfig();
     
 }
