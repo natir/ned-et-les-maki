@@ -55,7 +55,7 @@ public class LevelSelector extends Container {
     private final Provider<ShowMenuTrigger> showMenuTrigger;
 
     @Inject
-    public LevelSelector(Game game, NuitToolkit toolkit, IAssets assets, Provider<StartGameTrigger> startGameTrigger, Provider<ShowMenuTrigger> showMenuTrigger) {
+    public LevelSelector(Game game, NuitToolkit toolkit, final IAssets assets, Provider<StartGameTrigger> startGameTrigger, Provider<ShowMenuTrigger> showMenuTrigger) {
         this.game = game;
         this.toolkit = toolkit;
         this.startGameTrigger = startGameTrigger;
@@ -92,6 +92,20 @@ public class LevelSelector extends Container {
          addButton("level.28.name", "levels/lvl28.tmx", 550, 129, -1);
          addButton("level.29.name", "levels/lvl29.tmx", 725, 107, 1);*/
         addButton("level.30.name", "levels/test.tmx", 550, 87, -1);
+
+        Button backButton = new AnimatedButton(game, toolkit, "options.menu.button.back", assets, "portail.nanim.gz", "normal", "survol") {
+
+            @Override
+            public void onOK() {
+                LevelSelector.this.onCancel();
+            }
+
+        };
+        backButton.setX(370);
+        backButton.setY(301);
+        backButton.setWidth(500 - 370);
+        backButton.setHeight(499 - 301);
+        this.add(backButton);
     }
 
     @Override
