@@ -477,8 +477,8 @@ public class GameSystem extends VoidEntitySystem {
         }
     }
     
-    public void removeMove()
+    public ArrayList<Mouvement> removeMove()
     {
-        this.index.pop();
+        return this.index.pop();
     }
 }
