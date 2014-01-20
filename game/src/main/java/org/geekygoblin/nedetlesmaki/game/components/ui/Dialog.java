@@ -29,12 +29,12 @@ import im.bci.jnuit.widgets.Button;
 import im.bci.jnuit.widgets.Container;
 import im.bci.jnuit.widgets.Label;
 import im.bci.jnuit.widgets.Root;
-import im.bci.nanim.IPlay;
+import im.bci.jnuit.animation.IPlay;
 import java.util.ArrayList;
 import com.google.inject.Inject;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.NuitRenderer;
-import im.bci.nanim.IAnimationFrame;
+import im.bci.jnuit.animation.IAnimationFrame;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.lwjgl.LWJGLException;
 
@@ -125,13 +125,8 @@ public class Dialog extends Component {
     }
 
     public void update() {
-        Sentence currentSentence = getCurrentSentence();
-        if (null != currentSentence) {
-            currentSentence.play.update((long) (game.getDelta() * 1000L));
-            final IAnimationFrame frame = currentSentence.play.getCurrentFrame();
-            root.setBackground(new TexturedBackground(frame.getImage(), frame.getU1(), frame.getV1(), frame.getU2(), frame.getV2()));
-        }
-        root.update();
+        final float delta = game.getDelta();
+        root.update(delta);
     }
 
     public void draw() {
@@ -154,8 +149,8 @@ public class Dialog extends Component {
             if (currentPlay != currentSentence.play) {
                 currentPlay = currentSentence.play;
                 currentSentence.play.restart();
+                root.setBackground(new TexturedBackground(currentSentence.play));
             }
-
         }
     }
 

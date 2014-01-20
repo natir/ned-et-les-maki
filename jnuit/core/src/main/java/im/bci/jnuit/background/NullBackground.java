@@ -21,7 +21,6 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-
 package im.bci.jnuit.background;
 
 import im.bci.jnuit.visitors.BackgroundVisitor;
@@ -31,11 +30,16 @@ import im.bci.jnuit.widgets.Widget;
  *
  * @author devnewton
  */
-public class NullBackground implements Background{
+public class NullBackground implements Background {
+
     public static final NullBackground INSTANCE = new NullBackground();
 
     @Override
     public void accept(Widget widget, BackgroundVisitor visitor) {
         visitor.visit(widget, this);
+    }
+
+    @Override
+    public void update(float delta) {
     }
 }

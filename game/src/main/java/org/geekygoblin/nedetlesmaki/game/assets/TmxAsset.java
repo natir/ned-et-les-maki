@@ -23,7 +23,7 @@ THE SOFTWARE.
 */
 package org.geekygoblin.nedetlesmaki.game.assets;
 
-import im.bci.nanim.IAnimationCollection;
+import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.tmxloader.TmxFrame;
 import im.bci.tmxloader.TmxLayer;
 import im.bci.tmxloader.TmxMap;

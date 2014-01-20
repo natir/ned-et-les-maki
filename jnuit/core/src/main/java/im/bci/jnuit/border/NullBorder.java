@@ -31,7 +31,7 @@ import im.bci.jnuit.widgets.Widget;
  * @author devnewton
  */
 public class NullBorder implements Border {
-    
+
     public static final NullBorder INSTANCE = new NullBorder();
 
     @Override
@@ -39,4 +39,7 @@ public class NullBorder implements Border {
         visitor.visit(widget, this);
     }
 
+    @Override
+    public void update(float delta) {
+    }
 }

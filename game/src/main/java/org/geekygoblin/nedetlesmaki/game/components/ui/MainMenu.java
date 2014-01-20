@@ -42,6 +42,7 @@ import com.google.inject.Singleton;
 import im.bci.jnuit.background.Background;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.NuitRenderer;
+import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.background.ColoredBackground;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
@@ -76,7 +77,7 @@ public class MainMenu extends Component {
         this.game = g;
         this.hideMenuTrigger = hideMenuTrigger;
         root = new Root(toolkit) {
-            private final TexturedBackground titleMenuBackground = new TexturedBackground("menu.png");
+            private final TexturedBackground titleMenuBackground = new TexturedBackground(MainMenu.this.assets.getAnimations("menu.png").getFirst().start(PlayMode.LOOP));
             private final ColoredBackground inGameMenuBackground = new ColoredBackground(0, 0, 0, 0.5f);
 
             @Override
@@ -202,7 +203,7 @@ public class MainMenu extends Component {
     }
 
     public void update() {
-        root.update();
+        root.update(game.getDelta());
     }
 
     public void draw() {

@@ -37,10 +37,10 @@ public class Root extends Stack {
     }
 
     @Override
-    public void update() {
+    public void update(float delta) {
         toolkit.update(this);
         for (Widget child : getChildren()) {
-            child.update();
+            child.update(delta);
         }
     }
     

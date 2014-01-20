@@ -21,27 +21,38 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package im.bci.nanim;
+package im.bci.jnuit.lwjgl.animation;
+
+import im.bci.jnuit.animation.IAnimationImage;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.IntBuffer;
+import org.lwjgl.opengl.GL11;
 
 /**
  *
  * @author devnewton
  */
-public interface IPlay {
+public class NanimationImage implements IAnimationImage {
+    private int id;
+    private boolean alpha;
 
-    String getName();
+    public NanimationImage(boolean alpha) {
+        ByteBuffer temp = ByteBuffer.allocateDirect(4);
+        temp.order(ByteOrder.nativeOrder());
+        IntBuffer intBuffer = temp.asIntBuffer();
+        GL11.glGenTextures(intBuffer);
+        id = intBuffer.get(0);
+        this.alpha = alpha;
+    }
 
-    void start(PlayMode mode);
+    @Override
+    public int getId() {
+        return id;
+    }
 
-    void stop();
-
-    boolean isStopped();
-    
-    PlayMode getMode();
-
-    void update(long elapsedTime);
-
-    IAnimationFrame getCurrentFrame();
-
-    public void restart();
+    @Override
+    public boolean hasAlpha() {
+        return alpha;
+    }
 }

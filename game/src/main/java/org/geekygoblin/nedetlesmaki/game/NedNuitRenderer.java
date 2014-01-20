@@ -26,11 +26,8 @@ package org.geekygoblin.nedetlesmaki.game;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import im.bci.jnuit.NuitTranslator;
-import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.lwjgl.LwjglNuitRenderer;
 import im.bci.jnuit.lwjgl.TrueTypeFont;
-import im.bci.nanim.IAnimationImage;
-import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 
 /**
  *
@@ -39,25 +36,9 @@ import org.geekygoblin.nedetlesmaki.game.assets.IAssets;
 @Singleton
 public class NedNuitRenderer extends LwjglNuitRenderer {
 
-    private final IAssets assets;
-
     @Inject
-    public NedNuitRenderer(NuitTranslator translator, @NamedEntities.DefaultFont TrueTypeFont font, IAssets assets) {
+    public NedNuitRenderer(NuitTranslator translator, @NamedEntities.DefaultFont TrueTypeFont font) {
         super(translator, font);
-        this.assets = assets;
-    }
-
-    @Override
-    protected int getBackgroundTextureId(TexturedBackground background) {
-        Object texture = background.getTexture();
-        if (texture instanceof String) {
-            return assets.getTexture((String) texture).getId();
-        } else if (texture instanceof IAnimationImage) {
-            IAnimationImage image = (IAnimationImage) texture;
-            return image.getId();
-        } else {
-            throw new RuntimeException("Unknow texture background type: " + background.getClass().getName());
-        }
     }
 
 }

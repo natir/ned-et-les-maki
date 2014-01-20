@@ -27,8 +27,8 @@ import java.util.ArrayList;
 
 import com.artemis.Component;
 
-import im.bci.nanim.IAnimation;
-import im.bci.nanim.PlayMode;
+import im.bci.jnuit.animation.IAnimation;
+import im.bci.jnuit.animation.PlayMode;
 import org.lwjgl.util.vector.Vector3f;
 
 /**

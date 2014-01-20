@@ -68,6 +68,11 @@ THE SOFTWARE. -->
             <groupId>im.bci</groupId>
             <artifactId>jnuit-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>2.4.1</version>
+        </dependency>
     </dependencies>
 </project>
 

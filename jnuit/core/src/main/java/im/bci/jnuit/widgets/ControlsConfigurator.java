@@ -234,7 +234,7 @@ public class ControlsConfigurator extends Table {
         }
 
         @Override
-        public void update() {
+        public void update(float delta) {
             if (isSuckingFocus()) {
                 for (ControlActivatedDetector control : possibleControls) {
                     control.poll();

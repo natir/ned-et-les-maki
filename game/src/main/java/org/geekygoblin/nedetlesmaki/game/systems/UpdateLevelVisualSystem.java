@@ -30,8 +30,8 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.VoidEntitySystem;
 
-import im.bci.nanim.IAnimationCollection;
-import im.bci.nanim.PlayMode;
+import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.animation.PlayMode;
 
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;

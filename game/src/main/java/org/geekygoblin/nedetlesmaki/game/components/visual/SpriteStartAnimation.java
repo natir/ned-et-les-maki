@@ -23,8 +23,8 @@ THE SOFTWARE.
 */
 package org.geekygoblin.nedetlesmaki.game.components.visual;
 
-import im.bci.nanim.IAnimation;
-import im.bci.nanim.PlayMode;
+import im.bci.jnuit.animation.IAnimation;
+import im.bci.jnuit.animation.PlayMode;
 
 /**
  * 

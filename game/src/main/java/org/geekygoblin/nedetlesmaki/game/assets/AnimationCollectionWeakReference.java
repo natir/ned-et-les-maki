@@ -23,8 +23,8 @@ THE SOFTWARE.
 */
 package org.geekygoblin.nedetlesmaki.game.assets;
 
-import im.bci.nanim.NanimationCollection;
-import im.bci.nanim.NanimationImage;
+import im.bci.jnuit.lwjgl.animation.NanimationCollection;
+import im.bci.jnuit.lwjgl.animation.NanimationImage;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;

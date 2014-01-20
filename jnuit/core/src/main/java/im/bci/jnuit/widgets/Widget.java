@@ -37,7 +37,7 @@ public abstract class Widget {
 
     private float x, y, width, height;
     private Background background = NullBackground.INSTANCE;
-    private Background focusedBackground = null;
+    private Background focusedBackground = NullBackground.INSTANCE;
     private Border topBorder = NullBorder.INSTANCE, bottomBorder = NullBorder.INSTANCE, leftBorder = NullBorder.INSTANCE, rightBorder = NullBorder.INSTANCE;
     private boolean mustDrawFocus = true;
     private final List<Widget> children = new ArrayList<>();
@@ -331,9 +331,20 @@ public abstract class Widget {
         return false;
     }
 
-    public void update() {
+    /**
+     * update widget state
+     *
+     * @param delta time elapsed in seconds
+     */
+    public void update(float delta) {
+        background.update(delta);
+        focusedBackground.update(delta);
+        leftBorder.update(delta);
+        rightBorder.update(delta);
+        topBorder.update(delta);
+        bottomBorder.update(delta);
         for (Widget child : children) {
-            child.update();
+            child.update(delta);
         }
     }
 
