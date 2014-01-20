@@ -194,6 +194,11 @@ public class EntityIndexManager extends EntityManager {
 	return null;
     }
     
+    public ArrayList<Mouvement> pop()
+    {
+        return this.oldIndex.pop();
+    }
+    
     public ImmutableBag<Entity> getAllPlate() {
         return world.getManager(GroupManager.class).getEntities(Group.PLATE);
     }
