@@ -36,7 +36,8 @@ import im.bci.jnuit.animation.PlayMode;
  */
 public class TextureAnimationCollectionWrapper implements IAnimationCollection, IAnimation, IAnimationFrame, IAnimationImage {
 
-    private final ITexture texture;
+    private final IAssets assets;
+    private final String textureName;
     private final Play play;
     private final float u1, v1, u2, v2;
 
@@ -72,12 +73,16 @@ public class TextureAnimationCollectionWrapper implements IAnimationCollection, 
 
     @Override
     public int getId() {
-        return texture.getId();
+        return getTexture().getId();
     }
 
     @Override
     public boolean hasAlpha() {
-        return texture.hasAlpha();
+        return getTexture().hasAlpha();
+    }
+
+    private ITexture getTexture() {
+        return assets.getTexture(textureName);
     }
 
     public class Play implements IPlay {
@@ -124,8 +129,9 @@ public class TextureAnimationCollectionWrapper implements IAnimationCollection, 
 
     }
 
-    public TextureAnimationCollectionWrapper(ITexture texture, float u1, float v1, float u2, float v2) {
-        this.texture = texture;
+    public TextureAnimationCollectionWrapper(IAssets assets, String textureName, float u1, float v1, float u2, float v2) {
+        this.assets = assets;
+        this.textureName = textureName;
         this.u1 = u1;
         this.v1 = v1;
         this.u2 = u2;
@@ -145,7 +151,7 @@ public class TextureAnimationCollectionWrapper implements IAnimationCollection, 
 
     @Override
     public String getName() {
-        return String.valueOf(texture.getId());
+        return textureName;
     }
 
     @Override

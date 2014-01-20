@@ -91,7 +91,7 @@ public class GarbageCollectedAssets implements IAssets {
     @Override
     public IAnimationCollection getAnimations(String name) {
         if (name.endsWith("png")) {
-            return new TextureAnimationCollectionWrapper(getTexture(name), 0, 0, 1, 1);
+            return new TextureAnimationCollectionWrapper(this, name, 0, 0, 1, 1);
         } else {
             AnimationCollectionWeakReference animRef = animations.get(name);
             if (null != animRef) {
