@@ -21,27 +21,40 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package im.bci.timed;
+package im.bci.jnuit.timed;
 
 /**
  *
  * @author devnewton
  */
-public strictfp class CyclicTimedAction extends TimedAction{
+public strictfp class PingPongTimedAction extends TimedAction{
 
     private float progress;
-    private final float duration;
-    private float time;
+    private final long duration;
+    private long time;
+    private boolean goForward = true;
 
-    public CyclicTimedAction(float duration) {
+    public PingPongTimedAction(long duration) {
         this.duration = duration;
     }
 
     @Override
     public void update(float elapsedTime) {
-        time += elapsedTime;
-        time %= duration;
-        progress = time / duration;
+        if (goForward) {
+            time += elapsedTime;
+            if (time > duration) {
+                time = duration;
+                goForward = false;
+            }
+        } else {
+            time -= elapsedTime;
+            if (time < 0) {
+                time = 0;
+                goForward = true;
+            }
+
+        }
+        progress = (float) time / (float) duration;
     }
 
     @Override
