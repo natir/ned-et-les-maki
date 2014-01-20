@@ -1,7 +1,8 @@
-package im.bci.nanim;
+package im.bci.jnuit.lwjgl.animation;
 
+import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.lwjgl.LwjglHelper;
-import im.bci.nanim.NanimParser.Nanim;
+import im.bci.jnuit.lwjgl.animation.NanimParser.Nanim;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -18,7 +19,7 @@ public class NanimationCollection implements IAnimationCollection {
     public NanimationCollection(Nanim nanim) {
         images = loadImages(nanim);
         animations = new LinkedHashMap<>(nanim.getAnimationsCount());
-        for (im.bci.nanim.NanimParser.Animation nanimation : nanim.getAnimationsList()) {
+        for (im.bci.jnuit.lwjgl.animation.NanimParser.Animation nanimation : nanim.getAnimationsList()) {
             addAnimation(new Nanimation(nanimation, images));
         }
     }
@@ -26,14 +27,14 @@ public class NanimationCollection implements IAnimationCollection {
     private static Map<String, NanimationImage> loadImages(Nanim nanim) {
 
         Map<String, NanimationImage> images = new HashMap<>();
-        for (im.bci.nanim.NanimParser.Image nimage : nanim.getImagesList()) {
+        for (im.bci.jnuit.lwjgl.animation.NanimParser.Image nimage : nanim.getImagesList()) {
             NanimationImage image = loadImage(nimage);
             images.put(nimage.getName(), image);
         }
         return images;
     }
 
-    private static NanimationImage loadImage(im.bci.nanim.NanimParser.Image nimage) {
+    private static NanimationImage loadImage(im.bci.jnuit.lwjgl.animation.NanimParser.Image nimage) {
         int texWidth = nimage.getWidth();
         int texHeight = nimage.getHeight();
         NanimationImage texture = new NanimationImage(nimage.getFormat().equals(NanimParser.PixelFormat.RGBA_8888));

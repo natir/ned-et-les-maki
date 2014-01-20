@@ -25,6 +25,7 @@ package im.bci.jnuit.lwjgl;
 
 import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.NuitTranslator;
+import im.bci.jnuit.animation.IAnimationFrame;
 import im.bci.jnuit.background.Background;
 import im.bci.jnuit.background.ColoredBackground;
 import im.bci.jnuit.background.NullBackground;
@@ -53,7 +54,7 @@ import org.lwjgl.opengl.GL11;
  *
  * @author devnewton
  */
-public abstract class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisitor, NuitRenderer {
+public class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisitor, NuitRenderer {
 
     private final NuitTranslator translator;
     private final TrueTypeFont font;
@@ -222,25 +223,28 @@ public abstract class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisi
 
     @Override
     public void visit(Widget widget, TexturedBackground background) {
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, getBackgroundTextureId(background));
-        float x1 = widget.getX();
-        float x2 = widget.getX() + widget.getWidth();
-        float y1 = widget.getY();
-        float y2 = widget.getY() + widget.getHeight();
-        float u1 = background.getU1();
-        float v1 = background.getV1();
-        float u2 = background.getU2();
-        float v2 = background.getV2();
-        GL11.glBegin(GL11.GL_QUADS);
-        GL11.glTexCoord2f(u1, v2);
-        GL11.glVertex2f(x1, y2);
-        GL11.glTexCoord2f(u2, v2);
-        GL11.glVertex2f(x2, y2);
-        GL11.glTexCoord2f(u2, v1);
-        GL11.glVertex2f(x2, y1);
-        GL11.glTexCoord2f(u1, v1);
-        GL11.glVertex2f(x1, y1);
-        GL11.glEnd();
+        IAnimationFrame frame = background.getPlay().getCurrentFrame();
+        if (null != frame) {
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, frame.getImage().getId());
+            float x1 = widget.getX();
+            float x2 = widget.getX() + widget.getWidth();
+            float y1 = widget.getY();
+            float y2 = widget.getY() + widget.getHeight();
+            float u1 = background.isMirrorX() ? frame.getU2() : frame.getU1();
+            float v1 = background.isMirrorY() ? frame.getV2() : frame.getV1();
+            float u2 = background.isMirrorX() ? frame.getU1() : frame.getU2();
+            float v2 = background.isMirrorY() ? frame.getV1() : frame.getV2();
+            GL11.glBegin(GL11.GL_QUADS);
+            GL11.glTexCoord2f(u1, v2);
+            GL11.glVertex2f(x1, y2);
+            GL11.glTexCoord2f(u2, v2);
+            GL11.glVertex2f(x2, y2);
+            GL11.glTexCoord2f(u2, v1);
+            GL11.glVertex2f(x2, y1);
+            GL11.glTexCoord2f(u1, v1);
+            GL11.glVertex2f(x1, y1);
+            GL11.glEnd();
+        }
     }
 
     @Override
@@ -256,11 +260,13 @@ public abstract class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisi
     private void drawContainer(Container widget) {
         Widget focused = widget.getFocusedChild();
         for (Widget child : widget.getChildren()) {
-            Background background = child.getBackground();
-            if (focused == child && null != child.getFocusedBackground()) {
-                background = child.getFocusedBackground();
+            child.getBackground().accept(child, this);
+            if (focused == child) {
+                final Background focusedBackground = child.getFocusedBackground();
+                if (null != focusedBackground) {
+                    focusedBackground.accept(child, this);
+                }
             }
-            background.accept(child, this);
             drawBorders(child);
             child.accept(this);
         }
@@ -379,7 +385,5 @@ public abstract class LwjglNuitRenderer implements WidgetVisitor, BackgroundVisi
     public void visit(VideoConfigurator widget) {
         drawContainer(widget);
     }
-
-    protected abstract int getBackgroundTextureId(TexturedBackground background);
 
 }

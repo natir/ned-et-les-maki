@@ -28,8 +28,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
 import im.bci.jnuit.NuitToolkit;
-import im.bci.nanim.IAnimationCollection;
-import im.bci.nanim.PlayMode;
+import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.animation.PlayMode;
 
 import java.io.File;
 import java.util.Random;

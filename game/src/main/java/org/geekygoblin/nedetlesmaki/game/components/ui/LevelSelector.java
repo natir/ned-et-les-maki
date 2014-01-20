@@ -26,11 +26,8 @@ package org.geekygoblin.nedetlesmaki.game.components.ui;
 import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.widgets.Button;
 import im.bci.jnuit.widgets.Container;
-import im.bci.jnuit.widgets.Widget;
-import im.bci.nanim.IAnimationCollection;
-import im.bci.nanim.IAnimationFrame;
-import im.bci.nanim.IPlay;
-import im.bci.nanim.PlayMode;
+import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.animation.PlayMode;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -61,7 +58,7 @@ public class LevelSelector extends Container {
         this.startGameTrigger = startGameTrigger;
         this.showMenuTrigger = showMenuTrigger;
         bulleAnimations = assets.getAnimations("bulle.nanim.gz");
-        setBackground(new TexturedBackground("tour.png"));
+        setBackground(new TexturedBackground(assets.getAnimations("tour.png").getFirst().start(PlayMode.LOOP)));
         setFocusedChild(addButton("level.01.name", "levels/t1/lvl01.tmx", 725, 695, 1));
         addButton("level.02.name", "levels/t1/lvl02.tmx", 550, 674, -1);
         addButton("level.03.name", "levels/t1/lvl03.tmx", 725, 653, 1);
@@ -93,7 +90,7 @@ public class LevelSelector extends Container {
          addButton("level.29.name", "levels/lvl29.tmx", 725, 107, 1);*/
         addButton("level.30.name", "levels/test.tmx", 550, 87, -1);
 
-        Button backButton = new AnimatedButton(game, toolkit, "options.menu.button.back", assets, "portail.nanim.gz", "normal", "survol") {
+        Button backButton = new Button(toolkit, "options.menu.button.back") {
 
             @Override
             public void onOK() {
@@ -101,6 +98,9 @@ public class LevelSelector extends Container {
             }
 
         };
+        backButton.setMustDrawFocus(false);
+        backButton.setBackground(new TexturedBackground(assets.getAnimations("portail.nanim.gz").getAnimationByName("normal").start(PlayMode.LOOP)));
+        backButton.setFocusedBackground(new TexturedBackground(assets.getAnimations("portail.nanim.gz").getAnimationByName("survol").start(PlayMode.LOOP)));
         backButton.setX(370);
         backButton.setY(301);
         backButton.setWidth(500 - 370);
@@ -108,21 +108,8 @@ public class LevelSelector extends Container {
         this.add(backButton);
     }
 
-    @Override
-    protected final void setFocusedChild(Widget focusedChild) {
-        Widget oldFocusedChild = getFocusedChild();
-        if (oldFocusedChild instanceof LevelSelectorButton) {
-            ((LevelSelectorButton) oldFocusedChild).setBackgroundAnimationPlay(bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP));
-        }
-        if (focusedChild instanceof LevelSelectorButton) {
-            ((LevelSelectorButton) focusedChild).setBackgroundAnimationPlay(bulleAnimations.getAnimationByName("bulle_selectionnee").start(PlayMode.LOOP));
-        }
-        super.setFocusedChild(focusedChild);
-    }
-
     private class LevelSelectorButton extends Button {
 
-        private IPlay backgroundAnimationPlay;
         private final int orientation;
         private final String levelName;
 
@@ -137,34 +124,22 @@ public class LevelSelector extends Container {
         public void onOK() {
             onStartGame(levelName);
         }
-
-        @Override
-        public void update() {
-            backgroundAnimationPlay.update((long) (game.getDelta() * 1000L));
-            final IAnimationFrame currentFrame = backgroundAnimationPlay.getCurrentFrame();
-            setBackground(new TexturedBackground(currentFrame.getImage(), orientation < 0 ? currentFrame.getU1() : currentFrame.getU2(), currentFrame.getV1(), orientation < 0 ? currentFrame.getU2() : currentFrame.getU1(), currentFrame.getV2()));
-            super.update();
-        }
-
-        /**
-         * @param backgroundAnimationPlay the backgroundAnimationPlay to set
-         */
-        public void setBackgroundAnimationPlay(IPlay backgroundAnimationPlay) {
-
-            this.backgroundAnimationPlay = backgroundAnimationPlay;
-        }
-
     }
 
     private LevelSelectorButton addButton(String label, String levelName, int x, int y, int orientation) {
         LevelSelectorButton button = new LevelSelectorButton(toolkit, label, levelName, orientation);
-        button.setBackgroundAnimationPlay(bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP));
+        final TexturedBackground background = new TexturedBackground(bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP));
+        button.setBackground(background);
+        final TexturedBackground focusedBackground = new TexturedBackground(bulleAnimations.getAnimationByName("bulle_selectionnee").start(PlayMode.LOOP));
+        button.setFocusedBackground(focusedBackground);
         button.setWidth(button.getMinWidth() * 1.8f);
         button.setHeight(button.getMinHeight());
         if (orientation < 0) {
             button.setX(x - button.getWidth());
         } else {
             button.setX(x);
+            background.setMirrorX(true);
+            focusedBackground.setMirrorX(true);
         }
         button.setY(y - button.getHeight() / 2);
         this.add(button);

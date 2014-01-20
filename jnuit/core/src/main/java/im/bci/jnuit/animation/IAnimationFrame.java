@@ -21,13 +21,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
-package im.bci.nanim;
+package im.bci.jnuit.animation;
 
 /**
  *
  * @author devnewton
  */
-public enum PlayMode {
+public interface IAnimationFrame {
 
-    ONCE, LOOP
+    long getDuration();
+
+    IAnimationImage getImage();
+
+    float getU1();
+
+    float getU2();
+
+    float getV1();
+
+    float getV2();
+    
 }

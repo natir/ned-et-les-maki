@@ -25,7 +25,7 @@ package org.geekygoblin.nedetlesmaki.game.events;
 
 import com.artemis.Entity;
 import com.artemis.managers.GroupManager;
-import im.bci.nanim.PlayMode;
+import im.bci.jnuit.animation.PlayMode;
 import im.bci.tmxloader.TmxLayer;
 import im.bci.tmxloader.TmxTileInstance;
 import im.bci.tmxloader.TmxTileInstanceEffect;
@@ -106,7 +106,7 @@ public class StartGameTrigger extends Trigger {
 	this.indexSystem.cleanStack();
 
         Entity level = game.createEntity();
-        level.addComponent(new Level(new TextureAnimationCollectionWrapper(assets.getTexture("background.png"), 0, 0, 1, 1).start(PlayMode.ONCE)));
+        level.addComponent(new Level(assets.getAnimations("background.png").getFirst().start(PlayMode.ONCE)));
         level.addComponent(new ZOrder(ZOrders.LEVEL));
         groupManager.add(level, Group.LEVEL);
         game.addEntity(level);

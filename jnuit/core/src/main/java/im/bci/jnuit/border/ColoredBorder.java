@@ -68,4 +68,8 @@ public class ColoredBorder implements Border {
         visitor.visit(widget, this);
     }
 
+    @Override
+    public void update(float delta) {
+    }
+
 }

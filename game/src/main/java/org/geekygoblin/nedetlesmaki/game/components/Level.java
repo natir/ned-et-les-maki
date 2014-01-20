@@ -24,7 +24,7 @@
 package org.geekygoblin.nedetlesmaki.game.components;
 
 import com.artemis.Component;
-import im.bci.nanim.IPlay;
+import im.bci.jnuit.animation.IPlay;
 
 /**
  *

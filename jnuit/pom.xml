@@ -37,7 +37,7 @@ THE SOFTWARE. -->
         <module>core</module>
         <module>lwjgl</module>
         <module>tablelayout</module>
-  </modules>
+    </modules>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -59,6 +59,11 @@ THE SOFTWARE. -->
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>tablelayout</artifactId>
                 <version>${tablelayout.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>2.4.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -25,7 +25,7 @@ package org.geekygoblin.nedetlesmaki.game.components.visual;
 
 import com.artemis.Component;
 
-import im.bci.nanim.IPlay;
+import im.bci.jnuit.animation.IPlay;
 
 import org.lwjgl.util.Color;
 import org.lwjgl.util.vector.Vector3f;

@@ -62,4 +62,8 @@ public class ColoredBackground implements Background {
         visitor.visit(widget, this);
     }
 
+    @Override
+    public void update(float delta) {
+    }
+
 }

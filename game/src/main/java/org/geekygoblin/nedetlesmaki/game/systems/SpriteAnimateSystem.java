@@ -28,7 +28,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import im.bci.nanim.IPlay;
+import im.bci.jnuit.animation.IPlay;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 
 /**

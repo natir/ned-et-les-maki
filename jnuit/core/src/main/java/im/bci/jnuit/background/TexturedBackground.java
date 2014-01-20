@@ -23,6 +23,7 @@
  */
 package im.bci.jnuit.background;
 
+import im.bci.jnuit.animation.IPlay;
 import im.bci.jnuit.visitors.BackgroundVisitor;
 import im.bci.jnuit.widgets.Widget;
 
@@ -32,44 +33,41 @@ import im.bci.jnuit.widgets.Widget;
  */
 public class TexturedBackground implements Background {
 
-    private final Object texture;
-    private final float u1, v1, u2, v2;
+    private final IPlay play;
+    private boolean mirrorX, mirrorY;
 
-    public TexturedBackground(Object texture, float u1, float v1, float u2, float v2) {
-        this.texture = texture;
-        this.u1 = u1;
-        this.v1 = v1;
-        this.u2 = u2;
-        this.v2 = v2;
+    public TexturedBackground(IPlay play) {
+        this.play = play;
     }
 
-    public TexturedBackground(Object texture) {
-        this(texture, 0, 0, 1, 1);
+    public IPlay getPlay() {
+        return play;
     }
 
-    public float getU1() {
-        return u1;
+    public boolean isMirrorX() {
+        return mirrorX;
     }
 
-    public float getV1() {
-        return v1;
+    public void setMirrorX(boolean mirrorX) {
+        this.mirrorX = mirrorX;
     }
 
-    public float getU2() {
-        return u2;
+    public boolean isMirrorY() {
+        return mirrorY;
     }
 
-    public float getV2() {
-        return v2;
-    }
-
-    public Object getTexture() {
-        return texture;
+    public void setMirrorY(boolean mirrorY) {
+        this.mirrorY = mirrorY;
     }
 
     @Override
     public void accept(Widget widget, BackgroundVisitor visitor) {
         visitor.visit(widget, this);
+    }
+
+    @Override
+    public void update(float delta) {
+        play.update((long) (delta * 1000L));
     }
 
 }

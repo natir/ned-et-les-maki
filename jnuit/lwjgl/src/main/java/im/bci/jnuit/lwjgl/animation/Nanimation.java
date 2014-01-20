@@ -21,9 +21,12 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package im.bci.nanim;
+package im.bci.jnuit.lwjgl.animation;
 
-import im.bci.nanim.NanimParser.Frame;
+import im.bci.jnuit.animation.IPlay;
+import im.bci.jnuit.animation.PlayMode;
+import im.bci.jnuit.animation.IAnimation;
+import im.bci.jnuit.lwjgl.animation.NanimParser.Frame;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -118,7 +121,7 @@ public class Nanimation implements IAnimation {
     private long totalDuration;// milliseconds
     private final String name;
 
-    public Nanimation(im.bci.nanim.NanimParser.Animation nanimation,
+    public Nanimation(im.bci.jnuit.lwjgl.animation.NanimParser.Animation nanimation,
             Map<String, NanimationImage> images) {
         name = nanimation.getName();
         frames.ensureCapacity(nanimation.getFramesCount());

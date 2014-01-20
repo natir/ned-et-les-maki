@@ -26,8 +26,8 @@ package org.geekygoblin.nedetlesmaki.game.assets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import im.bci.jnuit.lwjgl.TrueTypeFont;
-import im.bci.nanim.IAnimationCollection;
-import im.bci.nanim.NanimationCollection;
+import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.lwjgl.animation.NanimationCollection;
 import java.lang.ref.ReferenceQueue;
 import java.util.Date;
 import java.util.HashMap;
@@ -90,19 +90,22 @@ public class GarbageCollectedAssets implements IAssets {
 
     @Override
     public IAnimationCollection getAnimations(String name) {
-        AnimationCollectionWeakReference animRef = animations.get(name);
-        if (null != animRef) {
-            NanimationCollection anim = animRef.get();
-            if (null != anim) {
-                return anim;
-            } else {
-                animations.remove(name);
+        if (name.endsWith("png")) {
+            return new TextureAnimationCollectionWrapper(getTexture(name), 0, 0, 1, 1);
+        } else {
+            AnimationCollectionWeakReference animRef = animations.get(name);
+            if (null != animRef) {
+                NanimationCollection anim = animRef.get();
+                if (null != anim) {
+                    return anim;
+                } else {
+                    animations.remove(name);
+                }
             }
+            NanimationCollection anim = assets.loadAnimations(name);
+            putAnim(name, anim);
+            return anim;
         }
-        NanimationCollection anim = assets.loadAnimations(name);
-        putAnim(name, anim);
-        return anim;
-
     }
 
     @Override

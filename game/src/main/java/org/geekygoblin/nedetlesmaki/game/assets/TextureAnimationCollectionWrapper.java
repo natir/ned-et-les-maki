@@ -23,12 +23,12 @@
  */
 package org.geekygoblin.nedetlesmaki.game.assets;
 
-import im.bci.nanim.IAnimation;
-import im.bci.nanim.IAnimationCollection;
-import im.bci.nanim.IAnimationFrame;
-import im.bci.nanim.IAnimationImage;
-import im.bci.nanim.IPlay;
-import im.bci.nanim.PlayMode;
+import im.bci.jnuit.animation.IAnimation;
+import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.animation.IAnimationFrame;
+import im.bci.jnuit.animation.IAnimationImage;
+import im.bci.jnuit.animation.IPlay;
+import im.bci.jnuit.animation.PlayMode;
 
 /**
  *

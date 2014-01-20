@@ -34,4 +34,6 @@ public interface Background {
     
     void accept(Widget widget, BackgroundVisitor visitor);
     
+    void update(float delta);
+    
 }

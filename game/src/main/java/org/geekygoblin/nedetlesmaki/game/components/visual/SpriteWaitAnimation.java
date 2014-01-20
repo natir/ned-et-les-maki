@@ -23,8 +23,8 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components.visual;
 
-import im.bci.nanim.IPlay;
-import im.bci.nanim.PlayMode;
+import im.bci.jnuit.animation.IPlay;
+import im.bci.jnuit.animation.PlayMode;
 
 /**
  *

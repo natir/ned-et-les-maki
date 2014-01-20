@@ -33,5 +33,7 @@ import im.bci.jnuit.widgets.Widget;
 public interface Border {
     
     void accept(Widget widget, BorderVisitor visitor);
+
+    public void update(float delta);
     
 }
