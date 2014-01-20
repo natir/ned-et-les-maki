@@ -23,7 +23,7 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components.visual;
 
-import im.bci.timed.OneShotTimedAction;
+import im.bci.jnuit.timed.OneShotTimedAction;
 
 /**
  *
