@@ -106,6 +106,10 @@ public class EntityIndexManager extends EntityManager {
             if (this.getPlate(e) != null && !this.index[p.getX()][p.getY()].getWith(Plate.class).isEmpty()) {
                 return ;
             }
+
+            if (this.getMovable(e) != 0 && !this.index[p.getX()][p.getY()].getWith(Movable.class).isEmpty()) {
+                return ;
+            }
             
             this.index[p.getX()][p.getY()].add(e);
             super.added(e);
