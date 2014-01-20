@@ -62,7 +62,7 @@ public class EntityIndexManager extends EntityManager {
     private Square[][] index;
     private final Stack<ArrayList<Mouvement>> oldIndex;
     
-         @Mapper
+    @Mapper
     ComponentMapper<Pushable> pushableMapper;
     @Mapper
     ComponentMapper<Pusher> pusherMapper;
@@ -102,6 +102,11 @@ public class EntityIndexManager extends EntityManager {
             if(this.index[p.getX()][p.getY()] == null) {
                 this.index[p.getX()][p.getY()] = new Square();
             }
+
+            if (this.getPlate(e) != null && !this.index[p.getX()][p.getY()].getWith(Plate.class).isEmpty()) {
+                return ;
+            }
+            
             this.index[p.getX()][p.getY()].add(e);
             super.added(e);
         }
@@ -194,8 +199,11 @@ public class EntityIndexManager extends EntityManager {
 	return null;
     }
     
-    public ArrayList<Mouvement> pop()
-    {
+    public ArrayList<Mouvement> pop() {
+        if (this.oldIndex.isEmpty()) {
+            return null;
+        } 
+        
         return this.oldIndex.pop();
     }
     
