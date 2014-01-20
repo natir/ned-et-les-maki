@@ -68,8 +68,8 @@ public class MainLoop {
         this.assets = assets;
         assets.setIcon();
         setControls();
-        mainMenu.disable();
-        intro.enable();
+        mainMenu.enable();
+        intro.disable();
     }
 
     public void setCloseRequested(boolean closeRequested) {
