@@ -49,8 +49,6 @@ import im.bci.jnuit.lwjgl.assets.AssetsLoader;
 import im.bci.jnuit.lwjgl.assets.GarbageCollectedAssets;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import im.bci.jnuit.lwjgl.assets.VirtualFileSystem;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.TriggerableWhenRemoved;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
