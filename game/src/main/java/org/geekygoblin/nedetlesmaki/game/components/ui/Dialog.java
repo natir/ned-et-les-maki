@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import com.google.inject.Inject;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.NuitRenderer;
-import im.bci.jnuit.animation.IAnimationFrame;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.lwjgl.LWJGLException;
 
