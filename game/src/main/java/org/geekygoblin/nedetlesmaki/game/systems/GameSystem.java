@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.artemis.Entity;
 import com.artemis.systems.VoidEntitySystem;
@@ -479,6 +480,20 @@ public class GameSystem extends VoidEntitySystem {
     
     public ArrayList<Mouvement> removeMove()
     {
-        return this.index.pop();
+        ArrayList<Mouvement> tmp = this.index.pop();
+        //Collections.reverse(tmp);
+        System.out.print("Dépliage\n");
+         if (tmp != null) {
+                for (int i = 0; i != tmp.size(); i++) {
+                    tmp.get(i).reverse();
+                    for (int j = 0; j != tmp.get(i).size(); j++) {
+                        System.out.print(tmp.get(i).getEntity());
+                        System.out.printf(" position : %d %d, Animation : ", tmp.get(i).getPosition(j).getX(), tmp.get(i).getPosition(j).getY());
+                        System.out.print(tmp.get(i).getAnimation(j));
+                        System.out.print("\n");
+                    }
+                }
+         }
+        return tmp;
     }
 }
