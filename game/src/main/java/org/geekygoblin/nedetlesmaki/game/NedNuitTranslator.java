@@ -63,6 +63,7 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.ENGLISH, "main.menu.button.start", "START");
         addTranslation(NuitLocale.ENGLISH, "main.menu.button.resume", "RESUME");
         addTranslation(NuitLocale.ENGLISH, "main.menu.button.options", "OPTIONS");
+        addTranslation(NuitLocale.ENGLISH, "main.menu.button.extras", "EXTRAS");
         addTranslation(NuitLocale.ENGLISH, "main.menu.button.quit", "QUIT");
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.video", "VIDEO");
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.audio", "AUDIO");
@@ -85,6 +86,7 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.FRENCH, "main.menu.button.start", "DEMARRER");
         addTranslation(NuitLocale.FRENCH, "main.menu.button.resume", "CONTINUER");
         addTranslation(NuitLocale.FRENCH, "main.menu.button.options", "OPTIONS");
+        addTranslation(NuitLocale.FRENCH, "main.menu.button.extras", "EXTRAS");
         addTranslation(NuitLocale.FRENCH, "main.menu.button.quit", "QUITTER");
         addTranslation(NuitLocale.FRENCH, "options.menu.button.video", "VIDEO");
         addTranslation(NuitLocale.FRENCH, "options.menu.button.audio", "AUDIO");
