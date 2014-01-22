@@ -22,6 +22,7 @@
 package org.geekygoblin.nedetlesmaki.game.utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.artemis.Entity;
 
@@ -81,19 +82,23 @@ public class Mouvement {
     }
 
     public float getBeforeWait(int i) {
-	return this.list.get(i).bw;
+        return this.list.get(i).bw;
     }
 
     public int size() {
         return this.list.size();
     }
 
+    public void reverse() {
+        Collections.reverse(this.list);
+    }
+
     private class Mouvement_struct {
-        
+
         public Position p;
         public AnimationType a;
         public float bw;
-        
+
         public Mouvement_struct() {
             p = new Position(0, 0);
             a = AnimationType.no;

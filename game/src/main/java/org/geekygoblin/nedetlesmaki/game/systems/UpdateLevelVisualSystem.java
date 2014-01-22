@@ -76,6 +76,10 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             if (change != null) {
                 for (int i = 0; i != change.size(); i++) {
                     for (int j = 0; j != change.get(i).size(); j++) {
+                        System.out.print(change.get(i).getEntity());
+                        System.out.printf(" position : %d %d, Animation : ", change.get(i).getPosition(j).getX(), change.get(i).getPosition(j).getY());
+                        System.out.print(change.get(i).getAnimation(j));
+                        System.out.print("\n");
                         this.moveSprite(change.get(i).getEntity(), change.get(i).getPosition(j), change.get(i).getAnimation(j), change.get(i).getBeforeWait(j));
                     }
                 }
