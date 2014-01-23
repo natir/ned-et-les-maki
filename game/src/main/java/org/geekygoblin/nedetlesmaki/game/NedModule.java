@@ -43,14 +43,12 @@ import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.NuitTranslator;
 import im.bci.jnuit.lwjgl.LwjglNuitControls;
 import im.bci.jnuit.lwjgl.LwjglNuitDisplay;
-import im.bci.jnuit.lwjgl.TrueTypeFont;
+import im.bci.jnuit.lwjgl.LwjglNuitFont;
 import im.bci.jnuit.lwjgl.assets.AssetsLoader;
 
 import im.bci.jnuit.lwjgl.assets.GarbageCollectedAssets;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import im.bci.jnuit.lwjgl.assets.VirtualFileSystem;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.TriggerableWhenRemoved;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
@@ -122,7 +120,7 @@ public class NedModule extends AbstractModule {
 
     @Provides
     @NamedEntities.DefaultFont
-    public TrueTypeFont createDefaultFont(IAssets assets) {
+    public LwjglNuitFont createDefaultFont(IAssets assets) {
         return assets.getFont("prout");
     }
 
