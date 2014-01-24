@@ -61,6 +61,7 @@ public class EntityIndexManager extends EntityManager {
     
     private Square[][] index;
     private final Stack<ArrayList<Mouvement>> oldIndex;
+    private ArrayList<Mouvement> remove;
     
     @Mapper
     ComponentMapper<Pushable> pushableMapper;
@@ -92,6 +93,7 @@ public class EntityIndexManager extends EntityManager {
 	super();
 	this.index = new Square[15][15];
 	this.oldIndex = new Stack();
+                  this.remove = null;
     }
 
     @Override
@@ -191,7 +193,7 @@ public class EntityIndexManager extends EntityManager {
     public int sizeOfStack() {
 	return this.oldIndex.size();
     }
-
+    
     public ArrayList<Mouvement> getChangement() {
 	if(!this.oldIndex.empty()) {
 	    ArrayList<Mouvement> o = this.oldIndex.peek();
@@ -209,6 +211,22 @@ public class EntityIndexManager extends EntityManager {
         } 
         
         return this.oldIndex.pop();
+    }
+    
+    public ArrayList<Mouvement> peek() {
+        if (this.oldIndex.isEmpty()) {
+            return null;
+        } 
+        
+        return this.oldIndex.peek();
+    }
+
+    public void setRemove(ArrayList<Mouvement> set) {
+        this.remove = set;
+    }
+    
+    public ArrayList<Mouvement> getRemove() {
+        return this.remove;
     }
     
     public ImmutableBag<Entity> getAllPlate() {
