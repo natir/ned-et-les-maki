@@ -36,6 +36,7 @@ import im.bci.jnuit.animation.PlayMode;
 
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Movable;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
@@ -89,7 +90,6 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         }
 
         if (index.sizeOfStack() > nbIndexSaved) {
-            nbIndexSaved = index.sizeOfStack();
             ArrayList<Mouvement> change = this.index.getChangement();
 
             if (change != null) {
@@ -104,7 +104,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     }
                 }
             }
-        } 
+        }
+        nbIndexSaved = index.sizeOfStack();
     }
 
     private void moveSprite(Entity e, Position diff, AnimationType a, float waitBefore) {
