@@ -302,7 +302,6 @@ public class GameSystem extends VoidEntitySystem {
 
         if (s == null) {
             return false;
-
         }
 
         ArrayList<Entity> plates = s.getWith(Plate.class);
@@ -328,7 +327,6 @@ public class GameSystem extends VoidEntitySystem {
 
         if (s == null) {
             return false;
-
         }
 
         ArrayList<Entity> plates = s.getWith(Plate.class
