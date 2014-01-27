@@ -95,7 +95,7 @@ public class GameSystem extends VoidEntitySystem {
                         e.getComponent(Pusher.class).setPusher(false);
                     }
 
-                    //return mouv;
+                    return mouv;
                 }
                 if (!this.testBlockedPlate(e, s)) {
                     mouv.addAll(runValideMove(oldP, newP, e, false));
@@ -139,7 +139,7 @@ public class GameSystem extends VoidEntitySystem {
                     e.getComponent(Pusher.class).setPusher(false);
                 }
 
-                //return mouv;
+                return mouv;
             }
         }
 
@@ -500,7 +500,9 @@ public class GameSystem extends VoidEntitySystem {
                         return ;
                     }
                     
-                    rm.add(new Mouvement(head.get(i).getEntity()).setAnimation(head.get(i).getAnimation(j)).setPosition(diff).saveMouvement());
+                    AnimationType invertAnim = this.invertAnimation(head.get(i).getAnimation(j));
+
+                    rm.add(new Mouvement(head.get(i).getEntity()).setAnimation(invertAnim).setPosition(diff).saveMouvement());
                     
                     System.out.printf("Current : %d %d Head : %d %d Diff : %d %d\n", current.getX(), current.getY(), headP.getX(), headP.getY(), diff.getX(), diff.getY());
                     
@@ -511,5 +513,61 @@ public class GameSystem extends VoidEntitySystem {
         }
         
        this.index.setRemove(rm);
+    }
+
+    private AnimationType invertAnimation(AnimationType base) {
+        if (base == AnimationType.no) {
+            return AnimationType.no;
+        } else if (base == AnimationType.ned_right) {
+            return AnimationType.ned_right;
+        } else if (base == AnimationType.ned_left) {
+            return AnimationType.ned_left;
+        } else if (base == AnimationType.ned_down) {
+            return AnimationType.ned_down;
+        } else if (base == AnimationType.ned_up) {
+            return AnimationType.ned_up;
+        } else if (base == AnimationType.ned_push_right) {
+            return AnimationType.ned_push_right;
+        } else if (base == AnimationType.ned_push_left) {
+            return AnimationType.ned_push_left;
+        } else if (base == AnimationType.ned_push_down) {
+            return AnimationType.ned_push_down;
+        } else if (base == AnimationType.ned_push_up) {
+            return AnimationType.ned_push_up;
+        } else if (base == AnimationType.box_destroy) {
+            return AnimationType.box_create;
+        } else if (base == AnimationType.box_create) {
+            return AnimationType.box_destroy;
+        }else if (base == AnimationType.maki_green_one) {
+            return AnimationType.maki_green_out;
+        } else if (base == AnimationType.maki_orange_one) {
+            return AnimationType.maki_orange_out;
+        } else if (base == AnimationType.maki_blue_one) {
+            return AnimationType.maki_blue_out;
+        } else if (base == AnimationType.maki_green_out) {
+            return AnimationType.maki_green_one;
+        } else if (base == AnimationType.maki_orange_out) {
+            return AnimationType.maki_orange_one;
+        } else if (base == AnimationType.maki_blue_out) {
+            return AnimationType.maki_blue_one;
+        } else if (base == AnimationType.clean_green_plate) {
+            return AnimationType.clean_green_plate;
+        } else if (base == AnimationType.clean_orange_plate) {
+            return AnimationType.clean_orange_plate;
+        } else if (base == AnimationType.clean_blue_plate) {
+            return AnimationType.clean_blue_plate;
+        } else if (base == AnimationType.disable_entity) {
+            return AnimationType.disable_entity;
+        } else if (base == AnimationType.stairs_up) {
+            return AnimationType.stairs_up;
+        } else if (base == AnimationType.stairs_down) {
+            return AnimationType.stairs_down;
+        } else if (base == AnimationType.stairs_left) {
+            return AnimationType.stairs_left;
+        } else if (base == AnimationType.stairs_right) {
+            return AnimationType.stairs_right;
+        }
+
+        return base;
     }
 }
