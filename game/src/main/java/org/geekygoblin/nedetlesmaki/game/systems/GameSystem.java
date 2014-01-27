@@ -95,7 +95,7 @@ public class GameSystem extends VoidEntitySystem {
                         e.getComponent(Pusher.class).setPusher(false);
                     }
 
-                    return mouv;
+                    //return mouv;
                 }
                 if (!this.testBlockedPlate(e, s)) {
                     mouv.addAll(runValideMove(oldP, newP, e, false));
@@ -139,7 +139,7 @@ public class GameSystem extends VoidEntitySystem {
                     e.getComponent(Pusher.class).setPusher(false);
                 }
 
-                return mouv;
+                //return mouv;
             }
         }
 
@@ -238,7 +238,6 @@ public class GameSystem extends VoidEntitySystem {
     }
 
     private ArrayList<Mouvement> makiPlateMove(Position oldP, Position newP, Entity e, boolean getOne) {
-        Position diff = PosOperation.deduction(newP, oldP);
         ArrayList<Mouvement> m = new ArrayList();
 
         Square obj;
@@ -264,6 +263,8 @@ public class GameSystem extends VoidEntitySystem {
 
         Color plateC = this.index.getColor(plate);
         Color makiC = this.index.getColor(e);
+
+        Position diff = PosOperation.deduction(newP, oldP);
 
         if (plateC.getColor() == makiC.getColor()) {
             if (plateC.getColor() == ColorType.green) {
