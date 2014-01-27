@@ -172,7 +172,7 @@ public class EntityIndexManager extends EntityManager {
         Square newC = this.index[x2][y2];
 
         if (newC != null) {
-            this.index[x2][y2].add(tmpE.get(0));
+            newC.add(tmpE.get(0));
         } else {
             this.index[x2][y2] = new Square();
             this.index[x2][y2].add(tmpE.get(0));
