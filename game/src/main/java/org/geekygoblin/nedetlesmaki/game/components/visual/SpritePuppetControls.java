@@ -50,6 +50,11 @@ public final class SpritePuppetControls extends Component {
         return this;
     }
 
+    public SpritePuppetControls moveToRelative(Vector3f pos, float duration) {
+        updaters.add(new SpriteMoveToRelative(sprite, pos, duration));
+        return this;
+    }
+    
     public SpritePuppetControls startAnimation(IAnimation animation, PlayMode mode) {
         updaters.add(new SpriteStartAnimation(sprite, animation, mode));
         return this;
