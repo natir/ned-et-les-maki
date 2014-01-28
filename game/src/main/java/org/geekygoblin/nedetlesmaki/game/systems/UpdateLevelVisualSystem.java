@@ -24,6 +24,7 @@ package org.geekygoblin.nedetlesmaki.game.systems;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -54,7 +55,9 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     ComponentMapper<Sprite> spriteMapper;
     @Mapper
     ComponentMapper<Plate> plateMapper;
-
+    @Mapper
+    ComponentMapper<Position> positionMapper;
+    
     private final IAssets assets;
     private int nbIndexSaved;
     private final EntityIndexManager index;
@@ -69,13 +72,29 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     @Override
     protected void processSystem() {
 
-        if (index.sizeOfStack() != nbIndexSaved) {
-            nbIndexSaved = index.sizeOfStack();
+        ArrayList<Mouvement> rm = index.getRemove();
+        if (rm != null) {
+            for (int i = 0; i != rm.size(); i++) {
+                for (int j = 0; j != rm.get(i).size(); j++) {
+                    System.out.print("Remove move");
+                    System.out.print(rm.get(i).getEntity());
+                    System.out.printf(" position : %d %d, Animation : ", rm.get(i).getPosition(j).getX(), rm.get(i).getPosition(j).getY());
+                    System.out.print(rm.get(i).getAnimation(j));
+                    System.out.print("\n");
+                    this.moveSprite(rm.get(i).getEntity(), rm.get(i).getPosition(j), rm.get(i).getAnimation(j), rm.get(i).getBeforeWait(j));
+                }
+            }
+            
+            this.index.setRemove(null);
+        }
+
+        if (index.sizeOfStack() > nbIndexSaved) {
             ArrayList<Mouvement> change = this.index.getChangement();
 
             if (change != null) {
                 for (int i = 0; i != change.size(); i++) {
                     for (int j = 0; j != change.get(i).size(); j++) {
+                        System.out.print("Normal move");
                         System.out.print(change.get(i).getEntity());
                         System.out.printf(" position : %d %d, Animation : ", change.get(i).getPosition(j).getX(), change.get(i).getPosition(j).getY());
                         System.out.print(change.get(i).getAnimation(j));
@@ -85,6 +104,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                 }
             }
         }
+        nbIndexSaved = index.sizeOfStack();
     }
 
     private void moveSprite(Entity e, Position diff, AnimationType a, float waitBefore) {
@@ -92,17 +112,23 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         Sprite sprite = e.getComponent(Sprite.class);
         Vector3f pos = sprite.getPosition();
         SpritePuppetControls updatable = new SpritePuppetControls(sprite);
-        Position p = new Position((int) diff.getY(), (int) diff.getX());
+        Position current = positionMapper.getSafe(e);
         
+        if(current == null) {
+            return ;
+        }
+        
+        Position p = new Position((int)pos.x + diff.getY(), (int)pos.y + diff.getX());
+
         IAnimationCollection nedAnim = this.assets.getAnimations("ned.nanim.gz");
         IAnimationCollection makiAnim = this.assets.getAnimations("maki.nanim.gz");
         IAnimationCollection plateAnim = this.assets.getAnimations("plate.nanim.gz");
         IAnimationCollection boxAnim = this.assets.getAnimations("box.nanim.gz");
         IAnimationCollection stairsAnim = this.assets.getAnimations("stairs.nanim.gz");
-        
+
         if (a == AnimationType.no) {
             updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.ned_right) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_right"))
                     .moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
@@ -140,6 +166,10 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .startAnimation(boxAnim.getAnimationByName("destroy"))
                     .waitAnimation();
             e.removeComponent(sprite);
+        }else if (a == AnimationType.box_create) {
+            updatable.startAnimation(boxAnim.getAnimationByName("create"))
+                    .waitAnimation();
+            e.removeComponent(sprite);
         } else if (a == AnimationType.maki_green_one) {
             updatable.moveTo(new Vector3f(p.getX(), p.getY(), pos.z), 0.5f)
                     .startAnimation(makiAnim.getAnimationByName("maki_green_one"))
@@ -170,21 +200,21 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         } else if (a == AnimationType.clean_orange_plate) {
             updatable.startAnimation(plateAnim.getAnimationByName("clean_orange_plate"))
                     .stopAnimation();
-        } else if (a == AnimationType.maki_blue_out) {
+        } else if (a == AnimationType.clean_blue_plate) {
             updatable.startAnimation(plateAnim.getAnimationByName("clean_blue_plate"))
                     .stopAnimation();
-        }  else if (a == AnimationType.disable_entity) {
+        } else if (a == AnimationType.disable_entity) {
             e.disable();
         } else if (a == AnimationType.stairs_up) {
             updatable.startAnimation(stairsAnim.getAnimationByName("stairs_up"), PlayMode.ONCE)
                     .waitAnimation();
-        }  else if (a == AnimationType.stairs_down) {
+        } else if (a == AnimationType.stairs_down) {
             updatable.startAnimation(stairsAnim.getAnimationByName("stairs_down"), PlayMode.ONCE)
                     .waitAnimation();
-        }  else if (a == AnimationType.stairs_left) {
+        } else if (a == AnimationType.stairs_left) {
             updatable.startAnimation(stairsAnim.getAnimationByName("stairs_left"), PlayMode.ONCE)
                     .waitAnimation();
-        }  else if (a == AnimationType.stairs_right) {
+        } else if (a == AnimationType.stairs_right) {
             updatable.startAnimation(stairsAnim.getAnimationByName("stairs_right"), PlayMode.ONCE)
                     .waitAnimation();
         }

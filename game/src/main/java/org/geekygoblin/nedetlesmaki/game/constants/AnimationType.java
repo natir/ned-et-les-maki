@@ -37,6 +37,7 @@ public enum AnimationType {
     ned_push_down,
     ned_push_up,
     box_destroy,
+    box_create,
     maki_green_one,
     maki_orange_one,
     maki_blue_one,
