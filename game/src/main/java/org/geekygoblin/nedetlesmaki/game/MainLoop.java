@@ -67,7 +67,7 @@ public class MainLoop {
         this.toolkit = toolkit;
         this.game = game;
         this.assets = assets;
-        assets.setIcon();
+        assets.setIcon("icon.png");
         setControls();
         mainMenu.enable();
         intro.disable();

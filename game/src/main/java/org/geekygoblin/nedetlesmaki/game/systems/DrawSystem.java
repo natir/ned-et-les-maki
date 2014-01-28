@@ -30,7 +30,7 @@ import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
 import com.artemis.utils.ImmutableBag;
 import im.bci.jnuit.lwjgl.LwjglHelper;
-import im.bci.jnuit.lwjgl.TrueTypeFont;
+import im.bci.jnuit.lwjgl.LwjglNuitFont;
 import im.bci.jnuit.animation.IAnimationFrame;
 import im.bci.jnuit.animation.IAnimationImage;
 import im.bci.jnuit.animation.IPlay;
@@ -270,7 +270,8 @@ public class DrawSystem extends EntitySystem {
             GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
             GL11.glScalef(0.5f, -0.5f, 1f);
             GL11.glEnable(GL11.GL_BLEND);
-            assets.getFont("prout").drawString(sprite.getLabel(), TrueTypeFont.Align.CENTER);
+            LwjglNuitFont font = (LwjglNuitFont)assets.getFont("prout");
+            font.drawString(sprite.getLabel(), LwjglNuitFont.Align.CENTER);
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopMatrix();
         }

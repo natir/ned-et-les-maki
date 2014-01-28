@@ -105,7 +105,7 @@ public class MainMenu extends Component {
             @Override
             protected void changeVideoSettings() {
                 super.changeVideoSettings();
-                assets.setIcon();
+                assets.setIcon("icon.png");
             }
 
             @Override
