@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 Pierre Marijon <pierre@marijon.fr>
+ Copyright (c) 2013 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,8 @@ import org.lwjgl.util.vector.Vector3f;
  */
 class SpriteMoveToRelative extends SpriteControl {
 
-    private final Vector3f diff;
+    private Vector3f diff;
+    private Vector3f to;
     private final float duration;
     private final Sprite sprite;
     private Vector3f from;
@@ -52,12 +53,11 @@ class SpriteMoveToRelative extends SpriteControl {
         a.update(elapsedTime);
         Vector3f newPos;
         final float progress = a.getProgress();
-       if (progress >= 1.0f) {
-            newPos = new Vector3f();
-            Vector3f.add(diff, from, newPos);
+        if (progress >= 1.0f) {
+            newPos = to;
         } else {
             newPos = new Vector3f();
-            Vector3f.add(diff, from, newPos);
+            Vector3f.sub(to, from, newPos);
             newPos.scale(progress);
             newPos.x += from.x;
             newPos.y += from.y;
@@ -71,6 +71,7 @@ class SpriteMoveToRelative extends SpriteControl {
     private OneShotTimedAction getAction() {
         if (null == action) {
             this.from = new Vector3f(sprite.getPosition());
+            this.to = new Vector3f(this.from.x + diff.x, this.from.y +diff.y, this.from.z + diff.z);
             action = new OneShotTimedAction(duration);
         }
         return action;
