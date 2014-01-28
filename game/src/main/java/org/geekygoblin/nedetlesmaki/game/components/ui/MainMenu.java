@@ -39,16 +39,15 @@ import im.bci.jnuit.widgets.VideoConfigurator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import im.bci.jnuit.background.Background;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.animation.PlayMode;
-import im.bci.jnuit.background.ColoredBackground;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.MainLoop;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import im.bci.jnuit.widgets.Container;
+import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
 
@@ -60,7 +59,7 @@ public class MainMenu extends Component {
     private VideoConfigurator videoConfigurator;
     private AudioConfigurator audioConfigurator;
     private Table optionsMenu;
-    private ControlsConfigurator controls;
+    private ControlsConfigurator menuControls, gameControls;
     private final LevelSelector levelSelector;
     private final MainLoop mainLoop;
     private final NuitToolkit toolkit;
@@ -70,7 +69,7 @@ public class MainMenu extends Component {
     private final Provider<HideMenuTrigger> hideMenuTrigger;
 
     @Inject
-    public MainMenu(MainLoop mainLoop, Game g, NuitToolkit toolkit, NuitRenderer nuitRenderer, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger) throws LWJGLException {
+    public MainMenu(MainLoop mainLoop, Game g, NuitToolkit toolkit, NuitRenderer nuitRenderer, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger, IngameControls ingameControls) throws LWJGLException {
         this.mainLoop = mainLoop;
         this.toolkit = toolkit;
         this.nuitRenderer = nuitRenderer;
@@ -83,7 +82,8 @@ public class MainMenu extends Component {
         root.add(levelSelector);
         initVideo();
         initAudio();
-        initControls();
+        initMenuControls();
+        initGameControls(ingameControls);
         initOptions();
         initMain();
     }
@@ -131,7 +131,7 @@ public class MainMenu extends Component {
         final Button resumeButton = new Button(toolkit, "main.menu.button.resume") {
             @Override
             public void onOK() {
-                if(!game.getManager(GroupManager.class).getEntities(Group.LEVEL).isEmpty()) {
+                if (!game.getManager(GroupManager.class).getEntities(Group.LEVEL).isEmpty()) {
                     game.addEntity(game.createEntity().addComponent(new Triggerable(hideMenuTrigger.get())));
                 }
             }
@@ -165,7 +165,7 @@ public class MainMenu extends Component {
         quitButton.setWidth(1160 - 887);
         quitButton.setHeight(691 - 631);
         mainMenu.add(quitButton);
-        
+
         final Button extrasButton = new Button(toolkit, "main.menu.button.extras") {
             @Override
             public void onOK() {
@@ -196,10 +196,17 @@ public class MainMenu extends Component {
             }
         });
         optionsMenu.row();
-        optionsMenu.cell(new Button(toolkit, "options.menu.button.controls") {
+        optionsMenu.cell(new Button(toolkit, "options.menu.button.game.controls") {
             @Override
             public void onOK() {
-                root.show(controls);
+                root.show(gameControls);
+            }
+        });
+        optionsMenu.row();
+        optionsMenu.cell(new Button(toolkit, "options.menu.button.menu.controls") {
+            @Override
+            public void onOK() {
+                root.show(menuControls);
             }
         });
         optionsMenu.row();
@@ -213,14 +220,24 @@ public class MainMenu extends Component {
         root.add(optionsMenu);
     }
 
-    private void initControls() {
-        controls = new ControlsConfigurator(toolkit, Arrays.asList(toolkit.getMenuUp(), toolkit.getMenuDown(), toolkit.getMenuLeft(), toolkit.getMenuRight(), toolkit.getMenuOK(), toolkit.getMenuCancel()), null) {
+    private void initMenuControls() {
+        menuControls = new ControlsConfigurator(toolkit, Arrays.asList(toolkit.getMenuUp(), toolkit.getMenuDown(), toolkit.getMenuLeft(), toolkit.getMenuRight(), toolkit.getMenuOK(), toolkit.getMenuCancel()), null) {
             @Override
             public void onBack() {
                 root.show(optionsMenu);
             }
         };
-        root.add(controls);
+        root.add(menuControls);
+    }
+
+    private void initGameControls(IngameControls ingameControls) {
+        gameControls = new ControlsConfigurator(toolkit, Arrays.asList(ingameControls.getUp().getAction(), ingameControls.getDown().getAction(), ingameControls.getLeft().getAction(), ingameControls.getRight().getAction(), ingameControls.getRewind().getAction(), ingameControls.getShowMenu().getAction()), null) {
+            @Override
+            public void onBack() {
+                root.show(optionsMenu);
+            }
+        };
+        root.add(gameControls);
     }
 
     public void update() {
