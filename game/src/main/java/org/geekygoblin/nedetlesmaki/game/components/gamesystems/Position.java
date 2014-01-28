@@ -51,8 +51,4 @@ public class Position extends Component {
     public void setY(int y) {
 	this.y = y;
     }
-
-    public void print() {
-	System.out.printf("Pos : [%d, %d]%n", this.x, this.y);
-    }
 }
