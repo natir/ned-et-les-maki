@@ -77,19 +77,8 @@ public class MainMenu extends Component {
         this.assets = assets;
         this.game = g;
         this.hideMenuTrigger = hideMenuTrigger;
-        root = new Root(toolkit) {
-            private final TexturedBackground titleMenuBackground = new TexturedBackground(MainMenu.this.assets.getAnimations("menu.png").getFirst().start(PlayMode.LOOP));
-            private final ColoredBackground inGameMenuBackground = new ColoredBackground(0, 0, 0, 0.5f);
-
-            @Override
-            public Background getBackground() {
-                if (game.getManager(GroupManager.class).getEntities(Group.LEVEL).isEmpty()) {
-                    return titleMenuBackground;
-                } else {
-                    return inGameMenuBackground;
-                }
-            }
-        };
+        root = new Root(toolkit);
+        root.setBackground(new TexturedBackground(MainMenu.this.assets.getAnimations("menu.png").getFirst().start(PlayMode.LOOP)));
         this.levelSelector = levelSelector;
         root.add(levelSelector);
         initVideo();
@@ -142,7 +131,9 @@ public class MainMenu extends Component {
         final Button resumeButton = new Button(toolkit, "main.menu.button.resume") {
             @Override
             public void onOK() {
-                game.addEntity(game.createEntity().addComponent(new Triggerable(hideMenuTrigger.get())));
+                if(!game.getManager(GroupManager.class).getEntities(Group.LEVEL).isEmpty()) {
+                    game.addEntity(game.createEntity().addComponent(new Triggerable(hideMenuTrigger.get())));
+                }
             }
         };
         resumeButton.setX(559);
