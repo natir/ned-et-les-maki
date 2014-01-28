@@ -474,8 +474,6 @@ public class GameSystem extends VoidEntitySystem {
     
     public void removeMouv()
     {
-        System.out.println("Dépile");
-
         ArrayList<Mouvement> head = this.index.pop();
         
         if(head == null) {
@@ -502,9 +500,7 @@ public class GameSystem extends VoidEntitySystem {
                     AnimationType invertAnim = this.invertAnimation(head.get(i).getAnimation(j));
 
                     rm.add(new Mouvement(head.get(i).getEntity()).setAnimation(invertAnim).setPosition(diff).saveMouvement());
-                    
-                    System.out.printf("Current : %d %d Head : %d %d Diff : %d %d\n", current.getX(), current.getY(), headP.getX(), headP.getY(), diff.getX(), diff.getY());
-                    
+
                     this.index.moveEntity(current.getX(), current.getY(), current.getX() + diff.getX(), current.getY() + diff.getY());
                     head.get(i).getEntity().getComponent(Position.class).setX(current.getX() + diff.getX());
                     head.get(i).getEntity().getComponent(Position.class).setY(current.getY() + diff.getY());
