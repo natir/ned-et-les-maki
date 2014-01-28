@@ -24,7 +24,6 @@ package org.geekygoblin.nedetlesmaki.game.systems;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -57,6 +56,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     ComponentMapper<Plate> plateMapper;
     @Mapper
     ComponentMapper<Position> positionMapper;
+    @Mapper
+    ComponentMapper<SpritePuppetControls> controlsMapper;
     
     private final IAssets assets;
     private int nbIndexSaved;
@@ -94,11 +95,6 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             if (change != null) {
                 for (int i = 0; i != change.size(); i++) {
                     for (int j = 0; j != change.get(i).size(); j++) {
-                        System.out.print("Normal move");
-                        System.out.print(change.get(i).getEntity());
-                        System.out.printf(" position : %d %d, Animation : ", change.get(i).getPosition(j).getX(), change.get(i).getPosition(j).getY());
-                        System.out.print(change.get(i).getAnimation(j));
-                        System.out.print("\n");
                         this.moveSprite(change.get(i).getEntity(), change.get(i).getPosition(j), change.get(i).getAnimation(j), change.get(i).getBeforeWait(j));
                     }
                 }
@@ -110,7 +106,10 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     private void moveSprite(Entity e, Position diff, AnimationType a, float waitBefore) {
 
         Sprite sprite = e.getComponent(Sprite.class);
-        SpritePuppetControls updatable = new SpritePuppetControls(sprite);
+        SpritePuppetControls updatable = this.controlsMapper.getSafe(e);
+        if(updatable == null) {
+            updatable = new SpritePuppetControls(sprite);
+        }
         
         IAnimationCollection nedAnim = this.assets.getAnimations("ned.nanim.gz");
         IAnimationCollection makiAnim = this.assets.getAnimations("maki.nanim.gz");
@@ -120,7 +119,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 
         if (a == AnimationType.no) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
-                    .waitAnimation();
+                    .stopAnimation();
         } else if (a == AnimationType.ned_right) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_right"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
@@ -160,7 +159,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             e.removeComponent(sprite);
         }else if (a == AnimationType.box_create) {
             updatable.startAnimation(boxAnim.getAnimationByName("create"))
-                    .waitAnimation();
+                    .stopAnimation();
             e.removeComponent(sprite);
         } else if (a == AnimationType.maki_green_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
@@ -169,23 +168,23 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         } else if (a == AnimationType.maki_orange_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
                     .startAnimation(makiAnim.getAnimationByName("maki_orange_one"))
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.maki_blue_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
                     .startAnimation(makiAnim.getAnimationByName("maki_blue_one"))
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.maki_green_out) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
                     .startAnimation(makiAnim.getAnimationByName("maki_green_out"))
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.maki_orange_out) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
                     .startAnimation(makiAnim.getAnimationByName("maki_orange_out"))
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.maki_blue_out) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
                     .startAnimation(makiAnim.getAnimationByName("maki_blue_out"))
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.clean_green_plate) {
             updatable.startAnimation(plateAnim.getAnimationByName("clean_green_plate"))
                     .stopAnimation();
