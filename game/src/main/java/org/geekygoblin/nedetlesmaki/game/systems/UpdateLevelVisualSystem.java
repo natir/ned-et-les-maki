@@ -118,7 +118,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         IAnimationCollection stairsAnim = this.assets.getAnimations("stairs.nanim.gz");
 
         if (a == AnimationType.no) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.2f)
                     .stopAnimation();
         } else if (a == AnimationType.ned_right) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_right"))
@@ -156,11 +156,11 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             updatable.waitDuring(waitBefore)
                     .startAnimation(boxAnim.getAnimationByName("destroy"))
                     .waitAnimation();
-            e.removeComponent(sprite);
+            this.index.disabled(e);
         }else if (a == AnimationType.box_create) {
-            updatable.startAnimation(boxAnim.getAnimationByName("create"))
+            this.index.enabled(e);
+            updatable.startAnimation(boxAnim.getAnimationByName("create"), PlayMode.ONCE)
                     .stopAnimation();
-            e.removeComponent(sprite);
         } else if (a == AnimationType.maki_green_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
                     .startAnimation(makiAnim.getAnimationByName("maki_green_one"))
