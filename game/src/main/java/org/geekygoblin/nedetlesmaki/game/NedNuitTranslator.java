@@ -67,8 +67,16 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.ENGLISH, "main.menu.button.quit", "QUIT");
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.video", "VIDEO");
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.audio", "AUDIO");
-        addTranslation(NuitLocale.ENGLISH, "options.menu.button.controls", "CONTROLS");
+        addTranslation(NuitLocale.ENGLISH, "options.menu.button.game.controls", "GAME CONTROLS");
+        addTranslation(NuitLocale.ENGLISH, "options.menu.button.menu.controls", "MENU CONTROLS");
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.back", "BACK");
+        
+        addTranslation(NuitLocale.ENGLISH, "action.up", "Up");
+        addTranslation(NuitLocale.ENGLISH, "action.down", "Down");
+        addTranslation(NuitLocale.ENGLISH, "action.left", "Left");
+        addTranslation(NuitLocale.ENGLISH, "action.right", "Right");
+        addTranslation(NuitLocale.ENGLISH, "action.rewind", "Rewind");
+        addTranslation(NuitLocale.ENGLISH, "action.menu", "Menu");
 
         addTranslation(NuitLocale.ENGLISH, "dialog.button.next", "Next");
         addTranslation(NuitLocale.ENGLISH, "dialog.button.previous", "Previous");
@@ -90,8 +98,16 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.FRENCH, "main.menu.button.quit", "QUITTER");
         addTranslation(NuitLocale.FRENCH, "options.menu.button.video", "VIDEO");
         addTranslation(NuitLocale.FRENCH, "options.menu.button.audio", "AUDIO");
-        addTranslation(NuitLocale.FRENCH, "options.menu.button.controls", "CONTROLES");
+        addTranslation(NuitLocale.FRENCH, "options.menu.button.game.controls", "CONTROLES DU JEU");
+        addTranslation(NuitLocale.FRENCH, "options.menu.button.menu.controls", "CONTROLES DES MENUS");
         addTranslation(NuitLocale.FRENCH, "options.menu.button.back", "RETOUR");
+        
+        addTranslation(NuitLocale.FRENCH, "action.up", "Haut");
+        addTranslation(NuitLocale.FRENCH, "action.down", "Bas");
+        addTranslation(NuitLocale.FRENCH, "action.left", "Gauche");
+        addTranslation(NuitLocale.FRENCH, "action.right", "Droite");
+        addTranslation(NuitLocale.FRENCH, "action.rewind", "Rembobine");
+        addTranslation(NuitLocale.FRENCH, "action.menu", "Menu");
 
         addTranslation(NuitLocale.FRENCH, "dialog.button.next", "Suite");
         addTranslation(NuitLocale.FRENCH, "dialog.button.previous", "Retour");

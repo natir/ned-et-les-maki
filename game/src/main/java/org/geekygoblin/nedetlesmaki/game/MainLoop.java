@@ -33,6 +33,7 @@ import im.bci.jnuit.lwjgl.LwjglHelper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import im.bci.jnuit.lwjgl.assets.IAssets;
+import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controllers;
 import org.lwjgl.input.Keyboard;
@@ -53,6 +54,7 @@ public class MainLoop {
     private NuitToolkit toolkit;
     private Game game;
     private IAssets assets;
+    private IngameControls ingameControls;
 
     @Inject
     public MainLoop(Logger logger, NuitPreferences preferences) {
@@ -63,10 +65,11 @@ public class MainLoop {
     }
 
     @Inject
-    public void init(IAssets assets, NuitToolkit toolkit, Game game, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.Intro Entity intro) {
+    public void init(IAssets assets, NuitToolkit toolkit, Game game, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.Intro Entity intro, IngameControls ingameControls) {
         this.toolkit = toolkit;
         this.game = game;
         this.assets = assets;
+        this.ingameControls = ingameControls;
         assets.setIcon("icon.png");
         setControls();
         mainMenu.enable();
@@ -104,11 +107,11 @@ public class MainLoop {
             int width = preferences.getInt("video.width", -1);
             int height = preferences.getInt("video.height", -1);
             boolean fullscreen = preferences.getBoolean("video.fullscreen", true);
-            if(width<0 || height<0) {
+            if (width < 0 || height < 0) {
                 width = Display.getDesktopDisplayMode().getWidth();
                 height = Display.getDesktopDisplayMode().getHeight();
             }
-            DisplayMode mode = LwjglHelper.findBestDisplayMode(width,height);
+            DisplayMode mode = LwjglHelper.findBestDisplayMode(width, height);
             if (fullscreen) {
                 Display.setDisplayModeAndFullscreen(mode);
             } else {
@@ -140,6 +143,13 @@ public class MainLoop {
         loadControlsForAction(toolkit.getMenuDown());
         loadControlsForAction(toolkit.getMenuLeft());
         loadControlsForAction(toolkit.getMenuRight());
+
+        loadControlsForAction(ingameControls.getUp().getAction());
+        loadControlsForAction(ingameControls.getDown().getAction());
+        loadControlsForAction(ingameControls.getLeft().getAction());
+        loadControlsForAction(ingameControls.getRight().getAction());
+        loadControlsForAction(ingameControls.getRewind().getAction());
+        loadControlsForAction(ingameControls.getShowMenu().getAction());
     }
 
     private void loadControlsForAction(Action action) {
@@ -162,6 +172,13 @@ public class MainLoop {
         saveControlsForAction(toolkit.getMenuDown());
         saveControlsForAction(toolkit.getMenuLeft());
         saveControlsForAction(toolkit.getMenuRight());
+
+        saveControlsForAction(ingameControls.getUp().getAction());
+        saveControlsForAction(ingameControls.getDown().getAction());
+        saveControlsForAction(ingameControls.getLeft().getAction());
+        saveControlsForAction(ingameControls.getRight().getAction());
+        saveControlsForAction(ingameControls.getRewind().getAction());
+        saveControlsForAction(ingameControls.getShowMenu().getAction());
     }
 
     private void saveControlsForAction(Action action) {

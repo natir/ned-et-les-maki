@@ -29,6 +29,7 @@ import im.bci.jnuit.controls.ActionActivatedDetector;
 import im.bci.jnuit.lwjgl.controls.KeyControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import im.bci.jnuit.lwjgl.controls.MouseButtonControl;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -38,16 +39,16 @@ import org.lwjgl.input.Keyboard;
 @Singleton
 public class IngameControls extends Component {
 
-    private ActionActivatedDetector up, down, left, right, ret, showMenu;
+    private ActionActivatedDetector up, down, left, right, rewind, showMenu;
 
     @Inject
     public IngameControls() {
-        up = new ActionActivatedDetector(new Action("up", new KeyControl(Keyboard.KEY_UP)));
-        down = new ActionActivatedDetector(new Action("down", new KeyControl(Keyboard.KEY_DOWN)));
-        left = new ActionActivatedDetector(new Action("left", new KeyControl(Keyboard.KEY_LEFT)));
-        right = new ActionActivatedDetector(new Action("right", new KeyControl(Keyboard.KEY_RIGHT)));
-        ret = new ActionActivatedDetector(new Action("right", new KeyControl(Keyboard.KEY_R)));
-        showMenu = new ActionActivatedDetector(new Action("menu", new KeyControl(Keyboard.KEY_ESCAPE)));
+        up = new ActionActivatedDetector(new Action("action.up", new KeyControl(Keyboard.KEY_UP)));
+        down = new ActionActivatedDetector(new Action("action.down", new KeyControl(Keyboard.KEY_DOWN)));
+        left = new ActionActivatedDetector(new Action("action.left", new KeyControl(Keyboard.KEY_LEFT)));
+        right = new ActionActivatedDetector(new Action("action.right", new KeyControl(Keyboard.KEY_RIGHT)));
+        rewind = new ActionActivatedDetector(new Action("action.rewind", new KeyControl(Keyboard.KEY_BACK), new MouseButtonControl(1)));
+        showMenu = new ActionActivatedDetector(new Action("action.menu", new KeyControl(Keyboard.KEY_ESCAPE)));
     }
 
     public ActionActivatedDetector getUp() {
@@ -82,12 +83,12 @@ public class IngameControls extends Component {
         this.right = right;
     }
 
-        public ActionActivatedDetector getRet() {
-        return ret;
+    public ActionActivatedDetector getRewind() {
+        return rewind;
     }
 
-    public void setRet(ActionActivatedDetector ret) {
-        this.ret = ret;
+    public void setRewind(ActionActivatedDetector r) {
+        this.rewind = r;
     }
     
     public ActionActivatedDetector getShowMenu() {

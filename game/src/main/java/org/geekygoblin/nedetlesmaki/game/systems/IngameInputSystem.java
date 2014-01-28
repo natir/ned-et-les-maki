@@ -83,13 +83,13 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 controls.getDown().poll();
                 controls.getRight().poll();
                 controls.getLeft().poll();
-                controls.getRet().poll();
+                controls.getRewind().poll();
                 mouseClick.poll();
                 boolean upPressed = controls.getUp().isPressed();
                 boolean downPressed = controls.getDown().isPressed();
                 boolean leftPressed = controls.getLeft().isPressed();
                 boolean rightPressed = controls.getRight().isPressed();
-                boolean retPressed = controls.getRet().isPressed();
+                boolean retPressed = controls.getRewind().isPressed();
                 Entity ned = game.getNed();
                 if (mouseClick.isPressed()) {
                     Vector3f selectedPosition = game.getSystem(TintMouseSelectionSystem.class).getSelectedSprite().getPosition();
