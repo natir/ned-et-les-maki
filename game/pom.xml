@@ -193,7 +193,7 @@ THE SOFTWARE. -->
         </dependency>
         <dependency>
             <groupId>im.bci</groupId>
-            <artifactId>jnuit-lwjgl</artifactId>
+            <artifactId>jnuit-lwjgl-utils</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.inject</groupId>

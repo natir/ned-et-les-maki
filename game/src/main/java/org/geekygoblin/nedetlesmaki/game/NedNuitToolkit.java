@@ -31,7 +31,7 @@ import im.bci.jnuit.NuitDisplay;
 import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.NuitTranslator;
-import im.bci.jnuit.lwjgl.TrueTypeFont;
+import im.bci.jnuit.lwjgl.LwjglNuitFont;
 
 /**
  *
@@ -41,7 +41,7 @@ import im.bci.jnuit.lwjgl.TrueTypeFont;
 public class NedNuitToolkit extends NuitToolkit {
 
     @Inject
-    public NedNuitToolkit(NuitDisplay display, NuitTranslator translator, @NamedEntities.DefaultFont TrueTypeFont font, NuitRenderer renderer, NuitControls controls) {
+    public NedNuitToolkit(NuitDisplay display, NuitTranslator translator, @NamedEntities.DefaultFont LwjglNuitFont font, NuitRenderer renderer, NuitControls controls) {
         super(display, controls, translator, font, renderer);
     }
     
