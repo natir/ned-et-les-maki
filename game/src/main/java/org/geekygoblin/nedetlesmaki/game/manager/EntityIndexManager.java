@@ -132,6 +132,42 @@ public class EntityIndexManager extends EntityManager {
         }
     }
 
+    @Override
+    public void disabled(Entity e) {
+        Position p = this.getPosition(e);
+
+        if (p != null) {
+            Square s = this.index[p.getX()][p.getY()];
+            if (s != null) {
+                s.remove(e);
+            }
+
+            super.disabled(e);
+        }
+    }
+    
+    @Override
+    public void enabled(Entity e) {
+        Position p = this.getPosition(e);
+
+        if (p != null) {
+            if (this.index[p.getX()][p.getY()] == null) {
+                this.index[p.getX()][p.getY()] = new Square();
+            }
+
+            if (this.getPlate(e) != null && !this.index[p.getX()][p.getY()].getWith(Plate.class).isEmpty()) {
+                return;
+            }
+
+            if (this.getMovable(e) != 0 && !this.index[p.getX()][p.getY()].getWith(Movable.class).isEmpty()) {
+                return;
+            }
+
+            this.index[p.getX()][p.getY()].add(e);
+            super.enabled(e);
+        }
+    }
+    
     public ArrayList<Entity> getEntity(int x, int y) {
 
         Square test = this.getSquare(x, y);
@@ -167,6 +203,10 @@ public class EntityIndexManager extends EntityManager {
             return false;
         }
 
+        if(x == x2 && y == y2) {
+            return true;
+        }
+        
         ArrayList<Entity> tmpE = index[x][y].getWith(Movable.class);
 
         Square newC = this.index[x2][y2];
