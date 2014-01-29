@@ -77,7 +77,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         if (rm != null) {
             for (int i = 0; i != rm.size(); i++) {
                 for (int j = 0; j != rm.get(i).size(); j++) {
-                    this.moveSprite(rm.get(i).getEntity(), rm.get(i).getPosition(j), rm.get(i).getAnimation(j), rm.get(i).getBeforeWait(j));
+                    this.moveSprite(rm.get(i).getEntity(), rm.get(i).getPosition(j), rm.get(i).getAnimation(j), rm.get(i).getBeforeWait(j), rm.get(i).getAnimationTime(j));
                 }
             }
             
@@ -90,7 +90,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             if (change != null) {
                 for (int i = 0; i != change.size(); i++) {
                     for (int j = 0; j != change.get(i).size(); j++) {
-                        this.moveSprite(change.get(i).getEntity(), change.get(i).getPosition(j), change.get(i).getAnimation(j), change.get(i).getBeforeWait(j));
+                        this.moveSprite(change.get(i).getEntity(), change.get(i).getPosition(j), change.get(i).getAnimation(j), change.get(i).getBeforeWait(j), change.get(i).getAnimationTime(j));
                     }
                 }
             }
@@ -98,7 +98,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         nbIndexSaved = index.sizeOfStack();
     }
 
-    private void moveSprite(Entity e, Position diff, AnimationType a, float waitBefore) {
+    private void moveSprite(Entity e, Position diff, AnimationType a, float waitBefore, float animationTime) {
 
         Sprite sprite = e.getComponent(Sprite.class);
         SpritePuppetControls updatable = this.controlsMapper.getSafe(e);
@@ -113,39 +113,39 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         IAnimationCollection stairsAnim = this.assets.getAnimations("stairs.nanim.gz");
 
         if (a == AnimationType.no) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.2f)
+            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_right) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_right"))
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_left) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_left"))
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_down) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_down"))
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_up) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_up"))
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_push_right) {
             updatable.startAnimation(nedAnim.getAnimationByName("push_right"))
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_push_left) {
             updatable.startAnimation(nedAnim.getAnimationByName("push_left"))
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_push_down) {
             updatable.startAnimation(nedAnim.getAnimationByName("push_down"))
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_push_up) {
             updatable.startAnimation(nedAnim.getAnimationByName("push_up"))
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.box_destroy) {
             updatable.waitDuring(waitBefore)
@@ -157,27 +157,27 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             updatable.startAnimation(boxAnim.getAnimationByName("create"), PlayMode.ONCE)
                     .stopAnimation();
         } else if (a == AnimationType.maki_green_one) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .startAnimation(makiAnim.getAnimationByName("maki_green_one"))
                     .waitAnimation();
         } else if (a == AnimationType.maki_orange_one) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .startAnimation(makiAnim.getAnimationByName("maki_orange_one"))
                     .waitAnimation();
         } else if (a == AnimationType.maki_blue_one) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .startAnimation(makiAnim.getAnimationByName("maki_blue_one"))
                     .waitAnimation();
         } else if (a == AnimationType.maki_green_out) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .startAnimation(makiAnim.getAnimationByName("maki_green_out"))
                     .waitAnimation();
         } else if (a == AnimationType.maki_orange_out) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .startAnimation(makiAnim.getAnimationByName("maki_orange_out"))
                     .waitAnimation();
         } else if (a == AnimationType.maki_blue_out) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
+            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .startAnimation(makiAnim.getAnimationByName("maki_blue_out"))
                     .waitAnimation();
         } else if (a == AnimationType.clean_green_plate) {
