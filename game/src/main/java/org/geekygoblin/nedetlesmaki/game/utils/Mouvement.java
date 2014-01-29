@@ -64,6 +64,11 @@ public class Mouvement {
 	return this;
     }
 
+        public Mouvement setAnimationTime(float animationTime) {
+	this.ms.animationTime = animationTime;
+	return this;
+    }
+
     public Mouvement saveMouvement() {
         this.list.add(this.ms);
         return this;
@@ -85,6 +90,10 @@ public class Mouvement {
         return this.list.get(i).bw;
     }
 
+    public float getAnimationTime(int i) {
+        return this.list.get(i).animationTime;
+    }
+
     public int size() {
         return this.list.size();
     }
@@ -98,11 +107,13 @@ public class Mouvement {
         public Position p;
         public AnimationType a;
         public float bw;
+        public float animationTime;
 
         public Mouvement_struct() {
             p = new Position(0, 0);
             a = AnimationType.no;
             bw = 0;
+            animationTime = 0;
         }
     }
 }
