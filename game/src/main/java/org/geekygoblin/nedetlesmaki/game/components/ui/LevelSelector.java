@@ -110,13 +110,11 @@ public class LevelSelector extends Container {
 
     private class LevelSelectorButton extends Button {
 
-        private final int orientation;
         private final String levelName;
 
-        public LevelSelectorButton(NuitToolkit toolkit, String text, String levelName, int orientation) {
+        public LevelSelectorButton(NuitToolkit toolkit, String text, String levelName) {
             super(toolkit, text);
             setMustDrawFocus(false);
-            this.orientation = orientation;
             this.levelName = levelName;
         }
 
@@ -127,7 +125,7 @@ public class LevelSelector extends Container {
     }
 
     private LevelSelectorButton addButton(String label, String levelName, int x, int y, int orientation) {
-        LevelSelectorButton button = new LevelSelectorButton(toolkit, label, levelName, orientation);
+        LevelSelectorButton button = new LevelSelectorButton(toolkit, label, levelName);
         final TexturedBackground background = new TexturedBackground(bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP));
         button.setBackground(background);
         final TexturedBackground focusedBackground = new TexturedBackground(bulleAnimations.getAnimationByName("bulle_selectionnee").start(PlayMode.LOOP));
