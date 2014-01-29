@@ -150,13 +150,14 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
         } else if (a == AnimationType.box_destroy) {
-            updatable.startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE)
                     .waitAnimation();
             this.index.disabled(e);
         }else if (a == AnimationType.box_create) {
             this.index.enabled(e);
             updatable.startAnimation(boxAnim.getAnimationByName("create"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
         } else if (a == AnimationType.maki_green_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
@@ -164,32 +165,32 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .waitAnimation();
         } else if (a == AnimationType.maki_orange_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .startAnimation(makiAnim.getAnimationByName("maki_orange_one"))
+                    .startAnimation(makiAnim.getAnimationByName("maki_orange_one"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.maki_blue_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"))
+                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.maki_green_out) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .startAnimation(makiAnim.getAnimationByName("maki_green_out"))
+                    .startAnimation(makiAnim.getAnimationByName("maki_green_out"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.maki_orange_out) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .startAnimation(makiAnim.getAnimationByName("maki_orange_out"))
+                    .startAnimation(makiAnim.getAnimationByName("maki_orange_out"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.maki_blue_out) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .startAnimation(makiAnim.getAnimationByName("maki_blue_out"))
+                    .startAnimation(makiAnim.getAnimationByName("maki_blue_out"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.clean_green_plate) {
-            updatable.startAnimation(plateAnim.getAnimationByName("clean_green_plate"))
+            updatable.startAnimation(plateAnim.getAnimationByName("clean_green_plate"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.clean_orange_plate) {
-            updatable.startAnimation(plateAnim.getAnimationByName("clean_orange_plate"))
+            updatable.startAnimation(plateAnim.getAnimationByName("clean_orange_plate"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.clean_blue_plate) {
-            updatable.startAnimation(plateAnim.getAnimationByName("clean_blue_plate"))
+            updatable.startAnimation(plateAnim.getAnimationByName("clean_blue_plate"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.disable_entity) {
             e.disable();
