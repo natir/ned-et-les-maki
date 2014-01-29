@@ -36,6 +36,8 @@ import im.bci.jnuit.animation.PlayMode;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import org.geekygoblin.nedetlesmaki.game.components.visual.SpriteWait;
+import org.geekygoblin.nedetlesmaki.game.components.visual.SpriteWaitAnimation;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.constants.AnimationType;
@@ -114,51 +116,51 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
 
         if (a == AnimationType.no) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.ned_right) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_right"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.ned_left) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_left"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.ned_down) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_down"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.ned_up) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_up"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.ned_push_right) {
             updatable.startAnimation(nedAnim.getAnimationByName("push_right"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.ned_push_left) {
-            updatable.startAnimation(nedAnim.getAnimationByName("push_left"))
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .startAnimation(nedAnim.getAnimationByName("push_left"))
+                    .waitAnimation();
         } else if (a == AnimationType.ned_push_down) {
             updatable.startAnimation(nedAnim.getAnimationByName("push_down"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.ned_push_up) {
             updatable.startAnimation(nedAnim.getAnimationByName("push_up"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.box_destroy) {
-            updatable.waitDuring(waitBefore)
-                    .startAnimation(boxAnim.getAnimationByName("destroy"))
+            updatable.startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
             this.index.disabled(e);
         }else if (a == AnimationType.box_create) {
             this.index.enabled(e);
             updatable.startAnimation(boxAnim.getAnimationByName("create"), PlayMode.ONCE)
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.maki_green_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .startAnimation(makiAnim.getAnimationByName("maki_green_one"))
+                    .startAnimation(makiAnim.getAnimationByName("maki_green_one"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.maki_orange_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
@@ -182,13 +184,13 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .waitAnimation();
         } else if (a == AnimationType.clean_green_plate) {
             updatable.startAnimation(plateAnim.getAnimationByName("clean_green_plate"))
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.clean_orange_plate) {
             updatable.startAnimation(plateAnim.getAnimationByName("clean_orange_plate"))
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.clean_blue_plate) {
             updatable.startAnimation(plateAnim.getAnimationByName("clean_blue_plate"))
-                    .stopAnimation();
+                    .waitAnimation();
         } else if (a == AnimationType.disable_entity) {
             e.disable();
         } else if (a == AnimationType.stairs_up) {

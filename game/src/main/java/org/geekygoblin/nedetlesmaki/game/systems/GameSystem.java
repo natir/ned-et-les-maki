@@ -115,7 +115,7 @@ public class GameSystem extends VoidEntitySystem {
                         if (this.index.isPushableEntity(nextE)) {
                             if (this.index.isDestroyer(e)) {
                                 if (this.index.isDestroyable(nextE)) {
-                                    mouv.add(destroyMove(nextE));
+                                    mouv.add(destroyMove(nextE, dirP));
                                     mouv.addAll(runValideMove(oldP, newP, e, false));
                                 } else {
                                     ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP);
@@ -293,8 +293,8 @@ public class GameSystem extends VoidEntitySystem {
         return m;
     }
 
-    public Mouvement destroyMove(Entity e) {
-        return new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setAnimationTime(0.5f).saveMouvement();
+    public Mouvement destroyMove(Entity e, Position diff) {
+        return new Mouvement(e).setPosition(diff).setAnimation(AnimationType.box_destroy).setAnimationTime(0.5f).saveMouvement();
     }
      
     public boolean makiMoveOnePlate(Position newP, Entity e) {
