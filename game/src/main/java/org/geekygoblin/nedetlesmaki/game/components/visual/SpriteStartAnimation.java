@@ -35,19 +35,21 @@ public class SpriteStartAnimation extends SpriteControl {
 
 	private Sprite sprite;
 	private IAnimation animation;
-
-	SpriteStartAnimation(Sprite s, IAnimation a, PlayMode mode) {
+                  private PlayMode mode;
+        
+	SpriteStartAnimation(Sprite s, IAnimation a, PlayMode m) {
             if(null == a) {
                 throw new IllegalArgumentException("T'es con ou quoi?");
             }
 		this.sprite = s;
 		this.animation = a;
+                                    this.mode = m;
 	}
 
 	@Override
 	public void update(float elapsedTime) {
             try {
-		sprite.setPlay(animation.start(PlayMode.LOOP));
+		sprite.setPlay(animation.start(this.mode));
             } catch(java.lang.NullPointerException e) {
                 System.out.println();
             }
