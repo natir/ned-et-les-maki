@@ -211,6 +211,10 @@ public class EntityIndexManager extends EntityManager {
 
         Square newC = this.index[x2][y2];
 
+        if(tmpE.isEmpty()) {
+            return false;
+        }
+        
         if (newC != null) {
             newC.add(tmpE.get(0));
         } else {
