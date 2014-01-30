@@ -33,15 +33,10 @@ import im.bci.jnuit.animation.PlayMode;
  */
 public class SpriteWaitAnimation extends SpriteControl {
 
-    private Sprite sprite;
+    private final Sprite sprite;
 
     SpriteWaitAnimation(Sprite sprite) {
         this.sprite = sprite;
-    }
-
-    @Override
-    public void update(float elapsedTime) {
-        sprite.getPlay().stop();
     }
 
     @Override
