@@ -108,7 +108,6 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         
         IAnimationCollection nedAnim = this.assets.getAnimations("ned.nanim.gz");
         IAnimationCollection makiAnim = this.assets.getAnimations("maki.nanim.gz");
-        IAnimationCollection plateAnim = this.assets.getAnimations("plate.nanim.gz");
         IAnimationCollection boxAnim = this.assets.getAnimations("box.nanim.gz");
         IAnimationCollection stairsAnim = this.assets.getAnimations("stairs.nanim.gz");
 
@@ -164,7 +163,6 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         } else if (a == AnimationType.maki_orange_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
                     .startAnimation(makiAnim.getAnimationByName("maki_orange_one"), PlayMode.ONCE)
-                    .waitDuring(0.5f) 
                    .waitAnimation();
         } else if (a == AnimationType.maki_blue_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
@@ -182,16 +180,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             updatable.startAnimation(makiAnim.getAnimationByName("maki_blue_out"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
-        } else if (a == AnimationType.clean_green_plate) {
-            updatable.startAnimation(plateAnim.getAnimationByName("clean_green_plate"), PlayMode.ONCE)
-                    .waitAnimation();
-        } else if (a == AnimationType.clean_orange_plate) {
-            updatable.startAnimation(plateAnim.getAnimationByName("clean_orange_plate"), PlayMode.ONCE)
-                    .waitAnimation();
-        } else if (a == AnimationType.clean_blue_plate) {
-            updatable.startAnimation(plateAnim.getAnimationByName("clean_blue_plate"), PlayMode.ONCE)
-                    .waitAnimation();
-        } else if (a == AnimationType.disable_entity) {
+        }  else if (a == AnimationType.disable_entity) {
             e.disable();
         } else if (a == AnimationType.stairs_up) {
             updatable.startAnimation(stairsAnim.getAnimationByName("stairs_up"), PlayMode.ONCE)

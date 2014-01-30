@@ -545,12 +545,6 @@ public class GameSystem extends VoidEntitySystem {
             return AnimationType.maki_orange_one;
         } else if (base == AnimationType.maki_blue_out) {
             return AnimationType.maki_blue_one;
-        } else if (base == AnimationType.clean_green_plate) {
-            return AnimationType.clean_green_plate;
-        } else if (base == AnimationType.clean_orange_plate) {
-            return AnimationType.clean_orange_plate;
-        } else if (base == AnimationType.clean_blue_plate) {
-            return AnimationType.clean_blue_plate;
         } else if (base == AnimationType.disable_entity) {
             return AnimationType.disable_entity;
         } else if (base == AnimationType.stairs_up) {
