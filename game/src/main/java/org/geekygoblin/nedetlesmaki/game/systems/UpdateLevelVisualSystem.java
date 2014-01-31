@@ -147,15 +147,13 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.box_destroy) {
-            updatable.waitDuring(animationTime)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+            updatable.waitDuring(animationTime*2)
                     .startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE)
                     .waitAnimation();
             this.index.disabled(e);
         }else if (a == AnimationType.box_create) {
             this.index.enabled(e);
             updatable.startAnimation(boxAnim.getAnimationByName("create"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
         } else if (a == AnimationType.maki_green_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
