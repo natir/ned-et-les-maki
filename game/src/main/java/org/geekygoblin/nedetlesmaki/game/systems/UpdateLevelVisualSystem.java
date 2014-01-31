@@ -160,8 +160,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .startAnimation(makiAnim.getAnimationByName("maki_green_one"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.maki_orange_one) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), 0.5f)
-                    .startAnimation(makiAnim.getAnimationByName("maki_orange_one"), PlayMode.ONCE)
+            updatable.startAnimation(makiAnim.getAnimationByName("maki_orange_one"), PlayMode.ONCE)
                    .waitAnimation();
         } else if (a == AnimationType.maki_blue_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)

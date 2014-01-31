@@ -152,19 +152,6 @@ public class GameSystem extends VoidEntitySystem {
         ArrayList<Mouvement> m = new ArrayList();
 
         if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
-
-            if (makiMoveOnePlate(newP, e)) {
-                m.addAll(makiPlateMove(oldP, newP, e, true, aT));
-            }
-
-            if (makiMoveOutPlate(oldP, e)) {
-                m.addAll(makiPlateMove(oldP, newP, e, false, aT));
-
-                if (makiMoveOnePlate(newP, e)) {
-                    m.addAll(makiPlateMove(oldP, newP, e, true, aT));
-                }
-            }
-
             if (e == ((Game) this.world).getNed()) {
                 if (diff.getX() > 0) {
                     if (push) {
@@ -194,11 +181,21 @@ public class GameSystem extends VoidEntitySystem {
                     m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).setAnimationTime(aT).saveMouvement());
                 }
             } else {
-                if (m.isEmpty()) {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).setAnimationTime(aT).saveMouvement());
-                }
+                  m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).setAnimationTime(aT).saveMouvement());
             }
 
+            if (makiMoveOnePlate(newP, e)) {
+                m.addAll(makiPlateMove(oldP, newP, e, true, aT));
+            }
+
+            if (makiMoveOutPlate(oldP, e)) {
+                m.addAll(makiPlateMove(oldP, newP, e, false, aT));
+
+                if (makiMoveOnePlate(newP, e)) {
+                    m.addAll(makiPlateMove(oldP, newP, e, true, aT));
+                }
+            }
+            
             e.getComponent(Position.class).setX(newP.getX());
             e.getComponent(Position.class).setY(newP.getY());
 
@@ -269,25 +266,23 @@ public class GameSystem extends VoidEntitySystem {
         if (plateC.getColor() == makiC.getColor()) {
             if (plateC.getColor() == ColorType.green) {
                 if (getOne) {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.maki_green_one).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.maki_green_one).setAnimationTime(aT).saveMouvement());
                 } else {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.maki_green_out).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.maki_green_out).setAnimationTime(aT).saveMouvement());
                 }
             } else if (plateC.getColor() == ColorType.orange) {
                 if (getOne) {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.maki_orange_one).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.maki_orange_one).setAnimationTime(aT).saveMouvement());
                 } else {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.maki_orange_out).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.maki_orange_out).setAnimationTime(aT).saveMouvement());
                 }
             } else if (plateC.getColor() == ColorType.blue) {
                 if (getOne) {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.maki_blue_one).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.maki_blue_one).setAnimationTime(aT).saveMouvement());
                 } else {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.maki_blue_out).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.maki_blue_out).setAnimationTime(aT).saveMouvement());
                 }
             }
-        } else {
-            m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).setAnimationTime(aT).saveMouvement());
         }
 
         return m;
