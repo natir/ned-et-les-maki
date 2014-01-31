@@ -104,8 +104,7 @@ public class GameSystem extends VoidEntitySystem {
             } else {
                 if (this.index.isStairs(newP)) {
                     mouv.addAll(nedMoveOnStairs(oldP, newP, e, animTime));
-                    if(!mouv.isEmpty())
-                    {
+                    if (!mouv.isEmpty()) {
                         this.endOfLevel();
                     }
                 }
@@ -116,7 +115,7 @@ public class GameSystem extends VoidEntitySystem {
                         if (this.index.isPushableEntity(nextE)) {
                             if (this.index.isDestroyer(e)) {
                                 if (this.index.isDestroyable(nextE)) {
-                                    mouv.add(destroyMove(nextE, dirP, animTime));
+                                    mouv.addAll(destroyMove(nextE, dirP, animTime));
                                     mouv.addAll(runValideMove(oldP, newP, e, false, animTime));
                                 } else {
                                     ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP);
@@ -196,7 +195,7 @@ public class GameSystem extends VoidEntitySystem {
                 }
             } else {
                 if (m.isEmpty()) {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).setAnimationTime(aT).saveMouvement());
                 }
             }
 
@@ -294,10 +293,14 @@ public class GameSystem extends VoidEntitySystem {
         return m;
     }
 
-    public Mouvement destroyMove(Entity e, Position diff, float aT) {
-        return new Mouvement(e).setPosition(diff).setAnimation(AnimationType.box_destroy).setAnimationTime(aT).saveMouvement();
+    public ArrayList<Mouvement> destroyMove(Entity e, Position diff, float aT) {
+        ArrayList<Mouvement> preM = this.moveEntity(e, diff);
+
+        preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setAnimationTime(aT).saveMouvement());
+
+        return preM;
     }
-     
+
     public boolean makiMoveOnePlate(Position newP, Entity e) {
         Square s = this.index.getSquare(newP.getX(), newP.getY());
 
@@ -315,7 +318,7 @@ public class GameSystem extends VoidEntitySystem {
             return false;
         }
 
-        if (this.index.getColorType(e)== this.index.getColorType(plates.get(0))) {
+        if (this.index.getColorType(e) == this.index.getColorType(plates.get(0))) {
             plates.get(0).getComponent(Plate.class).setMaki(true);
             return true;
         }
@@ -406,19 +409,18 @@ public class GameSystem extends VoidEntitySystem {
 
         return false;
     }
- 
+
     private void tryPlate() {
         ImmutableBag<Entity> plateGroup = this.index.getAllPlate();
 
         ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
         Entity stairs = stairsGroup.get(0);
         Stairs stairsS = this.index.getStairs(stairs);
-        
-        if(stairsS.isOpen())
-        {
+
+        if (stairsS.isOpen()) {
             return;
         }
-        
+
         for (int i = 0; i != plateGroup.size(); i++) {
             Entity plateE = plateGroup.get(i);
 
@@ -434,22 +436,22 @@ public class GameSystem extends VoidEntitySystem {
         ArrayList<Mouvement> tmpm = new ArrayList();
 
         switch (stairsS.getDir()) {
-            case 1 :
+            case 1:
                 tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_up).setAnimationTime(0.5f).saveMouvement());
                 break;
-            case 2 :
+            case 2:
                 tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_down).setAnimationTime(0.5f).saveMouvement());
                 break;
-            case 3 :
+            case 3:
                 tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_left).setAnimationTime(0.5f).saveMouvement());
                 break;
             case 4:
-                  tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_right).setAnimationTime(0.5f).saveMouvement());
-                  break;
-            default :
+                tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_right).setAnimationTime(0.5f).saveMouvement());
+                break;
+            default:
                 tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_up).setAnimationTime(0.5f).saveMouvement());
         }
-        
+
         this.index.addMouvement(tmpm);
     }
 
@@ -458,7 +460,7 @@ public class GameSystem extends VoidEntitySystem {
 
         Entity ned = this.index.getNed();
         Position nedP = this.index.getPosition(ned);
-        
+
         Entity stairs = stairsGroup.get(0);
         Position stairsP = this.index.getPosition(stairs);
         Stairs stairsS = this.index.getStairs(stairs);
@@ -471,43 +473,42 @@ public class GameSystem extends VoidEntitySystem {
             }
         }
     }
-    
-    public void removeMouv()
-    {
+
+    public void removeMouv() {
         ArrayList<Mouvement> head = this.index.pop();
-        
-        if(head == null) {
-            return ;
+
+        if (head == null) {
+            return;
         }
-        
+
         ArrayList<Mouvement> rm = new ArrayList<>();
-        
+
         for (int i = 0; i != head.size(); i++) {
             for (int j = 0; j != head.get(i).size(); j++) {
-                    Position headP = head.get(i).getPosition(j);
-                    
-                    if(headP == null) {
-                        return ;
-                    }
-                    
-                    Position diff = PosOperation.deduction(new Position(0,0), headP);
-                    Position current = this.index.getPosition(head.get(i).getEntity());
-                    
-                    if (current == null) {
-                        return ;
-                    }
-                    
-                    AnimationType invertAnim = this.invertAnimation(head.get(i).getAnimation(j));
+                Position headP = head.get(i).getPosition(j);
 
-                    rm.add(new Mouvement(head.get(i).getEntity()).setAnimation(invertAnim).setPosition(diff).saveMouvement());
-
-                    this.index.moveEntity(current.getX(), current.getY(), current.getX() + diff.getX(), current.getY() + diff.getY());
-                    head.get(i).getEntity().getComponent(Position.class).setX(current.getX() + diff.getX());
-                    head.get(i).getEntity().getComponent(Position.class).setY(current.getY() + diff.getY());
+                if (headP == null) {
+                    return;
                 }
+
+                Position diff = PosOperation.deduction(new Position(0, 0), headP);
+                Position current = this.index.getPosition(head.get(i).getEntity());
+
+                if (current == null) {
+                    return;
+                }
+
+                AnimationType invertAnim = this.invertAnimation(head.get(i).getAnimation(j));
+
+                rm.add(new Mouvement(head.get(i).getEntity()).setAnimation(invertAnim).setPosition(diff).setAnimationTime(head.get(i).getAnimationTime(j)).saveMouvement());
+
+                this.index.moveEntity(current.getX(), current.getY(), current.getX() + diff.getX(), current.getY() + diff.getY());
+                head.get(i).getEntity().getComponent(Position.class).setX(current.getX() + diff.getX());
+                head.get(i).getEntity().getComponent(Position.class).setY(current.getY() + diff.getY());
+            }
         }
-        
-       this.index.setRemove(rm);
+
+        this.index.setRemove(rm);
     }
 
     private AnimationType invertAnimation(AnimationType base) {
@@ -533,7 +534,7 @@ public class GameSystem extends VoidEntitySystem {
             return AnimationType.box_create;
         } else if (base == AnimationType.box_create) {
             return AnimationType.box_destroy;
-        }else if (base == AnimationType.maki_green_one) {
+        } else if (base == AnimationType.maki_green_one) {
             return AnimationType.maki_green_out;
         } else if (base == AnimationType.maki_orange_one) {
             return AnimationType.maki_orange_out;
@@ -559,8 +560,8 @@ public class GameSystem extends VoidEntitySystem {
 
         return base;
     }
-    
+
     float calculateAnimationTime(float base, int mul) {
-        return base*((float)Math.pow(0.5, mul/2));
+        return base * ((float) Math.pow(0.5, mul / 2));
     }
 }
