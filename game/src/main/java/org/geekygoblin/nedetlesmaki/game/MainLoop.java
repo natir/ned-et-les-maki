@@ -72,8 +72,8 @@ public class MainLoop {
         this.ingameControls = ingameControls;
         assets.setIcon("icon.png");
         setControls();
-        mainMenu.enable();
-        intro.disable();
+        mainMenu.disable();
+        intro.enable();
     }
 
     public void setCloseRequested(boolean closeRequested) {

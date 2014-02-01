@@ -78,16 +78,6 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.ENGLISH, "action.rewind", "Rewind");
         addTranslation(NuitLocale.ENGLISH, "action.menu", "Menu");
 
-        addTranslation(NuitLocale.ENGLISH, "dialog.button.next", "Next");
-        addTranslation(NuitLocale.ENGLISH, "dialog.button.previous", "Previous");
-        addTranslation(NuitLocale.ENGLISH, "dialog.intro.reveil.1", "Zzz...");
-        addTranslation(NuitLocale.ENGLISH, "dialog.intro.reveil.2", "I'm tired.");
-        addTranslation(NuitLocale.ENGLISH, "dialog.intro.tour_au_loin.1", "What?");
-        addTranslation(NuitLocale.ENGLISH, "dialog.intro.tour_au_loin.2", "A tower?");
-        addTranslation(NuitLocale.ENGLISH, "dialog.intro.pied_de_la_tour.1", "?");
-        addTranslation(NuitLocale.ENGLISH, "dialog.intro.pied_de_la_tour.2", "Help us!");
-        addTranslation(NuitLocale.ENGLISH, "dialog.intro.pied_de_la_tour.3", "But...");
-        addTranslation(NuitLocale.ENGLISH, "dialog.intro.dans_la_tour.1", "And now?");
     }
 
     private void addFrench() {
@@ -109,15 +99,15 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.FRENCH, "action.rewind", "Rembobine");
         addTranslation(NuitLocale.FRENCH, "action.menu", "Menu");
 
-        addTranslation(NuitLocale.FRENCH, "dialog.button.next", "Suite");
-        addTranslation(NuitLocale.FRENCH, "dialog.button.previous", "Retour");
-        addTranslation(NuitLocale.FRENCH, "dialog.intro.reveil.1", "Zzz...");
-        addTranslation(NuitLocale.FRENCH, "dialog.intro.reveil.2", "C'est dur de se lever!");
-        addTranslation(NuitLocale.FRENCH, "dialog.intro.tour_au_loin.1", "Mais?");
-        addTranslation(NuitLocale.FRENCH, "dialog.intro.tour_au_loin.2", "Une tour?");
-        addTranslation(NuitLocale.FRENCH, "dialog.intro.pied_de_la_tour.1", "?");
-        addTranslation(NuitLocale.FRENCH, "dialog.intro.pied_de_la_tour.2", "Aidez-nous!");
-        addTranslation(NuitLocale.FRENCH, "dialog.intro.pied_de_la_tour.3", "Mais...");
-        addTranslation(NuitLocale.FRENCH, "dialog.intro.dans_la_tour.1", "Et maintenant que faire?");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.01", "");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.02", "Ned reprit connaissance dans un monde qui lui était inconnu.");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.03", "");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.04", "Il entreprit de l'explorer.");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.05", "Ce faisant il découvrit ce qui semblait être un complexe résidentiel.");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.06", "");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.07", "Des individus ne tardèrent pas à se montrer.");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.08", "Sans plus d'explication, les créatures indigènes le poussèrent dans la tour sans ménagement.");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.09", "");
+        addTranslation(NuitLocale.FRENCH, "dialog.intro.10", "Ainsi débutèrent les aventures de Ned chez les spirimonstres.");
     }
 }
