@@ -112,7 +112,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         IAnimationCollection stairsAnim = this.assets.getAnimations("stairs.nanim.gz");
 
         if (a == AnimationType.no) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+            updatable.waitDuring(waitBefore)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_right) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_right"))
@@ -147,7 +148,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.box_destroy) {
-            updatable.waitDuring(animationTime*2)
+            System.out.println(waitBefore);
+            updatable.waitDuring(waitBefore)
                     .startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE)
                     .waitAnimation();
             this.index.disabled(e);
@@ -181,16 +183,16 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         }  else if (a == AnimationType.disable_entity) {
             e.disable();
         } else if (a == AnimationType.stairs_up) {
-            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_up"), PlayMode.ONCE)
+            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_up_open"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.stairs_down) {
-            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_down"), PlayMode.ONCE)
+            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_down_open"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.stairs_left) {
-            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_left"), PlayMode.ONCE)
+            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_left_open"), PlayMode.ONCE)
                     .waitAnimation();
         } else if (a == AnimationType.stairs_right) {
-            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_right"), PlayMode.ONCE)
+            updatable.startAnimation(stairsAnim.getAnimationByName("stairs_right_open"), PlayMode.ONCE)
                     .waitAnimation();
         }
 
