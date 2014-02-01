@@ -119,7 +119,7 @@ public class Dialog extends Component {
         textLabel.setWidth(1280 - 64 * 2);
         textLabel.setHeight(64);
         
-        ContainerImpl layout = new ContainerImpl();
+        Container layout = new Container();
         root.add(layout);
         layout.add(textLabel);
         layout.add(nextButton);
@@ -177,17 +177,5 @@ public class Dialog extends Component {
 
     protected void onFinished() {
         this.finished = true;
-    }
-
-    private class ContainerImpl extends Container {
-
-        public ContainerImpl() {
-        }
-
-        @Override
-        public void setFocusedChild(Widget w) {
-            super.setFocusedChild(w);
-            
-        }
     }
 }
