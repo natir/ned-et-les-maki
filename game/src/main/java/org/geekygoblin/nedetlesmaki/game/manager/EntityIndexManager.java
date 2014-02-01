@@ -51,6 +51,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pusher;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Stairs;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.StopOnPlate;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Rooted;
 
 /**
  *
@@ -87,6 +88,8 @@ public class EntityIndexManager extends EntityManager {
     ComponentMapper<Destroyable> destroyableMapper;
     @Mapper
     ComponentMapper<Stairs> stairsMapper;
+    @Mapper
+    ComponentMapper<Rooted> rootedMapper;
 
     @Inject
     public EntityIndexManager() {
@@ -145,7 +148,7 @@ public class EntityIndexManager extends EntityManager {
             super.disabled(e);
         }
     }
-    
+
     @Override
     public void enabled(Entity e) {
         Position p = this.getPosition(e);
@@ -167,7 +170,7 @@ public class EntityIndexManager extends EntityManager {
             super.enabled(e);
         }
     }
-    
+
     public ArrayList<Entity> getEntity(int x, int y) {
 
         Square test = this.getSquare(x, y);
@@ -203,18 +206,18 @@ public class EntityIndexManager extends EntityManager {
             return false;
         }
 
-        if(x == x2 && y == y2) {
+        if (x == x2 && y == y2) {
             return true;
         }
-        
+
         ArrayList<Entity> tmpE = index[x][y].getWith(Movable.class);
 
         Square newC = this.index[x2][y2];
 
-        if(tmpE.isEmpty()) {
+        if (tmpE.isEmpty()) {
             return false;
         }
-        
+
         if (newC != null) {
             newC.add(tmpE.get(0));
         } else {
@@ -366,6 +369,16 @@ public class EntityIndexManager extends EntityManager {
         return false;
     }
 
+    public boolean isRooted(Entity e) {
+        Rooted d = this.rootedMapper.getSafe(e);
+
+        if (d == null) {
+                return false;
+            }
+
+        return true;
+    }
+
     public boolean isDestroyable(Entity e) {
         Destroyable d = this.destroyableMapper.getSafe(e);
 
@@ -462,4 +475,14 @@ public class EntityIndexManager extends EntityManager {
         return st;
     }
 
+    public Rooted getRooted(Entity e) {
+
+        Rooted st = this.rootedMapper.getSafe(e);
+
+        if (st == null) {
+            return null;
+        }
+
+        return st;
+    }
 }
