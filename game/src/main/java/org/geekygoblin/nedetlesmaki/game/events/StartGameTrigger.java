@@ -359,7 +359,7 @@ public class StartGameTrigger extends Trigger {
 
         box.addComponent(new Position(x, y));
         box.addComponent(new Movable(1));
-        box.addComponent(new Rooted(true));
+        box.addComponent(new Rooted(new Position(x, y)));
         box.addComponent(new Pushable(true));
         box.addComponent(new Color(ColorType.no));
         box.addComponent(new BlockOnPlate(true));
