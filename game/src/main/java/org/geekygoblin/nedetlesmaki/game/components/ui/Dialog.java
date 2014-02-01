@@ -34,6 +34,10 @@ import java.util.ArrayList;
 import com.google.inject.Inject;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.NuitRenderer;
+import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.animation.PlayMode;
+import im.bci.jnuit.lwjgl.assets.IAssets;
+import im.bci.jnuit.widgets.Widget;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.lwjgl.LWJGLException;
 
@@ -72,14 +76,14 @@ public class Dialog extends Component {
     }
 
     @Inject
-    public Dialog(NuitToolkit toolkit, NuitRenderer nuitRenderer, Game game) throws LWJGLException {
+    public Dialog(NuitToolkit toolkit, NuitRenderer nuitRenderer, Game game, IAssets assets) throws LWJGLException {
         this.game = game;
         root = new Root(toolkit);
         this.nuitRenderer = nuitRenderer;
-        Container layout = new Container();
-        root.add(layout);
+        
+        IAnimationCollection dialogAnimations = assets.getAnimations("dialog_ui.nanim.gz");
 
-        Button nextButton = new Button(toolkit, "dialog.button.next") {
+        Button nextButton = new Button(toolkit, "") {
 
             @Override
             public void onOK() {
@@ -87,33 +91,40 @@ public class Dialog extends Component {
             }
 
         };
-        Button previousButton = new Button(toolkit, "dialog.button.previous") {
+        nextButton.setBackground(new TexturedBackground(dialogAnimations.getAnimationByName("next").start(PlayMode.LOOP)));
+        nextButton.setFocusedBackground(new TexturedBackground(dialogAnimations.getAnimationByName("next_focused").start(PlayMode.LOOP)));
+        nextButton.setMustDrawFocus(false);
+        nextButton.setX(1280 - 64);
+        nextButton.setY(800 - 64);
+        nextButton.setWidth(64);
+        nextButton.setHeight(64);
+        
+        Button previousButton = new Button(toolkit, "") {
             @Override
             public void onOK() {
                 onPrevious();
             }
         };
+        previousButton.setBackground(new TexturedBackground(dialogAnimations.getAnimationByName("previous").start(PlayMode.LOOP)));
+        previousButton.setFocusedBackground(new TexturedBackground(dialogAnimations.getAnimationByName("previous_focused").start(PlayMode.LOOP)));
+        previousButton.setMustDrawFocus(false);
+        previousButton.setX(0);
+        previousButton.setY(800 - 64);
+        previousButton.setWidth(64);
+        previousButton.setHeight(64);
 
-        final float buttonsWidth = Math.max(nextButton.getMinWidth(), previousButton.getMinWidth());
-
-        this.textLabel = new Label(toolkit, "Il était une fois...");
-        textLabel.setX(0);
-        textLabel.setWidth(layout.getWidth() - buttonsWidth);
-        textLabel.setHeight(layout.getHeight() * 0.2f);
-        textLabel.setY(layout.getHeight() - textLabel.getHeight());
-
-        nextButton.setX(textLabel.getWidth());
-        nextButton.setY(textLabel.getY());
-        nextButton.setWidth(buttonsWidth);
-        nextButton.setHeight(textLabel.getHeight() / 2.0f);
-        previousButton.setX(textLabel.getWidth());
-        previousButton.setY(textLabel.getY() + nextButton.getHeight());
-        previousButton.setWidth(buttonsWidth);
-        previousButton.setHeight(textLabel.getHeight() / 2.0f);
-
+        this.textLabel = new Label(toolkit, "");
+        textLabel.setX(64);
+        textLabel.setY(800 - 64);
+        textLabel.setWidth(1280 - 64 * 2);
+        textLabel.setHeight(64);
+        
+        ContainerImpl layout = new ContainerImpl();
+        root.add(layout);
         layout.add(textLabel);
         layout.add(nextButton);
         layout.add(previousButton);
+        layout.setFocusedChild(nextButton);
     }
 
     public void addTirade(IPlay play, String... sentences) {
@@ -166,5 +177,17 @@ public class Dialog extends Component {
 
     protected void onFinished() {
         this.finished = true;
+    }
+
+    private class ContainerImpl extends Container {
+
+        public ContainerImpl() {
+        }
+
+        @Override
+        public void setFocusedChild(Widget w) {
+            super.setFocusedChild(w);
+            
+        }
     }
 }
