@@ -23,23 +23,25 @@ package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
 
 import com.artemis.Component;
 
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
+
 /**
  *
  * @author natir
  */
 public class Rooted extends Component {
     
-    private boolean rooted;
+    private Position rooted;
 
-    public Rooted(boolean rooted) {
+    public Rooted(Position rooted) {
 	this.rooted = rooted;
     }
 
-    public boolean isRooted() {
+    public Position isRooted() {
 	return this.rooted;
     }
 
-    public void setRooted(boolean rooted) {
+    public void setRooted(Position rooted) {
        this.rooted = rooted;
     }
 }
