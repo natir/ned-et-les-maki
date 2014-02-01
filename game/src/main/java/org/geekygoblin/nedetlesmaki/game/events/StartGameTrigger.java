@@ -363,6 +363,7 @@ public class StartGameTrigger extends Trigger {
         box.addComponent(new Pushable(true));
         box.addComponent(new Color(ColorType.no));
         box.addComponent(new BlockOnPlate(true));
+        box.addComponent(new Destroyable(true));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, box);
         game.addEntity(box);
         indexSystem.added(box);
