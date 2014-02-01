@@ -290,9 +290,13 @@ public class GameSystem extends VoidEntitySystem {
 
     public ArrayList<Mouvement> destroyMove(Entity e, Position diff, float bT, float aT) {
         ArrayList<Mouvement> preM = this.moveEntity(e, diff, bT);
-
-        preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setAnimationTime(aT).saveMouvement());
-
+        
+        if(preM.isEmpty()) {
+            preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setBeforeWait(bT).setAnimationTime(aT).saveMouvement());
+        } else {
+             preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setAnimationTime(aT).saveMouvement());
+        }
+       
         return preM;
     }
 
