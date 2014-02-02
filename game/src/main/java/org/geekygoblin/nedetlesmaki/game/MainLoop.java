@@ -65,15 +65,14 @@ public class MainLoop {
     }
 
     @Inject
-    public void init(IAssets assets, NuitToolkit toolkit, Game game, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.Intro Entity intro, IngameControls ingameControls) {
+    public void init(IAssets assets, NuitToolkit toolkit, Game game, @NamedEntities.MainMenu Entity mainMenu, IngameControls ingameControls) {
         this.toolkit = toolkit;
         this.game = game;
         this.assets = assets;
         this.ingameControls = ingameControls;
         assets.setIcon("icon.png");
         setControls();
-        mainMenu.disable();
-        intro.enable();
+        mainMenu.enable();
     }
 
     public void setCloseRequested(boolean closeRequested) {
