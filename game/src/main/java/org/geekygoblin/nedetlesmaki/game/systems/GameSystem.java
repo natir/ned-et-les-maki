@@ -85,6 +85,7 @@ public class GameSystem extends VoidEntitySystem {
 
             if (i > this.index.getBoost(e) - 1) {
                 e.getComponent(Pusher.class).setPusher(true);
+//                mouv.add(new Mouvement(e).setAnimation(AnimationType.maki_boosted).saveMouvement());
             }
 
             if (this.index.positionIsVoid(newP)) {
@@ -118,7 +119,7 @@ public class GameSystem extends VoidEntitySystem {
                                     mouv.addAll(destroyMove(nextE, dirP, this.beforeTime(0.5f, i), animTime));
                                     mouv.addAll(runValideMove(oldP, newP, e, false, baseBefore, animTime));
                                 } else {
-                                    ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, 0);
+                                    ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, this.beforeTime(0.5f, i));
                                     if (!recMouv.isEmpty()) {
                                         mouv.addAll(recMouv);
                                         mouv.addAll(runValideMove(oldP, newP, e, true, baseBefore, animTime));
@@ -141,6 +142,8 @@ public class GameSystem extends VoidEntitySystem {
 
                 return mouv;
             }
+            
+            baseBefore = 0;
         }
 
         return mouv;
