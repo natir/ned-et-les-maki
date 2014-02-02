@@ -49,6 +49,18 @@ public enum AnimationType {
     stairs_up,
     stairs_down,
     stairs_left,
-    stairs_right;
+    stairs_right,
+    boost_start_up,
+    boost_start_down,
+    boost_start_left,
+    boost_start_right,
+    boost_stop_up,
+    boost_stop_down,
+    boost_stop_left,
+    boost_stop_right,
+    boost_loop_up,
+    boost_loop_down,
+    boost_loop_left,
+    boost_loop_right;
 }
  
