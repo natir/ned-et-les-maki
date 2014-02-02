@@ -45,7 +45,7 @@ import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
-import org.geekygoblin.nedetlesmaki.game.components.ui.Dialog;
+import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
 import org.geekygoblin.nedetlesmaki.game.utils.Viewport;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -70,7 +70,7 @@ public class DrawSystem extends EntitySystem {
     @Mapper
     ComponentMapper<MainMenu> mainMenuMapper;
     @Mapper
-    ComponentMapper<Dialog> dialogMapper;
+    ComponentMapper<DialogComponent> dialogMapper;
     @Mapper
     ComponentMapper<Level> levelMapper;
     private final Comparator<Entity> zComparator = new Comparator<Entity>() {
@@ -94,7 +94,7 @@ public class DrawSystem extends EntitySystem {
 
     @Inject
     public DrawSystem(IAssets assets) {
-        super(Aspect.getAspectForAll(ZOrder.class).one(Level.class, MainMenu.class, Dialog.class, Sprite.class));
+        super(Aspect.getAspectForAll(ZOrder.class).one(Level.class, MainMenu.class, DialogComponent.class, Sprite.class));
         this.assets = assets;
     }
 
@@ -144,7 +144,7 @@ public class DrawSystem extends EntitySystem {
             if (null != mainMenu) {
                 mainMenu.draw();
             }
-            Dialog dialog = dialogMapper.getSafe(e);
+            DialogComponent dialog = dialogMapper.getSafe(e);
             if (null != dialog) {
                 dialog.draw();
             }

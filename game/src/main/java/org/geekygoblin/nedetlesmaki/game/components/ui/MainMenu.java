@@ -59,6 +59,7 @@ public class MainMenu extends Component {
     private VideoConfigurator videoConfigurator;
     private AudioConfigurator audioConfigurator;
     private Table optionsMenu;
+    private Container extrasMenu;
     private ControlsConfigurator menuControls, gameControls;
     private final LevelSelector levelSelector;
     private final MainLoop mainLoop;
@@ -69,7 +70,7 @@ public class MainMenu extends Component {
     private final Provider<HideMenuTrigger> hideMenuTrigger;
 
     @Inject
-    public MainMenu(MainLoop mainLoop, Game g, NuitToolkit toolkit, NuitRenderer nuitRenderer, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger, IngameControls ingameControls) throws LWJGLException {
+    public MainMenu(MainLoop mainLoop, Game g, NuitToolkit toolkit, NuitRenderer nuitRenderer, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger, IngameControls ingameControls, CutScenes cutscenes) throws LWJGLException {
         this.mainLoop = mainLoop;
         this.toolkit = toolkit;
         this.nuitRenderer = nuitRenderer;
@@ -86,6 +87,8 @@ public class MainMenu extends Component {
         initGameControls(ingameControls);
         initOptions();
         initMain();
+        initExtras(cutscenes);
+        root.show(mainMenu);
     }
 
     private void initVideo() throws LWJGLException {
@@ -169,6 +172,7 @@ public class MainMenu extends Component {
         final Button extrasButton = new Button(toolkit, "main.menu.button.extras") {
             @Override
             public void onOK() {
+                root.show(extrasMenu);
             }
         };
         extrasButton.setX(1018);
@@ -258,5 +262,10 @@ public class MainMenu extends Component {
 
     public void showLevelMenu() {
         root.show(levelSelector);
+    }
+
+    private void initExtras(CutScenes cutscenes) {
+        extrasMenu = new ExtrasMenu(toolkit, root, mainMenu, assets, cutscenes);
+        root.add(extrasMenu);
     }
 }

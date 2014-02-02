@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
  * @author devnewton
  */
 public interface NamedEntities {
-    
+
     @BindingAnnotation
     @Target({FIELD, PARAMETER, METHOD})
     @Retention(RUNTIME)
@@ -48,17 +48,17 @@ public interface NamedEntities {
     @Retention(RUNTIME)
     public @interface MainMenu {
     }
-    
+
+    @BindingAnnotation
+    @Target({FIELD, PARAMETER, METHOD})
+    @Retention(RUNTIME)
+    public @interface MainMenuRoot {
+    }
+
     @BindingAnnotation
     @Target({FIELD, PARAMETER, METHOD})
     @Retention(RUNTIME)
     public @interface IngameControls {
-    }
-    
-    @BindingAnnotation
-    @Target({FIELD, PARAMETER, METHOD})
-    @Retention(RUNTIME)
-    public @interface Intro {
     }
 
     @BindingAnnotation
