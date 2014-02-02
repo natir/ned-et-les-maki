@@ -65,12 +65,20 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.ENGLISH, "main.menu.button.options", "OPTIONS");
         addTranslation(NuitLocale.ENGLISH, "main.menu.button.extras", "EXTRAS");
         addTranslation(NuitLocale.ENGLISH, "main.menu.button.quit", "QUIT");
+        
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.video", "VIDEO");
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.audio", "AUDIO");
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.game.controls", "GAME CONTROLS");
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.menu.controls", "MENU CONTROLS");
         addTranslation(NuitLocale.ENGLISH, "options.menu.button.back", "BACK");
         
+        addTranslation(NuitLocale.ENGLISH, "extras.menu.button.cutscenes", "CUTSCENES");
+        addTranslation(NuitLocale.ENGLISH, "extras.menu.button.artwork", "ARTWORK");
+        addTranslation(NuitLocale.ENGLISH, "extras.menu.button.back", "BACK");
+        
+        addTranslation(NuitLocale.ENGLISH, "cutscenes.menu.button.intro", "INTRODUCTION");
+        addTranslation(NuitLocale.ENGLISH, "cutscenes.menu.button.back", "BACK");
+                
         addTranslation(NuitLocale.ENGLISH, "action.up", "Up");
         addTranslation(NuitLocale.ENGLISH, "action.down", "Down");
         addTranslation(NuitLocale.ENGLISH, "action.left", "Left");
@@ -86,11 +94,19 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.FRENCH, "main.menu.button.options", "OPTIONS");
         addTranslation(NuitLocale.FRENCH, "main.menu.button.extras", "EXTRAS");
         addTranslation(NuitLocale.FRENCH, "main.menu.button.quit", "QUITTER");
+        
         addTranslation(NuitLocale.FRENCH, "options.menu.button.video", "VIDEO");
         addTranslation(NuitLocale.FRENCH, "options.menu.button.audio", "AUDIO");
         addTranslation(NuitLocale.FRENCH, "options.menu.button.game.controls", "CONTROLES DU JEU");
         addTranslation(NuitLocale.FRENCH, "options.menu.button.menu.controls", "CONTROLES DES MENUS");
         addTranslation(NuitLocale.FRENCH, "options.menu.button.back", "RETOUR");
+        
+        addTranslation(NuitLocale.FRENCH, "extras.menu.button.cutscenes", "CINEMATIQUES");
+        addTranslation(NuitLocale.FRENCH, "extras.menu.button.artwork", "ILLUSTRATIONS");
+        addTranslation(NuitLocale.FRENCH, "extras.menu.button.back", "RETOUR");
+        
+        addTranslation(NuitLocale.FRENCH, "cutscenes.menu.button.intro", "INTRODUCTION");
+        addTranslation(NuitLocale.FRENCH, "cutscenes.menu.button.back", "RETOUR");
         
         addTranslation(NuitLocale.FRENCH, "action.up", "Haut");
         addTranslation(NuitLocale.FRENCH, "action.down", "Bas");

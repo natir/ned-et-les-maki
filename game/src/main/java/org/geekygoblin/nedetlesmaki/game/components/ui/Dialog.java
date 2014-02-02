@@ -23,38 +23,29 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components.ui;
 
-import com.artemis.Component;
 import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.widgets.Button;
 import im.bci.jnuit.widgets.Container;
 import im.bci.jnuit.widgets.Label;
-import im.bci.jnuit.widgets.Root;
 import im.bci.jnuit.animation.IPlay;
 import java.util.ArrayList;
 import com.google.inject.Inject;
 import im.bci.jnuit.background.TexturedBackground;
-import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.lwjgl.assets.IAssets;
-import im.bci.jnuit.widgets.Widget;
-import org.geekygoblin.nedetlesmaki.game.Game;
-import org.lwjgl.LWJGLException;
 
 /**
  *
  * @author devnewton
  */
-public class Dialog extends Component {
+public class Dialog extends Container{
 
-    private final Root root;
-    private final Game game;
     private final ArrayList<Sentence> sentences = new ArrayList<>();
     private int currentSentenceIndex;
     private IPlay currentPlay;
     private boolean finished;
     private final Label textLabel;
-    private final NuitRenderer nuitRenderer;
 
     private Sentence getCurrentSentence() {
         if (!sentences.isEmpty()) {
@@ -76,11 +67,7 @@ public class Dialog extends Component {
     }
 
     @Inject
-    public Dialog(NuitToolkit toolkit, NuitRenderer nuitRenderer, Game game, IAssets assets) throws LWJGLException {
-        this.game = game;
-        root = new Root(toolkit);
-        this.nuitRenderer = nuitRenderer;
-        
+    public Dialog(NuitToolkit toolkit, IAssets assets) {        
         IAnimationCollection dialogAnimations = assets.getAnimations("dialog_ui.nanim.gz");
 
         Button nextButton = new Button(toolkit, "") {
@@ -119,12 +106,10 @@ public class Dialog extends Component {
         textLabel.setWidth(1280 - 64 * 2);
         textLabel.setHeight(64);
         
-        Container layout = new Container();
-        root.add(layout);
-        layout.add(textLabel);
-        layout.add(nextButton);
-        layout.add(previousButton);
-        layout.setFocusedChild(nextButton);
+        add(textLabel);
+        add(nextButton);
+        add(previousButton);
+        setFocusedChild(nextButton);
     }
 
     public void addTirade(IPlay play, String... sentences) {
@@ -132,15 +117,6 @@ public class Dialog extends Component {
             this.sentences.add(new Sentence(play, sentence));
         }
         onChangeSentence();
-    }
-
-    public void update() {
-        final float delta = game.getDelta();
-        root.update(delta);
-    }
-
-    public void draw() {
-        nuitRenderer.render(root);
     }
 
     protected void onNext() {
@@ -159,7 +135,7 @@ public class Dialog extends Component {
             if (currentPlay != currentSentence.play) {
                 currentPlay = currentSentence.play;
                 currentSentence.play.restart();
-                root.setBackground(new TexturedBackground(currentSentence.play));
+                setBackground(new TexturedBackground(currentSentence.play));
             }
         }
     }
