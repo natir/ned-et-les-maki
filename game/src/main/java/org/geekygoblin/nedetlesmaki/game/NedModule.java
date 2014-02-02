@@ -52,7 +52,8 @@ import im.bci.jnuit.lwjgl.assets.VirtualFileSystem;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.TriggerableWhenRemoved;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
-import org.geekygoblin.nedetlesmaki.game.components.ui.Dialog;
+import org.geekygoblin.nedetlesmaki.game.components.ui.CutScenes;
+import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
 import org.geekygoblin.nedetlesmaki.game.components.ui.LevelSelector;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
@@ -82,7 +83,7 @@ public class NedModule extends AbstractModule {
         bind(LevelSelector.class);
         bind(IngameInputSystem.class);
         bind(MainLoop.class);
-        bind(Dialog.class);
+        bind(DialogComponent.class);
         bind(GameSystem.class);
         bind(DrawSystem.class);
         bind(UpdateLevelVisualSystem.class);
@@ -90,6 +91,7 @@ public class NedModule extends AbstractModule {
         bind(ShowMenuTrigger.class);
         bind(HideMenuTrigger.class);
         bind(ShowLevelMenuTrigger.class);
+        bind(CutScenes.class);
         bind(Random.class).toInstance(new Random(42));
     }
     
@@ -121,7 +123,7 @@ public class NedModule extends AbstractModule {
     @Provides
     @NamedEntities.DefaultFont
     public LwjglNuitFont createDefaultFont(IAssets assets) {
-        return assets.getFont("prout");
+        return assets.getFont("");
     }
 
     @Provides
@@ -134,43 +136,4 @@ public class NedModule extends AbstractModule {
         game.addEntity(ingameControls);
         return ingameControls;
     }
-
-    @Provides
-    @NamedEntities.Intro
-    public Entity createIntro(Game game, final IAssets assets, Dialog dialogComponent, ShowMenuTrigger showMenuTrigger) {
-        IAnimationCollection animations = assets.getAnimations("intro.nanim.gz");
-        dialogComponent.addTirade(animations.getAnimationByName("01").start(PlayMode.LOOP), "dialog.intro.01");
-        dialogComponent.addTirade(animations.getAnimationByName("02").start(PlayMode.LOOP), "dialog.intro.02");
-        dialogComponent.addTirade(animations.getAnimationByName("03").start(PlayMode.LOOP), "dialog.intro.03");
-        dialogComponent.addTirade(animations.getAnimationByName("04").start(PlayMode.LOOP), "dialog.intro.04");
-        dialogComponent.addTirade(animations.getAnimationByName("05").start(PlayMode.LOOP), "dialog.intro.05");
-        dialogComponent.addTirade(animations.getAnimationByName("06").start(PlayMode.LOOP), "dialog.intro.06");
-        dialogComponent.addTirade(animations.getAnimationByName("07").start(PlayMode.LOOP), "dialog.intro.07");
-        dialogComponent.addTirade(animations.getAnimationByName("08").start(PlayMode.LOOP), "dialog.intro.08");
-        dialogComponent.addTirade(animations.getAnimationByName("09").start(PlayMode.LOOP), "dialog.intro.09");
-        dialogComponent.addTirade(animations.getAnimationByName("10").start(PlayMode.LOOP), "dialog.intro.10");
-        Entity intro = game.createEntity();
-        intro.addComponent(dialogComponent);
-        intro.addComponent(new ZOrder(ZOrders.DIALOG));
-        intro.addComponent(new TriggerableWhenRemoved(showMenuTrigger).add(new Trigger() {
-
-            @Override
-            public void process(Game game) {
-
-                assets.forceAnimationUnload("intro.nanim.gz");
-            }
-        }));
-        game.addEntity(intro);
-        return intro;
-    }
-
-    // @Provides
-    // @NamedEntities.EntityPosIndex
-    // @Singleton
-    // public Entity createEntityPosIndex(Game game) {
-    //     Entity entityPosIndex = game.createEntity();
-    //     entityPosIndex.addComponent(new EntityPosIndex());
-    //     game.addEntity(entityPosIndex);
-    //     return entityPosIndex;
-    // }
 }

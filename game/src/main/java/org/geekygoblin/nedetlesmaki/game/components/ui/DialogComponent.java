@@ -21,34 +21,47 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game.systems;
+package org.geekygoblin.nedetlesmaki.game.components.ui;
 
-import com.artemis.Aspect;
-import com.artemis.ComponentMapper;
-import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
-import com.artemis.systems.EntityProcessingSystem;
-import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
+import com.artemis.Component;
+import im.bci.jnuit.NuitToolkit;
+import im.bci.jnuit.widgets.Root;
+import com.google.inject.Inject;
+import im.bci.jnuit.NuitRenderer;
+import im.bci.jnuit.lwjgl.assets.IAssets;
+import org.geekygoblin.nedetlesmaki.game.Game;
+import org.lwjgl.LWJGLException;
 
 /**
  *
  * @author devnewton
  */
-public class DialogSystem extends EntityProcessingSystem {
+public class DialogComponent extends Component {
 
-    @Mapper
-    ComponentMapper<DialogComponent> dialogMapper;
+    private final Root root;
+    private final Game game;
+    private final NuitRenderer nuitRenderer;
+    private final Dialog dialog;
 
-    public DialogSystem() {
-        super(Aspect.getAspectForOne(DialogComponent.class));
+    @Inject
+    public DialogComponent(NuitToolkit toolkit, NuitRenderer nuitRenderer, Game game, IAssets assets, Dialog dialog) throws LWJGLException {
+        this.game = game;
+        root = new Root(toolkit);
+        this.nuitRenderer = nuitRenderer;
+        root.add(dialog);
+        this.dialog = dialog;
     }
 
-    @Override
-    protected void process(Entity e) {
-        final DialogComponent dialog = dialogMapper.get(e);
-        dialog.update();
-        if (dialog.isFinished()) {
-            e.deleteFromWorld();
-        }
+    public void update() {
+        final float delta = game.getDelta();
+        root.update(delta);
+    }
+
+    public void draw() {
+        nuitRenderer.render(root);
+    }
+
+    public boolean isFinished() {
+      return dialog.isFinished();
     }
 }
