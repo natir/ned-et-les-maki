@@ -33,19 +33,23 @@ import com.google.inject.Inject;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
+import im.bci.jnuit.background.Background;
+import im.bci.jnuit.background.NullBackground;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 
 /**
  *
  * @author devnewton
  */
-public class Dialog extends Container{
+public class Dialog extends Container {
 
     private final ArrayList<Sentence> sentences = new ArrayList<>();
     private int currentSentenceIndex;
     private IPlay currentPlay;
     private boolean finished;
     private final Label textLabel;
+    private final Label view;
+    private final Button nextButton;
 
     private Sentence getCurrentSentence() {
         if (!sentences.isEmpty()) {
@@ -59,18 +63,26 @@ public class Dialog extends Container{
 
         IPlay play;
         String text;
+        int x;
+        int y;
+        int w;
+        int h;
 
-        public Sentence(IPlay play, String text) {
+        private Sentence(IPlay play, int x, int y, int w, int h, String text) {
             this.play = play;
             this.text = text;
+            this.x = x;
+            this.y = y;
+            this.w = w;
+            this.h = h;
         }
     }
 
     @Inject
-    public Dialog(NuitToolkit toolkit, IAssets assets) {        
+    public Dialog(NuitToolkit toolkit, IAssets assets) {
         IAnimationCollection dialogAnimations = assets.getAnimations("dialog_ui.nanim.gz");
 
-        Button nextButton = new Button(toolkit, "") {
+        nextButton = new Button(toolkit, "") {
 
             @Override
             public void onOK() {
@@ -85,11 +97,25 @@ public class Dialog extends Container{
         nextButton.setY(800 - 64);
         nextButton.setWidth(64);
         nextButton.setHeight(64);
-        
+
         Button previousButton = new Button(toolkit, "") {
             @Override
             public void onOK() {
                 onPrevious();
+            }
+
+            @Override
+            public boolean isFocusable() {
+                return currentSentenceIndex > 0 && super.isFocusable();
+            }
+
+            @Override
+            public Background getBackground() {
+                if (currentSentenceIndex > 0) {
+                    return super.getBackground();
+                } else {
+                    return NullBackground.INSTANCE;
+                }
             }
         };
         previousButton.setBackground(new TexturedBackground(dialogAnimations.getAnimationByName("previous").start(PlayMode.LOOP)));
@@ -105,16 +131,28 @@ public class Dialog extends Container{
         textLabel.setY(800 - 64);
         textLabel.setWidth(1280 - 64 * 2);
         textLabel.setHeight(64);
-        
+
+        view = new Label(toolkit, "");
+        view.setWidth(1280);
+        view.setHeight(800);
+
+        add(view);
         add(textLabel);
         add(nextButton);
         add(previousButton);
         setFocusedChild(nextButton);
     }
 
+    public void addTirade(IPlay play, int x, int y, int w, int h, String... sentences) {
+        for (String sentence : sentences) {
+            this.sentences.add(new Sentence(play, x, y, w, h, sentence));
+        }
+        onChangeSentence();
+    }
+
     public void addTirade(IPlay play, String... sentences) {
         for (String sentence : sentences) {
-            this.sentences.add(new Sentence(play, sentence));
+            this.sentences.add(new Sentence(play, 0, 0, 1280, 800, sentence));
         }
         onChangeSentence();
     }
@@ -135,8 +173,15 @@ public class Dialog extends Container{
             if (currentPlay != currentSentence.play) {
                 currentPlay = currentSentence.play;
                 currentSentence.play.restart();
-                setBackground(new TexturedBackground(currentSentence.play));
+                view.setX(currentSentence.x);
+                view.setY(currentSentence.y);
+                view.setWidth(currentSentence.w);
+                view.setHeight(currentSentence.h);
+                view.setBackground(new TexturedBackground(currentSentence.play));
             }
+        }
+        if(currentSentenceIndex == 0) {
+            setFocusedChild(nextButton);
         }
     }
 

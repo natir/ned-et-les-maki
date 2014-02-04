@@ -65,6 +65,25 @@ public class CutScenesMenu extends Stack {
         cutscenesButton.setFocusedBackground(new TexturedBackground(buttonFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         cutscenesButton.setMustDrawFocus(false);
         menu.add(cutscenesButton);
+        
+        final Button creditsButton = new Button(toolkit, "cutscenes.menu.button.credits") {
+            @Override
+            public void onOK() {
+                CutScenesMenuDialog intro = new CutScenesMenuDialog(toolkit, assets);
+                cutScenes.createCredits(intro);
+                intro.setWidth(CutScenesMenu.this.getWidth());
+                intro.setHeight(CutScenesMenu.this.getHeight());
+                CutScenesMenu.this.show(intro);
+            }
+        };
+        creditsButton.setX(110);
+        creditsButton.setY(500);
+        creditsButton.setWidth(400);
+        creditsButton.setHeight(80);
+        creditsButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));
+        creditsButton.setFocusedBackground(new TexturedBackground(buttonFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        creditsButton.setMustDrawFocus(false);
+        menu.add(creditsButton);
 
         final Button backButton = new Button(toolkit, "cutscenes.menu.button.back") {
             @Override
@@ -73,7 +92,7 @@ public class CutScenesMenu extends Stack {
             }
         };
         backButton.setX(110);
-        backButton.setY(600);
+        backButton.setY(700);
         backButton.setWidth(400);
         backButton.setHeight(80);
         backButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));

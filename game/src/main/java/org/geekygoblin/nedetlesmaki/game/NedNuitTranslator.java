@@ -77,6 +77,7 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.ENGLISH, "extras.menu.button.back", "BACK");
         
         addTranslation(NuitLocale.ENGLISH, "cutscenes.menu.button.intro", "INTRODUCTION");
+        addTranslation(NuitLocale.ENGLISH, "cutscenes.menu.button.credits", "CREDITS");
         addTranslation(NuitLocale.ENGLISH, "cutscenes.menu.button.back", "BACK");
                 
         addTranslation(NuitLocale.ENGLISH, "action.up", "Up");
@@ -85,6 +86,8 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.ENGLISH, "action.right", "Right");
         addTranslation(NuitLocale.ENGLISH, "action.rewind", "Rewind");
         addTranslation(NuitLocale.ENGLISH, "action.menu", "Menu");
+        
+        addTranslation(NuitLocale.ENGLISH, "dialog.credits.devnewton", "Main developer - http://devnewton.bci.im");
 
     }
 
@@ -106,6 +109,7 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.FRENCH, "extras.menu.button.back", "RETOUR");
         
         addTranslation(NuitLocale.FRENCH, "cutscenes.menu.button.intro", "INTRODUCTION");
+        addTranslation(NuitLocale.FRENCH, "cutscenes.menu.button.credits", "CREDITS");
         addTranslation(NuitLocale.FRENCH, "cutscenes.menu.button.back", "RETOUR");
         
         addTranslation(NuitLocale.FRENCH, "action.up", "Haut");
@@ -125,5 +129,7 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.FRENCH, "dialog.intro.08", "Sans plus d'explication, les créatures indigènes le poussèrent dans la tour sans ménagement.");
         addTranslation(NuitLocale.FRENCH, "dialog.intro.09", "");
         addTranslation(NuitLocale.FRENCH, "dialog.intro.10", "Ainsi débutèrent les aventures de Ned chez les spirimonstres.");
+        
+        addTranslation(NuitLocale.FRENCH, "dialog.credits.devnewton", "Développeur depuis 1742 - http://devnewton.bci.im");
     }
 }
