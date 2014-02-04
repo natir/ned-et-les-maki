@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
+import im.bci.jnuit.background.ColoredBackground;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 
 /**
@@ -40,8 +41,14 @@ public class CutScenes {
 
     @Inject
     public CutScenes(IAssets assets) {
-        
+
         this.assets = assets;
+    }
+
+    public void createCredits(Dialog dialog) {
+        IAnimationCollection animations = assets.getAnimations("devnewton.nanim.gz");
+        dialog.setBackground(new ColoredBackground(0, 0, 0, 1));
+        dialog.addTirade(animations.getAnimationByName("devnewton").start(PlayMode.ONCE), (1280 - 512) / 2, (800 - 128) / 2, 512, 128, "dialog.credits.devnewton");
     }
 
     public void createIntro(Dialog dialog) {
@@ -57,37 +64,36 @@ public class CutScenes {
         dialog.addTirade(animations.getAnimationByName("09").start(PlayMode.LOOP), "dialog.intro.09");
         dialog.addTirade(animations.getAnimationByName("10").start(PlayMode.LOOP), "dialog.intro.10");
         /*Entity intro = game.createEntity();
-        intro.addComponent(dialog);
-        intro.addComponent(new ZOrder(ZOrders.DIALOG));
-        intro.addComponent(new TriggerableWhenRemoved(afterIntroTrigger).add(new Trigger() {
+         intro.addComponent(dialog);
+         intro.addComponent(new ZOrder(ZOrders.DIALOG));
+         intro.addComponent(new TriggerableWhenRemoved(afterIntroTrigger).add(new Trigger() {
 
-            @Override
-            public void process(Game game) {
+         @Override
+         public void process(Game game) {
 
-                assets.forceAnimationUnload("intro.nanim.gz");
-            }
-        }));
-        game.addEntity(intro);
-        game.addEntity(game.createEntity().addComponent(new Triggerable(new ShowCutScenesTrigger(intro))));*/
+         assets.forceAnimationUnload("intro.nanim.gz");
+         }
+         }));
+         game.addEntity(intro);
+         game.addEntity(game.createEntity().addComponent(new Triggerable(new ShowCutScenesTrigger(intro))));*/
     }
 
-   /* class ShowCutScenesTrigger extends Trigger {
+    /* class ShowCutScenesTrigger extends Trigger {
 
-        private final Entity cutscene;
+     private final Entity cutscene;
 
-        private ShowCutScenesTrigger(Entity cutscene) {
-            this.cutscene = cutscene;
-        }
+     private ShowCutScenesTrigger(Entity cutscene) {
+     this.cutscene = cutscene;
+     }
 
-        @Override
-        public void process(Game game) {
-            mainMenu.getComponent(MainMenu.class).show();
-            mainMenu.disable();
-            ingameControls.disable();
-            cutscene.enable();
-            cutscene.getComponent(DialogComponent.class).rewind();
-        }
+     @Override
+     public void process(Game game) {
+     mainMenu.getComponent(MainMenu.class).show();
+     mainMenu.disable();
+     ingameControls.disable();
+     cutscene.enable();
+     cutscene.getComponent(DialogComponent.class).rewind();
+     }
 
-    }*/
-
+     }*/
 }
