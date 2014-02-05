@@ -441,6 +441,16 @@ public class EntityIndexManager extends EntityManager {
         return b.catchNed();
     }
 
+        public boolean nedIsCatched(Entity e) {
+        CatchNed b = catchMapper.getSafe(e);
+
+        if (b == null) {
+            return false;
+        }
+
+        return b.nedIsCatch();
+    }
+    
     public int getMovable(Entity e) {
         Movable m = this.movableMapper.getSafe(e);
 
@@ -508,6 +518,17 @@ public class EntityIndexManager extends EntityManager {
     public Rooted getRooted(Entity e) {
 
         Rooted st = this.rootedMapper.getSafe(e);
+
+        if (st == null) {
+            return null;
+        }
+
+        return st;
+    }
+
+    public CatchNed getCatchNed(Entity e) {
+
+        CatchNed st = this.catchMapper.getSafe(e);
 
         if (st == null) {
             return null;
