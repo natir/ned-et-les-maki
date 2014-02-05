@@ -52,6 +52,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pusher;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Stairs;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.StopOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Rooted;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.CatchNed;
 
 /**
  *
@@ -90,6 +91,8 @@ public class EntityIndexManager extends EntityManager {
     ComponentMapper<Stairs> stairsMapper;
     @Mapper
     ComponentMapper<Rooted> rootedMapper;
+    @Mapper
+    ComponentMapper<CatchNed> catchMapper;
 
     @Inject
     public EntityIndexManager() {
@@ -373,8 +376,8 @@ public class EntityIndexManager extends EntityManager {
         Rooted d = this.rootedMapper.getSafe(e);
 
         if (d == null) {
-                return false;
-            }
+            return false;
+        }
 
         return true;
     }
@@ -411,7 +414,7 @@ public class EntityIndexManager extends EntityManager {
         return p.block();
     }
 
-        public boolean isBoostable(Entity e) {
+    public boolean isBoostable(Entity e) {
         Boostable b = boostMapper.getSafe(e);
 
         if (b == null) {
@@ -421,13 +424,23 @@ public class EntityIndexManager extends EntityManager {
         return b.getNbCase() != 20;
     }
 
-     public boolean isBoosted(Entity e) {
-         boolean boostable = this.isBoostable(e);
-         boolean pusher = this.isPusherEntity(e);
-         
-         return boostable && pusher;
-     }
-        
+    public boolean isBoosted(Entity e) {
+        boolean boostable = this.isBoostable(e);
+        boolean pusher = this.isPusherEntity(e);
+
+        return boostable && pusher;
+    }
+
+    public boolean isCatchNed(Entity e) {
+        CatchNed b = catchMapper.getSafe(e);
+
+        if (b == null) {
+            return false;
+        }
+
+        return b.catchNed();
+    }
+
     public int getMovable(Entity e) {
         Movable m = this.movableMapper.getSafe(e);
 

@@ -56,6 +56,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Destroyer;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Stairs;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
+import org.geekygoblin.nedetlesmaki.game.components.gamesystems.CatchNed;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
@@ -66,7 +67,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
- * @author devnewton
+ * @author devnewton natir
  */
 public class StartGameTrigger extends Trigger {
 
@@ -254,6 +255,7 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Pushable(true));
         maki.addComponent(new StopOnPlate(true));
         maki.addComponent(new Color(ColorType.orange));
+        maki.addComponent(new CatchNed(true));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
@@ -283,10 +285,10 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(1));
         maki.addComponent(new Pushable(true));
-	maki.addComponent(new StopOnPlate(true));
+        maki.addComponent(new StopOnPlate(true));
         maki.addComponent(new Color(ColorType.green));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
-	game.addEntity(maki);
+        game.addEntity(maki);
         indexSystem.added(maki);
 
         Entity plate = createPlate(tile, game, tmx, x, y, l, layer, ColorType.green, true);
@@ -304,6 +306,8 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Movable(15));
         maki.addComponent(new Pushable(true));
         maki.addComponent(new StopOnPlate(true));
+        maki.addComponent(new Color(ColorType.orange));
+        maki.addComponent(new CatchNed(true));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
