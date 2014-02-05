@@ -61,6 +61,18 @@ public enum AnimationType {
     boost_loop_up,
     boost_loop_down,
     boost_loop_left,
-    boost_loop_right;
+    boost_loop_right,
+    fly_start_up,
+    fly_start_down,
+    fly_start_left,
+    fly_start_right,
+    fly_stop_up,
+    fly_stop_down,
+    fly_stop_left,
+    fly_stop_right,
+    fly_loop_up,
+    fly_loop_down,
+    fly_loop_left,
+    fly_loop_right;
 }
  
