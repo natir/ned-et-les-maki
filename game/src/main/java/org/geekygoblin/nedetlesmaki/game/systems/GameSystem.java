@@ -135,7 +135,9 @@ public class GameSystem extends VoidEntitySystem {
                     }
                 }
 
-                mouv.add(new Mouvement(e).setAnimation(this.getValideAnimation(this.index.isBoosted(e), -1, dirP)).saveMouvement());
+                if (this.index.isBoosted(e)) {
+                    mouv.add(new Mouvement(e).setAnimation(this.getValideAnimation(true, -1, dirP)).saveMouvement());
+                }
                 
                 if (this.index.getBoost(e) != 20) {
                     e.getComponent(Pusher.class).setPusher(false);
@@ -147,8 +149,11 @@ public class GameSystem extends VoidEntitySystem {
             baseBefore = 0;
         }
         
-        mouv.add(new Mouvement(e).setAnimation(this.getValideAnimation(this.index.isBoosted(e), -1, dirP)).saveMouvement());
-        return mouv;
+        if (this.index.isBoosted(e)) {
+            mouv.add(new Mouvement(e).setAnimation(this.getValideAnimation(true, -1, dirP)).saveMouvement());
+        }
+            
+            return mouv;
     }
 
     private ArrayList<Mouvement> runValideMove(Position oldP, Position newP, Entity e, boolean push, float bw, float aT, int pas, boolean boosted) {
