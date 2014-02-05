@@ -411,6 +411,23 @@ public class EntityIndexManager extends EntityManager {
         return p.block();
     }
 
+        public boolean isBoostable(Entity e) {
+        Boostable b = boostMapper.getSafe(e);
+
+        if (b == null) {
+            return false;
+        }
+
+        return b.getNbCase() != 20;
+    }
+
+     public boolean isBoosted(Entity e) {
+         boolean boostable = this.isBoostable(e);
+         boolean pusher = this.isPusherEntity(e);
+         
+         return boostable && pusher;
+     }
+        
     public int getMovable(Entity e) {
         Movable m = this.movableMapper.getSafe(e);
 
