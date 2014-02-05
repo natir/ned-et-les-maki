@@ -30,6 +30,7 @@ import com.artemis.Component;
 public class CatchNed extends Component {
     
     private boolean catchN;
+    private boolean isCatched;
 
     public CatchNed(boolean c) {
 	this.catchN = c;
@@ -39,7 +40,15 @@ public class CatchNed extends Component {
 	return this.catchN;
     }
 
-    public void setBlock(boolean b) {
+    public void setCatch(boolean b) {
+       this.catchN = b;
+    }
+
+    public boolean nedIsCatch() {
+	return this.catchN;
+    }
+
+    public void nedCatched(boolean b) {
        this.catchN = b;
     }
 }
