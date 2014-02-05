@@ -128,7 +128,9 @@ public class GameSystem extends VoidEntitySystem {
                                 ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, 0);
                                 if (!recMouv.isEmpty()) {
                                     mouv.addAll(recMouv);
-                                    mouv.addAll(runValideMove(oldP, newP, e, true, baseBefore, animTime, i, this.index.isBoosted(e)));
+                                    if (!this.index.isCatchNed(nextE)) {
+                                        mouv.addAll(runValideMove(oldP, newP, e, true, baseBefore, animTime, i, this.index.isBoosted(e)));
+                                    }
                                 }
                             }
                         }
@@ -192,6 +194,16 @@ public class GameSystem extends VoidEntitySystem {
                 }
             } else {
                 m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getValideAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
+
+                if (this.index.isCatchNed(e)) {
+                    if (index.moveEntity(oldP.getX() - diff.getX(), oldP.getY() - diff.getY(), oldP.getX(), oldP.getY())) {
+                        Entity ned = ((Game) this.world).getNed();
+                        m.add(new Mouvement(ned).setPosition(diff).setAnimation(AnimationType.no).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
+
+                        ned.getComponent(Position.class).setX(oldP.getX());
+                        ned.getComponent(Position.class).setY(oldP.getY());
+                    }
+                }
             }
 
             if (makiMoveOnePlate(newP, e)) {
