@@ -138,7 +138,11 @@ public class GameSystem extends VoidEntitySystem {
                 }
 
                 if (this.index.isBoosted(e)) {
-                    mouv.add(new Mouvement(e).setAnimation(this.getValideAnimation(true, -1, dirP)).saveMouvement());
+                    mouv.add(new Mouvement(e).setAnimation(this.getBoostAnimation(true, -1, dirP)).saveMouvement());
+                }
+
+               if (this.index.nedIsCatched(e)) {
+                    mouv.add(new Mouvement(((Game) this.world).getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).saveMouvement());
                 }
                 
                 if (this.index.getBoost(e) != 20) {
@@ -150,12 +154,16 @@ public class GameSystem extends VoidEntitySystem {
 
             baseBefore = 0;
         }
-        
+
         if (this.index.isBoosted(e)) {
-            mouv.add(new Mouvement(e).setAnimation(this.getValideAnimation(true, -1, dirP)).saveMouvement());
+            mouv.add(new Mouvement(e).setAnimation(this.getBoostAnimation(true, -1, dirP)).saveMouvement());
+        }
+        
+        if (this.index.nedIsCatched(e)) {
+            mouv.add(new Mouvement(((Game) this.world).getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).saveMouvement());
         }
             
-            return mouv;
+        return mouv;
     }
 
     private ArrayList<Mouvement> runValideMove(Position oldP, Position newP, Entity e, boolean push, float bw, float aT, int pas, boolean boosted) {
@@ -190,16 +198,18 @@ public class GameSystem extends VoidEntitySystem {
                         m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_up).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
                     }
                 } else {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getValideAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
                 }
             } else {
-                m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getValideAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
+                m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
 
                 if (this.index.isCatchNed(e)) {
                     if (index.moveEntity(oldP.getX() - diff.getX(), oldP.getY() - diff.getY(), oldP.getX(), oldP.getY())) {
                         Entity ned = ((Game) this.world).getNed();
-                        m.add(new Mouvement(ned).setPosition(diff).setAnimation(AnimationType.no).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
+                        m.add(new Mouvement(ned).setPosition(diff).setAnimation(this.getFlyAnimation(pas, diff)).setBeforeWait(bw).setAnimationTime(aT - 0.05f).saveMouvement());
 
+                        this.index.getCatchNed(e).nedCatched(true);
+                        
                         ned.getComponent(Position.class).setX(oldP.getX());
                         ned.getComponent(Position.class).setY(oldP.getY());
                     }
@@ -322,44 +332,83 @@ public class GameSystem extends VoidEntitySystem {
         return preM;
     }
 
-    private AnimationType getValideAnimation(boolean boosted, int pas, Position diff) {
+    private AnimationType getBoostAnimation(boolean boosted, int pas, Position diff) {
 
         if (boosted) {
             if (diff.getX() > 0) {
-                if(pas < 0) {
+                if (pas < 0) {
                     return AnimationType.boost_stop_right;
-                } else if(pas == 3) {
+                } else if (pas == 3) {
                     return AnimationType.boost_start_right;
-                } else if(pas > 3) {
+                } else if (pas > 3) {
                     return AnimationType.boost_loop_right;
                 }
             } else if (diff.getX() < 0) {
-                if(pas < 0) {
+                if (pas < 0) {
                     return AnimationType.boost_stop_left;
-                } else if(pas == 3) {
+                } else if (pas == 3) {
                     return AnimationType.boost_start_left;
-                } else if(pas > 3) {
+                } else if (pas > 3) {
                     return AnimationType.boost_loop_left;
                 }
             } else if (diff.getY() > 0) {
-                 if(pas < 0) {
+                if (pas < 0) {
                     return AnimationType.boost_stop_down;
-                } else if(pas == 3) {
+                } else if (pas == 3) {
                     return AnimationType.boost_start_down;
-                } else if(pas > 3) {
+                } else if (pas > 3) {
                     return AnimationType.boost_loop_down;
                 }
             } else if (diff.getY() < 0) {
-                    if(pas < 0) {
+                if (pas < 0) {
                     return AnimationType.boost_stop_up;
-                } else if(pas == 3) {
+                } else if (pas == 3) {
                     return AnimationType.boost_start_up;
-                } else if(pas > 3) {
+                } else if (pas > 3) {
                     return AnimationType.boost_loop_up;
                 }
             }
         }
-        
+
+        return AnimationType.no;
+    }
+
+    private AnimationType getFlyAnimation(int pas, Position diff) {
+
+        if (diff.getX() > 0) {
+            if (pas < 0) {
+                return AnimationType.fly_stop_right;
+            } else if (pas == 0) {
+                return AnimationType.fly_start_right;
+            } else if (pas > 0) {
+                return AnimationType.fly_loop_right;
+            }
+        } else if (diff.getX() < 0) {
+            if (pas < 0) {
+                return AnimationType.fly_stop_left;
+            } else if (pas == 0) {
+                return AnimationType.fly_start_left;
+            } else if (pas > 0) {
+                return AnimationType.fly_loop_left;
+            }
+        } else if (diff.getY() > 0) {
+            if (pas < 0) {
+                return AnimationType.fly_stop_down;
+            } else if (pas == 0) {
+                return AnimationType.fly_start_down;
+            } else if (pas > 0) {
+                return AnimationType.fly_loop_down;
+            }
+        } else if (diff.getY() < 0) {
+            if (pas < 0) {
+                return AnimationType.fly_stop_up;
+            } else if (pas == 0) {
+                return AnimationType.fly_start_up;
+            } else if (pas > 0) {
+                return AnimationType.fly_loop_up;
+            }
+        }
+
         return AnimationType.no;
     }
 
