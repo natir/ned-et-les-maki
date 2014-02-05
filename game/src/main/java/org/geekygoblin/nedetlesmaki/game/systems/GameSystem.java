@@ -85,13 +85,12 @@ public class GameSystem extends VoidEntitySystem {
 
             if (i > this.index.getBoost(e) - 1) {
                 e.getComponent(Pusher.class).setPusher(true);
-//                mouv.add(new Mouvement(e).setAnimation(AnimationType.maki_boosted).saveMouvement());
             }
 
             if (this.index.positionIsVoid(newP)) {
                 Square s = index.getSquare(newP.getX(), newP.getY());
                 if (this.testStopOnPlate(e, s)) {
-                    mouv.addAll(this.runValideMove(oldP, newP, e, false, baseBefore, animTime));
+                    mouv.addAll(this.runValideMove(oldP, newP, e, false, baseBefore, animTime, i, this.index.isBoosted(e)));
 
                     if (this.index.getBoost(e) != 20) {
                         e.getComponent(Pusher.class).setPusher(false);
@@ -100,7 +99,7 @@ public class GameSystem extends VoidEntitySystem {
                     return mouv;
                 }
                 if (!this.testBlockedPlate(e, s)) {
-                    mouv.addAll(runValideMove(oldP, newP, e, false, baseBefore, animTime));
+                    mouv.addAll(runValideMove(oldP, newP, e, false, baseBefore, animTime, i, this.index.isBoosted(e)));
                 }
             } else {
                 if (this.index.isStairs(newP)) {
@@ -117,39 +116,42 @@ public class GameSystem extends VoidEntitySystem {
                             if (this.index.isDestroyer(e)) {
                                 if (this.index.isDestroyable(nextE)) {
                                     mouv.addAll(destroyMove(nextE, dirP, this.beforeTime(0.5f, i), animTime));
-                                    mouv.addAll(runValideMove(oldP, newP, e, false, baseBefore, animTime));
+                                    mouv.addAll(runValideMove(oldP, newP, e, false, baseBefore, animTime, i, this.index.isBoosted(e)));
                                 } else {
                                     ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, this.beforeTime(0.5f, i));
                                     if (!recMouv.isEmpty()) {
                                         mouv.addAll(recMouv);
-                                        mouv.addAll(runValideMove(oldP, newP, e, true, baseBefore, animTime));
+                                        mouv.addAll(runValideMove(oldP, newP, e, true, baseBefore, animTime, i, this.index.isBoosted(e)));
                                     }
                                 }
                             } else {
                                 ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, 0);
                                 if (!recMouv.isEmpty()) {
                                     mouv.addAll(recMouv);
-                                    mouv.addAll(runValideMove(oldP, newP, e, true, baseBefore, animTime));
+                                    mouv.addAll(runValideMove(oldP, newP, e, true, baseBefore, animTime, i, this.index.isBoosted(e)));
                                 }
                             }
                         }
                     }
                 }
 
+                mouv.add(new Mouvement(e).setAnimation(this.getValideAnimation(this.index.isBoosted(e), -1, dirP)).saveMouvement());
+                
                 if (this.index.getBoost(e) != 20) {
                     e.getComponent(Pusher.class).setPusher(false);
                 }
 
                 return mouv;
             }
-            
+
             baseBefore = 0;
         }
-
+        
+        mouv.add(new Mouvement(e).setAnimation(this.getValideAnimation(this.index.isBoosted(e), -1, dirP)).saveMouvement());
         return mouv;
     }
 
-    private ArrayList<Mouvement> runValideMove(Position oldP, Position newP, Entity e, boolean push, float bw, float aT) {
+    private ArrayList<Mouvement> runValideMove(Position oldP, Position newP, Entity e, boolean push, float bw, float aT, int pas, boolean boosted) {
         Position diff = PosOperation.deduction(newP, oldP);
 
         ArrayList<Mouvement> m = new ArrayList();
@@ -181,10 +183,10 @@ public class GameSystem extends VoidEntitySystem {
                         m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_up).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
                     }
                 } else {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getValideAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
                 }
             } else {
-                  m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
+                m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getValideAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
             }
 
             if (makiMoveOnePlate(newP, e)) {
@@ -198,7 +200,7 @@ public class GameSystem extends VoidEntitySystem {
                     m.addAll(makiPlateMove(oldP, newP, e, true, aT));
                 }
             }
-            
+
             e.getComponent(Position.class).setX(newP.getX());
             e.getComponent(Position.class).setY(newP.getY());
 
@@ -293,14 +295,55 @@ public class GameSystem extends VoidEntitySystem {
 
     public ArrayList<Mouvement> destroyMove(Entity e, Position diff, float bT, float aT) {
         ArrayList<Mouvement> preM = this.moveEntity(e, diff, bT);
-        
-        if(preM.isEmpty()) {
+
+        if (preM.isEmpty()) {
             preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setBeforeWait(bT).setAnimationTime(aT).saveMouvement());
         } else {
-             preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setAnimationTime(aT).saveMouvement());
+            preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setAnimationTime(aT).saveMouvement());
         }
-       
+
         return preM;
+    }
+
+    private AnimationType getValideAnimation(boolean boosted, int pas, Position diff) {
+
+        if (boosted) {
+            if (diff.getX() > 0) {
+                if(pas < 0) {
+                    return AnimationType.boost_stop_right;
+                } else if(pas == 3) {
+                    return AnimationType.boost_start_right;
+                } else if(pas > 3) {
+                    return AnimationType.boost_loop_right;
+                }
+            } else if (diff.getX() < 0) {
+                if(pas < 0) {
+                    return AnimationType.boost_stop_left;
+                } else if(pas == 3) {
+                    return AnimationType.boost_start_left;
+                } else if(pas > 3) {
+                    return AnimationType.boost_loop_left;
+                }
+            } else if (diff.getY() > 0) {
+                 if(pas < 0) {
+                    return AnimationType.boost_stop_down;
+                } else if(pas == 3) {
+                    return AnimationType.boost_start_down;
+                } else if(pas > 3) {
+                    return AnimationType.boost_loop_down;
+                }
+            } else if (diff.getY() < 0) {
+                    if(pas < 0) {
+                    return AnimationType.boost_stop_up;
+                } else if(pas == 3) {
+                    return AnimationType.boost_start_up;
+                } else if(pas > 3) {
+                    return AnimationType.boost_loop_up;
+                }
+            }
+        }
+        
+        return AnimationType.no;
     }
 
     public boolean makiMoveOnePlate(Position newP, Entity e) {
@@ -566,11 +609,11 @@ public class GameSystem extends VoidEntitySystem {
     float calculateAnimationTime(float base, int mul) {
         return base * ((float) Math.pow(0.5, mul / 2));
     }
-    
+
     float beforeTime(float base, int mul) {
         float ret = 0;
-        
-        for(int i = 0; i != mul; i++) {
+
+        for (int i = 0; i != mul; i++) {
             ret += this.calculateAnimationTime(base, i);
         }
 
