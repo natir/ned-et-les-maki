@@ -38,7 +38,6 @@ import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import im.bci.jnuit.lwjgl.assets.IAssets;
-import im.bci.jnuit.lwjgl.assets.TextureAnimationCollectionWrapper;
 import im.bci.jnuit.lwjgl.assets.TmxAsset;
 import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
