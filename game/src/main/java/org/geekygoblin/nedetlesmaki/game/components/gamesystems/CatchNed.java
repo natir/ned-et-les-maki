@@ -19,60 +19,36 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.game.constants;
+package org.geekygoblin.nedetlesmaki.game.components.gamesystems;
+
+import com.artemis.Component;
 
 /**
  *
  * @author natir
  */
-public enum AnimationType {
+public class CatchNed extends Component {
     
-    no,
-    ned_right,
-    ned_left,
-    ned_down,
-    ned_up,
-    ned_push_right,
-    ned_push_left,
-    ned_push_down,
-    ned_push_up,
-    box_destroy,
-    box_create,
-    maki_green_one,
-    maki_orange_one,
-    maki_blue_one,
-    maki_green_out,
-    maki_orange_out,
-    maki_blue_out,
-    disable_entity,
-    active_entity,
-    stairs_up,
-    stairs_down,
-    stairs_left,
-    stairs_right,
-    boost_start_up,
-    boost_start_down,
-    boost_start_left,
-    boost_start_right,
-    boost_stop_up,
-    boost_stop_down,
-    boost_stop_left,
-    boost_stop_right,
-    boost_loop_up,
-    boost_loop_down,
-    boost_loop_left,
-    boost_loop_right,
-    fly_start_up,
-    fly_start_down,
-    fly_start_left,
-    fly_start_right,
-    fly_stop_up,
-    fly_stop_down,
-    fly_stop_left,
-    fly_stop_right,
-    fly_loop_up,
-    fly_loop_down,
-    fly_loop_left,
-    fly_loop_right;
+    private boolean catchN;
+    private boolean isCatched;
+
+    public CatchNed(boolean c) {
+	this.catchN = c;
+    }
+
+    public boolean catchNed() {
+	return this.catchN;
+    }
+
+    public void setCatch(boolean b) {
+       this.catchN = b;
+    }
+
+    public boolean nedIsCatch() {
+	return this.catchN;
+    }
+
+    public void nedCatched(boolean b) {
+       this.catchN = b;
+    }
 }
- 
