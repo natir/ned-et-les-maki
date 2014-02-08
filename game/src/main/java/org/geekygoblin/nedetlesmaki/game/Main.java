@@ -29,8 +29,8 @@ import com.google.inject.Injector;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
@@ -94,13 +94,8 @@ public class Main {
         }
     }
 
-    private static void configureLogging() throws SecurityException {
-        Logger rootLogger = Logger.getLogger("");
-        for(Handler handler : rootLogger.getHandlers()) {
-            handler.setLevel(Level.FINEST);
-        }
-        Logger alog = Logger.getLogger("org.geekygoblin.nedetlesmaki.game.assets.Assets");
-        alog.setLevel(Level.FINE);
+    private static void configureLogging() throws SecurityException, IOException {
+        LogManager.getLogManager().readConfiguration(Main.class.getClassLoader().getResourceAsStream("logging.properties"));
     }
 
     public static void handleError(Throwable e, final String defaultMessage) {
