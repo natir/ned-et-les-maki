@@ -80,7 +80,7 @@ public class GameSystem extends VoidEntitySystem {
         ArrayList<Mouvement> mouv = new ArrayList();
 
         for (int i = 0; i != this.index.getMovable(e); i++) {
-            float animTime = 0.5f; //this.calculateAnimationTime(0.5f, i);
+            float animTime = this.calculateAnimationTime(0.6f, i);
             Position newP = PosOperation.sum(oldP, dirP);
 
             if (i > this.index.getBoost(e) - 1) {
@@ -115,10 +115,10 @@ public class GameSystem extends VoidEntitySystem {
                         if (this.index.isPushableEntity(nextE)) {
                             if (this.index.isDestroyer(e)) {
                                 if (this.index.isDestroyable(nextE)) {
-                                    mouv.addAll(destroyMove(nextE, dirP, this.beforeTime(0.5f, i), animTime));
+                                    mouv.addAll(destroyMove(nextE, dirP, this.beforeTime(0.6f, i), animTime));
                                     mouv.addAll(runValideMove(oldP, newP, e, false, baseBefore, animTime, i, this.index.isBoosted(e)));
                                 } else {
-                                    ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, this.beforeTime(0.5f, i));
+                                    ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, this.beforeTime(0.6f, i));
                                     if (!recMouv.isEmpty()) {
                                         mouv.addAll(recMouv);
                                         mouv.addAll(runValideMove(oldP, newP, e, true, baseBefore, animTime, i, this.index.isBoosted(e)));
@@ -141,10 +141,10 @@ public class GameSystem extends VoidEntitySystem {
                     mouv.add(new Mouvement(e).setAnimation(this.getBoostAnimation(true, -1, dirP)).saveMouvement());
                 }
 
-               if (this.index.nedIsCatched(e)) {
+                if (this.index.nedIsCatched(e)) {
                     mouv.add(new Mouvement(((Game) this.world).getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).saveMouvement());
                 }
-                
+
                 if (this.index.getBoost(e) != 20) {
                     e.getComponent(Pusher.class).setPusher(false);
                 }
@@ -158,11 +158,11 @@ public class GameSystem extends VoidEntitySystem {
         if (this.index.isBoosted(e)) {
             mouv.add(new Mouvement(e).setAnimation(this.getBoostAnimation(true, -1, dirP)).saveMouvement());
         }
-        
+
         if (this.index.nedIsCatched(e)) {
             mouv.add(new Mouvement(((Game) this.world).getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).saveMouvement());
         }
-            
+
         return mouv;
     }
 
@@ -209,7 +209,7 @@ public class GameSystem extends VoidEntitySystem {
                         m.add(new Mouvement(ned).setPosition(diff).setAnimation(this.getFlyAnimation(pas, diff)).setBeforeWait(bw).setAnimationTime(aT - 0.05f).saveMouvement());
 
                         this.index.getCatchNed(e).nedCatched(true);
-                        
+
                         ned.getComponent(Position.class).setX(oldP.getX());
                         ned.getComponent(Position.class).setY(oldP.getY());
                     }
@@ -689,13 +689,17 @@ public class GameSystem extends VoidEntitySystem {
             return AnimationType.boost_start_down;
         } else if (base == AnimationType.boost_stop_left) {
             return AnimationType.boost_start_left;
-        } 
+        }
 
         return base;
     }
 
     float calculateAnimationTime(float base, int mul) {
-        return base * ((float) Math.pow(0.5, mul / 2));
+        if (mul > 0) {
+            return (float) (base / 2);
+        }
+
+        return base;
     }
 
     float beforeTime(float base, int mul) {
