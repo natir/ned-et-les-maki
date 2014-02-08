@@ -131,6 +131,6 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.FRENCH, "dialog.intro.10", "Ainsi débutèrent les aventures de Ned chez les spirimonstres.");
         
         addTranslation(NuitLocale.FRENCH, "dialog.credits.devnewton", "Développeur depuis 1742 - http://devnewton.bci.im");
-        addTranslation(NuitLocale.FRENCH, "dialog.credits.natir", "Développeur jusqu'en 20xx - http://pierre.marijon.fr");
+        addTranslation(NuitLocale.FRENCH, "dialog.credits.natir", "Natir développeur jusqu'en 20xx - http://pierre.marijon.fr");
     }
 }
