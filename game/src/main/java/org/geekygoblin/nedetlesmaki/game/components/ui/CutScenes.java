@@ -41,11 +41,11 @@ public class CutScenes {
 
     @Inject
     public CutScenes(IAssets assets) {
-
         this.assets = assets;
     }
 
     public void createCredits(Dialog dialog) {
+        assets.clearUseless();
         IAnimationCollection animations = assets.getAnimations("devnewton.nanim.gz");
         IAnimationCollection natir_credit = assets.getAnimations("natir.nanim.gz");
         dialog.setBackground(new ColoredBackground(0, 0, 0, 1));
@@ -54,6 +54,7 @@ public class CutScenes {
     }
 
     public void createIntro(Dialog dialog) {
+        assets.clearUseless();
         IAnimationCollection animations = assets.getAnimations("intro.nanim.gz");
         dialog.addTirade(animations.getAnimationByName("01").start(PlayMode.LOOP), "dialog.intro.01");
         dialog.addTirade(animations.getAnimationByName("02").start(PlayMode.LOOP), "dialog.intro.02");
