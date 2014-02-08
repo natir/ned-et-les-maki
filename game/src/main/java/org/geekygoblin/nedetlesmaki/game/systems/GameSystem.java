@@ -80,7 +80,7 @@ public class GameSystem extends VoidEntitySystem {
         ArrayList<Mouvement> mouv = new ArrayList();
 
         for (int i = 0; i != this.index.getMovable(e); i++) {
-            float animTime = this.calculateAnimationTime(0.5f, i);
+            float animTime = 0.5f; //this.calculateAnimationTime(0.5f, i);
             Position newP = PosOperation.sum(oldP, dirP);
 
             if (i > this.index.getBoost(e) - 1) {
@@ -667,7 +667,29 @@ public class GameSystem extends VoidEntitySystem {
             return AnimationType.stairs_left;
         } else if (base == AnimationType.stairs_right) {
             return AnimationType.stairs_right;
-        }
+        } else if (base == AnimationType.boost_loop_up) {
+            return AnimationType.boost_loop_up;
+        } else if (base == AnimationType.boost_loop_down) {
+            return AnimationType.boost_loop_down;
+        } else if (base == AnimationType.boost_loop_left) {
+            return AnimationType.boost_loop_left;
+        } else if (base == AnimationType.boost_loop_right) {
+            return AnimationType.boost_loop_left;
+        } else if (base == AnimationType.boost_start_up) {
+            return AnimationType.boost_stop_up;
+        } else if (base == AnimationType.boost_start_down) {
+            return AnimationType.boost_stop_down;
+        } else if (base == AnimationType.boost_start_left) {
+            return AnimationType.boost_stop_left;
+        } else if (base == AnimationType.boost_start_right) {
+            return AnimationType.boost_stop_right;
+        } else if (base == AnimationType.boost_stop_up) {
+            return AnimationType.boost_start_up;
+        } else if (base == AnimationType.boost_stop_down) {
+            return AnimationType.boost_start_down;
+        } else if (base == AnimationType.boost_stop_left) {
+            return AnimationType.boost_start_left;
+        } 
 
         return base;
     }
