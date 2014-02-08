@@ -88,7 +88,7 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.ENGLISH, "action.menu", "Menu");
         
         addTranslation(NuitLocale.ENGLISH, "dialog.credits.devnewton", "Main developer - http://devnewton.bci.im");
-
+        addTranslation(NuitLocale.ENGLISH, "dialog.credits.natir", "Second Main developer - http://pierre.marijon.fr");
     }
 
     private void addFrench() {
@@ -131,5 +131,6 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.FRENCH, "dialog.intro.10", "Ainsi débutèrent les aventures de Ned chez les spirimonstres.");
         
         addTranslation(NuitLocale.FRENCH, "dialog.credits.devnewton", "Développeur depuis 1742 - http://devnewton.bci.im");
+        addTranslation(NuitLocale.FRENCH, "dialog.credits.natir", "Développeur jusqu'en 20xx - http://pierre.marijon.fr");
     }
 }

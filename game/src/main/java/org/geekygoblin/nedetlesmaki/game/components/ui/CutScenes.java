@@ -47,8 +47,10 @@ public class CutScenes {
 
     public void createCredits(Dialog dialog) {
         IAnimationCollection animations = assets.getAnimations("devnewton.nanim.gz");
+        IAnimationCollection natir_credit = assets.getAnimations("natir.nanim.gz");
         dialog.setBackground(new ColoredBackground(0, 0, 0, 1));
         dialog.addTirade(animations.getAnimationByName("devnewton").start(PlayMode.ONCE), (1280 - 512) / 2, (800 - 128) / 2, 512, 128, "dialog.credits.devnewton");
+        dialog.addTirade(natir_credit.getAnimationByName("natir").start(PlayMode.ONCE), (1280 - 600) / 2, (800 - 360) / 2, 600, 360, "dialog.credits.natir");
     }
 
     public void createIntro(Dialog dialog) {
