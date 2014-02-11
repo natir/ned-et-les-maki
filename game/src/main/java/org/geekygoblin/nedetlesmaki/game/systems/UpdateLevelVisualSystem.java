@@ -224,22 +224,30 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_stop_up"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .waitAnimation()
+                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"), PlayMode.ONCE)
+                    .stopAnimation();
         } else if (a == AnimationType.boost_stop_down) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_stop_down"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .waitAnimation()
+                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"), PlayMode.ONCE)
+                    .stopAnimation();
         } else if (a == AnimationType.boost_stop_left) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_stop_left"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .waitAnimation()
+                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"), PlayMode.ONCE)
+                    .stopAnimation();
         } else if (a == AnimationType.boost_stop_right) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_stop_right"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .waitAnimation()
+                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"), PlayMode.ONCE)
+                    .stopAnimation();
         } else if (a == AnimationType.boost_loop_up) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_loop_up"), PlayMode.LOOP)
