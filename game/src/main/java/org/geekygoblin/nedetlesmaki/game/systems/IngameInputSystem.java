@@ -92,7 +92,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 boolean retPressed = controls.getRewind().isPressed();
                 Entity ned = game.getNed();
                 if (mouseClick.isPressed()) {
-                    Vector3f selectedPosition = game.getSystem(TintMouseSelectionSystem.class).getSelectedSprite().getPosition();
+                    Vector3f selectedPosition = game.getSystem(MouseArrowSystem.class).getSelectedSprite().getPosition();
                     Vector3f nedPosition = spriteMapper.get(ned).getPosition();
                     int nedX = Math.round(nedPosition.x);
                     int nedY = Math.round(nedPosition.y);
