@@ -29,6 +29,7 @@ import com.artemis.managers.GroupManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import im.bci.jnuit.NuitToolkit;
+import im.bci.jnuit.lwjgl.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.systems.DebugSpriteSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.DialogSystem;
@@ -41,7 +42,7 @@ import org.geekygoblin.nedetlesmaki.game.systems.SpritePuppetControlSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.TriggerWhenRemovedSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.TintMouseSelectionSystem;
+import org.geekygoblin.nedetlesmaki.game.systems.MouseArrowSystem;
 import org.lwjgl.LWJGLException;
 
 /**
@@ -54,14 +55,14 @@ public class Game extends World {
     private Entity ned;
 
     @Inject
-    public Game(NuitToolkit toolkit, DrawSystem drawSystem, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, GameSystem gameSystem) throws LWJGLException {
+    public Game(NuitToolkit toolkit, DrawSystem drawSystem, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, GameSystem gameSystem, IAssets assets) throws LWJGLException {
 	setManager(indexedManager);
 	setSystem(gameSystem);
 	setSystem(ingameInputSystem);
 	setSystem(updateLevelVisualSystem);
 	setSystem(new SpriteAnimateSystem());
 	setSystem(new SpritePuppetControlSystem());
-                  setSystem(new TintMouseSelectionSystem());
+        setSystem(new MouseArrowSystem(this, assets));
 	setSystem(drawSystem);
 	setSystem(new TriggerSystem());
 	setSystem(new TriggerWhenRemovedSystem());
