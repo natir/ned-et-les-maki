@@ -716,27 +716,27 @@ public class GameSystem extends VoidEntitySystem {
         } else if (base == AnimationType.stairs_open_right) {
             return AnimationType.stairs_close_right;
         } else if (base == AnimationType.boost_loop_up) {
-            return AnimationType.boost_loop_up;
+            return AnimationType.no;
         } else if (base == AnimationType.boost_loop_down) {
-            return AnimationType.boost_loop_down;
+            return AnimationType.no;
         } else if (base == AnimationType.boost_loop_left) {
-            return AnimationType.boost_loop_left;
+            return AnimationType.no;
         } else if (base == AnimationType.boost_loop_right) {
-            return AnimationType.boost_loop_left;
+            return AnimationType.no;
         } else if (base == AnimationType.boost_start_up) {
-            return AnimationType.boost_stop_up;
+            return AnimationType.no;
         } else if (base == AnimationType.boost_start_down) {
-            return AnimationType.boost_stop_down;
+            return AnimationType.no;
         } else if (base == AnimationType.boost_start_left) {
-            return AnimationType.boost_stop_left;
+            return AnimationType.no;
         } else if (base == AnimationType.boost_start_right) {
-            return AnimationType.boost_stop_right;
+            return AnimationType.no;
         } else if (base == AnimationType.boost_stop_up) {
-            return AnimationType.boost_start_up;
+            return AnimationType.no;
         } else if (base == AnimationType.boost_stop_down) {
-            return AnimationType.boost_start_down;
+            return AnimationType.no;
         } else if (base == AnimationType.boost_stop_left) {
-            return AnimationType.boost_start_left;
+            return AnimationType.no;
         }
 
         return base;
