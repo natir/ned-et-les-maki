@@ -241,29 +241,29 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_stop_up"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation()
-                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"), PlayMode.ONCE)
-                    .stopAnimation();
+                    .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_up"), PlayMode.ONCE)
+                    .waitAnimation();
         } else if (a == AnimationType.boost_stop_down) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_stop_down"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation()
-                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"), PlayMode.ONCE)
-                    .stopAnimation();
+                    .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_down"), PlayMode.ONCE)
+                    .waitAnimation();
         } else if (a == AnimationType.boost_stop_left) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_stop_left"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation()
-                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"), PlayMode.ONCE)
-                    .stopAnimation();
+                    .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_left"), PlayMode.ONCE)
+                    .waitAnimation();
         } else if (a == AnimationType.boost_stop_right) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_stop_right"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation()
-                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"), PlayMode.ONCE)
-                    .stopAnimation();
+                    .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_right"), PlayMode.ONCE)
+                    .waitAnimation();
         } else if (a == AnimationType.boost_loop_up) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_loop_up"), PlayMode.LOOP)
