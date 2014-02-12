@@ -115,16 +115,16 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 }
                 if (upPressed) {
 
-                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1), 0));
+                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1), 0, false));
                     ned.changedInWorld();
                 } else if (downPressed) {
-                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1), 0));
+                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1), 0, false));
                     ned.changedInWorld();
                 } else if (leftPressed) {
-                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0), 0));
+                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0), 0, false));
                     ned.changedInWorld();
                 } else if (rightPressed) {
-                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0), 0));
+                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0), 0, false));
                     ned.changedInWorld();
                 } else if (retPressed) {
                     gameSystem.removeMouv();
