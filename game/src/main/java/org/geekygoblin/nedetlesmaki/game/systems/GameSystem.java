@@ -528,39 +528,69 @@ public class GameSystem extends VoidEntitySystem {
         Entity stairs = stairsGroup.get(0);
         Stairs stairsS = this.index.getStairs(stairs);
 
-        if (stairsS.isOpen()) {
-            return;
-        }
-
         for (int i = 0; i != plateGroup.size(); i++) {
             Entity plateE = plateGroup.get(i);
 
             Plate plate = this.index.getPlate(plateE);
 
             if (!plate.haveMaki()) {
+                if (stairsS.isOpen()) {
+                    stairsS.setStairs(false);
+                    
+                    stairsAnimation(stairs, stairsS, false);
+                }
+
                 return;
             }
         }
 
+        if (stairsS.isOpen()) {
+            return;
+        }
+
         stairsS.setStairs(true);
 
+        stairsAnimation(stairs, stairsS, true);
+    }
+
+    private void stairsAnimation(Entity stairs, Stairs stairsS, boolean open) {
         ArrayList<Mouvement> tmpm = new ArrayList();
 
         switch (stairsS.getDir()) {
             case 1:
-                tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_up).setAnimationTime(0.5f).saveMouvement());
+                if (open) {
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_up).setAnimationTime(0.5f).saveMouvement());
+                } else {
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_up).setAnimationTime(0.5f).saveMouvement());
+                }
                 break;
             case 2:
-                tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_down).setAnimationTime(0.5f).saveMouvement());
+                if (open) {
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_down).setAnimationTime(0.5f).saveMouvement());
+                } else {
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_down).setAnimationTime(0.5f).saveMouvement());
+                }
                 break;
             case 3:
-                tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_left).setAnimationTime(0.5f).saveMouvement());
+                if (open) {
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_left).setAnimationTime(0.5f).saveMouvement());
+                } else {
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_left).setAnimationTime(0.5f).saveMouvement());
+                }
                 break;
             case 4:
-                tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_right).setAnimationTime(0.5f).saveMouvement());
+                if (open) {
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_right).setAnimationTime(0.5f).saveMouvement());
+                } else {
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_right).setAnimationTime(0.5f).saveMouvement());
+                }
                 break;
             default:
-                tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_up).setAnimationTime(0.5f).saveMouvement());
+                if (open) {
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_up).setAnimationTime(0.5f).saveMouvement());
+                } else {
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_up).setAnimationTime(0.5f).saveMouvement());
+                }
         }
 
         this.index.addMouvement(tmpm);
@@ -659,14 +689,22 @@ public class GameSystem extends VoidEntitySystem {
             return AnimationType.maki_blue_one;
         } else if (base == AnimationType.disable_entity) {
             return AnimationType.disable_entity;
-        } else if (base == AnimationType.stairs_up) {
-            return AnimationType.stairs_up;
-        } else if (base == AnimationType.stairs_down) {
-            return AnimationType.stairs_down;
-        } else if (base == AnimationType.stairs_left) {
-            return AnimationType.stairs_left;
-        } else if (base == AnimationType.stairs_right) {
-            return AnimationType.stairs_right;
+        } else if (base == AnimationType.stairs_close_up) {
+            return AnimationType.stairs_open_up;
+        } else if (base == AnimationType.stairs_close_down) {
+            return AnimationType.stairs_open_down;
+        } else if (base == AnimationType.stairs_close_left) {
+            return AnimationType.stairs_open_left;
+        } else if (base == AnimationType.stairs_close_right) {
+            return AnimationType.stairs_open_right;
+        } else if (base == AnimationType.stairs_open_up) {
+            return AnimationType.stairs_close_up;
+        } else if (base == AnimationType.stairs_open_down) {
+            return AnimationType.stairs_close_down;
+        } else if (base == AnimationType.stairs_open_left) {
+            return AnimationType.stairs_close_left;
+        } else if (base == AnimationType.stairs_open_right) {
+            return AnimationType.stairs_close_right;
         } else if (base == AnimationType.boost_loop_up) {
             return AnimationType.boost_loop_up;
         } else if (base == AnimationType.boost_loop_down) {
