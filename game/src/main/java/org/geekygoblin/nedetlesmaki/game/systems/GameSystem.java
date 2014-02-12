@@ -536,7 +536,7 @@ public class GameSystem extends VoidEntitySystem {
             if (!plate.haveMaki()) {
                 if (stairsS.isOpen()) {
                     stairsS.setStairs(false);
-                    
+
                     stairsAnimation(stairs, stairsS, false);
                 }
 
@@ -616,6 +616,8 @@ public class GameSystem extends VoidEntitySystem {
     }
 
     public void removeMouv() {
+        boolean reCall = false;
+        
         ArrayList<Mouvement> head = this.index.pop();
 
         if (head == null) {
@@ -646,10 +648,18 @@ public class GameSystem extends VoidEntitySystem {
                 this.index.moveEntity(current.getX(), current.getY(), current.getX() + diff.getX(), current.getY() + diff.getY());
                 head.get(i).getEntity().getComponent(Position.class).setX(current.getX() + diff.getX());
                 head.get(i).getEntity().getComponent(Position.class).setY(current.getY() + diff.getY());
+
+                if (invertAnim == AnimationType.stairs_open_down || invertAnim == AnimationType.stairs_open_up || invertAnim == AnimationType.stairs_open_left || invertAnim == AnimationType.stairs_open_right) {
+                    reCall = true;
+                }
             }
         }
 
         this.index.setRemove(rm);
+        
+        if(reCall) {
+            this.removeMouv();
+        }
     }
 
     private AnimationType invertAnimation(AnimationType base) {
