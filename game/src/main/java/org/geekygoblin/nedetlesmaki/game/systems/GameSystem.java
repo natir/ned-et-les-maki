@@ -92,7 +92,7 @@ public class GameSystem extends VoidEntitySystem {
             if (this.index.positionIsVoid(newP)) {
                 Square s = index.getSquare(newP.getX(), newP.getY());
                 if (this.testStopOnPlate(e, s)) {
-                    mouv.addAll(this.runValideMove(oldP, newP, e, false, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
+                    mouv.addAll(this.runValideMove(dirP, e, false, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
 
                     if (this.index.getBoost(e) != 20) {
                         e.getComponent(Pusher.class).setPusher(false);
@@ -101,11 +101,11 @@ public class GameSystem extends VoidEntitySystem {
                     return mouv;
                 }
                 if (!this.testBlockedPlate(e, s)) {
-                    mouv.addAll(runValideMove(oldP, newP, e, false, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
+                    mouv.addAll(runValideMove(dirP, e, false, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
                 }
             } else {
                 if (this.index.isStairs(newP)) {
-                    mouv.addAll(nedMoveOnStairs(oldP, newP, e, animTime));
+                    mouv.addAll(nedMoveOnStairs(dirP, e, animTime));
                     if (!mouv.isEmpty()) {
                         this.endOfLevel();
                     }
@@ -118,12 +118,12 @@ public class GameSystem extends VoidEntitySystem {
                             if (this.index.isDestroyer(e)) {
                                 if (this.index.isDestroyable(nextE)) {
                                     mouv.addAll(destroyMove(nextE, dirP, this.beforeTime(0.6f, i), animTime));
-                                    mouv.addAll(runValideMove(oldP, newP, e, false, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
+                                    mouv.addAll(runValideMove(dirP, e, false, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
                                 } else {
                                     ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, this.beforeTime(0.6f, i), e == nedEntity);
                                     if (!recMouv.isEmpty()) {
                                         mouv.addAll(recMouv);
-                                        mouv.addAll(runValideMove(oldP, newP, e, true, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
+                                        mouv.addAll(runValideMove(dirP, e, true, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
                                     }
                                 }
                             } else {
@@ -131,7 +131,7 @@ public class GameSystem extends VoidEntitySystem {
                                 if (!recMouv.isEmpty()) {
                                     mouv.addAll(recMouv);
                                     if (!this.index.isCatchNed(nextE)) {
-                                        mouv.addAll(runValideMove(oldP, newP, e, true, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
+                                        mouv.addAll(runValideMove(dirP, e, true, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
                                     }
                                 }
                             }
@@ -168,8 +168,9 @@ public class GameSystem extends VoidEntitySystem {
         return mouv;
     }
 
-    private ArrayList<Mouvement> runValideMove(Position oldP, Position newP, Entity e, boolean push, float bw, float aT, int pas, boolean boosted, boolean pusherIsNed) {
-        Position diff = PosOperation.deduction(newP, oldP);
+    private ArrayList<Mouvement> runValideMove(Position diff, Entity e, boolean push, float bw, float aT, int pas, boolean boosted, boolean pusherIsNed) {
+        Position oldP = this.index.getPosition(e);
+        Position newP = PosOperation.sum(oldP, diff);
 
         ArrayList<Mouvement> m = new ArrayList();
 
@@ -241,8 +242,8 @@ public class GameSystem extends VoidEntitySystem {
         return m;
     }
 
-    private ArrayList<Mouvement> nedMoveOnStairs(Position oldP, Position newP, Entity e, float aT) {
-        Position diff = PosOperation.deduction(newP, oldP);
+    private ArrayList<Mouvement> nedMoveOnStairs(Position diff, Entity e, float aT) {
+        Position newP = PosOperation.sum(this.index.getPosition(e), diff);
 
         ArrayList<Mouvement> m = new ArrayList();
 
@@ -296,8 +297,6 @@ public class GameSystem extends VoidEntitySystem {
 
         Color plateC = this.index.getColor(plate);
         Color makiC = this.index.getColor(e);
-
-        Position diff = PosOperation.deduction(newP, oldP);
 
         if (plateC.getColor() == makiC.getColor()) {
             if (plateC.getColor() == ColorType.green) {
