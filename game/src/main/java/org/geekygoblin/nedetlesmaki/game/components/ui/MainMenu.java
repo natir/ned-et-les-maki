@@ -93,28 +93,17 @@ public class MainMenu extends Component {
 
     private void initVideo() throws LWJGLException {
         videoConfigurator = new VideoConfigurator(toolkit) {
-
             @Override
             protected void changeVideoSettings() {
                 super.changeVideoSettings();
                 assets.setIcon("icon.png");
-            }
-
-            @Override
-            protected void closeVideoSettings() {
-                root.show(optionsMenu);
             }
         };
         root.add(videoConfigurator);
     }
 
     private void initAudio() {
-        audioConfigurator = new AudioConfigurator(toolkit) {
-            @Override
-            protected void closeAudioSettings() {
-                root.show(optionsMenu);
-            }
-        };
+        audioConfigurator = new AudioConfigurator(toolkit);
     }
 
     private void initMain() {
