@@ -49,7 +49,7 @@ import org.lwjgl.util.vector.Vector3f;
  * @author natir
  */
 public class UpdateLevelVisualSystem extends VoidEntitySystem {
-    
+
     @Mapper
     ComponentMapper<Sprite> spriteMapper;
     @Mapper
@@ -58,21 +58,21 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     ComponentMapper<Position> positionMapper;
     @Mapper
     ComponentMapper<SpritePuppetControls> controlsMapper;
-    
+
     private final IAssets assets;
     private int nbIndexSaved;
     private final EntityIndexManager index;
-    
+
     @Inject
     public UpdateLevelVisualSystem(IAssets assets, EntityIndexManager indexSystem) {
         this.assets = assets;
         this.nbIndexSaved = 0;
         this.index = indexSystem;
     }
-    
+
     @Override
     protected void processSystem() {
-        
+
         ArrayList<Mouvement> rm = index.getRemove();
         if (rm != null) {
             for (int i = 0; i != rm.size(); i++) {
@@ -80,13 +80,13 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     this.moveSprite(rm.get(i).getEntity(), rm.get(i).getPosition(j), rm.get(i).getAnimation(j), rm.get(i).getBeforeWait(j), rm.get(i).getAnimationTime(j));
                 }
             }
-            
+
             this.index.setRemove(null);
         }
-        
+
         if (index.sizeOfStack() > nbIndexSaved) {
             ArrayList<Mouvement> change = this.index.getChangement();
-            
+
             if (change != null) {
                 for (int i = 0; i != change.size(); i++) {
                     for (int j = 0; j != change.get(i).size(); j++) {
@@ -97,22 +97,22 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         }
         nbIndexSaved = index.sizeOfStack();
     }
-    
+
     private void moveSprite(Entity e, Position diff, AnimationType a, float waitBefore, float animationTime) {
-        
+
         Sprite sprite = e.getComponent(Sprite.class);
         SpritePuppetControls updatable = this.controlsMapper.getSafe(e);
         if (updatable == null) {
             updatable = new SpritePuppetControls(sprite);
         }
-        
+
         IAnimationCollection nedAnim = this.assets.getAnimations("ned.nanim.gz");
         IAnimationCollection makiAnim = this.assets.getAnimations("maki.nanim.gz");
         IAnimationCollection boxAnim = this.assets.getAnimations("box.nanim.gz");
         IAnimationCollection stairsAnim = this.assets.getAnimations("stairs.nanim.gz");
         IAnimationCollection makiAnimBoost = this.assets.getAnimations("blue_maki_boost.nanim.gz");
         IAnimationCollection nedAnimFly = this.assets.getAnimations("fly.nanim.gz");
-        
+
         if (a == AnimationType.no) {
             updatable.waitDuring(waitBefore)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
@@ -150,7 +150,6 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.box_destroy) {
-            System.out.println(waitBefore);
             updatable.waitDuring(waitBefore)
                     .startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE)
                     .waitAnimation();
@@ -159,6 +158,11 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             this.index.enabled(e);
             updatable.startAnimation(boxAnim.getAnimationByName("create"), PlayMode.ONCE)
                     .waitAnimation();
+        } else if (a == AnimationType.box_boom) {
+            updatable.waitDuring(waitBefore)
+                    .startAnimation(boxAnim.getAnimationByName("box_boom"), PlayMode.ONCE)
+                    .waitAnimation();
+            this.index.disabled(e);
         } else if (a == AnimationType.maki_green_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .startAnimation(makiAnim.getAnimationByName("maki_green_one"), PlayMode.ONCE)
@@ -345,7 +349,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         }
-        
+
         e.addComponent(updatable);
         e.changedInWorld();
     }

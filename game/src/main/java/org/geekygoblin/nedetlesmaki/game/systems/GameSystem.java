@@ -327,7 +327,7 @@ public class GameSystem extends VoidEntitySystem {
         ArrayList<Mouvement> preM = this.moveEntity(e, diff, bT, false);
 
         if (preM.isEmpty()) {
-            preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setBeforeWait(bT).setAnimationTime(aT).saveMouvement());
+            preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_boom).setBeforeWait(bT).setAnimationTime(aT).saveMouvement());
         } else {
             preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setAnimationTime(aT).saveMouvement());
         }
@@ -688,6 +688,8 @@ public class GameSystem extends VoidEntitySystem {
             return AnimationType.box_create;
         } else if (base == AnimationType.box_create) {
             return AnimationType.box_destroy;
+        } else if (base == AnimationType.box_boom) {
+            return AnimationType.box_create;
         } else if (base == AnimationType.maki_green_one) {
             return AnimationType.maki_green_out;
         } else if (base == AnimationType.maki_orange_one) {
