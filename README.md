@@ -8,4 +8,4 @@ Branch v0.1 is the last stable version.
 
 ## Bug report
 
-For bug report, you can login in http://gitlab.pierre.marijon.fr with username : anonymous and password : anonymous
+For bug report, you can login in http://dev.geekygoblin.org with username : anonymous and password : anonymous
