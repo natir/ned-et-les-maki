@@ -139,4 +139,89 @@
    <property name="type" value="blue_maki"/>
   </properties>
  </tile>
+ <tile id="29">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="30">
+  <properties>
+   <property name="type" value="green_plate"/>
+  </properties>
+ </tile>
+ <tile id="35">
+  <properties>
+   <property name="type" value="orange_plate"/>
+  </properties>
+ </tile>
+ <tile id="36">
+  <properties>
+   <property name="type" value="stairs_close_down"/>
+  </properties>
+ </tile>
+ <tile id="37">
+  <properties>
+   <property name="type" value="stairs_close_right"/>
+  </properties>
+ </tile>
+ <tile id="38">
+  <properties>
+   <property name="type" value="stairs_close_up"/>
+  </properties>
+ </tile>
+ <tile id="39">
+  <properties>
+   <property name="type" value="stairs_close_left"/>
+  </properties>
+ </tile>
+ <tile id="40">
+  <properties>
+   <property name="type" value="blue_plate"/>
+  </properties>
+ </tile>
+ <tile id="41">
+  <properties>
+   <property name="type" value="stairs_open_down"/>
+  </properties>
+ </tile>
+ <tile id="42">
+  <properties>
+   <property name="type" value="stairs_open_right"/>
+  </properties>
+ </tile>
+ <tile id="43">
+  <properties>
+   <property name="type" value="stairs_open_up"/>
+  </properties>
+ </tile>
+ <tile id="44">
+  <properties>
+   <property name="type" value="stairs_open_left"/>
+  </properties>
+ </tile>
+ <tile id="45">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="46">
+  <properties>
+   <property name="type" value="low_stairs"/>
+  </properties>
+ </tile>
+ <tile id="47">
+  <properties>
+   <property name="type" value="low_stairs"/>
+  </properties>
+ </tile>
+ <tile id="48">
+  <properties>
+   <property name="type" value="low_stairs"/>
+  </properties>
+ </tile>
+ <tile id="49">
+  <properties>
+   <property name="type" value="low_stairs"/>
+  </properties>
+ </tile>
 </tileset>
