@@ -143,7 +143,7 @@ public class GameSystem extends VoidEntitySystem {
                     mouv.add(new Mouvement(e).setAnimation(this.getBoostAnimation(true, -1, dirP)).saveMouvement());
                 }
 
-                if (this.index.nedIsCatched(e) && nedPush) {
+                if (this.index.nedIsCatched(e) && nedPush && e == nedEntity) {
                     mouv.add(new Mouvement(nedEntity).setAnimation(this.getFlyAnimation(-1, dirP)).saveMouvement());
                 }
 
@@ -161,7 +161,7 @@ public class GameSystem extends VoidEntitySystem {
             mouv.add(new Mouvement(e).setAnimation(this.getBoostAnimation(true, -1, dirP)).saveMouvement());
         }
 
-        if (this.index.nedIsCatched(e)) {
+        if (this.index.nedIsCatched(e) && e == nedEntity) {
             mouv.add(new Mouvement(((Game) this.world).getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).saveMouvement());
         }
 
@@ -206,10 +206,10 @@ public class GameSystem extends VoidEntitySystem {
             } else {
                 m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
 
-                if (this.index.isCatchNed(e)) {
+                Entity ned = ((Game) this.world).getNed();
+                if (this.index.isCatchNed(e) && e == ned) {
                     if (index.moveEntity(oldP.getX() - diff.getX(), oldP.getY() - diff.getY(), oldP.getX(), oldP.getY())) {
                         if (pusherIsNed) {
-                            Entity ned = ((Game) this.world).getNed();
                             m.add(new Mouvement(ned).setPosition(diff).setAnimation(this.getFlyAnimation(pas, diff)).setBeforeWait(bw).setAnimationTime(aT - 0.05f).saveMouvement());
 
                             this.index.getCatchNed(e).nedCatched(true);

@@ -222,6 +222,10 @@ public class EntityIndexManager extends EntityManager {
         }
 
         if (newC != null) {
+            ArrayList<Entity> eInOther = newC.getWith(Movable.class);
+            if (!eInOther.isEmpty()) {
+                return false;
+            }
             newC.add(tmpE.get(0));
         } else {
             this.index[x2][y2] = new Square();
@@ -441,7 +445,7 @@ public class EntityIndexManager extends EntityManager {
         return b.catchNed();
     }
 
-        public boolean nedIsCatched(Entity e) {
+    public boolean nedIsCatched(Entity e) {
         CatchNed b = catchMapper.getSafe(e);
 
         if (b == null) {
@@ -450,7 +454,7 @@ public class EntityIndexManager extends EntityManager {
 
         return b.nedIsCatch();
     }
-    
+
     public int getMovable(Entity e) {
         Movable m = this.movableMapper.getSafe(e);
 
