@@ -222,10 +222,6 @@ public class EntityIndexManager extends EntityManager {
         }
 
         if (newC != null) {
-            ArrayList<Entity> eInOther = newC.getWith(Movable.class);
-            if (!eInOther.isEmpty()) {
-                return false;
-            }
             newC.add(tmpE.get(0));
         } else {
             this.index[x2][y2] = new Square();
