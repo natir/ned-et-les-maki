@@ -54,10 +54,10 @@ public class ExtrasMenu extends Container {
                 root.show(cutscenesMenu);
             }
         };
-        cutscenesButton.setX(110);
-        cutscenesButton.setY(400);
-        cutscenesButton.setWidth(400);
-        cutscenesButton.setHeight(80);
+        cutscenesButton.setX(137);
+        cutscenesButton.setY(326);
+        cutscenesButton.setWidth(396);
+        cutscenesButton.setHeight(92);
         cutscenesButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));
         cutscenesButton.setFocusedBackground(new TexturedBackground(buttonFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         cutscenesButton.setMustDrawFocus(false);
@@ -69,10 +69,10 @@ public class ExtrasMenu extends Container {
                 root.show(mainMenu);
             }
         };
-        artworkButton.setX(110);
-        artworkButton.setY(500);
-        artworkButton.setWidth(400);
-        artworkButton.setHeight(80);
+        artworkButton.setX(137);
+        artworkButton.setY(447);
+        artworkButton.setWidth(396);
+        artworkButton.setHeight(92);
         artworkButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));
         artworkButton.setFocusedBackground(new TexturedBackground(buttonFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         artworkButton.setMustDrawFocus(false);
@@ -84,10 +84,10 @@ public class ExtrasMenu extends Container {
                 root.show(mainMenu);
             }
         };
-        backButton.setX(110);
+        backButton.setX(137);
         backButton.setY(600);
-        backButton.setWidth(400);
-        backButton.setHeight(80);
+        backButton.setWidth(396);
+        backButton.setHeight(92);
         backButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));
         backButton.setFocusedBackground(new TexturedBackground(buttonFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         backButton.setMustDrawFocus(false);
