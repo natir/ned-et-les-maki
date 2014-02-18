@@ -28,27 +28,27 @@ import com.artemis.Component;
  * @author natir
  */
 public class CatchNed extends Component {
-    
+
     private boolean catchN;
     private boolean isCatched;
 
     public CatchNed(boolean c) {
-	this.catchN = c;
+        this.catchN = c;
     }
 
     public boolean catchNed() {
-	return this.catchN;
+        return this.catchN;
     }
 
     public void setCatch(boolean b) {
-       this.catchN = b;
+        this.catchN = b;
     }
 
     public boolean nedIsCatch() {
-	return this.catchN;
+        return this.isCatched;
     }
 
     public void nedCatched(boolean b) {
-       this.catchN = b;
+        this.isCatched = b;
     }
 }
