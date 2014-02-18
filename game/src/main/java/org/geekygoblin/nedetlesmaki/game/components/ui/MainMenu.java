@@ -41,6 +41,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.NuitRenderer;
+import im.bci.jnuit.animation.IAnimation;
 import im.bci.jnuit.animation.PlayMode;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
@@ -118,6 +119,14 @@ public class MainMenu extends Component {
     }
 
     private void initMain() {
+
+//        IAnimation buttonBigBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("button");
+//        IAnimation buttonBigFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("focused_button");
+        IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("moyen_normal");
+        IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("moyen_survol");
+        IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("petit_normal");
+        IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("petit_survol");
+
         mainMenu = new Table(toolkit);
         final Button startButton = new Button(toolkit, "main.menu.button.start") {
             @Override
@@ -125,10 +134,12 @@ public class MainMenu extends Component {
                 onStartGame();
             }
         };
-        startButton.setX(961);
-        startButton.setY(556);
-        startButton.setWidth(1265 - 961);
-        startButton.setHeight(620 - 556);
+        startButton.setX(523);
+        startButton.setY(570);
+        startButton.setWidth(317);
+        startButton.setHeight(74);
+        startButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
+        startButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         mainMenu.add(startButton);
 
         final Button resumeButton = new Button(toolkit, "main.menu.button.resume") {
@@ -139,10 +150,12 @@ public class MainMenu extends Component {
                 }
             }
         };
-        resumeButton.setX(559);
-        resumeButton.setY(607);
-        resumeButton.setWidth(866 - 559);
-        resumeButton.setHeight(670 - 607);
+        resumeButton.setX(839);
+        resumeButton.setY(644);
+        resumeButton.setWidth(317);
+        resumeButton.setHeight(74);
+        resumeButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
+        resumeButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         mainMenu.add(resumeButton);
 
         final Button optionsButton = new Button(toolkit, "main.menu.button.options") {
@@ -151,10 +164,12 @@ public class MainMenu extends Component {
                 root.show(optionsMenu);
             }
         };
-        optionsButton.setX(668);
-        optionsButton.setY(695);
-        optionsButton.setWidth(907 - 668);
-        optionsButton.setHeight(755 - 695);
+        optionsButton.setX(489);
+        optionsButton.setY(664);
+        optionsButton.setWidth(317);
+        optionsButton.setHeight(74);
+        optionsButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
+        optionsButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         mainMenu.add(optionsButton);
 
         final Button quitButton = new Button(toolkit, "main.menu.button.quit") {
@@ -163,10 +178,12 @@ public class MainMenu extends Component {
                 mainLoop.setCloseRequested(true);
             }
         };
-        quitButton.setX(887);
-        quitButton.setY(631);
-        quitButton.setWidth(1160 - 887);
-        quitButton.setHeight(691 - 631);
+        quitButton.setX(839);
+        quitButton.setY(644);
+        quitButton.setWidth(317);
+        quitButton.setHeight(74);
+        quitButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
+        quitButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         mainMenu.add(quitButton);
 
         final Button extrasButton = new Button(toolkit, "main.menu.button.extras") {
@@ -175,10 +192,12 @@ public class MainMenu extends Component {
                 root.show(extrasMenu);
             }
         };
-        extrasButton.setX(1018);
-        extrasButton.setY(720);
-        extrasButton.setWidth(1238 - 1018);
-        extrasButton.setHeight(766 - 720);
+        extrasButton.setX(1021);
+        extrasButton.setY(728);
+        extrasButton.setWidth(230);
+        extrasButton.setHeight(54);
+        extrasButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
+        extrasButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         mainMenu.add(extrasButton);
         root.add(mainMenu);
     }
