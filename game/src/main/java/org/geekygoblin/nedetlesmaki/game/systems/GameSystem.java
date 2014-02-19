@@ -205,7 +205,7 @@ public class GameSystem extends VoidEntitySystem {
                 }
             } else {
                 if (makiMoveOnePlate(newP, e)) {
-                    if(actualIsColorPlate(oldP, e)) {
+                    if (actualIsColorPlate(oldP, e)) {
                         this.index.getSquare(oldP.getX(), oldP.getY()).getWith(Plate.class).get(0).getComponent(Plate.class).setMaki(false);
                         this.index.getSquare(newP.getX(), newP.getY()).getWith(Plate.class).get(0).getComponent(Plate.class).setMaki(true);
                         m.addAll(makiPlateMove(oldP, newP, e, true, aT, true));
@@ -216,18 +216,18 @@ public class GameSystem extends VoidEntitySystem {
                     m.addAll(makiPlateMove(oldP, newP, e, false, aT, actualIsColorPlate(oldP, e)));
                 } else {
                     m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
+                }
 
-                    Entity ned = ((Game) this.world).getNed();
-                    if (this.index.isCatchNed(e) && pusherIsNed) {
-                        if (index.moveEntity(oldP.getX() - diff.getX(), oldP.getY() - diff.getY(), oldP.getX(), oldP.getY())) {
-                            if (pusherIsNed) {
-                                m.add(new Mouvement(ned).setPosition(diff).setAnimation(this.getFlyAnimation(pas, diff)).setBeforeWait(bw).setAnimationTime(aT - 0.05f).saveMouvement());
+                Entity ned = ((Game) this.world).getNed();
+                if (this.index.isCatchNed(e) && pusherIsNed) {
+                    if (index.moveEntity(oldP.getX() - diff.getX(), oldP.getY() - diff.getY(), oldP.getX(), oldP.getY())) {
+                        if (pusherIsNed) {
+                            m.add(new Mouvement(ned).setPosition(diff).setAnimation(this.getFlyAnimation(pas, diff)).setBeforeWait(bw).setAnimationTime(aT - 0.05f).saveMouvement());
 
-                                this.index.getCatchNed(e).nedCatched(true);
+                            this.index.getCatchNed(e).nedCatched(true);
 
-                                ned.getComponent(Position.class).setX(oldP.getX());
-                                ned.getComponent(Position.class).setY(oldP.getY());
-                            }
+                            ned.getComponent(Position.class).setX(oldP.getX());
+                            ned.getComponent(Position.class).setY(oldP.getY());
                         }
                     }
                 }
