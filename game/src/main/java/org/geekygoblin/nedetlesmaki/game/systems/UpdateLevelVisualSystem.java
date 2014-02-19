@@ -114,10 +114,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         IAnimationCollection nedAnimFly = this.assets.getAnimations("fly.nanim.gz");
 
         if (a == AnimationType.no) {
-            System.out.println("No animation run");
             updatable.waitDuring(waitBefore)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.ned_right) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_right"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
@@ -152,42 +150,33 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .stopAnimation();
         } else if (a == AnimationType.box_destroy) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE)
-                    .waitAnimation();
+                    .startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE);
             this.index.disabled(e);
         } else if (a == AnimationType.box_create) {
             this.index.enabled(e);
-            updatable.startAnimation(boxAnim.getAnimationByName("create"), PlayMode.ONCE)
-                    .waitAnimation();
+            updatable.startAnimation(boxAnim.getAnimationByName("create"), PlayMode.ONCE);
         } else if (a == AnimationType.box_boom) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(boxAnim.getAnimationByName("box_boom"), PlayMode.ONCE)
-                    .waitAnimation();
+                    .startAnimation(boxAnim.getAnimationByName("box_boom"), PlayMode.ONCE);
             this.index.disabled(e);
         } else if (a == AnimationType.maki_green_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .startAnimation(makiAnim.getAnimationByName("maki_green_one"), PlayMode.ONCE)
-                    .waitAnimation();
+                    .startAnimation(makiAnim.getAnimationByName("maki_green_one"), PlayMode.ONCE);
         } else if (a == AnimationType.maki_orange_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .startAnimation(makiAnim.getAnimationByName("maki_orange_one"), PlayMode.ONCE)
-                    .waitAnimation();
+                    .startAnimation(makiAnim.getAnimationByName("maki_orange_one"), PlayMode.ONCE);
         } else if (a == AnimationType.maki_blue_one) {
             updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"), PlayMode.ONCE)
-                    .waitAnimation();
+                    .startAnimation(makiAnim.getAnimationByName("maki_blue_one"), PlayMode.ONCE);
         } else if (a == AnimationType.maki_green_out) {
             updatable.startAnimation(makiAnim.getAnimationByName("maki_green_out"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.maki_orange_out) {
             updatable.startAnimation(makiAnim.getAnimationByName("maki_orange_out"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.maki_blue_out) {
             updatable.startAnimation(makiAnim.getAnimationByName("maki_blue_out"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.disable_entity) {
             e.disable();
         } else if (a == AnimationType.stairs_open_up) {
@@ -225,91 +214,71 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         } else if (a == AnimationType.boost_start_up) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_start_up"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.boost_start_down) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_start_down"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.boost_start_left) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_start_left"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.boost_start_right) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_start_right"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.boost_stop_up) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_stop_up"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation()
-                    .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_up"), PlayMode.ONCE)
-                    .waitAnimation();
+                    .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_up"), PlayMode.ONCE);
         } else if (a == AnimationType.boost_stop_down) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_stop_down"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation()
-                    .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_down"), PlayMode.ONCE)
-                    .waitAnimation();
+                    .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_down"), PlayMode.ONCE);
         } else if (a == AnimationType.boost_stop_left) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_stop_left"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation()
-                    .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_left"), PlayMode.ONCE)
-                    .waitAnimation();
+                    .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_left"), PlayMode.ONCE);
         } else if (a == AnimationType.boost_stop_right) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_stop_right"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation()
-                    .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_right"), PlayMode.ONCE)
-                    .waitAnimation();
+                    .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_right"), PlayMode.ONCE);
         } else if (a == AnimationType.boost_loop_up) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_loop_up"), PlayMode.LOOP)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.boost_loop_down) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_loop_down"), PlayMode.LOOP)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.boost_loop_left) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_loop_left"), PlayMode.LOOP)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.boost_loop_right) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_loop_right"), PlayMode.LOOP)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_start_up) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(nedAnimFly.getAnimationByName("fly_start_up"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_start_down) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(nedAnimFly.getAnimationByName("fly_start_down"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_start_left) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(nedAnimFly.getAnimationByName("fly_start_left"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_start_right) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(nedAnimFly.getAnimationByName("fly_start_right"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_stop_up) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(nedAnimFly.getAnimationByName("fly_stop_up"), PlayMode.ONCE)
@@ -333,23 +302,19 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         } else if (a == AnimationType.fly_loop_up) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(nedAnimFly.getAnimationByName("fly_loop_up"), PlayMode.LOOP)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_loop_down) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(nedAnimFly.getAnimationByName("fly_loop_down"), PlayMode.LOOP)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_loop_left) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(nedAnimFly.getAnimationByName("fly_loop_left"), PlayMode.LOOP)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_loop_right) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(nedAnimFly.getAnimationByName("fly_loop_right"), PlayMode.LOOP)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         }
 
         e.addComponent(updatable);
