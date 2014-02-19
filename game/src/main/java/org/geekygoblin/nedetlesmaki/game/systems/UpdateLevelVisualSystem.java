@@ -114,10 +114,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         IAnimationCollection nedAnimFly = this.assets.getAnimations("fly.nanim.gz");
 
         if (a == AnimationType.no) {
-            System.out.println("No animation run");
             updatable.waitDuring(waitBefore)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.ned_right) {
             updatable.startAnimation(nedAnim.getAnimationByName("walk_right"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
