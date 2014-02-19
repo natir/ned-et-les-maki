@@ -13,7 +13,7 @@ Author: lili lith <lili.lith@geekygoblin.org>
 License: this is a free work, you can copy, distribute, and modify it under the terms of the Free Art License 1.3 (FAL1.3.txt file).
 Author: Ned J. <ned.j@geekygoblin.org>
 
-* Boxy-Bold.ttf
+* ProFontWindows.ttf
 
-License: CC0 (https://creativecommons.org/choose/zero/)
-Authors: cemkalyoncu, william.thompsonj, usr_share ( http://opengameart.org/content/boxy-bold-truetype-font )
+License: MIT, see ProFontWindows.txt
+Author: Carl Osterwald, Stephen C. Gilardi, Andrew Welch
