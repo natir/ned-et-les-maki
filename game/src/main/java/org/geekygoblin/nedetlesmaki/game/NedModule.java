@@ -29,8 +29,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 
 import im.bci.jnuit.NuitToolkit;
-import im.bci.jnuit.animation.IAnimationCollection;
-import im.bci.jnuit.animation.PlayMode;
 
 import java.io.File;
 import java.util.Random;
@@ -50,7 +48,6 @@ import im.bci.jnuit.lwjgl.assets.GarbageCollectedAssets;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import im.bci.jnuit.lwjgl.assets.VirtualFileSystem;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
-import org.geekygoblin.nedetlesmaki.game.components.TriggerableWhenRemoved;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.geekygoblin.nedetlesmaki.game.components.ui.CutScenes;
 import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
@@ -60,7 +57,6 @@ import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
-import org.geekygoblin.nedetlesmaki.game.events.Trigger;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
@@ -123,7 +119,7 @@ public class NedModule extends AbstractModule {
     @Provides
     @NamedEntities.DefaultFont
     public LwjglNuitFont createDefaultFont(IAssets assets) {
-        return assets.getFont("");
+        return assets.getFont("" /* TODO "ProFontWindows.ttf,24,bold" */);
     }
 
     @Provides
