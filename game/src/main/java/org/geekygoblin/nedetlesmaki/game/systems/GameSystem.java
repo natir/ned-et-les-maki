@@ -205,7 +205,13 @@ public class GameSystem extends VoidEntitySystem {
                 }
             } else {
                 if (makiMoveOnePlate(newP, e)) {
-                    m.addAll(makiPlateMove(oldP, newP, e, true, aT, actualIsColorPlate(oldP, e)));
+                    if(actualIsColorPlate(oldP, e)) {
+                        this.index.getSquare(oldP.getX(), oldP.getY()).getWith(Plate.class).get(0).getComponent(Plate.class).setMaki(false);
+                        this.index.getSquare(newP.getX(), newP.getY()).getWith(Plate.class).get(0).getComponent(Plate.class).setMaki(true);
+                        m.addAll(makiPlateMove(oldP, newP, e, true, aT, true));
+                    } else {
+                        m.addAll(makiPlateMove(oldP, newP, e, true, aT, false));
+                    }
                 } else if (makiMoveOutPlate(oldP, e)) {
                     m.addAll(makiPlateMove(oldP, newP, e, false, aT, actualIsColorPlate(oldP, e)));
                 } else {
