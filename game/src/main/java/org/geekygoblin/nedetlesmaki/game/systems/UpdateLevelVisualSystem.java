@@ -160,13 +160,16 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .startAnimation(boxAnim.getAnimationByName("box_boom"), PlayMode.ONCE);
             this.index.disabled(e);
         } else if (a == AnimationType.maki_green_one) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+            updatable.waitDuring(waitBefore)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .startAnimation(makiAnim.getAnimationByName("maki_green_one"), PlayMode.ONCE);
         } else if (a == AnimationType.maki_orange_one) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+            updatable.waitDuring(waitBefore)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .startAnimation(makiAnim.getAnimationByName("maki_orange_one"), PlayMode.ONCE);
         } else if (a == AnimationType.maki_blue_one) {
-            updatable.moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+            updatable.waitDuring(waitBefore)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .startAnimation(makiAnim.getAnimationByName("maki_blue_one"), PlayMode.ONCE);
         } else if (a == AnimationType.maki_green_out) {
             updatable.startAnimation(makiAnim.getAnimationByName("maki_green_out"), PlayMode.ONCE)
