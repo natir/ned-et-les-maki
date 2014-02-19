@@ -161,7 +161,7 @@ public class GameSystem extends VoidEntitySystem {
             mouv.add(new Mouvement(e).setAnimation(this.getBoostAnimation(true, -1, dirP)).saveMouvement());
         }
 
-        if (this.index.nedIsCatched(e) && e == nedEntity) {
+        if (this.index.nedIsCatched(e)) {
             mouv.add(new Mouvement(((Game) this.world).getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).saveMouvement());
         }
 
