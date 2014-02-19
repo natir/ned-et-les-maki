@@ -204,32 +204,26 @@ public class GameSystem extends VoidEntitySystem {
                     m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
                 }
             } else {
-                m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
+                if (makiMoveOnePlate(newP, e)) {
+                    m.addAll(makiPlateMove(oldP, newP, e, true, aT, actualIsColorPlate(oldP, e)));
+                } else if (makiMoveOutPlate(oldP, e)) {
+                    m.addAll(makiPlateMove(oldP, newP, e, false, aT, actualIsColorPlate(oldP, e)));
+                } else {
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
 
-                Entity ned = ((Game) this.world).getNed();
-                if (this.index.isCatchNed(e) && pusherIsNed) {
-                    if (index.moveEntity(oldP.getX() - diff.getX(), oldP.getY() - diff.getY(), oldP.getX(), oldP.getY())) {
-                        if (pusherIsNed) {
-                            m.add(new Mouvement(ned).setPosition(diff).setAnimation(this.getFlyAnimation(pas, diff)).setBeforeWait(bw).setAnimationTime(aT - 0.05f).saveMouvement());
+                    Entity ned = ((Game) this.world).getNed();
+                    if (this.index.isCatchNed(e) && pusherIsNed) {
+                        if (index.moveEntity(oldP.getX() - diff.getX(), oldP.getY() - diff.getY(), oldP.getX(), oldP.getY())) {
+                            if (pusherIsNed) {
+                                m.add(new Mouvement(ned).setPosition(diff).setAnimation(this.getFlyAnimation(pas, diff)).setBeforeWait(bw).setAnimationTime(aT - 0.05f).saveMouvement());
 
-                            this.index.getCatchNed(e).nedCatched(true);
+                                this.index.getCatchNed(e).nedCatched(true);
 
-                            ned.getComponent(Position.class).setX(oldP.getX());
-                            ned.getComponent(Position.class).setY(oldP.getY());
+                                ned.getComponent(Position.class).setX(oldP.getX());
+                                ned.getComponent(Position.class).setY(oldP.getY());
+                            }
                         }
                     }
-                }
-            }
-
-            if (makiMoveOnePlate(newP, e)) {
-                m.addAll(makiPlateMove(oldP, newP, e, true, aT));
-            }
-
-            if (makiMoveOutPlate(oldP, e)) {
-                m.addAll(makiPlateMove(oldP, newP, e, false, aT));
-
-                if (makiMoveOnePlate(newP, e)) {
-                    m.addAll(makiPlateMove(oldP, newP, e, true, aT));
                 }
             }
 
@@ -271,8 +265,9 @@ public class GameSystem extends VoidEntitySystem {
         return m;
     }
 
-    private ArrayList<Mouvement> makiPlateMove(Position oldP, Position newP, Entity e, boolean getOne, float aT) {
+    private ArrayList<Mouvement> makiPlateMove(Position oldP, Position newP, Entity e, boolean getOne, float aT, boolean actualIsPlate) {
         ArrayList<Mouvement> m = new ArrayList();
+        Position diff = PosOperation.deduction(newP, oldP);
 
         Square obj;
 
@@ -284,7 +279,6 @@ public class GameSystem extends VoidEntitySystem {
 
         if (obj == null) {
             return m;
-
         }
 
         ArrayList<Entity> plates = obj.getWith(Plate.class);
@@ -300,22 +294,28 @@ public class GameSystem extends VoidEntitySystem {
 
         if (plateC.getColor() == makiC.getColor()) {
             if (plateC.getColor() == ColorType.green) {
-                if (getOne) {
-                    m.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.maki_green_one).setAnimationTime(aT).saveMouvement());
+                if (getOne && !actualIsPlate) {
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.maki_green_one).setAnimationTime(aT).saveMouvement());
+                } else if (!getOne && actualIsPlate) {
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.maki_green_out).setAnimationTime(aT).saveMouvement());
                 } else {
-                    m.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.maki_green_out).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).setAnimationTime(aT).saveMouvement());
                 }
             } else if (plateC.getColor() == ColorType.orange) {
-                if (getOne) {
-                    m.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.maki_orange_one).setAnimationTime(aT).saveMouvement());
+                if (getOne && !actualIsPlate) {
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.maki_orange_one).setAnimationTime(aT).saveMouvement());
+                } else if (!getOne && actualIsPlate) {
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.maki_orange_out).setAnimationTime(aT).saveMouvement());
                 } else {
-                    m.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.maki_orange_out).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).setAnimationTime(aT).saveMouvement());
                 }
             } else if (plateC.getColor() == ColorType.blue) {
-                if (getOne) {
-                    m.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.maki_blue_one).setAnimationTime(aT).saveMouvement());
+                if (getOne && !actualIsPlate) {
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.maki_blue_one).setAnimationTime(aT).saveMouvement());
+                } else if (!getOne && actualIsPlate) {
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.maki_blue_out).setAnimationTime(aT).saveMouvement());
                 } else {
-                    m.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.maki_blue_out).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).setAnimationTime(aT).saveMouvement());
                 }
             }
         }
@@ -458,6 +458,29 @@ public class GameSystem extends VoidEntitySystem {
 
         if (this.index.getColorType(e) == this.index.getColorType(plates.get(0))) {
             plates.get(0).getComponent(Plate.class).setMaki(false);
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean actualIsColorPlate(Position nextnextP, Entity maki) {
+        Square s = this.index.getSquare(nextnextP.getX(), nextnextP.getY());
+
+        if (s == null) {
+            return false;
+        }
+
+        ArrayList<Entity> plates = s.getWith(Plate.class);
+        if (plates.isEmpty()) {
+            return false;
+        }
+
+        if (this.index.getColor(maki) == null) {
+            return false;
+        }
+
+        if (this.index.getColorType(maki) == this.index.getColorType(plates.get(0))) {
             return true;
         }
 
