@@ -775,11 +775,11 @@ public class GameSystem extends VoidEntitySystem {
     }
 
     float calculateAnimationTime(float base, int mul) {
-        if (mul > 0) {
+        /*if (mul > 0) {
             return (float) (base / 2);
-        }
+        }*/
 
-        return base;
+        return base*((float)Math.pow(base, mul/1.5));
     }
 
     float beforeTime(float base, int mul) {
