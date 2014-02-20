@@ -117,11 +117,9 @@ public class GameSystem extends VoidEntitySystem {
                         if (this.index.isPushableEntity(nextE)) {
                             if (this.index.isDestroyer(e)) {
                                 if (this.index.isDestroyable(nextE)) {
-                                    System.out.printf("Maki blue destroy before time : %f, this.beforeTime %f\n", baseBefore, this.beforeTime(0.6f, i));
                                     mouv.addAll(destroyMove(nextE, dirP, baseBefore + this.beforeTime(0.6f, i), animTime));
                                     mouv.addAll(runValideMove(dirP, e, false, this.beforeTime(0.6f, i), animTime, i, this.index.isBoosted(e), nedPush));
                                 } else {
-                                    System.out.printf("Maki blue push before time : %f, this.beforeTime %f\n", baseBefore, this.beforeTime(0.6f, i));
                                     ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.6f, i), e == nedEntity);
                                     if (!recMouv.isEmpty()) {
                                         mouv.addAll(recMouv);
