@@ -90,7 +90,9 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             if (change != null) {
                 for (int i = 0; i != change.size(); i++) {
                     for (int j = 0; j != change.get(i).size(); j++) {
-                        this.moveSprite(change.get(i).getEntity(), change.get(i).getPosition(j), change.get(i).getAnimation(j), change.get(i).getBeforeWait(j), change.get(i).getAnimationTime(j));
+/*                       System.out.print(change.get(i).getAnimation(j));
+                        System.out.printf(" Before : %f, AnimationTime %f\n", change.get(i).getBeforeWait(j), change.get(i).getAnimationTime(j));
+  */                      this.moveSprite(change.get(i).getEntity(), change.get(i).getPosition(j), change.get(i).getAnimation(j), change.get(i).getBeforeWait(j), change.get(i).getAnimationTime(j));
                     }
                 }
             }
@@ -114,6 +116,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         IAnimationCollection nedAnimFly = this.assets.getAnimations("fly.nanim.gz");
 
         if (a == AnimationType.no) {
+            System.out.printf("waitBefore : %f\n", waitBefore);
             updatable.waitDuring(waitBefore)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.ned_right) {
@@ -152,13 +155,13 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             updatable.waitDuring(waitBefore)
                     .startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE);
             this.index.disabled(e);
-        } else if (a == AnimationType.box_create) {
-            this.index.enabled(e);
-            updatable.startAnimation(boxAnim.getAnimationByName("create"), PlayMode.ONCE);
         } else if (a == AnimationType.box_boom) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(boxAnim.getAnimationByName("box_boom"), PlayMode.ONCE);
             this.index.disabled(e);
+        } else if (a == AnimationType.box_create) {
+            this.index.enabled(e);
+            updatable.startAnimation(boxAnim.getAnimationByName("create"), PlayMode.ONCE);
         } else if (a == AnimationType.maki_green_one) {
             updatable.waitDuring(waitBefore)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)

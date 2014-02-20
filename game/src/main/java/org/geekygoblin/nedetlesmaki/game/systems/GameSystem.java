@@ -93,7 +93,6 @@ public class GameSystem extends VoidEntitySystem {
                 Square s = index.getSquare(newP.getX(), newP.getY());
                 if (this.testStopOnPlate(e, s)) {
                     mouv.addAll(this.runValideMove(dirP, e, false, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
-
                     if (this.index.getBoost(e) != 20) {
                         e.getComponent(Pusher.class).setPusher(false);
                     }
@@ -102,6 +101,7 @@ public class GameSystem extends VoidEntitySystem {
                 }
                 if (!this.testBlockedPlate(e, s)) {
                     mouv.addAll(runValideMove(dirP, e, false, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
+                    baseBefore = 0;
                 }
             } else {
                 if (this.index.isStairs(newP)) {
@@ -117,17 +117,19 @@ public class GameSystem extends VoidEntitySystem {
                         if (this.index.isPushableEntity(nextE)) {
                             if (this.index.isDestroyer(e)) {
                                 if (this.index.isDestroyable(nextE)) {
-                                    mouv.addAll(destroyMove(nextE, dirP, this.beforeTime(0.6f, i), animTime));
-                                    mouv.addAll(runValideMove(dirP, e, false, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
+                                    System.out.printf("Maki blue destroy before time : %f, this.beforeTime %f\n", baseBefore, this.beforeTime(0.6f, i));
+                                    mouv.addAll(destroyMove(nextE, dirP, baseBefore + this.beforeTime(0.6f, i), animTime));
+                                    mouv.addAll(runValideMove(dirP, e, false, this.beforeTime(0.6f, i), animTime, i, this.index.isBoosted(e), nedPush));
                                 } else {
-                                    ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, this.beforeTime(0.6f, i), e == nedEntity);
+                                    System.out.printf("Maki blue push before time : %f, this.beforeTime %f\n", baseBefore, this.beforeTime(0.6f, i));
+                                    ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.6f, i), e == nedEntity);
                                     if (!recMouv.isEmpty()) {
                                         mouv.addAll(recMouv);
-                                        mouv.addAll(runValideMove(dirP, e, true, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
+                                        mouv.addAll(runValideMove(dirP, e, true, this.beforeTime(0.6f, i), animTime, i, this.index.isBoosted(e), nedPush));
                                     }
                                 }
                             } else {
-                                ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, this.beforeTime(0.6f, i), e == nedEntity);
+                                ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.6f, i), e == nedEntity);
                                 if (!recMouv.isEmpty()) {
                                     mouv.addAll(recMouv);
                                     if (!this.index.isCatchNed(nextE)) {
@@ -153,8 +155,6 @@ public class GameSystem extends VoidEntitySystem {
 
                 return mouv;
             }
-
-            baseBefore = 0;
         }
 
         if (this.index.isBoosted(e)) {
@@ -335,7 +335,7 @@ public class GameSystem extends VoidEntitySystem {
         if (preM.isEmpty()) {
             preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_boom).setBeforeWait(bT).setAnimationTime(aT).saveMouvement());
         } else {
-            preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setAnimationTime(aT).saveMouvement());
+            preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setBeforeWait(bT).setAnimationTime(aT).saveMouvement());
         }
 
         return preM;
