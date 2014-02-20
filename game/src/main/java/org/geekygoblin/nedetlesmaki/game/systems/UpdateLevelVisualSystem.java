@@ -90,6 +90,8 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             if (change != null) {
                 for (int i = 0; i != change.size(); i++) {
                     for (int j = 0; j != change.get(i).size(); j++) {
+                        System.out.print(change.get(i).getAnimation(j));
+                        System.out.printf(" Before : %f, AnimationTime %f\n", change.get(i).getBeforeWait(j), change.get(i).getAnimationTime(j));
                         this.moveSprite(change.get(i).getEntity(), change.get(i).getPosition(j), change.get(i).getAnimation(j), change.get(i).getBeforeWait(j), change.get(i).getAnimationTime(j));
                     }
                 }
@@ -251,20 +253,16 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_clean_right"), PlayMode.ONCE);
         } else if (a == AnimationType.boost_loop_up) {
-            updatable.waitDuring(waitBefore)
-                    .startAnimation(makiAnimBoost.getAnimationByName("boost_loop_up"), PlayMode.LOOP)
+            updatable.startAnimation(makiAnimBoost.getAnimationByName("boost_loop_up"), PlayMode.LOOP)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.boost_loop_down) {
-            updatable.waitDuring(waitBefore)
-                    .startAnimation(makiAnimBoost.getAnimationByName("boost_loop_down"), PlayMode.LOOP)
+            updatable.startAnimation(makiAnimBoost.getAnimationByName("boost_loop_down"), PlayMode.LOOP)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.boost_loop_left) {
-            updatable.waitDuring(waitBefore)
-                    .startAnimation(makiAnimBoost.getAnimationByName("boost_loop_left"), PlayMode.LOOP)
+            updatable.startAnimation(makiAnimBoost.getAnimationByName("boost_loop_left"), PlayMode.LOOP)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.boost_loop_right) {
-            updatable.waitDuring(waitBefore)
-                    .startAnimation(makiAnimBoost.getAnimationByName("boost_loop_right"), PlayMode.LOOP)
+            updatable.startAnimation(makiAnimBoost.getAnimationByName("boost_loop_right"), PlayMode.LOOP)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_start_up) {
             updatable.waitDuring(waitBefore)
