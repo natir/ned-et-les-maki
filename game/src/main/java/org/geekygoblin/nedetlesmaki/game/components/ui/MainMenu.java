@@ -121,8 +121,8 @@ public class MainMenu extends Component {
                 onStartGame();
             }
         };
-        startButton.setX(800);
-        startButton.setY(800);
+        startButton.setX(523);
+        startButton.setY(570);
         startButton.setWidth(317);
         startButton.setHeight(74);
         startButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
@@ -137,8 +137,8 @@ public class MainMenu extends Component {
                 }
             }
         };
-        resumeButton.setX(800);
-        resumeButton.setY(900);
+        resumeButton.setX(839);
+        resumeButton.setY(644);
         resumeButton.setWidth(317);
         resumeButton.setHeight(74);
         resumeButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
@@ -151,8 +151,8 @@ public class MainMenu extends Component {
                 root.show(optionsMenu);
             }
         };
-        optionsButton.setX(1200);
-        optionsButton.setY(800);
+        optionsButton.setX(489);
+        optionsButton.setY(664);
         optionsButton.setWidth(317);
         optionsButton.setHeight(74);
         optionsButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
@@ -165,8 +165,8 @@ public class MainMenu extends Component {
                 mainLoop.setCloseRequested(true);
             }
         };
-        quitButton.setX(1200);
-        quitButton.setY(900);
+        quitButton.setX(839);
+        quitButton.setY(644);
         quitButton.setWidth(317);
         quitButton.setHeight(74);
         quitButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
@@ -179,8 +179,8 @@ public class MainMenu extends Component {
                 root.show(extrasMenu);
             }
         };
-        extrasButton.setX(1600);
-        extrasButton.setY(1000);
+        extrasButton.setX(1021);
+        extrasButton.setY(728);
         extrasButton.setWidth(230);
         extrasButton.setHeight(54);
         extrasButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));

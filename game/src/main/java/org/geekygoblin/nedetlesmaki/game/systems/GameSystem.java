@@ -42,7 +42,6 @@ import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.game.constants.AnimationType;
-import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
@@ -56,26 +55,19 @@ public class GameSystem extends VoidEntitySystem {
 
     private final Provider<ShowLevelMenuTrigger> showLevelMenuTrigger;
     private final EntityIndexManager index;
-    private boolean run;
 
     @Inject
     public GameSystem(EntityIndexManager index, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger) {
         this.showLevelMenuTrigger = showLevelMenuTrigger;
         this.index = index;
-        this.run = false;
     }
 
     @Override
     protected void processSystem() {
-        if (this.run) {
-            this.tryPlate();
-        }
     }
 
     public ArrayList<Mouvement> moveEntity(Entity e, Position dirP, float baseBefore, boolean nedPush) {
-        this.run = true;
-
-        Entity nedEntity = ((Game) this.world).getNed();
+        Entity nedEntity = this.index.getNed();
 
         Position oldP = this.index.getPosition(e);
 
@@ -160,7 +152,7 @@ public class GameSystem extends VoidEntitySystem {
         }
 
         if (this.index.nedIsCatched(e)) {
-            mouv.add(new Mouvement(((Game) this.world).getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).saveMouvement());
+            mouv.add(new Mouvement(this.index.getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).saveMouvement());
         }
 
         return mouv;
@@ -173,7 +165,7 @@ public class GameSystem extends VoidEntitySystem {
         ArrayList<Mouvement> m = new ArrayList();
 
         if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
-            if (e == ((Game) this.world).getNed()) {
+            if (e == this.index.getNed()) {
                 if (diff.getX() > 0) {
                     if (push) {
                         m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_push_right).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
@@ -210,13 +202,17 @@ public class GameSystem extends VoidEntitySystem {
                     } else {
                         m.addAll(makiPlateMove(oldP, newP, e, true, aT, bw, false));
                     }
+
+                    m.addAll(this.tryPlate());
                 } else if (makiMoveOutPlate(oldP, e)) {
                     m.addAll(makiPlateMove(oldP, newP, e, false, aT, bw, actualIsColorPlate(oldP, e)));
+
+                    m.addAll(this.tryPlate());
                 } else {
                     m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
                 }
 
-                Entity ned = ((Game) this.world).getNed();
+                Entity ned = this.index.getNed();
                 if (this.index.isCatchNed(e) && pusherIsNed) {
                     if (index.moveEntity(oldP.getX() - diff.getX(), oldP.getY() - diff.getY(), oldP.getX(), oldP.getY())) {
                         if (pusherIsNed) {
@@ -245,7 +241,7 @@ public class GameSystem extends VoidEntitySystem {
 
         ArrayList<Mouvement> m = new ArrayList();
 
-        if (e == ((Game) this.world).getNed()) {
+        if (e == this.index.getNed()) {
             if (diff.getX() > 0) {
                 m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_right).setAnimationTime(aT).saveMouvement());
             } else if (diff.getX() < 0) {
@@ -551,7 +547,8 @@ public class GameSystem extends VoidEntitySystem {
         return false;
     }
 
-    private void tryPlate() {
+    private ArrayList<Mouvement> tryPlate() {
+        System.out.println("Try plate is called");
         ImmutableBag<Entity> plateGroup = this.index.getAllPlate();
 
         ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
@@ -570,20 +567,21 @@ public class GameSystem extends VoidEntitySystem {
                     stairsAnimation(stairs, stairsS, false);
                 }
 
-                return;
+                return new ArrayList<>();
             }
         }
 
         if (stairsS.isOpen()) {
-            return;
+            return new ArrayList<>();
         }
 
         stairsS.setStairs(true);
 
-        stairsAnimation(stairs, stairsS, true);
+        return stairsAnimation(stairs, stairsS, true);
     }
 
-    private void stairsAnimation(Entity stairs, Stairs stairsS, boolean open) {
+    private ArrayList<Mouvement> stairsAnimation(Entity stairs, Stairs stairsS, boolean open) {
+        System.out.println("stairs Animation is called");
         ArrayList<Mouvement> tmpm = new ArrayList();
 
         switch (stairsS.getDir()) {
@@ -623,7 +621,7 @@ public class GameSystem extends VoidEntitySystem {
                 }
         }
 
-        this.index.addMouvement(tmpm);
+        return tmpm;
     }
 
     private void endOfLevel() {
@@ -639,8 +637,6 @@ public class GameSystem extends VoidEntitySystem {
         if (stairsS.isOpen() && PosOperation.equale(nedP, stairsP)) {
             if (world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty()) {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
-
-                this.run = false;
             }
         }
     }
@@ -690,6 +686,8 @@ public class GameSystem extends VoidEntitySystem {
         if (reCall) {
             this.removeMouv();
         }
+
+        this.tryPlate();
     }
 
     private AnimationType invertAnimation(AnimationType base) {
@@ -775,11 +773,7 @@ public class GameSystem extends VoidEntitySystem {
     }
 
     float calculateAnimationTime(float base, int mul) {
-        /*if (mul > 0) {
-            return (float) (base / 2);
-        }*/
-
-        return base*((float)Math.pow(base, mul/1.5));
+        return base * ((float) Math.pow(base, mul / 1.5));
     }
 
     float beforeTime(float base, int mul) {
