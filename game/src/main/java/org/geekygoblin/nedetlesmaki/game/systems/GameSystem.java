@@ -62,14 +62,10 @@ public class GameSystem extends VoidEntitySystem {
     public GameSystem(EntityIndexManager index, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger) {
         this.showLevelMenuTrigger = showLevelMenuTrigger;
         this.index = index;
-        this.run = false;
     }
 
     @Override
     protected void processSystem() {
-        if (this.run) {
-            this.tryPlate();
-        }
     }
 
     public ArrayList<Mouvement> moveEntity(Entity e, Position dirP, float baseBefore, boolean nedPush) {
@@ -210,8 +206,12 @@ public class GameSystem extends VoidEntitySystem {
                     } else {
                         m.addAll(makiPlateMove(oldP, newP, e, true, aT, bw, false));
                     }
+
+                   m.addAll(this.tryPlate());
                 } else if (makiMoveOutPlate(oldP, e)) {
                     m.addAll(makiPlateMove(oldP, newP, e, false, aT, bw, actualIsColorPlate(oldP, e)));
+
+                    m.addAll(this.tryPlate());
                 } else {
                     m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
                 }
@@ -551,7 +551,8 @@ public class GameSystem extends VoidEntitySystem {
         return false;
     }
 
-    private void tryPlate() {
+    private ArrayList<Mouvement> tryPlate() {
+        System.out.println("Try plate is called");
         ImmutableBag<Entity> plateGroup = this.index.getAllPlate();
 
         ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
@@ -570,20 +571,21 @@ public class GameSystem extends VoidEntitySystem {
                     stairsAnimation(stairs, stairsS, false);
                 }
 
-                return;
+                return new ArrayList<>();
             }
         }
 
         if (stairsS.isOpen()) {
-            return;
+            return new ArrayList<>();
         }
 
         stairsS.setStairs(true);
 
-        stairsAnimation(stairs, stairsS, true);
+        return stairsAnimation(stairs, stairsS, true);
     }
 
-    private void stairsAnimation(Entity stairs, Stairs stairsS, boolean open) {
+    private ArrayList<Mouvement> stairsAnimation(Entity stairs, Stairs stairsS, boolean open) {
+        System.out.println("stairs Animation is called");
         ArrayList<Mouvement> tmpm = new ArrayList();
 
         switch (stairsS.getDir()) {
@@ -623,7 +625,7 @@ public class GameSystem extends VoidEntitySystem {
                 }
         }
 
-        this.index.addMouvement(tmpm);
+        return tmpm;
     }
 
     private void endOfLevel() {
@@ -775,11 +777,7 @@ public class GameSystem extends VoidEntitySystem {
     }
 
     float calculateAnimationTime(float base, int mul) {
-        /*if (mul > 0) {
-            return (float) (base / 2);
-        }*/
-
-        return base*((float)Math.pow(base, mul/1.5));
+        return base * ((float) Math.pow(base, mul / 1.5));
     }
 
     float beforeTime(float base, int mul) {
