@@ -26,7 +26,7 @@ package org.geekygoblin.nedetlesmaki.game.constants;
  * @author natir
  */
 public enum AnimationType {
-    
+
     no,
     ned_right,
     ned_left,
@@ -36,6 +36,10 @@ public enum AnimationType {
     ned_push_left,
     ned_push_down,
     ned_push_up,
+    ned_wait_boost_up,
+    ned_wait_boost_down,
+    ned_wait_boost_right,
+    ned_wait_boost_left,
     box_destroy,
     box_create,
     box_boom,
@@ -80,4 +84,3 @@ public enum AnimationType {
     fly_loop_left,
     fly_loop_right;
 }
- 
