@@ -59,15 +59,15 @@ public class LevelSelector extends Container {
         this.showMenuTrigger = showMenuTrigger;
         bulleAnimations = assets.getAnimations("bulle.nanim.gz");
         setBackground(new TexturedBackground(assets.getAnimations("tour.png").getFirst().start(PlayMode.LOOP)));
-        setFocusedChild(addButton("level.01.name", "levels/t1/lvl01.tmx", 725, 695, 1));
-        addButton("level.02.name", "levels/t1/lvl02.tmx", 550, 674, -1);
-        addButton("level.03.name", "levels/t1/lvl03.tmx", 725, 653, 1);
-        addButton("level.04.name", "levels/t1/lvl04.tmx", 550, 632, -1);
-        addButton("level.05.name", "levels/t2/lvl01.tmx", 725, 611, 1);
-        addButton("level.06.name", "levels/t2/lvl02.tmx", 550, 590, -1);
-        addButton("level.07.name", "levels/t2/lvl03.tmx", 725, 569, 1);
-        addButton("level.08.name", "levels/t2/lvl04.tmx", 550, 548, -1);
-        addButton("level.09.name", "levels/t2/lvl05.tmx", 725, 527, 1);
+        setFocusedChild(addButton("level.01.name", "levels/t1/lvl01.tmx", 1087, 938, 1));
+        addButton("level.02.name", "levels/t1/lvl02.tmx", 825, 910, -1);
+        addButton("level.03.name", "levels/t1/lvl03.tmx", 1087, 881, 1);
+        addButton("level.04.name", "levels/t1/lvl04.tmx", 825, 853, -1);
+        addButton("level.05.name", "levels/t2/lvl01.tmx", 1087, 825, 1);
+        addButton("level.06.name", "levels/t2/lvl02.tmx", 825, 796, -1);
+        addButton("level.07.name", "levels/t2/lvl03.tmx", 1087, 768, 1);
+        addButton("level.08.name", "levels/t2/lvl04.tmx", 825, 740, -1);
+        addButton("level.09.name", "levels/t2/lvl05.tmx", 1087, 711, 1);
         /*addButton("level.10.name", "levels/lvl10.tmx", 550, 506, -1);
          addButton("level.11.name", "levels/lvl11.tmx", 725, 485, 1);
          addButton("level.12.name", "levels/lvl12.tmx", 550, 464, -1);
@@ -88,7 +88,7 @@ public class LevelSelector extends Container {
          addButton("level.27.name", "levels/lvl27.tmx", 725, 149, 1);
          addButton("level.28.name", "levels/lvl28.tmx", 550, 129, -1);
          addButton("level.29.name", "levels/lvl29.tmx", 725, 107, 1);*/
-        addButton("level.30.name", "levels/test.tmx", 550, 87, -1);
+        addButton("level.30.name", "levels/test.tmx", 825, 117, -1);
 
         Button backButton = new Button(toolkit, "options.menu.button.back") {
 
@@ -101,10 +101,10 @@ public class LevelSelector extends Container {
         backButton.setMustDrawFocus(false);
         backButton.setBackground(new TexturedBackground(assets.getAnimations("portail.nanim.gz").getAnimationByName("normal").start(PlayMode.LOOP)));
         backButton.setFocusedBackground(new TexturedBackground(assets.getAnimations("portail.nanim.gz").getAnimationByName("survol").start(PlayMode.LOOP)));
-        backButton.setX(370);
-        backButton.setY(301);
-        backButton.setWidth(500 - 370);
-        backButton.setHeight(499 - 301);
+        backButton.setX(555);
+        backButton.setY(406);
+        backButton.setWidth(195);
+        backButton.setHeight(267);
         this.add(backButton);
     }
 

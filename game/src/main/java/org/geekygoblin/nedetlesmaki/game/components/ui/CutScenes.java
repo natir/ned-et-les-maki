@@ -29,6 +29,7 @@ import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.background.ColoredBackground;
 import im.bci.jnuit.lwjgl.assets.IAssets;
+import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
 
 /**
  *
@@ -49,8 +50,8 @@ public class CutScenes {
         IAnimationCollection animations = assets.getAnimations("devnewton.nanim.gz");
         IAnimationCollection natir_credit = assets.getAnimations("natir.nanim.gz");
         dialog.setBackground(new ColoredBackground(0, 0, 0, 1));
-        dialog.addTirade(animations.getAnimationByName("devnewton").start(PlayMode.ONCE), (1280 - 512) / 2, (800 - 128) / 2, 512, 128, "dialog.credits.devnewton");
-        dialog.addTirade(natir_credit.getAnimationByName("natir").start(PlayMode.ONCE), (1280 - 600) / 2, (800 - 360) / 2, 600, 360, "dialog.credits.natir");
+        dialog.addTirade(animations.getAnimationByName("devnewton").start(PlayMode.ONCE), (VirtualResolution.WIDTH - 512) / 2, (VirtualResolution.HEIGHT - 128) / 2, 512, 128, "dialog.credits.devnewton");
+        dialog.addTirade(natir_credit.getAnimationByName("natir").start(PlayMode.ONCE), (VirtualResolution.WIDTH - 600) / 2, (VirtualResolution.HEIGHT - 360) / 2, 600, 360, "dialog.credits.natir");
     }
 
     public void createIntro(Dialog dialog) {

@@ -36,6 +36,7 @@ import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.background.Background;
 import im.bci.jnuit.background.NullBackground;
 import im.bci.jnuit.lwjgl.assets.IAssets;
+import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
 
 /**
  *
@@ -50,6 +51,8 @@ public class Dialog extends Container {
     private final Label textLabel;
     private final Label view;
     private final Button nextButton;
+    public static final int BUTTON_SIZE = 64;
+    private NuitToolkit toolkit;
 
     private Sentence getCurrentSentence() {
         if (!sentences.isEmpty()) {
@@ -57,6 +60,32 @@ public class Dialog extends Container {
         } else {
             return null;
         }
+    }
+
+    private Iterable<String> splitSentence(String sentence) {
+        ArrayList<String> result = new ArrayList<>();
+        String currentSubsentence = "";
+        String[] words = sentence.split(" ");
+        for (int i =0;i<words.length ; ++i) {
+            String newSubsentence = currentSubsentence;
+            if(!newSubsentence.isEmpty()) {
+                newSubsentence+= " ";
+            }
+            newSubsentence += words[i];
+            if (toolkit.getFont().getWidth(newSubsentence) > textLabel.getWidth()) {
+                result.add(currentSubsentence);
+                currentSubsentence = i != words.length-1 ? "" : words[i];
+            } else {
+                currentSubsentence = newSubsentence;
+            }
+        }
+        if(!currentSubsentence.isEmpty()) {
+            result.add(currentSubsentence);
+        }
+        if(result.isEmpty()) {
+            result.add("");
+        }
+        return result;
     }
 
     private static class Sentence {
@@ -81,6 +110,7 @@ public class Dialog extends Container {
     @Inject
     public Dialog(NuitToolkit toolkit, IAssets assets) {
         IAnimationCollection dialogAnimations = assets.getAnimations("dialog_ui.nanim.gz");
+        this.toolkit = toolkit;
 
         nextButton = new Button(toolkit, "") {
 
@@ -93,10 +123,10 @@ public class Dialog extends Container {
         nextButton.setBackground(new TexturedBackground(dialogAnimations.getAnimationByName("next").start(PlayMode.LOOP)));
         nextButton.setFocusedBackground(new TexturedBackground(dialogAnimations.getAnimationByName("next_focused").start(PlayMode.LOOP)));
         nextButton.setMustDrawFocus(false);
-        nextButton.setX(1280 - 64);
-        nextButton.setY(800 - 64);
-        nextButton.setWidth(64);
-        nextButton.setHeight(64);
+        nextButton.setX(VirtualResolution.WIDTH - BUTTON_SIZE);
+        nextButton.setY(VirtualResolution.HEIGHT - BUTTON_SIZE);
+        nextButton.setWidth(BUTTON_SIZE);
+        nextButton.setHeight(BUTTON_SIZE);
 
         Button previousButton = new Button(toolkit, "") {
             @Override
@@ -122,19 +152,19 @@ public class Dialog extends Container {
         previousButton.setFocusedBackground(new TexturedBackground(dialogAnimations.getAnimationByName("previous_focused").start(PlayMode.LOOP)));
         previousButton.setMustDrawFocus(false);
         previousButton.setX(0);
-        previousButton.setY(800 - 64);
-        previousButton.setWidth(64);
-        previousButton.setHeight(64);
+        previousButton.setY(VirtualResolution.HEIGHT - BUTTON_SIZE);
+        previousButton.setWidth(BUTTON_SIZE);
+        previousButton.setHeight(BUTTON_SIZE);
 
         this.textLabel = new Label(toolkit, "");
-        textLabel.setX(64);
-        textLabel.setY(800 - 64);
-        textLabel.setWidth(1280 - 64 * 2);
-        textLabel.setHeight(64);
+        textLabel.setX(BUTTON_SIZE);
+        textLabel.setY(VirtualResolution.HEIGHT - BUTTON_SIZE);
+        textLabel.setWidth(VirtualResolution.WIDTH - BUTTON_SIZE * 2);
+        textLabel.setHeight(BUTTON_SIZE);
 
         view = new Label(toolkit, "");
-        view.setWidth(1280);
-        view.setHeight(800);
+        view.setWidth(VirtualResolution.WIDTH);
+        view.setHeight(VirtualResolution.HEIGHT);
 
         add(view);
         add(textLabel);
@@ -145,16 +175,16 @@ public class Dialog extends Container {
 
     public void addTirade(IPlay play, int x, int y, int w, int h, String... sentences) {
         for (String sentence : sentences) {
-            this.sentences.add(new Sentence(play, x, y, w, h, sentence));
+            sentence = toolkit.getMessage(sentence);
+            for (String splittedSentence : splitSentence(sentence)) {
+                this.sentences.add(new Sentence(play, x, y, w, h, splittedSentence));
+            }
         }
         onChangeSentence();
     }
 
     public void addTirade(IPlay play, String... sentences) {
-        for (String sentence : sentences) {
-            this.sentences.add(new Sentence(play, 0, 0, 1280, 800, sentence));
-        }
-        onChangeSentence();
+        addTirade(play, 0, 0, VirtualResolution.WIDTH, VirtualResolution.HEIGHT, sentences);
     }
 
     protected void onNext() {
@@ -180,7 +210,7 @@ public class Dialog extends Container {
                 view.setBackground(new TexturedBackground(currentSentence.play));
             }
         }
-        if(currentSentenceIndex == 0) {
+        if (currentSentenceIndex == 0) {
             setFocusedChild(nextButton);
         }
     }
