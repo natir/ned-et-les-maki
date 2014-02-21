@@ -102,7 +102,7 @@ public class CutScenesMenu extends Stack {
         show(menu);
     }
     
-    class CutScenesMenuDialog extends Dialog {
+    class CutScenesMenuDialog extends NedDialogue {
 
         public CutScenesMenuDialog(NuitToolkit toolkit, IAssets assets) {
             super(toolkit, assets);

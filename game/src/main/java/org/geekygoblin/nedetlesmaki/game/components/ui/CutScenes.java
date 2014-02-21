@@ -45,7 +45,7 @@ public class CutScenes {
         this.assets = assets;
     }
 
-    public void createCredits(Dialog dialog) {
+    public void createCredits(NedDialogue dialog) {
         assets.clearUseless();
         IAnimationCollection animations = assets.getAnimations("devnewton.nanim.gz");
         IAnimationCollection natir_credit = assets.getAnimations("natir.nanim.gz");
@@ -54,7 +54,7 @@ public class CutScenes {
         dialog.addTirade(natir_credit.getAnimationByName("natir").start(PlayMode.ONCE), (VirtualResolution.WIDTH - 600) / 2, (VirtualResolution.HEIGHT - 360) / 2, 600, 360, "dialog.credits.natir");
     }
 
-    public void createIntro(Dialog dialog) {
+    public void createIntro(NedDialogue dialog) {
         assets.clearUseless();
         IAnimationCollection animations = assets.getAnimations("intro.nanim.gz");
         dialog.addTirade(animations.getAnimationByName("01").start(PlayMode.LOOP), "dialog.intro.01");

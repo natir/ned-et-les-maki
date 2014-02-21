@@ -23,45 +23,33 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components.ui;
 
-import com.artemis.Component;
 import im.bci.jnuit.NuitToolkit;
-import im.bci.jnuit.widgets.Root;
 import com.google.inject.Inject;
-import im.bci.jnuit.NuitRenderer;
+import im.bci.jnuit.background.TexturedBackground;
+import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.lwjgl.assets.IAssets;
-import org.geekygoblin.nedetlesmaki.game.Game;
-import org.lwjgl.LWJGLException;
+import im.bci.jnuit.widgets.Dialogue;
 
 /**
  *
  * @author devnewton
  */
-public class DialogComponent extends Component {
-
-    private final Root root;
-    private final Game game;
-    private final NuitRenderer nuitRenderer;
-    private final NedDialogue dialog;
+public class NedDialogue extends Dialogue {
 
     @Inject
-    public DialogComponent(NuitToolkit toolkit, NuitRenderer nuitRenderer, Game game, IAssets assets, NedDialogue dialog) throws LWJGLException {
-        this.game = game;
-        root = new Root(toolkit);
-        this.nuitRenderer = nuitRenderer;
-        root.add(dialog);
-        this.dialog = dialog;
-    }
+    public NedDialogue(NuitToolkit toolkit, IAssets assets) {
+        super(toolkit);
+        IAnimationCollection dialogAnimations = assets.getAnimations("dialog_ui.nanim.gz");
 
-    public void update() {
-        final float delta = game.getDelta();
-        root.update(delta);
-    }
-
-    public void draw() {
-        nuitRenderer.render(root);
-    }
-
-    public boolean isFinished() {
-      return dialog.isFinished();
+        nextButton.setText("");
+        nextButton.setBackground(new TexturedBackground(dialogAnimations.getAnimationByName("next").start(PlayMode.LOOP)));
+        nextButton.setFocusedBackground(new TexturedBackground(dialogAnimations.getAnimationByName("next_focused").start(PlayMode.LOOP)));
+        nextButton.setMustDrawFocus(false);
+       
+        previousButton.setText("");
+        previousButton.setBackground(new TexturedBackground(dialogAnimations.getAnimationByName("previous").start(PlayMode.LOOP)));
+        previousButton.setFocusedBackground(new TexturedBackground(dialogAnimations.getAnimationByName("previous_focused").start(PlayMode.LOOP)));
+        previousButton.setMustDrawFocus(false);
     }
 }
