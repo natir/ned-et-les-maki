@@ -119,7 +119,7 @@ public class NedModule extends AbstractModule {
     @Provides
     @NamedEntities.DefaultFont
     public LwjglNuitFont createDefaultFont(IAssets assets) {
-        return assets.getFont("ProFontWindows.ttf,24,bold");
+        return assets.getFont("ProFontWindows.ttf,32,bold,antialiasing");
     }
 
     @Provides
