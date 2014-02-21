@@ -46,6 +46,7 @@ import org.geekygoblin.nedetlesmaki.game.components.Level;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
+import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.game.utils.Viewport;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -59,9 +60,6 @@ import org.lwjgl.util.vector.Vector3f;
  * @author devnewton
  */
 public class DrawSystem extends EntitySystem {
-
-    public static final int SCREEN_WIDTH = 1280;
-    public static final int SCREEN_HEIGHT = 800;
 
     @Mapper
     ComponentMapper<ZOrder> zOrderMapper;
@@ -118,7 +116,7 @@ public class DrawSystem extends EntitySystem {
 
         updateViewPort();
         GL11.glViewport(viewPort.x, viewPort.y, viewPort.width, viewPort.height);
-        GLU.gluOrtho2D(-SCREEN_WIDTH / 2.0f, SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, -SCREEN_HEIGHT / 2.0f);
+        GLU.gluOrtho2D(-VirtualResolution.WIDTH / 2.0f, VirtualResolution.WIDTH / 2.0f, VirtualResolution.HEIGHT / 2.0f, -VirtualResolution.HEIGHT / 2.0f);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
@@ -177,10 +175,10 @@ public class DrawSystem extends EntitySystem {
         backgroundAnimationPlay.update((long) (world.getDelta() * 1000L));
         final IAnimationFrame currentFrame = backgroundAnimationPlay.getCurrentFrame();
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, currentFrame.getImage().getId());
-        float x1 = -SCREEN_WIDTH / 2.0f;
-        float x2 = SCREEN_WIDTH / 2.0f;
-        float y1 = SCREEN_HEIGHT / 2.0f;
-        float y2 = -SCREEN_HEIGHT / 2.0f;
+        float x1 = -VirtualResolution.WIDTH / 2.0f;
+        float x2 = VirtualResolution.WIDTH / 2.0f;
+        float y1 = VirtualResolution.HEIGHT / 2.0f;
+        float y2 = -VirtualResolution.HEIGHT / 2.0f;
         float u1 = currentFrame.getU1();
         float u2 = currentFrame.getU2();
 
@@ -287,8 +285,8 @@ public class DrawSystem extends EntitySystem {
 
     public Vector3f getMouseSpritePos(int yAdjust) {
         if (null != spriteProjector) {
-            float mouseX = (Mouse.getX() - viewPort.x) * SCREEN_WIDTH / viewPort.width - SCREEN_WIDTH / 2.0f;
-            float mouseY = SCREEN_HEIGHT - ((Mouse.getY() + yAdjust - viewPort.y) * SCREEN_HEIGHT / viewPort.height) - SCREEN_HEIGHT / 2.0f;
+            float mouseX = (Mouse.getX() - viewPort.x) * VirtualResolution.WIDTH / viewPort.width - VirtualResolution.WIDTH / 2.0f;
+            float mouseY = VirtualResolution.HEIGHT - ((Mouse.getY() + yAdjust - viewPort.y) * VirtualResolution.HEIGHT / viewPort.height) - VirtualResolution.HEIGHT / 2.0f;
             Entity ned = ((Game) world).getNed();
             if (null != ned) {
                 Sprite nedSprite = spriteMapper.get(ned);
@@ -303,7 +301,7 @@ public class DrawSystem extends EntitySystem {
     }
 
     private void updateViewPort() {
-        final float aspect = (float) SCREEN_WIDTH / (float) SCREEN_HEIGHT;
+        final float aspect = (float) VirtualResolution.WIDTH / (float) VirtualResolution.HEIGHT;
         int screenWidth = LwjglHelper.getWidth();
         int screenHeight = LwjglHelper.getHeight();
         viewPort.width = screenWidth;

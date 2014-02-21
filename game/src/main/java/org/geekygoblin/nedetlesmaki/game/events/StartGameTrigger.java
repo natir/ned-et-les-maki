@@ -60,6 +60,7 @@ import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
+import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.lwjgl.util.vector.Vector3f;
@@ -198,10 +199,10 @@ public class StartGameTrigger extends Trigger {
         Vector3f apparitionPos = new Vector3f(pos);
         switch(apparitionEffect) {
             case FROM_ABOVE:
-                apparitionPos.translate(0, 0, (1.0f + random.nextFloat()) * DrawSystem.SCREEN_HEIGHT);
+                apparitionPos.translate(0, 0, (1.0f + random.nextFloat()) * VirtualResolution.HEIGHT);
                 break;
             case FROM_BELOW:
-                apparitionPos.translate((2.0f * random.nextFloat() - 1.0f) * tmx.getMap().getWidth(), (2.0f * random.nextFloat() - 1.0f) * tmx.getMap().getWidth(), (1.0f + random.nextFloat() * 2.0f) * -DrawSystem.SCREEN_HEIGHT);
+                apparitionPos.translate((2.0f * random.nextFloat() - 1.0f) * tmx.getMap().getWidth(), (2.0f * random.nextFloat() - 1.0f) * tmx.getMap().getWidth(), (1.0f + random.nextFloat() * 2.0f) * -VirtualResolution.HEIGHT);
                 break;
             case NONE:
             default:
