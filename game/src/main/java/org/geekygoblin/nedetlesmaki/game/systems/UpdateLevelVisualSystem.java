@@ -187,35 +187,43 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         } else if (a == AnimationType.stairs_open_up) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(stairsAnim.getAnimationByName("stairs_up_open"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .waitAnimation();
         } else if (a == AnimationType.stairs_open_down) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(stairsAnim.getAnimationByName("stairs_down_open"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .waitAnimation();
         } else if (a == AnimationType.stairs_open_left) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(stairsAnim.getAnimationByName("stairs_left_open"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .waitAnimation();
         } else if (a == AnimationType.stairs_open_right) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(stairsAnim.getAnimationByName("stairs_right_open"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .waitAnimation();
         } else if (a == AnimationType.stairs_close_up) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(stairsAnim.getAnimationByName("stairs_up_close"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .waitAnimation();
         } else if (a == AnimationType.stairs_close_down) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(stairsAnim.getAnimationByName("stairs_down_close"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .waitAnimation();
         } else if (a == AnimationType.stairs_close_left) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(stairsAnim.getAnimationByName("stairs_left_close"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .waitAnimation();
         } else if (a == AnimationType.stairs_close_right) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(stairsAnim.getAnimationByName("stairs_right_close"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .waitAnimation();
         } else if (a == AnimationType.boost_start_up) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnimBoost.getAnimationByName("boost_start_up"), PlayMode.ONCE)
