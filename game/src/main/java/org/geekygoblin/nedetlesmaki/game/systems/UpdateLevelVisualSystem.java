@@ -109,6 +109,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         }
 
         IAnimationCollection nedAnim = this.assets.getAnimations("ned.nanim.gz");
+        IAnimationCollection nedWaitBoostAnim = this.assets.getAnimations("ned_waits_boost.nanim.gz");
         IAnimationCollection makiAnim = this.assets.getAnimations("maki.nanim.gz");
         IAnimationCollection boxAnim = this.assets.getAnimations("box.nanim.gz");
         IAnimationCollection stairsAnim = this.assets.getAnimations("stairs.nanim.gz");
@@ -150,6 +151,14 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             updatable.startAnimation(nedAnim.getAnimationByName("push_up"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
+        } else if (a == AnimationType.ned_wait_boost_up) {
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_up"));
+        } else if (a == AnimationType.ned_wait_boost_down) {
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_down"));
+        }else if (a == AnimationType.ned_wait_boost_right) {
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_right"));
+        } else if (a == AnimationType.ned_wait_boost_left) {
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_left"));
         } else if (a == AnimationType.box_destroy) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE);
