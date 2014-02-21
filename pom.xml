@@ -9,7 +9,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jnuit.version>0.7</jnuit.version>
+        <jnuit.version>0.8</jnuit.version>
         <lwjgl.version>2.9.0</lwjgl.version>
     </properties>
     <modules>
