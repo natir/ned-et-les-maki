@@ -54,8 +54,8 @@ public class ExtrasMenu extends Container {
                 root.show(cutscenesMenu);
             }
         };
-        cutscenesButton.setX(137);
-        cutscenesButton.setY(326);
+        cutscenesButton.setX(237);
+        cutscenesButton.setY(426);
         cutscenesButton.setWidth(396);
         cutscenesButton.setHeight(92);
         cutscenesButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));
@@ -69,8 +69,8 @@ public class ExtrasMenu extends Container {
                 root.show(mainMenu);
             }
         };
-        artworkButton.setX(137);
-        artworkButton.setY(447);
+        artworkButton.setX(237);
+        artworkButton.setY(547);
         artworkButton.setWidth(396);
         artworkButton.setHeight(92);
         artworkButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));
@@ -84,8 +84,8 @@ public class ExtrasMenu extends Container {
                 root.show(mainMenu);
             }
         };
-        backButton.setX(137);
-        backButton.setY(600);
+        backButton.setX(237);
+        backButton.setY(700);
         backButton.setWidth(396);
         backButton.setHeight(92);
         backButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));

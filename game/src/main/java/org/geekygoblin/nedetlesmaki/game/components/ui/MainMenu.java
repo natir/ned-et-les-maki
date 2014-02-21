@@ -109,22 +109,20 @@ public class MainMenu extends Component {
 
     private void initMain() {
 
-//        IAnimation buttonBigBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("button");
-//        IAnimation buttonBigFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("focused_button");
         IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("moyen_normal");
         IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("moyen_survol");
         IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("petit_normal");
         IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("petit_survol");
 
-        mainMenu = new Table(toolkit);
+        mainMenu = new Container();
         final Button startButton = new Button(toolkit, "main.menu.button.start") {
             @Override
             public void onOK() {
                 onStartGame();
             }
         };
-        startButton.setX(523);
-        startButton.setY(570);
+        startButton.setX(800);
+        startButton.setY(800);
         startButton.setWidth(317);
         startButton.setHeight(74);
         startButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
@@ -139,8 +137,8 @@ public class MainMenu extends Component {
                 }
             }
         };
-        resumeButton.setX(839);
-        resumeButton.setY(644);
+        resumeButton.setX(800);
+        resumeButton.setY(900);
         resumeButton.setWidth(317);
         resumeButton.setHeight(74);
         resumeButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
@@ -153,8 +151,8 @@ public class MainMenu extends Component {
                 root.show(optionsMenu);
             }
         };
-        optionsButton.setX(489);
-        optionsButton.setY(664);
+        optionsButton.setX(1200);
+        optionsButton.setY(800);
         optionsButton.setWidth(317);
         optionsButton.setHeight(74);
         optionsButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
@@ -167,8 +165,8 @@ public class MainMenu extends Component {
                 mainLoop.setCloseRequested(true);
             }
         };
-        quitButton.setX(839);
-        quitButton.setY(644);
+        quitButton.setX(1200);
+        quitButton.setY(900);
         quitButton.setWidth(317);
         quitButton.setHeight(74);
         quitButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
@@ -181,8 +179,8 @@ public class MainMenu extends Component {
                 root.show(extrasMenu);
             }
         };
-        extrasButton.setX(1021);
-        extrasButton.setY(728);
+        extrasButton.setX(1600);
+        extrasButton.setY(1000);
         extrasButton.setWidth(230);
         extrasButton.setHeight(54);
         extrasButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
