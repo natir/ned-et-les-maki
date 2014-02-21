@@ -42,7 +42,6 @@ import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.game.constants.AnimationType;
-import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
@@ -56,7 +55,6 @@ public class GameSystem extends VoidEntitySystem {
 
     private final Provider<ShowLevelMenuTrigger> showLevelMenuTrigger;
     private final EntityIndexManager index;
-    private boolean run;
 
     @Inject
     public GameSystem(EntityIndexManager index, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger) {
@@ -64,14 +62,8 @@ public class GameSystem extends VoidEntitySystem {
         this.index = index;
     }
 
-    @Override
-    protected void processSystem() {
-    }
-
     public ArrayList<Mouvement> moveEntity(Entity e, Position dirP, float baseBefore, boolean nedPush) {
-        this.run = true;
-
-        Entity nedEntity = ((Game) this.world).getNed();
+        Entity nedEntity = this.index.getNed();
 
         Position oldP = this.index.getPosition(e);
 
@@ -156,7 +148,7 @@ public class GameSystem extends VoidEntitySystem {
         }
 
         if (this.index.nedIsCatched(e)) {
-            mouv.add(new Mouvement(((Game) this.world).getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).saveMouvement());
+            mouv.add(new Mouvement(this.index.getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).saveMouvement());
         }
 
         return mouv;
@@ -169,7 +161,7 @@ public class GameSystem extends VoidEntitySystem {
         ArrayList<Mouvement> m = new ArrayList();
 
         if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
-            if (e == ((Game) this.world).getNed()) {
+            if (e ==this.index.getNed()) {
                 if (diff.getX() > 0) {
                     if (push) {
                         m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_push_right).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
@@ -216,7 +208,7 @@ public class GameSystem extends VoidEntitySystem {
                     m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
                 }
 
-                Entity ned = ((Game) this.world).getNed();
+                Entity ned = this.index.getNed();
                 if (this.index.isCatchNed(e) && pusherIsNed) {
                     if (index.moveEntity(oldP.getX() - diff.getX(), oldP.getY() - diff.getY(), oldP.getX(), oldP.getY())) {
                         if (pusherIsNed) {
@@ -245,7 +237,7 @@ public class GameSystem extends VoidEntitySystem {
 
         ArrayList<Mouvement> m = new ArrayList();
 
-        if (e == ((Game) this.world).getNed()) {
+        if (e == this.index.getNed()) {
             if (diff.getX() > 0) {
                 m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_right).setAnimationTime(aT).saveMouvement());
             } else if (diff.getX() < 0) {
@@ -641,8 +633,6 @@ public class GameSystem extends VoidEntitySystem {
         if (stairsS.isOpen() && PosOperation.equale(nedP, stairsP)) {
             if (world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty()) {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
-
-                this.run = false;
             }
         }
     }
@@ -692,6 +682,8 @@ public class GameSystem extends VoidEntitySystem {
         if (reCall) {
             this.removeMouv();
         }
+        
+        this.tryPlate();
     }
 
     private AnimationType invertAnimation(AnimationType base) {
