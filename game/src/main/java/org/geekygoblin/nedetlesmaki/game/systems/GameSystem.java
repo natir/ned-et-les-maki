@@ -164,7 +164,11 @@ public class GameSystem extends VoidEntitySystem {
         ArrayList<Mouvement> m = new ArrayList();
 
         if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
+<<<<<<< HEAD
             if (e == this.index.getNed()) {
+=======
+            if (e ==this.index.getNed()) {
+>>>>>>> 11dac2e83edcf8a1ccab60a58e8a02b64c2e69e0
                 if (diff.getX() > 0) {
                     if (push) {
                         m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_push_right).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
@@ -685,7 +689,11 @@ public class GameSystem extends VoidEntitySystem {
         if (reCall) {
             this.removeMouv();
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 11dac2e83edcf8a1ccab60a58e8a02b64c2e69e0
         this.tryPlate();
     }
 
