@@ -124,6 +124,9 @@ public class GameSystem extends VoidEntitySystem {
                                     mouv.addAll(recMouv);
                                     if (!this.index.isCatchNed(nextE)) {
                                         mouv.addAll(runValideMove(dirP, e, true, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
+                                        if (recMouv.size() > 1) {
+                                            mouv.add(new Mouvement(nedEntity).setAnimation(this.nedWaitBoostChoice(dirP)).saveMouvement());
+                                        }
                                     }
                                 }
                             }
@@ -622,6 +625,21 @@ public class GameSystem extends VoidEntitySystem {
         }
 
         return tmpm;
+    }
+
+    AnimationType nedWaitBoostChoice(Position diff) {
+
+        if (diff.getX() > 0) {
+            return AnimationType.ned_waits_boost_right;
+        } else if (diff.getX() < 0) {
+            return AnimationType.ned_waits_boost_left;
+        } else if (diff.getY() > 0) {
+            return AnimationType.ned_waits_boost_down;
+        } else if (diff.getY() < 0) {
+            return AnimationType.ned_waits_boost_up;
+        }
+
+        return AnimationType.no;
     }
 
     private void endOfLevel() {
