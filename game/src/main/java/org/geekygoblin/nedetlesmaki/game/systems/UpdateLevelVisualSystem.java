@@ -151,14 +151,14 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             updatable.startAnimation(nedAnim.getAnimationByName("push_up"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
-        } else if (a == AnimationType.ned_wait_boost_up) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_up"));
-        } else if (a == AnimationType.ned_wait_boost_down) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_down"));
-        }else if (a == AnimationType.ned_wait_boost_right) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_right"));
-        } else if (a == AnimationType.ned_wait_boost_left) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_left"));
+        } else if (a == AnimationType.ned_waits_boost_up) {
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_up"), PlayMode.ONCE);
+        } else if (a == AnimationType.ned_waits_boost_down) {
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_down"), PlayMode.ONCE);
+        } else if (a == AnimationType.ned_waits_boost_right) {
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_right"), PlayMode.ONCE);
+        } else if (a == AnimationType.ned_waits_boost_left) {
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_left"), PlayMode.ONCE);
         } else if (a == AnimationType.box_destroy) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE);
