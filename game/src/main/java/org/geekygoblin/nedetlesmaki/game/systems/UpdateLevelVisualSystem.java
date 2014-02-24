@@ -161,13 +161,21 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         } else if (a == AnimationType.ned_waits_boost_left) {
             updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_left"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_mount_stairs_up) {
-            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_waits_boost_start_up"), PlayMode.ONCE);
+            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_up"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .waitAnimation();
         } else if (a == AnimationType.ned_mount_stairs_down) {
-            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_waits_boost_start_down"), PlayMode.ONCE);
+            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_down"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .waitAnimation();
         } else if (a == AnimationType.ned_mount_stairs_right) {
-            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_waits_boost_start_right"), PlayMode.ONCE);
+            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_right"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .waitAnimation();
         } else if (a == AnimationType.ned_mount_stairs_right) {
-            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_waits_boost_start_left"), PlayMode.ONCE);
+            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_left"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
+                    .waitAnimation();
         } else if (a == AnimationType.box_destroy) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE);
