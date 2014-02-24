@@ -45,8 +45,8 @@ public class ExtrasMenu extends Container {
         root.add(cutscenesMenu);
         
         setBackground(new TexturedBackground(assets.getAnimations("menu_extras.png").getFirst().start(PlayMode.LOOP)));
-        IAnimation buttonBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("button");
-        IAnimation buttonFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("focused_button");
+        IAnimation buttonBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_normal");
+        IAnimation buttonFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("2_survol");
 
         final Button cutscenesButton = new Button(toolkit, "extras.menu.button.cutscenes") {
             @Override

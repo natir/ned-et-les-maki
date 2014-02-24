@@ -44,8 +44,8 @@ public class CutScenesMenu extends Stack {
     CutScenesMenu(final NuitToolkit toolkit, final Root root, final Widget extrasMenu, final IAssets assets, final CutScenes cutScenes) {
         menu = new Container();
         menu.setBackground(new TexturedBackground(assets.getAnimations("background.png").getFirst().start(PlayMode.LOOP)));
-        IAnimation buttonBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("button");
-        IAnimation buttonFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("focused_button");
+        IAnimation buttonBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_normal");
+        IAnimation buttonFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_survol");
 
         final Button cutscenesButton = new Button(toolkit, "cutscenes.menu.button.intro") {
             @Override
