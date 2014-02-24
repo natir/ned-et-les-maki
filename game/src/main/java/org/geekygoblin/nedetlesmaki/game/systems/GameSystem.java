@@ -31,6 +31,7 @@ import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.ImmutableBag;
 import com.google.inject.Provider;
 
+import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pusher;
@@ -42,28 +43,22 @@ import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.utils.PosOperation;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.game.constants.AnimationType;
-import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
-import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
 
 /**
  *
  * @author natir
  */
 @Singleton
-public class GameSystem extends VoidEntitySystem {
+public class GameSystem {
 
-    private final Provider<ShowLevelMenuTrigger> showLevelMenuTrigger;
     private final EntityIndexManager index;
+    public boolean end;
 
     @Inject
-    public GameSystem(EntityIndexManager index, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger) {
-        this.showLevelMenuTrigger = showLevelMenuTrigger;
+    public GameSystem(EntityIndexManager index) {
         this.index = index;
-    }
-
-    @Override
-    protected void processSystem() {
+        this.end = false;
     }
 
     public ArrayList<Mouvement> moveEntity(Entity e, Position dirP, float baseBefore, boolean nedPush) {
@@ -99,7 +94,7 @@ public class GameSystem extends VoidEntitySystem {
                 if (this.index.isStairs(newP)) {
                     mouv.addAll(nedMoveOnStairs(dirP, e, animTime));
                     if (!mouv.isEmpty()) {
-                        this.endOfLevel();
+                        this.end = true;
                     }
                 }
                 if (this.index.isPusherEntity(e)) {
@@ -246,13 +241,13 @@ public class GameSystem extends VoidEntitySystem {
 
         if (e == this.index.getNed()) {
             if (diff.getX() > 0) {
-                m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_right).setAnimationTime(aT).saveMouvement());
+                m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_mount_stairs_right).setAnimationTime(aT).saveMouvement());
             } else if (diff.getX() < 0) {
-                m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_left).setAnimationTime(aT).saveMouvement());
+                m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_mount_stairs_left).setAnimationTime(aT).saveMouvement());
             } else if (diff.getY() > 0) {
-                m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_down).setAnimationTime(aT).saveMouvement());
+                m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_mount_stairs_down).setAnimationTime(aT).saveMouvement());
             } else if (diff.getY() < 0) {
-                m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_up).setAnimationTime(aT).saveMouvement());
+                m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_mount_stairs_up).setAnimationTime(aT).saveMouvement());
             } else {
                 m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).setAnimationTime(aT).saveMouvement());
             }
@@ -642,21 +637,27 @@ public class GameSystem extends VoidEntitySystem {
         return AnimationType.no;
     }
 
-    private void endOfLevel() {
+    public boolean endOfLevel() {
         ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
 
         Entity ned = this.index.getNed();
         Position nedP = this.index.getPosition(ned);
+        Sprite nedS = this.index.getSprite(ned);
 
         Entity stairs = stairsGroup.get(0);
         Position stairsP = this.index.getPosition(stairs);
         Stairs stairsS = this.index.getStairs(stairs);
 
         if (stairsS.isOpen() && PosOperation.equale(nedP, stairsP)) {
-            if (world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty()) {
-                world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
+            if (!nedS.getPlay().getName().substring(0, 8).equals("ned_mount")) {
+                return false;
+            }
+            System.out.println(nedS.getPlay().getName());
+            if (!nedS.getPlay().isStopped()) {
+                return false;
             }
         }
+        return true;
     }
 
     public void removeMouv() {

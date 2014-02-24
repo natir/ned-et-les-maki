@@ -43,6 +43,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -53,16 +54,18 @@ import org.lwjgl.util.vector.Vector3f;
 public class IngameInputSystem extends EntityProcessingSystem {
 
     private final Provider<ShowMenuTrigger> showMenuTrigger;
+    private final Provider<ShowLevelMenuTrigger> showLevelMenuTrigger;
     private final EntityIndexManager indexSystem;
     private final GameSystem gameSystem;
     private final ActionActivatedDetector mouseClick = new ActionActivatedDetector(new Action("click", new MouseButtonControl(0)));
-    
-        @Mapper
+
+    @Mapper
     ComponentMapper<Sprite> spriteMapper;
 
     @Inject
-    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, EntityIndexManager indexSystem, GameSystem gameSystem) {
+    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, EntityIndexManager indexSystem, GameSystem gameSystem) {
         super(Aspect.getAspectForAll(IngameControls.class));
+        this.showLevelMenuTrigger = showLevelMenuTrigger;
         this.showMenuTrigger = showMenuTrigger;
         this.indexSystem = indexSystem;
         this.gameSystem = gameSystem;
@@ -70,6 +73,11 @@ public class IngameInputSystem extends EntityProcessingSystem {
 
     @Override
     protected void process(Entity e) {
+        if (gameSystem.end) {
+//            if (gameSystem.endOfLevel()) {
+                world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
+//            }
+        }
         if (e.isEnabled()) {
             Game game = (Game) world;
 
@@ -98,17 +106,17 @@ public class IngameInputSystem extends EntityProcessingSystem {
                     int nedY = Math.round(nedPosition.y);
                     int selectedX = Math.round(selectedPosition.x);
                     int selectedY = Math.round(selectedPosition.y);
-                    
-                    if(nedX == selectedX) {
-                        if(nedY<selectedY) {
+
+                    if (nedX == selectedX) {
+                        if (nedY < selectedY) {
                             rightPressed = true;
-                        } else if(nedY>selectedY) {
+                        } else if (nedY > selectedY) {
                             leftPressed = true;
                         }
-                    } else if(nedY == selectedY) {
-                        if(nedX<selectedX) {
+                    } else if (nedY == selectedY) {
+                        if (nedX < selectedX) {
                             downPressed = true;
-                        } else if(nedX>selectedX) {
+                        } else if (nedX > selectedX) {
                             upPressed = true;
                         }
                     }
