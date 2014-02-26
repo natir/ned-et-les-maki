@@ -100,11 +100,13 @@ public class MainMenu extends Component {
                 assets.setIcon("icon.png");
             }
         };
+        videoConfigurator.setBackground(new TexturedBackground(assets.getAnimations("default_menu.png").getFirst().start(PlayMode.LOOP)));
         root.add(videoConfigurator);
     }
 
     private void initAudio() {
         audioConfigurator = new AudioConfigurator(toolkit);
+        audioConfigurator.setBackground(new TexturedBackground(assets.getAnimations("default_menu.png").getFirst().start(PlayMode.LOOP)));
     }
 
     private void initMain() {
@@ -227,6 +229,7 @@ public class MainMenu extends Component {
             }
         });
         optionsMenu.row();
+        optionsMenu.setBackground(new TexturedBackground(assets.getAnimations("default_menu.png").getFirst().start(PlayMode.LOOP)));
         root.add(optionsMenu);
     }
 
@@ -237,6 +240,7 @@ public class MainMenu extends Component {
                 root.show(optionsMenu);
             }
         };
+        menuControls.setBackground(new TexturedBackground(assets.getAnimations("default_menu.png").getFirst().start(PlayMode.LOOP)));
         root.add(menuControls);
     }
 
@@ -247,6 +251,7 @@ public class MainMenu extends Component {
                 root.show(optionsMenu);
             }
         };
+        gameControls.setBackground(new TexturedBackground(assets.getAnimations("default_menu.png").getFirst().start(PlayMode.LOOP)));
         root.add(gameControls);
     }
 
