@@ -73,11 +73,6 @@ public class IngameInputSystem extends EntityProcessingSystem {
 
     @Override
     protected void process(Entity e) {
-        if (gameSystem.end) {
-//            if (gameSystem.endOfLevel()) {
-                world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
-//            }
-        }
         if (e.isEnabled()) {
             Game game = (Game) world;
 

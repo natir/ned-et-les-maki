@@ -22,6 +22,7 @@
 package org.geekygoblin.nedetlesmaki.game.systems;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,7 @@ import com.artemis.systems.VoidEntitySystem;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
 
+import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
@@ -40,7 +42,9 @@ import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.constants.AnimationType;
 import im.bci.jnuit.lwjgl.assets.IAssets;
+import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
+import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
 
 import org.lwjgl.util.vector.Vector3f;
 
@@ -62,16 +66,25 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     private final IAssets assets;
     private int nbIndexSaved;
     private final EntityIndexManager index;
+    private final GameSystem gameSystem;
+    private final Provider<ShowLevelMenuTrigger> showLevelMenuTrigger;
 
     @Inject
-    public UpdateLevelVisualSystem(IAssets assets, EntityIndexManager indexSystem) {
+    public UpdateLevelVisualSystem(IAssets assets, EntityIndexManager indexSystem, GameSystem gameSystem, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger) {
         this.assets = assets;
         this.nbIndexSaved = 0;
         this.index = indexSystem;
+        this.gameSystem = gameSystem;
+        this.showLevelMenuTrigger = showLevelMenuTrigger;
     }
 
     @Override
     protected void processSystem() {
+        if (this.gameSystem.end) {
+            if (gameSystem.endOfLevel()) {
+                world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
+            }
+        }
 
         ArrayList<Mouvement> rm = index.getRemove();
         if (rm != null) {
