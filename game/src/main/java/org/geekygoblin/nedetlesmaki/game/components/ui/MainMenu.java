@@ -39,6 +39,7 @@ import im.bci.jnuit.widgets.VideoConfigurator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import im.bci.jnuit.NuitPreferences;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.animation.IAnimation;
@@ -69,15 +70,19 @@ public class MainMenu extends Component {
     private final IAssets assets;
     private final Game game;
     private final Provider<HideMenuTrigger> hideMenuTrigger;
+    private NuitPreferences preferences;
+    private CutScenes cutscenes;
 
     @Inject
-    public MainMenu(MainLoop mainLoop, Game g, NuitToolkit toolkit, NuitRenderer nuitRenderer, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger, IngameControls ingameControls, CutScenes cutscenes) throws LWJGLException {
+    public MainMenu(MainLoop mainLoop, Game g, NuitToolkit toolkit, NuitRenderer nuitRenderer, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger, IngameControls ingameControls, CutScenes cutscenes, NuitPreferences preferences) throws LWJGLException {
         this.mainLoop = mainLoop;
         this.toolkit = toolkit;
         this.nuitRenderer = nuitRenderer;
         this.assets = assets;
         this.game = g;
         this.hideMenuTrigger = hideMenuTrigger;
+        this.preferences = preferences;
+        this.cutscenes = cutscenes;
         root = new Root(toolkit);
         root.setBackground(new TexturedBackground(MainMenu.this.assets.getAnimations("menu.png").getFirst().start(PlayMode.LOOP)));
         this.levelSelector = levelSelector;
@@ -88,7 +93,7 @@ public class MainMenu extends Component {
         initGameControls(ingameControls);
         initOptions();
         initMain();
-        initExtras(cutscenes);
+        initExtras();
         root.show(mainMenu);
     }
 
@@ -264,7 +269,22 @@ public class MainMenu extends Component {
     }
 
     private void onStartGame() {
-        root.show(levelSelector);
+        if (!preferences.getBoolean("cutscenes.intro.seen", false)) {
+            NedDialogue intro = new NedDialogue(toolkit, assets) {
+
+                @Override
+                public void close() {
+                    super.close();
+                    root.show(levelSelector);
+                }
+
+            };
+            cutscenes.createIntro(intro);
+            root.show(intro);
+            preferences.putBoolean("cutscenes.intro.seen", true);
+        } else {
+            root.show(levelSelector);
+        }
     }
 
     public void show() {
@@ -275,7 +295,7 @@ public class MainMenu extends Component {
         root.show(levelSelector);
     }
 
-    private void initExtras(CutScenes cutscenes) {
+    private void initExtras() {
         extrasMenu = new ExtrasMenu(toolkit, root, mainMenu, assets, cutscenes);
         root.add(extrasMenu);
     }
