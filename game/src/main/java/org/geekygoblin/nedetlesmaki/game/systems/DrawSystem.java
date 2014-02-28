@@ -89,6 +89,7 @@ public class DrawSystem extends EntitySystem {
     private SpriteProjector spriteProjector;
     private final IAssets assets;
     private final Viewport viewPort = new Viewport();
+    private static final float spriteGlobalScale = 2.0f;
 
     @Inject
     public DrawSystem(IAssets assets) {
@@ -195,18 +196,6 @@ public class DrawSystem extends EntitySystem {
         GL11.glVertex2f(x1, y1);
         GL11.glEnd();
         GL11.glPopMatrix();
-
-        /*GL11.glDisable(GL11.GL_TEXTURE_2D);
-         GL11.glBegin(GL11.GL_POINTS);
-
-         GL11.glColor3f(1f, 0f, 0f);
-         GL11.glVertex2f(100, 0);
-         GL11.glColor3f(0f, 1f, 0f);
-         GL11.glVertex2f(0, 100);
-         GL11.glColor3f(1f, 1f, 1f);
-         GL11.glVertex2f(0, 0);
-         GL11.glEnd();
-         GL11.glEnable(GL11.GL_TEXTURE_2D);*/
     }
 
     private void drawSprite(Sprite sprite) {
@@ -214,6 +203,7 @@ public class DrawSystem extends EntitySystem {
         final IPlay play = sprite.getPlay();
         if (null != play) {
             GL11.glPushMatrix();
+            GL11.glScalef(spriteGlobalScale, spriteGlobalScale, 1.0f);
             GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
             GL11.glRotatef(sprite.getRotate(), 0, 0, 1.0f);
             GL11.glScalef(sprite.getScale(), sprite.getScale(), 1);
@@ -265,6 +255,7 @@ public class DrawSystem extends EntitySystem {
         }
         if (null != sprite.getLabel()) {
             GL11.glPushMatrix();
+            GL11.glScalef(spriteGlobalScale, spriteGlobalScale, 1.0f);
             GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
             GL11.glScalef(0.5f, -0.5f, 1f);
             GL11.glEnable(GL11.GL_BLEND);
@@ -294,7 +285,7 @@ public class DrawSystem extends EntitySystem {
                 mouseX += nedPos.x;
                 mouseY += nedPos.y;
             }
-            return spriteProjector.unProject(new Vector2f(mouseX, mouseY));
+            return spriteProjector.unProject(new Vector2f(mouseX / spriteGlobalScale, mouseY / spriteGlobalScale));
         } else {
             return null;
         }
