@@ -649,13 +649,18 @@ public class GameSystem {
         Stairs stairsS = this.index.getStairs(stairs);
 
         if (stairsS.isOpen() && PosOperation.equale(nedP, stairsP)) {
-            if (!nedS.getPlay().getName().substring(0, 9).equals("ned_mount")) {
-                return false;
+
+            if (nedS.getPlay().getName().length() > 9) {
+                if (!nedS.getPlay().getName().substring(0, 9).equals("ned_mount")) {
+                    return false;
+                }
             }
+
             if (!nedS.getPlay().isStopped()) {
                 return false;
             }
         }
+
         return true;
     }
 
