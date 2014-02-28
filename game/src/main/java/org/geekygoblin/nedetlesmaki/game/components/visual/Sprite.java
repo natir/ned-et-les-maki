@@ -43,6 +43,7 @@ public final class Sprite extends Component {
     private boolean mirrorX, mirrorY;
     private Color color = (Color) Color.WHITE;
     private String label;
+    private int zOrder = 0;
 
     public boolean isMirrorX() {
         return mirrorX;
@@ -123,5 +124,14 @@ public final class Sprite extends Component {
     public void setLabel(String label) {
         this.label = label;
     }
+
+    public int getZOrder() {
+        return zOrder;
+    }
+
+    public void setZOrder(int zOrder) {
+        this.zOrder = zOrder;
+    }
+    
 
 }

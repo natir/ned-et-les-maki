@@ -30,11 +30,11 @@ import im.bci.jnuit.animation.IPlay;
  *
  * @author devnewton
  */
-public class Level extends Component {
+public class LevelBackground extends Component {
 
     private final IPlay background;
 
-    public Level(IPlay background) {
+    public LevelBackground(IPlay background) {
         this.background = background;
     }
 

@@ -48,12 +48,10 @@ import im.bci.jnuit.lwjgl.assets.GarbageCollectedAssets;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import im.bci.jnuit.lwjgl.assets.VirtualFileSystem;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
-import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.geekygoblin.nedetlesmaki.game.components.ui.CutScenes;
 import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
 import org.geekygoblin.nedetlesmaki.game.components.ui.LevelSelector;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
-import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
@@ -111,7 +109,6 @@ public class NedModule extends AbstractModule {
     public Entity createMainMenu(Game game, MainMenu mainMenuComponent) {
         Entity mainMenu = game.createEntity();
         mainMenu.addComponent(mainMenuComponent);
-        mainMenu.addComponent(new ZOrder(ZOrders.MENU));
         game.addEntity(mainMenu);
         return mainMenu;
     }

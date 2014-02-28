@@ -29,13 +29,11 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import im.bci.jnuit.animation.IAnimation;
-import im.bci.jnuit.animation.IPlay;
 import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -79,8 +77,8 @@ public class MouseArrowSystem extends EntityProcessingSystem {
                 final Sprite arrowSprite = new Sprite();
                 arrowSprite.setWidth(56);
                 arrowSprite.setHeight(57);
+                arrowSprite.setZOrder(1);
                 arrow.addComponent(arrowSprite);
-                arrow.addComponent(new ZOrder(100));
                 world.addEntity(arrow);
             }
             final Sprite arrowSprite = spriteMapper.get(arrow);

@@ -39,8 +39,7 @@ import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import im.bci.jnuit.lwjgl.assets.TmxAsset;
-import org.geekygoblin.nedetlesmaki.game.components.Level;
-import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
+import org.geekygoblin.nedetlesmaki.game.components.LevelBackground;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Boostable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Movable;
@@ -58,7 +57,6 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.CatchNed;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
-import org.geekygoblin.nedetlesmaki.game.constants.ZOrders;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
@@ -107,8 +105,7 @@ public class StartGameTrigger extends Trigger {
 	this.indexSystem.cleanStack();
 
         Entity level = game.createEntity();
-        level.addComponent(new Level(assets.getAnimations("background.png").getFirst().start(PlayMode.ONCE)));
-        level.addComponent(new ZOrder(ZOrders.LEVEL));
+        level.addComponent(new LevelBackground(assets.getAnimations("background.png").getFirst().start(PlayMode.ONCE)));
         groupManager.add(level, Group.LEVEL);
         game.addEntity(level);
 
@@ -216,7 +213,6 @@ public class StartGameTrigger extends Trigger {
         sprite.setMirrorX(effect.contains(TmxTileInstanceEffect.FLIPPED_HORIZONTALLY));
         sprite.setMirrorX(effect.contains(TmxTileInstanceEffect.FLIPPED_VERTICALLY));
         entity.addComponent(sprite);
-        entity.addComponent(new ZOrder(ZOrders.LEVEL));
         entity.addComponent(new SpritePuppetControls(sprite).moveTo(pos, 2.0f));
         return sprite;
     }
