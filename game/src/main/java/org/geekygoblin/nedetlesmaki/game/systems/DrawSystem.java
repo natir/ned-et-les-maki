@@ -28,16 +28,15 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
+import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
+import com.artemis.utils.Sort;
 import im.bci.jnuit.lwjgl.LwjglHelper;
 import im.bci.jnuit.lwjgl.LwjglNuitFont;
 import im.bci.jnuit.animation.IAnimationFrame;
 import im.bci.jnuit.animation.IAnimationImage;
 import im.bci.jnuit.animation.IPlay;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import im.bci.jnuit.lwjgl.assets.IAssets;
@@ -90,6 +89,17 @@ public class DrawSystem extends EntitySystem {
     private final IAssets assets;
     private final Viewport viewPort = new Viewport();
     private static final float spriteGlobalScale = 2.0f;
+    private final Bag<Entity> entitiesSortedByZ = new Bag<>();
+
+    @Override
+    protected void inserted(Entity e) {
+        entitiesSortedByZ.add(e);
+    }
+
+    @Override
+    protected void removed(Entity e) {
+        entitiesSortedByZ.remove(e);
+    }
 
     @Inject
     public DrawSystem(IAssets assets) {
@@ -101,14 +111,15 @@ public class DrawSystem extends EntitySystem {
     protected void processEntities(ImmutableBag<Entity> entities) {
         GL11.glClearColor(99f / 255f, 201f / 255f, 183f / 255f, 1f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-        List<Entity> entititesSortedByZ = new ArrayList<>(entities.size());
+/*        List<Entity> entititesSortedByZ = new ArrayList<>(entities.size());
         for (int i = 0, n = entities.size(); i < n; ++i) {
             final Entity e = entities.get(i);
             if (e.isEnabled()) {
                 entititesSortedByZ.add(e);
             }
         }
-        Collections.sort(entititesSortedByZ, zComparator);
+        Collections.sort(entititesSortedByZ, zComparator);*/
+        Sort.instance().sort(entitiesSortedByZ, zComparator);
 
         GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_TRANSFORM_BIT | GL11.GL_HINT_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_SCISSOR_BIT | GL11.GL_LINE_BIT | GL11.GL_TEXTURE_BIT);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -138,7 +149,7 @@ public class DrawSystem extends EntitySystem {
             GL11.glTranslatef(-nedPos.x, -nedPos.y, 0.0f);
         }
 
-        for (Entity e : entititesSortedByZ) {
+        for (Entity e : entitiesSortedByZ) {
             MainMenu mainMenu = mainMenuMapper.getSafe(e);
             if (null != mainMenu) {
                 mainMenu.draw();
