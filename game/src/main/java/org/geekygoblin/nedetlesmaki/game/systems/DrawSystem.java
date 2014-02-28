@@ -41,9 +41,8 @@ import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
-import org.geekygoblin.nedetlesmaki.game.components.Level;
+import org.geekygoblin.nedetlesmaki.game.components.LevelBackground;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
-import org.geekygoblin.nedetlesmaki.game.components.ZOrder;
 import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
 import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.game.utils.Viewport;
@@ -60,8 +59,8 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class DrawSystem extends EntitySystem {
 
-    @Mapper
-    ComponentMapper<ZOrder> zOrderMapper;
+        @Mapper
+    ComponentMapper<LevelBackground> levelBackgroundMapper;
     @Mapper
     ComponentMapper<Sprite> spriteMapper;
     @Mapper
@@ -69,18 +68,15 @@ public class DrawSystem extends EntitySystem {
     @Mapper
     ComponentMapper<DialogComponent> dialogMapper;
     @Mapper
-    ComponentMapper<Level> levelMapper;
+    ComponentMapper<LevelBackground> levelMapper;
     private final Comparator<Entity> zComparator = new Comparator<Entity>() {
         @Override
         public int compare(Entity o1, Entity o2) {
-            int result = Integer.compare(zOrderMapper.get(o1).getZ(), zOrderMapper.get(o2).getZ());
+            Sprite s1 = spriteMapper.get(o1);
+            Sprite s2 = spriteMapper.get(o2);
+            int result = Integer.compare(s1.getZOrder(), s2.getZOrder());
             if (result == 0) {
-                Sprite s1 = spriteMapper.get(o1);
-                Sprite s2 = spriteMapper.get(o2);
-                result = Integer.compare(null != s1 ? 1 : 0, null != s2 ? 1 : 0);
-                if (result == 0 && null != s1 && null != s2) {
-                    result = spriteProjector.compare(s1.getPosition(), s2.getPosition());
-                }
+                result = spriteProjector.compare(s1.getPosition(), s2.getPosition());
             }
             return result;
         }
@@ -89,21 +85,31 @@ public class DrawSystem extends EntitySystem {
     private final IAssets assets;
     private final Viewport viewPort = new Viewport();
     private static final float spriteGlobalScale = 2.0f;
-    private final Bag<Entity> entitiesSortedByZ = new Bag<>();
+    private final Bag<Entity> backgrounds = new Bag<>();
+    private final Bag<Entity> sprites = new Bag<>();
+    private final Bag<Entity> uis = new Bag<>();
 
     @Override
     protected void inserted(Entity e) {
-        entitiesSortedByZ.add(e);
+        if(levelBackgroundMapper.has(e)) {
+            backgrounds.add(e);
+        } else if(spriteMapper.has(e)) {
+            sprites.add(e);
+        } else {
+            uis.add(e);
+        }
     }
 
     @Override
     protected void removed(Entity e) {
-        entitiesSortedByZ.remove(e);
+        backgrounds.remove(e);
+        sprites.remove(e);
+        uis.remove(e);
     }
 
     @Inject
     public DrawSystem(IAssets assets) {
-        super(Aspect.getAspectForAll(ZOrder.class).one(Level.class, MainMenu.class, DialogComponent.class, Sprite.class));
+        super(Aspect.getAspectForOne(LevelBackground.class, MainMenu.class, DialogComponent.class, Sprite.class));
         this.assets = assets;
     }
 
@@ -111,15 +117,15 @@ public class DrawSystem extends EntitySystem {
     protected void processEntities(ImmutableBag<Entity> entities) {
         GL11.glClearColor(99f / 255f, 201f / 255f, 183f / 255f, 1f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-/*        List<Entity> entititesSortedByZ = new ArrayList<>(entities.size());
-        for (int i = 0, n = entities.size(); i < n; ++i) {
-            final Entity e = entities.get(i);
-            if (e.isEnabled()) {
-                entititesSortedByZ.add(e);
-            }
-        }
-        Collections.sort(entititesSortedByZ, zComparator);*/
-        Sort.instance().sort(entitiesSortedByZ, zComparator);
+        /*        List<Entity> entititesSortedByZ = new ArrayList<>(entities.size());
+         for (int i = 0, n = entities.size(); i < n; ++i) {
+         final Entity e = entities.get(i);
+         if (e.isEnabled()) {
+         entititesSortedByZ.add(e);
+         }
+         }
+         Collections.sort(entititesSortedByZ, zComparator);*/
+        Sort.instance().sort(sprites, zComparator);
 
         GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_TRANSFORM_BIT | GL11.GL_HINT_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_SCISSOR_BIT | GL11.GL_LINE_BIT | GL11.GL_TEXTURE_BIT);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -149,7 +155,24 @@ public class DrawSystem extends EntitySystem {
             GL11.glTranslatef(-nedPos.x, -nedPos.y, 0.0f);
         }
 
-        for (Entity e : entitiesSortedByZ) {
+        for (Entity e : backgrounds) {
+            LevelBackground level = levelMapper.getSafe(e);
+            if (null != level) {
+                drawLevel(level);
+            }
+        }
+
+        GL11.glPushMatrix();
+        GL11.glScalef(spriteGlobalScale, spriteGlobalScale, 1.0f);
+        for (Entity e : sprites) {
+            Sprite sprite = spriteMapper.getSafe(e);
+            if (null != sprite) {
+                drawSprite(sprite);
+            }
+        }
+        GL11.glPopMatrix();
+
+        for (Entity e : uis) {
             MainMenu mainMenu = mainMenuMapper.getSafe(e);
             if (null != mainMenu) {
                 mainMenu.draw();
@@ -157,14 +180,6 @@ public class DrawSystem extends EntitySystem {
             DialogComponent dialog = dialogMapper.getSafe(e);
             if (null != dialog) {
                 dialog.draw();
-            }
-            Level level = levelMapper.getSafe(e);
-            if (null != level) {
-                drawLevel(level);
-            }
-            Sprite sprite = spriteMapper.getSafe(e);
-            if (null != sprite) {
-                drawSprite(sprite);
             }
         }
         GL11.glPopMatrix();
@@ -179,7 +194,7 @@ public class DrawSystem extends EntitySystem {
         return true;
     }
 
-    private void drawLevel(Level level) {
+    private void drawLevel(LevelBackground level) {
 
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
@@ -214,7 +229,6 @@ public class DrawSystem extends EntitySystem {
         final IPlay play = sprite.getPlay();
         if (null != play) {
             GL11.glPushMatrix();
-            GL11.glScalef(spriteGlobalScale, spriteGlobalScale, 1.0f);
             GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
             GL11.glRotatef(sprite.getRotate(), 0, 0, 1.0f);
             GL11.glScalef(sprite.getScale(), sprite.getScale(), 1);
@@ -270,7 +284,7 @@ public class DrawSystem extends EntitySystem {
             GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
             GL11.glScalef(0.5f, -0.5f, 1f);
             GL11.glEnable(GL11.GL_BLEND);
-            LwjglNuitFont font = (LwjglNuitFont)assets.getFont("prout");
+            LwjglNuitFont font = (LwjglNuitFont) assets.getFont("prout");
             font.drawString(sprite.getLabel(), LwjglNuitFont.Align.CENTER);
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopMatrix();
