@@ -172,21 +172,20 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         } else if (a == AnimationType.ned_waits_boost_left) {
             updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_left"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_mount_stairs_up) {
-            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_up"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_up"))
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX() - 0.3f, 1), animationTime)
+                    .stopAnimation();
         } else if (a == AnimationType.ned_mount_stairs_down) {
-            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_down"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_down"))
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX() + 0.3f, 1), animationTime)
+                    .stopAnimation();
         } else if (a == AnimationType.ned_mount_stairs_right) {
-            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_right"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_right"))
+                    .moveToRelative(new Vector3f(diff.getY() - 0.3f, diff.getX(), 1), animationTime);
         } else if (a == AnimationType.ned_mount_stairs_right) {
-            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_left"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
-                    .waitAnimation();
+            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_left"))
+                    .moveToRelative(new Vector3f(diff.getY() + 0.3f, diff.getX(), 1), animationTime)
+                    .stopAnimation();
         } else if (a == AnimationType.box_destroy) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE);
