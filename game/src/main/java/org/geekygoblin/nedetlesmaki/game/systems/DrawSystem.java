@@ -34,21 +34,20 @@ import com.artemis.utils.Sort;
 import im.bci.jnuit.lwjgl.LwjglHelper;
 import im.bci.jnuit.lwjgl.LwjglNuitFont;
 import im.bci.jnuit.animation.IAnimationFrame;
-import im.bci.jnuit.animation.IAnimationImage;
 import im.bci.jnuit.animation.IPlay;
 import java.util.Comparator;
 import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
-import im.bci.jnuit.lwjgl.assets.IAssets;
+import org.geekygoblin.nedetlesmaki.game.NamedEntities;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.LevelBackground;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
 import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
+import org.geekygoblin.nedetlesmaki.game.utils.SpriteBatcher;
 import org.geekygoblin.nedetlesmaki.game.utils.Viewport;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.Color;
 import org.lwjgl.util.glu.GLU;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -59,7 +58,7 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class DrawSystem extends EntitySystem {
 
-        @Mapper
+    @Mapper
     ComponentMapper<LevelBackground> levelBackgroundMapper;
     @Mapper
     ComponentMapper<Sprite> spriteMapper;
@@ -82,18 +81,20 @@ public class DrawSystem extends EntitySystem {
         }
     };
     private SpriteProjector spriteProjector;
-    private final IAssets assets;
     private final Viewport viewPort = new Viewport();
     private static final float spriteGlobalScale = 2.0f;
     private final Bag<Entity> backgrounds = new Bag<>();
     private final Bag<Entity> sprites = new Bag<>();
     private final Bag<Entity> uis = new Bag<>();
 
+    private final SpriteBatcher spriteBatcher = new SpriteBatcher();
+    private final LwjglNuitFont font;
+
     @Override
     protected void inserted(Entity e) {
-        if(levelBackgroundMapper.has(e)) {
+        if (levelBackgroundMapper.has(e)) {
             backgrounds.add(e);
-        } else if(spriteMapper.has(e)) {
+        } else if (spriteMapper.has(e)) {
             sprites.add(e);
         } else {
             uis.add(e);
@@ -108,23 +109,15 @@ public class DrawSystem extends EntitySystem {
     }
 
     @Inject
-    public DrawSystem(IAssets assets) {
+    public DrawSystem(@NamedEntities.DefaultFont LwjglNuitFont font) {
         super(Aspect.getAspectForOne(LevelBackground.class, MainMenu.class, DialogComponent.class, Sprite.class));
-        this.assets = assets;
+        this.font = font;
     }
 
     @Override
     protected void processEntities(ImmutableBag<Entity> entities) {
         GL11.glClearColor(99f / 255f, 201f / 255f, 183f / 255f, 1f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-        /*        List<Entity> entititesSortedByZ = new ArrayList<>(entities.size());
-         for (int i = 0, n = entities.size(); i < n; ++i) {
-         final Entity e = entities.get(i);
-         if (e.isEnabled()) {
-         entititesSortedByZ.add(e);
-         }
-         }
-         Collections.sort(entititesSortedByZ, zComparator);*/
         Sort.instance().sort(sprites, zComparator);
 
         GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_TRANSFORM_BIT | GL11.GL_HINT_BIT | GL11.GL_COLOR_BUFFER_BIT | GL11.GL_SCISSOR_BIT | GL11.GL_LINE_BIT | GL11.GL_TEXTURE_BIT);
@@ -164,11 +157,13 @@ public class DrawSystem extends EntitySystem {
 
         GL11.glPushMatrix();
         GL11.glScalef(spriteGlobalScale, spriteGlobalScale, 1.0f);
+        spriteBatcher.begin();
         for (Entity e : sprites) {
-            Sprite sprite = spriteMapper.getSafe(e);
-            if (null != sprite) {
-                drawSprite(sprite);
-            }
+            spriteBatcher.draw(spriteMapper.getSafe(e));
+        }
+        spriteBatcher.end();
+        for (Entity e : sprites) {
+            drawSpriteLabel(spriteMapper.getSafe(e));
         }
         GL11.glPopMatrix();
 
@@ -224,67 +219,14 @@ public class DrawSystem extends EntitySystem {
         GL11.glPopMatrix();
     }
 
-    private void drawSprite(Sprite sprite) {
+    private void drawSpriteLabel(Sprite sprite) {
         Vector2f pos = spriteProjector.project(sprite.getPosition());
-        final IPlay play = sprite.getPlay();
-        if (null != play) {
-            GL11.glPushMatrix();
-            GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
-            GL11.glRotatef(sprite.getRotate(), 0, 0, 1.0f);
-            GL11.glScalef(sprite.getScale(), sprite.getScale(), 1);
-            final IAnimationFrame frame = play.getCurrentFrame();
-            final IAnimationImage image = frame.getImage();
-            if (image.hasAlpha()) {
-                GL11.glEnable(GL11.GL_BLEND);
-            }
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, image.getId());
-
-            final float u1, u2;
-            if (sprite.isMirrorX()) {
-                u1 = frame.getU2();
-                u2 = frame.getU1();
-            } else {
-                u1 = frame.getU1();
-                u2 = frame.getU2();
-            }
-
-            final float v1, v2;
-            if (sprite.isMirrorY()) {
-                v1 = frame.getV1();
-                v2 = frame.getV2();
-            } else {
-                v1 = frame.getV2();
-                v2 = frame.getV1();
-            }
-            final Color color = sprite.getColor();
-            GL11.glColor4ub(color.getRedByte(), color.getGreenByte(), color.getBlueByte(), color.getAlphaByte());
-            float x1 = -sprite.getWidth() / 2.0f;
-            float x2 = sprite.getWidth() / 2.0f;
-            float y1 = -sprite.getHeight() / 2.0f;
-            float y2 = sprite.getHeight() / 2.0f;
-            GL11.glBegin(GL11.GL_QUADS);
-            GL11.glTexCoord2f(u1, v1);
-            GL11.glVertex2f(x1, y2);
-            GL11.glTexCoord2f(u2, v1);
-            GL11.glVertex2f(x2, y2);
-            GL11.glTexCoord2f(u2, v2);
-            GL11.glVertex2f(x2, y1);
-            GL11.glTexCoord2f(u1, v2);
-            GL11.glVertex2f(x1, y1);
-            GL11.glEnd();
-            GL11.glColor3f(1f, 1f, 1f);
-            if (image.hasAlpha()) {
-                GL11.glDisable(GL11.GL_BLEND);
-            }
-            GL11.glPopMatrix();
-        }
         if (null != sprite.getLabel()) {
             GL11.glPushMatrix();
             GL11.glScalef(spriteGlobalScale, spriteGlobalScale, 1.0f);
             GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
             GL11.glScalef(0.5f, -0.5f, 1f);
             GL11.glEnable(GL11.GL_BLEND);
-            LwjglNuitFont font = (LwjglNuitFont) assets.getFont("prout");
             font.drawString(sprite.getLabel(), LwjglNuitFont.Align.CENTER);
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glPopMatrix();
@@ -293,6 +235,7 @@ public class DrawSystem extends EntitySystem {
 
     public void setSpriteProjector(SpriteProjector spriteProjector) {
         this.spriteProjector = spriteProjector;
+        this.spriteBatcher.setSpriteProjector(spriteProjector);
     }
 
     public SpriteProjector getSpriteProjector() {
