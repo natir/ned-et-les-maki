@@ -81,7 +81,7 @@ public class SpriteBatcher {
             }
 
             final float rotate = sprite.getRotate();
-            if (rotate == 0.0f) {
+            if (Math.abs(rotate % (Math.PI * 2.0f)) < 0.0001f) {
                 float x1 = pos.x - w;
                 float x2 = pos.x + w;
                 float y1 = pos.y - h;
