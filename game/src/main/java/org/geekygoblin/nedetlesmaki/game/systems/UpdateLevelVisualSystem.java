@@ -164,13 +164,22 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_waits_boost_up) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_up"), PlayMode.ONCE);
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_up"), PlayMode.ONCE)
+                    .waitAnimation()
+                    .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_up"), PlayMode.ONCE);
+            
         } else if (a == AnimationType.ned_waits_boost_down) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_down"), PlayMode.ONCE);
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_down"), PlayMode.ONCE)
+                    .waitAnimation()
+                    .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_down"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_waits_boost_right) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_right"), PlayMode.ONCE);
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_right"), PlayMode.ONCE)
+                    .waitAnimation()
+                    .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_right"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_waits_boost_left) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_left"), PlayMode.ONCE);
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_left"), PlayMode.ONCE)
+                    .waitAnimation()
+                    .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_left"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_mount_stairs_up) {
             updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_up"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX() - 0.3f, 1), animationTime)
