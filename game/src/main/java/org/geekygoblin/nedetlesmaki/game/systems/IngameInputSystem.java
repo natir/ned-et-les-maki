@@ -92,7 +92,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 boolean downPressed = controls.getDown().isPressed();
                 boolean leftPressed = controls.getLeft().isPressed();
                 boolean rightPressed = controls.getRight().isPressed();
-                boolean retPressed = controls.getRewind().isPressed();
+                boolean rewindPressed = controls.getRewind().isPressed();
                 Entity ned = game.getNed();
                 if (mouseClick.isPressed()) {
                     Vector3f selectedPosition = game.getSystem(MouseArrowSystem.class).getSelectedSprite().getPosition();
@@ -129,7 +129,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 } else if (rightPressed) {
                     indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0), 0, false));
                     ned.changedInWorld();
-                } else if (retPressed) {
+                } else if (rewindPressed) {
                     gameSystem.removeMouv();
                     ned.changedInWorld();
                 }
