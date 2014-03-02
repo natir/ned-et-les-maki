@@ -27,9 +27,8 @@ import com.google.inject.Singleton;
 import java.util.ArrayList;
 
 import com.artemis.Entity;
-import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.ImmutableBag;
-import com.google.inject.Provider;
+
 
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
