@@ -80,21 +80,44 @@ public class SpriteBatcher {
                 v2 = frame.getV1();
             }
 
-            /*final Color color = sprite.getColor();
-             colors.put(color.getRedByte());
-             colors.put(color.getGreenByte());
-             colors.put(color.getBlueByte());
-             colors.put(color.getAlphaByte());*/
-            float x1 = pos.x - w;
-            float x2 = pos.x + w;
-            float y1 = pos.y - h;
-            float y2 = pos.y + h;
+            final float rotate = sprite.getRotate();
+            if (rotate == 0.0f) {
+                float x1 = pos.x - w;
+                float x2 = pos.x + w;
+                float y1 = pos.y - h;
+                float y2 = pos.y + h;
+                vertex(x1, y2, u1, v1);
+                vertex(x2, y2, u2, v1);
+                vertex(x2, y1, u2, v2);
+                vertex(x1, y1, u1, v2);
+            } else {
+                float cosr = (float) Math.cos(rotate);
+                float sinr = (float) Math.sin(rotate);
+                float x1 = pos.x + -w * cosr - h * sinr;
+                float y1 = pos.y + h * cosr + -w * sinr;
+                float x2 = pos.x + w * cosr - h * sinr;
+                float y2 = pos.y + h * cosr + w * sinr;
+                float x3 = pos.x + w * cosr - -h * sinr;
+                float y3 = pos.y + -h * cosr + w * sinr;
+                float x4 = pos.x + -w * cosr - -h * sinr;
+                float y4 = pos.y + -h * cosr + -w * sinr;
+                
+                vertex(x1, y1, u1, v1);
+                vertex(x2, y2, u2, v1);
+                vertex(x3, y3, u2, v2);
+                vertex(x4, y4, u1, v2);
+                /*float x1 = -w;
+                float y1 = h;
+                float x2 = w;
+                float y2 = h;
+                float x3 = w;
+                float y3 = -h;
+                float x4 = -w;
+                float y4 = -h;*/
+            }
 
-            vertex(x1, y2, u1, v1);
-            vertex(x2, y2, u2, v1);
-            vertex(x2, y1, u2, v2);
-            vertex(x1, y1, u1, v2);
-
+            //x' = x cos f - y sin f
+            //y' = y cos f + x sin f
             ++currentSpriteInBatch;
         }
     }
