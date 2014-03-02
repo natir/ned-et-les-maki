@@ -39,7 +39,7 @@ public final class Sprite extends Component {
     private IPlay play;
     private Vector3f position;
     private float width, height;
-    private float scale = 1.0f;
+    private float scale = 1.0f, rotate = 0.0f;
     private boolean mirrorX, mirrorY;
     private Color color = (Color) Color.WHITE;
     private String label;
@@ -124,6 +124,12 @@ public final class Sprite extends Component {
     public void setZOrder(int zOrder) {
         this.zOrder = zOrder;
     }
-    
 
+    public float getRotate() {
+        return rotate;
+    }
+
+    public void setRotate(float rotate) {
+        this.rotate = rotate;
+    }
 }
