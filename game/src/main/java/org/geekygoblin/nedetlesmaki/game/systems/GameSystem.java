@@ -118,7 +118,7 @@ public class GameSystem {
                                     mouv.addAll(recMouv);
                                     if (!this.index.isCatchNed(nextE)) {
                                         mouv.addAll(runValideMove(dirP, e, true, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
-                                        if (recMouv.size() > 1) {
+                                        if (recMouv.size() > 2) {
                                             mouv.add(new Mouvement(nedEntity).setAnimation(this.nedWaitBoostChoice(dirP)).saveMouvement());
                                         }
                                     }
