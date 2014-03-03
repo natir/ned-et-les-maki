@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 
-
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;
