@@ -34,7 +34,6 @@ import com.artemis.systems.VoidEntitySystem;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
 
-import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
@@ -167,7 +166,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_up"), PlayMode.ONCE)
                     .waitAnimation()
                     .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_up"), PlayMode.ONCE);
-            
+
         } else if (a == AnimationType.ned_waits_boost_down) {
             updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_down"), PlayMode.ONCE)
                     .waitAnimation()
@@ -190,8 +189,9 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .stopAnimation();
         } else if (a == AnimationType.ned_mount_stairs_right) {
             updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_right"))
-                    .moveToRelative(new Vector3f(diff.getY() - 0.3f, diff.getX(), 1), animationTime);
-        } else if (a == AnimationType.ned_mount_stairs_right) {
+                    .moveToRelative(new Vector3f(diff.getY() + 0.3f, diff.getX(), 1), animationTime)
+                    .stopAnimation();
+        } else if (a == AnimationType.ned_mount_stairs_left) {
             updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_left"))
                     .moveToRelative(new Vector3f(diff.getY() + 0.3f, diff.getX(), 1), animationTime)
                     .stopAnimation();
@@ -376,6 +376,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         }
 
         e.addComponent(updatable);
+
         e.changedInWorld();
     }
 }
