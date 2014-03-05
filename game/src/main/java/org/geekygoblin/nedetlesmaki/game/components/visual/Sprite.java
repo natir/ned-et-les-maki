@@ -85,14 +85,6 @@ public final class Sprite extends Component {
         this.scale = scale;
     }
 
-    public float getRotate() {
-        return rotate;
-    }
-
-    public void setRotate(float rotate) {
-        this.rotate = rotate;
-    }
-
     public float getWidth() {
         return width;
     }
@@ -132,6 +124,12 @@ public final class Sprite extends Component {
     public void setZOrder(int zOrder) {
         this.zOrder = zOrder;
     }
-    
 
+    public float getRotate() {
+        return rotate;
+    }
+
+    public void setRotate(float rotate) {
+        this.rotate = rotate;
+    }
 }
