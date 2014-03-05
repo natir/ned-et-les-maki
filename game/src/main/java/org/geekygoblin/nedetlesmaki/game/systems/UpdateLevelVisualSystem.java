@@ -82,6 +82,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         if (this.gameSystem.end) {
             if (gameSystem.endOfLevel()) {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
+                this.gameSystem.end = false;
             }
         }
 
