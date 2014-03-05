@@ -86,6 +86,17 @@ public class NedNuitTranslator extends NuitTranslator {
         addTranslation(NuitLocale.ENGLISH, "action.right", "Right");
         addTranslation(NuitLocale.ENGLISH, "action.rewind", "Rewind");
         addTranslation(NuitLocale.ENGLISH, "action.menu", "Menu");
+
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.01", "");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.02", "Ned pulled round in a world unknown to him. ");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.03", "");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.04", "He began to explore.");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.05", "Doing so, he found out what appeared to be a residential complex.");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.06", "");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.07", "Individuals were not slow to show. ");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.08", "Without further explanation, the indigenous creatures urged him unceremoniously into some tower.");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.09", "");
+        addTranslation(NuitLocale.ENGLISH, "dialog.intro.10", "Thus, began the adventures of Ned among the spirimonsters.");
         
         addTranslation(NuitLocale.ENGLISH, "dialog.credits.devnewton", "Main developer - http://devnewton.bci.im");
         addTranslation(NuitLocale.ENGLISH, "dialog.credits.natir", "Natir : The man in the dressing gown");

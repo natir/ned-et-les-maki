@@ -34,7 +34,6 @@ import com.artemis.systems.VoidEntitySystem;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
 
-import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
@@ -83,6 +82,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         if (this.gameSystem.end) {
             if (gameSystem.endOfLevel()) {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
+                this.gameSystem.end = false;
             }
         }
 
@@ -164,13 +164,22 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_waits_boost_up) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_up"), PlayMode.ONCE);
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_up"), PlayMode.ONCE)
+                    .waitAnimation()
+                    .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_up"), PlayMode.ONCE);
+
         } else if (a == AnimationType.ned_waits_boost_down) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_down"), PlayMode.ONCE);
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_down"), PlayMode.ONCE)
+                    .waitAnimation()
+                    .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_down"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_waits_boost_right) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_right"), PlayMode.ONCE);
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_right"), PlayMode.ONCE)
+                    .waitAnimation()
+                    .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_right"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_waits_boost_left) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_left"), PlayMode.ONCE);
+            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_left"), PlayMode.ONCE)
+                    .waitAnimation()
+                    .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_left"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_mount_stairs_up) {
             updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_up"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX() - 0.3f, 1), animationTime)
@@ -181,8 +190,9 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .stopAnimation();
         } else if (a == AnimationType.ned_mount_stairs_right) {
             updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_right"))
-                    .moveToRelative(new Vector3f(diff.getY() - 0.3f, diff.getX(), 1), animationTime);
-        } else if (a == AnimationType.ned_mount_stairs_right) {
+                    .moveToRelative(new Vector3f(diff.getY() + 0.3f, diff.getX(), 1), animationTime)
+                    .stopAnimation();
+        } else if (a == AnimationType.ned_mount_stairs_left) {
             updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_left"))
                     .moveToRelative(new Vector3f(diff.getY() + 0.3f, diff.getX(), 1), animationTime)
                     .stopAnimation();
@@ -241,21 +251,25 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
         } else if (a == AnimationType.stairs_close_up) {
+            index.getStairs(e).setStairs(false);
             updatable.waitDuring(waitBefore)
                     .startAnimation(stairsAnim.getAnimationByName("stairs_up_close"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
         } else if (a == AnimationType.stairs_close_down) {
+            index.getStairs(e).setStairs(false);
             updatable.waitDuring(waitBefore)
                     .startAnimation(stairsAnim.getAnimationByName("stairs_down_close"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
         } else if (a == AnimationType.stairs_close_left) {
+            index.getStairs(e).setStairs(false);
             updatable.waitDuring(waitBefore)
                     .startAnimation(stairsAnim.getAnimationByName("stairs_left_close"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
         } else if (a == AnimationType.stairs_close_right) {
+            index.getStairs(e).setStairs(false);
             updatable.waitDuring(waitBefore)
                     .startAnimation(stairsAnim.getAnimationByName("stairs_right_close"), PlayMode.ONCE)
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime)
@@ -363,6 +377,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         }
 
         e.addComponent(updatable);
+
         e.changedInWorld();
     }
 }

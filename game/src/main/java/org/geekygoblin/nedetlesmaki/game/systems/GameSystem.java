@@ -27,9 +27,7 @@ import com.google.inject.Singleton;
 import java.util.ArrayList;
 
 import com.artemis.Entity;
-import com.artemis.systems.VoidEntitySystem;
 import com.artemis.utils.ImmutableBag;
-import com.google.inject.Provider;
 
 import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
@@ -119,7 +117,7 @@ public class GameSystem {
                                     mouv.addAll(recMouv);
                                     if (!this.index.isCatchNed(nextE)) {
                                         mouv.addAll(runValideMove(dirP, e, true, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
-                                        if (recMouv.size() > 1) {
+                                        if (recMouv.size() > 2) {
                                             mouv.add(new Mouvement(nedEntity).setAnimation(this.nedWaitBoostChoice(dirP)).saveMouvement());
                                         }
                                     }
