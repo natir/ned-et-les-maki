@@ -31,7 +31,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.managers.GroupManager;
 import com.artemis.utils.ImmutableBag;
 import org.geekygoblin.nedetlesmaki.game.Group;
-import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import im.bci.jnuit.artemis.sprite.Sprite;
 
 /**
  *

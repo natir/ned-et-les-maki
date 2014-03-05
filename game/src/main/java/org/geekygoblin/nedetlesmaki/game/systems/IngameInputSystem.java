@@ -42,9 +42,10 @@ import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
-import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import im.bci.jnuit.artemis.sprite.Sprite;
 import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
 import org.lwjgl.util.vector.Vector3f;
+import pythagoras.f.Vector3;
 
 /**
  *
@@ -95,8 +96,8 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 boolean rewindPressed = controls.getRewind().isPressed();
                 Entity ned = game.getNed();
                 if (mouseClick.isPressed()) {
-                    Vector3f selectedPosition = game.getSystem(MouseArrowSystem.class).getSelectedSprite().getPosition();
-                    Vector3f nedPosition = spriteMapper.get(ned).getPosition();
+                    Vector3 selectedPosition = game.getSystem(MouseArrowSystem.class).getSelectedSprite().getPosition();
+                    Vector3 nedPosition = spriteMapper.get(ned).getPosition();
                     int nedX = Math.round(nedPosition.x);
                     int nedY = Math.round(nedPosition.y);
                     int selectedX = Math.round(selectedPosition.x);

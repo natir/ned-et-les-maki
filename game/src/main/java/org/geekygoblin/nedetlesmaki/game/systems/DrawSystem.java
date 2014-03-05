@@ -23,6 +23,7 @@
  */
 package org.geekygoblin.nedetlesmaki.game.systems;
 
+import im.bci.jnuit.artemis.sprite.SpriteProjector;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -39,18 +40,18 @@ import java.util.Comparator;
 import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
-import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import im.bci.jnuit.artemis.sprite.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.LevelBackground;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
 import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
-import org.geekygoblin.nedetlesmaki.game.utils.SpriteBatcher;
+import im.bci.jnuit.lwjgl.sprite.SpriteBatcher;
 import org.geekygoblin.nedetlesmaki.game.utils.Viewport;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
+import pythagoras.f.Vector;
+import pythagoras.f.Vector3;
 
 /**
  *
@@ -144,7 +145,7 @@ public class DrawSystem extends EntitySystem {
         Entity ned = game.getNed();
         if (null != ned) {
             Sprite nedSprite = spriteMapper.get(ned);
-            Vector2f nedPos = spriteProjector.project(nedSprite.getPosition());
+            Vector nedPos = spriteProjector.project(nedSprite.getPosition());
             GL11.glTranslatef(-nedPos.x, -nedPos.y, 0.0f);
         }
 
@@ -196,7 +197,7 @@ public class DrawSystem extends EntitySystem {
         IPlay backgroundAnimationPlay = level.getBackground();
         backgroundAnimationPlay.update((long) (world.getDelta() * 1000L));
         final IAnimationFrame currentFrame = backgroundAnimationPlay.getCurrentFrame();
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, currentFrame.getImage().getId());
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, (Integer)currentFrame.getImage().getId());
         float x1 = -VirtualResolution.WIDTH / 2.0f;
         float x2 = VirtualResolution.WIDTH / 2.0f;
         float y1 = VirtualResolution.HEIGHT / 2.0f;
@@ -220,11 +221,11 @@ public class DrawSystem extends EntitySystem {
     }
 
     private void drawSpriteLabel(Sprite sprite) {
-        Vector2f pos = spriteProjector.project(sprite.getPosition());
+        Vector pos = spriteProjector.project(sprite.getPosition());
         if (null != sprite.getLabel()) {
             GL11.glPushMatrix();
             GL11.glScalef(spriteGlobalScale, spriteGlobalScale, 1.0f);
-            GL11.glTranslatef(pos.getX(), pos.getY(), 0.0f);
+            GL11.glTranslatef(pos.x, pos.y, 0.0f);
             GL11.glScalef(0.5f, -0.5f, 1f);
             GL11.glEnable(GL11.GL_BLEND);
             font.drawString(sprite.getLabel(), LwjglNuitFont.Align.CENTER);
@@ -242,18 +243,18 @@ public class DrawSystem extends EntitySystem {
         return spriteProjector;
     }
 
-    public Vector3f getMouseSpritePos(int yAdjust) {
+    public Vector3 getMouseSpritePos(int yAdjust) {
         if (null != spriteProjector) {
             float mouseX = (Mouse.getX() - viewPort.x) * VirtualResolution.WIDTH / viewPort.width - VirtualResolution.WIDTH / 2.0f;
             float mouseY = VirtualResolution.HEIGHT - ((Mouse.getY() + yAdjust - viewPort.y) * VirtualResolution.HEIGHT / viewPort.height) - VirtualResolution.HEIGHT / 2.0f;
             Entity ned = ((Game) world).getNed();
             if (null != ned) {
                 Sprite nedSprite = spriteMapper.get(ned);
-                Vector2f nedPos = spriteProjector.project(nedSprite.getPosition());
+                Vector nedPos = spriteProjector.project(nedSprite.getPosition());
                 mouseX += nedPos.x;
                 mouseY += nedPos.y;
             }
-            return spriteProjector.unProject(new Vector2f(mouseX / spriteGlobalScale, mouseY / spriteGlobalScale));
+            return spriteProjector.unProject(new Vector(mouseX / spriteGlobalScale, mouseY / spriteGlobalScale));
         } else {
             return null;
         }
