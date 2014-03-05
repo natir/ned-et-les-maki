@@ -544,7 +544,6 @@ public class GameSystem {
     }
 
     private ArrayList<Mouvement> tryPlate() {
-        System.out.println("Try plate is called");
         ImmutableBag<Entity> plateGroup = this.index.getAllPlate();
 
         ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
