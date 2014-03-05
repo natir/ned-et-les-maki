@@ -34,6 +34,7 @@ import java.io.File;
 import java.util.Random;
 
 import com.google.inject.Singleton;
+import im.bci.jnuit.NuitAudio;
 import im.bci.jnuit.NuitControls;
 import im.bci.jnuit.NuitDisplay;
 import im.bci.jnuit.NuitPreferences;
@@ -47,6 +48,7 @@ import im.bci.jnuit.lwjgl.assets.AssetsLoader;
 import im.bci.jnuit.lwjgl.assets.GarbageCollectedAssets;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import im.bci.jnuit.lwjgl.assets.VirtualFileSystem;
+import im.bci.jnuit.lwjgl.audio.OpenALNuitAudio;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.ui.CutScenes;
 import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
@@ -88,19 +90,30 @@ public class NedModule extends AbstractModule {
         bind(CutScenes.class);
         bind(Random.class).toInstance(new Random(42));
     }
-    
+
     @Provides
     @Singleton
     public NuitPreferences createPreferences(NuitControls controls) {
         return new LwjglNuitPreferences(controls, "nedetlesmaki");
     }
+
+        @Provides
+    @Singleton
+    public VirtualFileSystem createVfs() {
+        File applicationDir = Main.getApplicationDir();
+        return new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data"));
+    }
     
     @Provides
     @Singleton
-    public IAssets createAssets() {
-        File applicationDir = Main.getApplicationDir();
-        VirtualFileSystem vfs = new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data"));
+    public IAssets createAssets(VirtualFileSystem vfs) {
         return new GarbageCollectedAssets(new AssetsLoader(vfs));
+    }
+
+    @Provides
+    @Singleton
+    public NuitAudio createAudio(VirtualFileSystem vfs) {
+        return new OpenALNuitAudio(vfs);
     }
 
     @Provides
@@ -116,7 +129,7 @@ public class NedModule extends AbstractModule {
     @Provides
     @NamedEntities.DefaultFont
     public LwjglNuitFont createDefaultFont(IAssets assets) {
-        return assets.getFont("ProFontWindows.ttf,32,bold,antialiasing");
+        return (LwjglNuitFont) assets.getFont("ProFontWindows.ttf,32,bold,antialiasing");
     }
 
     @Provides
