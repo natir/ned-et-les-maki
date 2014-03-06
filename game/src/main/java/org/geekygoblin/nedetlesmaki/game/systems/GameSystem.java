@@ -691,6 +691,10 @@ public class GameSystem {
 
                 rm.add(new Mouvement(head.get(i).getEntity()).setAnimation(invertAnim).setPosition(diff).setAnimationTime(head.get(i).getAnimationTime(j)).saveMouvement());
 
+                if(invertAnim == AnimationType.maki_blue_out || invertAnim == AnimationType.maki_orange_out || invertAnim == AnimationType.maki_green_out) {
+                    this.index.getSquare(current.getX(), current.getY()).getWith(Plate.class).get(0).getComponent(Plate.class).setMaki(false);
+                }
+                
                 this.index.moveEntity(current.getX(), current.getY(), current.getX() + diff.getX(), current.getY() + diff.getY());
                 head.get(i).getEntity().getComponent(Position.class).setX(current.getX() + diff.getX());
                 head.get(i).getEntity().getComponent(Position.class).setY(current.getY() + diff.getY());
