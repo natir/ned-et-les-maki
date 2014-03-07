@@ -708,6 +708,8 @@ public class GameSystem {
             }
         }
 
+        Collections.reverse(rm);
+        
         this.index.setRemove(rm);
 
         if (reCall) {
