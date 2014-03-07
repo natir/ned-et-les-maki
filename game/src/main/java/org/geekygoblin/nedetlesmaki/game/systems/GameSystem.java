@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
@@ -665,6 +666,8 @@ public class GameSystem {
         boolean reCall = false;
 
         ArrayList<Mouvement> head = this.index.pop();
+
+        Collections.reverse(head);
 
         if (head == null) {
             return;
