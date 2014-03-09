@@ -149,7 +149,7 @@ public class GameSystem {
         }
 
         if (this.index.nedIsCatched(e)) {
-            mouv.add(new Mouvement(this.index.getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).saveMouvement());
+            mouv.add(new Mouvement(this.index.getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).setAnimationTime(this.calculateAnimationTime(baseBefore, 2)).saveMouvement());
         }
 
         return mouv;
@@ -213,7 +213,7 @@ public class GameSystem {
                 if (this.index.isCatchNed(e) && pusherIsNed) {
                     if (index.moveEntity(oldP.getX() - diff.getX(), oldP.getY() - diff.getY(), oldP.getX(), oldP.getY())) {
                         if (pusherIsNed) {
-                            m.add(new Mouvement(ned).setPosition(diff).setAnimation(this.getFlyAnimation(pas, diff)).setBeforeWait(bw).setAnimationTime(aT - 0.05f).saveMouvement());
+                            m.add(new Mouvement(ned).setPosition(diff).setAnimation(this.getFlyAnimation(pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
 
                             this.index.getCatchNed(e).nedCatched(true);
 
@@ -802,7 +802,12 @@ public class GameSystem {
     }
 
     float calculateAnimationTime(float base, int mul) {
-        return base * ((float) Math.pow(base, mul / 1.5));
+        //return base * ((float) Math.pow(base, mul / 1.5));
+        if(mul > 1) {
+            return base / 3f;
+        } else {
+            return base;
+        }
     }
 
     float beforeTime(float base, int mul) {
