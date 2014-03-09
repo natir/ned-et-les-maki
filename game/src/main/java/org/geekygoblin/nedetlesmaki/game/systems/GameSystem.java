@@ -577,43 +577,42 @@ public class GameSystem {
     }
 
     private ArrayList<Mouvement> stairsAnimation(Entity stairs, Stairs stairsS, boolean open) {
-        System.out.println("stairs Animation is called");
         ArrayList<Mouvement> tmpm = new ArrayList();
 
         switch (stairsS.getDir()) {
             case 1:
                 if (open) {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_up).setAnimationTime(0.5f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_up).setAnimationTime(0.6f).saveMouvement());
                 } else {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_up).setAnimationTime(0.5f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_up).setAnimationTime(0.6f).saveMouvement());
                 }
                 break;
             case 2:
                 if (open) {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_down).setAnimationTime(0.5f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_down).setAnimationTime(0.6f).saveMouvement());
                 } else {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_down).setAnimationTime(0.5f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_down).setAnimationTime(0.6f).saveMouvement());
                 }
                 break;
             case 3:
                 if (open) {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_left).setAnimationTime(0.5f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_left).setAnimationTime(0.6f).saveMouvement());
                 } else {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_left).setAnimationTime(0.5f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_left).setAnimationTime(0.6f).saveMouvement());
                 }
                 break;
             case 4:
                 if (open) {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_right).setAnimationTime(0.5f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_right).setAnimationTime(0.6f).saveMouvement());
                 } else {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_right).setAnimationTime(0.5f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_right).setAnimationTime(0.6f).saveMouvement());
                 }
                 break;
             default:
                 if (open) {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_up).setAnimationTime(0.5f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_up).setAnimationTime(0.6f).saveMouvement());
                 } else {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_up).setAnimationTime(0.5f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_up).setAnimationTime(0.6f).saveMouvement());
                 }
         }
 
@@ -647,19 +646,14 @@ public class GameSystem {
         Stairs stairsS = this.index.getStairs(stairs);
 
         if (stairsS.isOpen() && PosOperation.equale(nedP, stairsP)) {
-
             if (nedS.getPlay().getName().length() > 9) {
-                if (!nedS.getPlay().getName().substring(0, 9).equals("ned_mount")) {
-                    return false;
+                if (nedS.getPlay().getName().substring(0, 9).equals("ned_mount") && nedS.getPlay().isStopped()) {
+                    return true;
                 }
-            }
-
-            if (!nedS.getPlay().isStopped()) {
-                return false;
             }
         }
 
-        return true;
+        return false;
     }
 
     public void removeMouv() {
