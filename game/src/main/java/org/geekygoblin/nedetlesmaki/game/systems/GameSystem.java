@@ -140,6 +140,12 @@ public class GameSystem {
                     e.getComponent(Pusher.class).setPusher(false);
                 }
 
+                if (mouv.size() == 3 && this.isBeginFly(mouv.get(1).getAnimation(0)) && this.isEndFly(mouv.get(2).getAnimation(0))) {
+                    mouv.remove(2);
+                    mouv.remove(1);
+                    mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(AnimationType.no).setAnimationTime(this.calculateAnimationTime(baseBefore, 0)).saveMouvement());
+                }
+
                 return mouv;
             }
         }
@@ -152,7 +158,21 @@ public class GameSystem {
             mouv.add(new Mouvement(this.index.getNed()).setAnimation(this.getFlyAnimation(-1, dirP)).setAnimationTime(this.calculateAnimationTime(baseBefore, 2)).saveMouvement());
         }
 
+        if (mouv.size() == 3 && this.isBeginFly(mouv.get(1).getAnimation(0)) && this.isEndFly(mouv.get(2).getAnimation(0))) {
+            mouv.remove(2);
+            mouv.remove(1);
+            mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(AnimationType.no).setAnimationTime(this.calculateAnimationTime(baseBefore, 0)).saveMouvement());
+        }
+
         return mouv;
+    }
+
+    private boolean isBeginFly(AnimationType a) {
+        return a.equals(AnimationType.fly_start_down) || a.equals(AnimationType.fly_start_left) || a.equals(AnimationType.fly_start_right) || a.equals(AnimationType.fly_start_up);
+    }
+
+    private boolean isEndFly(AnimationType a) {
+        return a.equals(AnimationType.fly_stop_down) || a.equals(AnimationType.fly_stop_left) || a.equals(AnimationType.fly_stop_right) || a.equals(AnimationType.fly_stop_up);
     }
 
     private ArrayList<Mouvement> runValideMove(Position diff, Entity e, boolean push, float bw, float aT, int pas, boolean boosted, boolean pusherIsNed) {
@@ -688,10 +708,10 @@ public class GameSystem {
 
                 rm.add(new Mouvement(head.get(i).getEntity()).setAnimation(invertAnim).setPosition(diff).setAnimationTime(head.get(i).getAnimationTime(j)).saveMouvement());
 
-                if(invertAnim == AnimationType.maki_blue_out || invertAnim == AnimationType.maki_orange_out || invertAnim == AnimationType.maki_green_out) {
+                if (invertAnim == AnimationType.maki_blue_out || invertAnim == AnimationType.maki_orange_out || invertAnim == AnimationType.maki_green_out) {
                     this.index.getSquare(current.getX(), current.getY()).getWith(Plate.class).get(0).getComponent(Plate.class).setMaki(false);
                 }
-                
+
                 this.index.moveEntity(current.getX(), current.getY(), current.getX() + diff.getX(), current.getY() + diff.getY());
                 head.get(i).getEntity().getComponent(Position.class).setX(current.getX() + diff.getX());
                 head.get(i).getEntity().getComponent(Position.class).setY(current.getY() + diff.getY());
@@ -703,7 +723,7 @@ public class GameSystem {
         }
 
         Collections.reverse(rm);
-        
+
         this.index.setRemove(rm);
 
         if (reCall) {
@@ -796,7 +816,7 @@ public class GameSystem {
     }
 
     float calculateAnimationTime(float base, int mul) {
-        if(mul > 0 ){
+        if (mul > 0) {
             return base / 3f;
         } else {
             return base;
