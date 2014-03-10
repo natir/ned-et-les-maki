@@ -102,7 +102,7 @@ public class StartGameTrigger extends Trigger {
             entitiesToDelete.add(e);
         }
         this.indexSystem.cleanIndex();
-	this.indexSystem.cleanStack();
+        this.indexSystem.cleanStack();
 
         Entity level = game.createEntity();
         level.addComponent(new LevelBackground(assets.getAnimations("background.png").getFirst().start(PlayMode.ONCE)));
@@ -137,42 +137,44 @@ public class StartGameTrigger extends Trigger {
 
     private Entity createEntityFromTile(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         switch (tile.getTile().getProperty("type", "decoration")) {
-	case "ned":
-	    return createNed(tile, game, tmx, x, y, l, layer);
-	case "green_maki":
-	    return createGreenMaki(tile, game, tmx, x, y, l, layer);
-	case "orange_maki":
-	    return createOrangeMaki(tile, game, tmx, x, y, l, layer);
-	case "blue_maki":
-	    return createBlueMaki(tile, game, tmx, x, y, l, layer);
-	case "green_maki_on_plate":
-	    return createGreenMakiOnPlate(tile, game, tmx, x, y, l, layer);
-	case "orange_maki_on_plate":
-	    return createOrangeMakiOnPlate(tile, game, tmx, x, y, l, layer);
-	case "blue_maki_on_plate":
-	    return createBlueMakiOnPlate(tile, game, tmx, x, y, l, layer);
-	case "box":
-	    return createBox(tile, game, tmx, x, y, l, layer);
-	case "rooted_box":
-	    return createRootedBox(tile, game, tmx, x, y, l, layer);
-	case "wall":
-	    return createWall(tile, game, tmx, x, y, l, layer);
-	case "green_plate":
-	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.green, false);
-	case "orange_plate":
-	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange, false);
-	case "blue_plate":
-	    return createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue, false);
-                  case "stairs_close_up":
-	    return createStairs(tile, game, tmx, x, y, l, layer, 1);
-	case "stairs_close_down":
-	    return createStairs(tile, game, tmx, x, y, l, layer, 2);
-                  case "stairs_close_left":
-	    return createStairs(tile, game, tmx, x, y, l, layer, 3);
-                  case "stairs_close_right":
-	    return createStairs(tile, game, tmx, x, y, l, layer, 4);
-	default:
-	    return createDecoration(tile, game, tmx, x, y, l, layer);
+            case "ned":
+                return createNed(tile, game, tmx, x, y, l, layer);
+            case "green_maki":
+                return createGreenMaki(tile, game, tmx, x, y, l, layer);
+            case "orange_maki":
+                return createOrangeMaki(tile, game, tmx, x, y, l, layer);
+            case "blue_maki":
+                return createBlueMaki(tile, game, tmx, x, y, l, layer);
+            case "green_maki_on_plate":
+                return createGreenMakiOnPlate(tile, game, tmx, x, y, l, layer);
+            case "orange_maki_on_plate":
+                return createOrangeMakiOnPlate(tile, game, tmx, x, y, l, layer);
+            case "blue_maki_on_plate":
+                return createBlueMakiOnPlate(tile, game, tmx, x, y, l, layer);
+            case "box":
+                return createBox(tile, game, tmx, x, y, l, layer);
+            case "rooted_box":
+                return createRootedBox(tile, game, tmx, x, y, l, layer);
+            case "wall":
+                return createWall(tile, game, tmx, x, y, l, layer);
+            case "green_plate":
+                return createPlate(tile, game, tmx, x, y, l, layer, ColorType.green, false);
+            case "orange_plate":
+                return createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange, false);
+            case "blue_plate":
+                return createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue, false);
+            case "stairs_close_up":
+                return createStairs(tile, game, tmx, x, y, l, layer, 1);
+            case "stairs_close_down":
+                return createStairs(tile, game, tmx, x, y, l, layer, 2);
+            case "stairs_close_left":
+                return createStairs(tile, game, tmx, x, y, l, layer, 3);
+            case "stairs_close_right":
+                return createStairs(tile, game, tmx, x, y, l, layer, 4);
+            case "low_stairs":
+                return createLowStairs(tile, game, tmx, x, y, l, layer);
+            default:
+                return createDecoration(tile, game, tmx, x, y, l, layer);
         }
 
     }
@@ -183,8 +185,9 @@ public class StartGameTrigger extends Trigger {
         game.addEntity(decoration);
         return decoration;
     }
-    
+
     private enum ApparitionEffect {
+
         FROM_ABOVE,
         FROM_BELOW,
         NONE
@@ -194,7 +197,7 @@ public class StartGameTrigger extends Trigger {
         Sprite sprite = new Sprite();
         final Vector3f pos = tileToPos(tmx, x, y, l);
         Vector3f apparitionPos = new Vector3f(pos);
-        switch(apparitionEffect) {
+        switch (apparitionEffect) {
             case FROM_ABOVE:
                 apparitionPos.translate(0, 0, (1.0f + random.nextFloat()) * VirtualResolution.HEIGHT);
                 break;
@@ -216,7 +219,7 @@ public class StartGameTrigger extends Trigger {
         entity.addComponent(new SpritePuppetControls(sprite).moveTo(pos, 2.0f));
         return sprite;
     }
-    
+
     private Entity createNed(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity ned = game.createEntity();
         ned.addComponent(new Position(x, y));
@@ -260,7 +263,7 @@ public class StartGameTrigger extends Trigger {
 
     private Entity createBlueMaki(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        
+
         maki.addComponent(new Position(x, y));
         maki.addComponent(new Movable(15));
         maki.addComponent(new Boostable(3));
@@ -275,7 +278,7 @@ public class StartGameTrigger extends Trigger {
         return maki;
     }
 
-        private Entity createGreenMakiOnPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+    private Entity createGreenMakiOnPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
 
         maki.addComponent(new Position(x, y));
@@ -288,7 +291,7 @@ public class StartGameTrigger extends Trigger {
         indexSystem.added(maki);
 
         Entity plate = createPlate(tile, game, tmx, x, y, l, layer, ColorType.green, true);
-        if(plate != null) {
+        if (plate != null) {
             game.getManager(GroupManager.class).add(plate, Group.LEVEL);
         }
 
@@ -307,9 +310,9 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
-    
+
         Entity plate = createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange, true);
-        if(plate != null) {
+        if (plate != null) {
             game.getManager(GroupManager.class).add(plate, Group.LEVEL);
         }
 
@@ -326,13 +329,13 @@ public class StartGameTrigger extends Trigger {
         maki.addComponent(new Pushable(true));
         maki.addComponent(new StopOnPlate(true));
         maki.addComponent(new Color(ColorType.blue));
-         maki.addComponent(new Destroyer(true));
+        maki.addComponent(new Destroyer(true));
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
         indexSystem.added(maki);
-	
+
         Entity plate = createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue, true);
-        if(plate != null) {
+        if (plate != null) {
             game.getManager(GroupManager.class).add(plate, Group.LEVEL);
         }
 
@@ -377,30 +380,30 @@ public class StartGameTrigger extends Trigger {
         createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_BELOW, wall);
         game.addEntity(wall);
         indexSystem.added(wall);
-        
-	return wall;
+
+        return wall;
     }
 
     private Entity createPlate(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer, ColorType color, boolean maki) {
         Square s = this.indexSystem.getSquare(x, y);
-        if(s != null) {
+        if (s != null) {
             ArrayList<Entity> plateInSquare = s.getWith(Plate.class);
-            if(!plateInSquare.isEmpty()) {
+            if (!plateInSquare.isEmpty()) {
                 plateInSquare.get(0).getComponent(Plate.class).setMaki(true);
                 return null;
             }
         }
-        
-	Entity plate = game.createEntity();
-	plate.addComponent(new Color(color));
-	plate.addComponent(new Plate(true, maki));
-	plate.addComponent(new Position(x, y));
-	
+
+        Entity plate = game.createEntity();
+        plate.addComponent(new Color(color));
+        plate.addComponent(new Plate(true, maki));
+        plate.addComponent(new Position(x, y));
+
         indexSystem.added(plate);
-	game.addEntity(plate);
+        game.addEntity(plate);
         game.getManager(GroupManager.class).add(plate, Group.PLATE);
-        
-	createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, plate);
+
+        createSprite(tmx, x, y, l, tile, ApparitionEffect.FROM_ABOVE, plate);
 
         return plate;
     }
@@ -418,6 +421,10 @@ public class StartGameTrigger extends Trigger {
         game.getManager(GroupManager.class).add(stairs, Group.STAIRS);
 
         return stairs;
+    }
+
+    private Entity createLowStairs(TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
+        return this.createWall(tile, game, tmx, x, y, l, layer);
     }
 
     private void createProjector(Game game, TmxAsset tmx) {
