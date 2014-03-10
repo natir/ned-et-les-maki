@@ -143,7 +143,7 @@ public class GameSystem {
                 if (mouv.size() == 3 && this.isBeginFly(mouv.get(1).getAnimation(0)) && this.isEndFly(mouv.get(2).getAnimation(0))) {
                     mouv.remove(2);
                     mouv.remove(1);
-                    mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(AnimationType.no).setAnimationTime(this.calculateAnimationTime(baseBefore, 0)).saveMouvement());
+                    mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(this.getNedAnimation(dirP, 0, true, false)).setAnimationTime(this.calculateAnimationTime(0.6f, 0)).saveMouvement());
                 }
 
                 return mouv;
@@ -161,7 +161,7 @@ public class GameSystem {
         if (mouv.size() == 3 && this.isBeginFly(mouv.get(1).getAnimation(0)) && this.isEndFly(mouv.get(2).getAnimation(0))) {
             mouv.remove(2);
             mouv.remove(1);
-            mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(AnimationType.no).setAnimationTime(this.calculateAnimationTime(baseBefore, 0)).saveMouvement());
+            mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(this.getNedAnimation(dirP, 0, true, false)).setAnimationTime(this.calculateAnimationTime(0.6f, 0)).saveMouvement());
         }
 
         return mouv;
@@ -183,33 +183,7 @@ public class GameSystem {
 
         if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
             if (e == this.index.getNed()) {
-                if (diff.getX() > 0) {
-                    if (push) {
-                        m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_push_right).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
-                    } else {
-                        m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_right).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
-                    }
-                } else if (diff.getX() < 0) {
-                    if (push) {
-                        m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_push_left).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
-                    } else {
-                        m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_left).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
-                    }
-                } else if (diff.getY() > 0) {
-                    if (push) {
-                        m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_push_down).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
-                    } else {
-                        m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_down).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
-                    }
-                } else if (diff.getY() < 0) {
-                    if (push) {
-                        m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_push_up).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
-                    } else {
-                        m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.ned_up).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
-                    }
-                } else {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
-                }
+                m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getNedAnimation(diff, pas, push, boosted)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
             } else {
                 if (makiMoveOnePlate(newP, e)) {
                     if (actualIsColorPlate(oldP, e)) {
@@ -251,6 +225,36 @@ public class GameSystem {
         }
 
         return m;
+    }
+
+    private AnimationType getNedAnimation(Position diff, int pas, boolean push, boolean boosted) {
+        if (diff.getX() > 0) {
+            if (push) {
+                return AnimationType.ned_push_right;
+            } else {
+                return AnimationType.ned_right;
+            }
+        } else if (diff.getX() < 0) {
+            if (push) {
+                return AnimationType.ned_push_left;
+            } else {
+                return AnimationType.ned_left;
+            }
+        } else if (diff.getY() > 0) {
+            if (push) {
+                return AnimationType.ned_push_down;
+            } else {
+                return AnimationType.ned_down;
+            }
+        } else if (diff.getY() < 0) {
+            if (push) {
+                return AnimationType.ned_push_up;
+            } else {
+                return AnimationType.ned_up;
+            }
+        } else {
+            return this.getBoostAnimation(boosted, pas, diff);
+        }
     }
 
     private ArrayList<Mouvement> nedMoveOnStairs(Position diff, Entity e, float aT) {
