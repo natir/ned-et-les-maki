@@ -796,8 +796,7 @@ public class GameSystem {
     }
 
     float calculateAnimationTime(float base, int mul) {
-        //return base * ((float) Math.pow(base, mul / 1.5));
-        if(mul > 1) {
+        if(mul > 0 ){
             return base / 3f;
         } else {
             return base;
