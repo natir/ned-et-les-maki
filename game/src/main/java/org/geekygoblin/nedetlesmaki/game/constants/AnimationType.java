@@ -53,6 +53,7 @@ public enum AnimationType {
     maki_green_out,
     maki_orange_out,
     maki_blue_out,
+    maki_orange_no,
     disable_entity,
     active_entity,
     stairs_open_up,

@@ -68,7 +68,7 @@ public class GameSystem {
         ArrayList<Mouvement> mouv = new ArrayList();
 
         float destroyBefore = baseBefore;
-        
+
         for (int i = 0; i != this.index.getMovable(e); i++) {
             float animTime = this.calculateAnimationTime(0.6f, i);
             Position newP = PosOperation.sum(oldP, dirP);
@@ -131,7 +131,7 @@ public class GameSystem {
                 }
 
                 if (this.index.isBoosted(e)) {
-                    mouv.add(new Mouvement(e).setAnimation(this.getBoostAnimation(true, -1, dirP)).saveMouvement());
+                    mouv.add(new Mouvement(e).setAnimation(this.getMakiAnimation(true, -1, dirP, ColorType.blue)).saveMouvement());
                 }
 
                 if (this.index.nedIsCatched(e) && nedPush) {
@@ -153,7 +153,7 @@ public class GameSystem {
         }
 
         if (this.index.isBoosted(e)) {
-            mouv.add(new Mouvement(e).setAnimation(this.getBoostAnimation(true, -1, dirP)).saveMouvement());
+            mouv.add(new Mouvement(e).setAnimation(this.getMakiAnimation(true, -1, dirP, ColorType.blue)).saveMouvement());
         }
 
         if (this.index.nedIsCatched(e)) {
@@ -202,7 +202,7 @@ public class GameSystem {
 
                     m.addAll(this.tryPlate());
                 } else {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getMakiAnimation(boosted, pas, diff, this.index.getColorType(e))).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
                 }
 
                 Entity ned = this.index.getNed();
@@ -255,7 +255,7 @@ public class GameSystem {
                 return AnimationType.ned_up;
             }
         } else {
-            return this.getBoostAnimation(boosted, pas, diff);
+            return this.getMakiAnimation(boosted, pas, diff, ColorType.no);
         }
     }
 
@@ -358,7 +358,7 @@ public class GameSystem {
         return preM;
     }
 
-    private AnimationType getBoostAnimation(boolean boosted, int pas, Position diff) {
+    private AnimationType getMakiAnimation(boolean boosted, int pas, Position diff, ColorType makiColor) {
 
         if (boosted) {
             if (diff.getX() > 0) {
@@ -396,7 +396,11 @@ public class GameSystem {
             }
         }
 
-        return AnimationType.no;
+        if (makiColor == ColorType.orange) {
+            return AnimationType.maki_orange_no;
+        } else {
+            return AnimationType.no;
+        }
     }
 
     private AnimationType getFlyAnimation(int pas, Position diff) {
