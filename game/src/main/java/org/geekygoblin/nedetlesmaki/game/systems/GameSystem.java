@@ -67,6 +67,8 @@ public class GameSystem {
 
         ArrayList<Mouvement> mouv = new ArrayList();
 
+        float destroyBefore = baseBefore;
+        
         for (int i = 0; i != this.index.getMovable(e); i++) {
             float animTime = this.calculateAnimationTime(0.6f, i);
             Position newP = PosOperation.sum(oldP, dirP);
@@ -103,7 +105,7 @@ public class GameSystem {
                         if (this.index.isPushableEntity(nextE)) {
                             if (this.index.isDestroyer(e)) {
                                 if (this.index.isDestroyable(nextE)) {
-                                    mouv.addAll(destroyMove(nextE, dirP, baseBefore + this.beforeTime(0.6f, i), animTime));
+                                    mouv.addAll(destroyMove(nextE, dirP, destroyBefore + this.beforeTime(0.6f, i), animTime));
                                     mouv.addAll(runValideMove(dirP, e, false, this.beforeTime(0.6f, i), animTime, i, this.index.isBoosted(e), nedPush));
                                 } else {
                                     ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.6f, i), e == nedEntity);
