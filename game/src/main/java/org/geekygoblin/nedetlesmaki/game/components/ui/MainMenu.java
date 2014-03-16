@@ -32,6 +32,7 @@ import org.lwjgl.LWJGLException;
 
 import im.bci.jnuit.widgets.AudioConfigurator;
 import im.bci.jnuit.widgets.Button;
+import im.bci.jnuit.widgets.Container;
 import im.bci.jnuit.widgets.ControlsConfigurator;
 import im.bci.jnuit.widgets.Root;
 import im.bci.jnuit.widgets.Table;
@@ -48,7 +49,6 @@ import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.MainLoop;
 import im.bci.jnuit.lwjgl.assets.IAssets;
-import im.bci.jnuit.widgets.Container;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
@@ -60,7 +60,7 @@ public class MainMenu extends Component {
     private Container mainMenu;
     private VideoConfigurator videoConfigurator;
     private AudioConfigurator audioConfigurator;
-    private Table optionsMenu;
+    private Container optionsMenu;
     private Container extrasMenu;
     private ControlsConfigurator menuControls, gameControls;
     private final LevelSelector levelSelector;
@@ -105,13 +105,13 @@ public class MainMenu extends Component {
                 assets.setIcon("icon.png");
             }
         };
-        videoConfigurator.setBackground(new TexturedBackground(assets.getAnimations("default_menu.png").getFirst().start(PlayMode.LOOP)));
+        videoConfigurator.setBackground(new TexturedBackground(assets.getAnimations("menu_video.png").getFirst().start(PlayMode.LOOP)));
         root.add(videoConfigurator);
     }
 
     private void initAudio() {
         audioConfigurator = new AudioConfigurator(toolkit);
-        audioConfigurator.setBackground(new TexturedBackground(assets.getAnimations("default_menu.png").getFirst().start(PlayMode.LOOP)));
+        audioConfigurator.setBackground(new TexturedBackground(assets.getAnimations("menu_audio.png").getFirst().start(PlayMode.LOOP)));
     }
 
     private void initMain() {
@@ -132,8 +132,8 @@ public class MainMenu extends Component {
         startButton.setY(800);
         startButton.setWidth(317);
         startButton.setHeight(74);
-        startButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
-        startButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        startButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
+        startButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         mainMenu.add(startButton);
 
         final Button resumeButton = new Button(toolkit, "main.menu.button.resume") {
@@ -148,8 +148,8 @@ public class MainMenu extends Component {
         resumeButton.setY(900);
         resumeButton.setWidth(317);
         resumeButton.setHeight(74);
-        resumeButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
-        resumeButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        resumeButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
+        resumeButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         mainMenu.add(resumeButton);
 
         final Button optionsButton = new Button(toolkit, "main.menu.button.options") {
@@ -162,8 +162,8 @@ public class MainMenu extends Component {
         optionsButton.setY(800);
         optionsButton.setWidth(317);
         optionsButton.setHeight(74);
-        optionsButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
-        optionsButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        optionsButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
+        optionsButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         mainMenu.add(optionsButton);
 
         final Button quitButton = new Button(toolkit, "main.menu.button.quit") {
@@ -176,8 +176,8 @@ public class MainMenu extends Component {
         quitButton.setY(900);
         quitButton.setWidth(317);
         quitButton.setHeight(74);
-        quitButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
-        quitButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        quitButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
+        quitButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         mainMenu.add(quitButton);
 
         final Button extrasButton = new Button(toolkit, "main.menu.button.extras") {
@@ -197,44 +197,83 @@ public class MainMenu extends Component {
     }
 
     private void initOptions() {
-        optionsMenu = new Table(toolkit);
-        optionsMenu.defaults().expand();
-        optionsMenu.cell(new Button(toolkit, "options.menu.button.video") {
+
+        IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("2_normal");
+        IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("2_survol");
+        IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_normal");
+        IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_survol");
+        
+        optionsMenu = new Container();
+        optionsMenu.setBackground(new TexturedBackground(assets.getAnimations("menu_options.png").getFirst().start(PlayMode.LOOP)));
+        final Button videoButton = new Button(toolkit, "options.menu.button.video") {
             @Override
             public void onOK() {
                 root.show(videoConfigurator);
             }
-        });
-        optionsMenu.row();
-        optionsMenu.cell(new Button(toolkit, "options.menu.button.audio") {
+        };
+        videoButton.setX(905);
+        videoButton.setY(522);
+        videoButton.setWidth(396);
+        videoButton.setHeight(92);
+        videoButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
+        videoButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        optionsMenu.add(videoButton);
+
+        final Button audioButton = new Button(toolkit, "options.menu.button.audio") {
             @Override
             public void onOK() {
                 root.show(audioConfigurator);
             }
-        });
-        optionsMenu.row();
-        optionsMenu.cell(new Button(toolkit, "options.menu.button.game.controls") {
+        };
+        audioButton.setX(1361);
+        audioButton.setY(522);
+        audioButton.setWidth(396);
+        audioButton.setHeight(92);
+        audioButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
+        audioButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        optionsMenu.add(audioButton);
+        
+        final Button gameControlsButton = new Button(toolkit, "options.menu.button.game.controls") {
             @Override
             public void onOK() {
                 root.show(gameControls);
             }
-        });
-        optionsMenu.row();
-        optionsMenu.cell(new Button(toolkit, "options.menu.button.menu.controls") {
+        };
+        gameControlsButton.setX(905);
+        gameControlsButton.setY(668);
+        gameControlsButton.setWidth(852);
+        gameControlsButton.setHeight(92);
+        gameControlsButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
+        gameControlsButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        optionsMenu.add(gameControlsButton);
+
+        final Button menuControlsButton = new Button(toolkit, "options.menu.button.menu.controls") {
             @Override
             public void onOK() {
                 root.show(menuControls);
             }
-        });
-        optionsMenu.row();
-        optionsMenu.cell(new Button(toolkit, "options.menu.button.back") {
+        };
+        menuControlsButton.setX(905);
+        menuControlsButton.setY(814);
+        menuControlsButton.setWidth(852);
+        menuControlsButton.setHeight(92);
+        menuControlsButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
+        menuControlsButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        optionsMenu.add(menuControlsButton);
+
+        final Button backButton = new Button(toolkit, "options.menu.button.back") {
             @Override
             public void onOK() {
                 root.show(mainMenu);
             }
-        });
-        optionsMenu.row();
-        optionsMenu.setBackground(new TexturedBackground(assets.getAnimations("default_menu.png").getFirst().start(PlayMode.LOOP)));
+        };
+        backButton.setX(1361);
+        backButton.setY(960);
+        backButton.setWidth(396);
+        backButton.setHeight(92);
+        backButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
+        backButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        optionsMenu.add(backButton);
         root.add(optionsMenu);
     }
 
