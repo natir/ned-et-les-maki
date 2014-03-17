@@ -148,6 +148,10 @@ public class GameSystem {
                     mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(this.getNedAnimation(dirP, 0, true, false)).setAnimationTime(this.calculateAnimationTime(0.6f, 0)).saveMouvement());
                 }
 
+                if (mouv.size() == 1 && this.isEndFly(mouv.get(0).getAnimation(0))) {
+                    mouv.remove(0);
+                }
+
                 return mouv;
             }
         }
@@ -166,7 +170,11 @@ public class GameSystem {
             mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(this.getNedAnimation(dirP, 0, true, false)).setAnimationTime(this.calculateAnimationTime(0.6f, 0)).saveMouvement());
         }
 
-        return mouv;
+        if (mouv.size() == 1 && this.isEndFly(mouv.get(0).getAnimation(0))) {
+            mouv.remove(0);
+        }
+
+       return mouv;
     }
 
     private boolean isBeginFly(AnimationType a) {
