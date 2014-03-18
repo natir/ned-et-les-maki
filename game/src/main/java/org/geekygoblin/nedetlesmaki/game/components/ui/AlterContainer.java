@@ -44,6 +44,7 @@ public class AlterContainer extends Container {
 		    float omega = omegaAngle(w, widget);
                     if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
+			closestOmega = omega;
                         closestLeftChild = w;
                     }
                 }
@@ -65,6 +66,7 @@ public class AlterContainer extends Container {
 	            float omega = omegaAngle(w, widget);
                     if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
+			closestOmega = omega;
                         closestLeftChild = w;
                     }
                 }
@@ -86,6 +88,7 @@ public class AlterContainer extends Container {
 		    float omega = omegaAngle(w, widget)
                     if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
+			closestOmega = omega;
                         closestLeftChild = w;
                     }
                 }
@@ -107,6 +110,7 @@ public class AlterContainer extends Container {
 		    float omega = omegaAngle(w, widget)
                     if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
+			closestOmega = omega;
                         closestLeftChild = w;
                     }
                 }
