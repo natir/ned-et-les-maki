@@ -128,6 +128,6 @@ public class AlterContainer extends Container {
     private static float omegaAngle(Widget w1, Widget w2) {
         float dx = w1.getCenterX() - w2.getCenterX();
         float dy = w1.getCenterY() - w2.getCenterY();
-        return Math.acos(dx/dy);
+        return Math.atan(dx/dy);
     }
 }
