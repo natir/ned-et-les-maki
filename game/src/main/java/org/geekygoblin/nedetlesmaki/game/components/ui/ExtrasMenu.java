@@ -33,11 +33,13 @@ import im.bci.jnuit.widgets.Container;
 import im.bci.jnuit.widgets.Root;
 import im.bci.jnuit.widgets.Widget;
 
+import org.geekygoblin.nedetlesmaki.game.components.ui.AlterContainer;
+
 /**
  *
  * @author devnewton
  */
-public class ExtrasMenu extends Container {
+public class ExtrasMenu extends AlterContainer {
     
     public ExtrasMenu(NuitToolkit toolkit, final Root root, final Widget mainMenu, IAssets assets, CutScenes cutscenes) {
         
