@@ -37,10 +37,12 @@ public class AlterContainer extends Container {
         if (null != widget) {
             
             float closestLeftChildLengthSquared = Float.MAX_VALUE;
+	    float closestOmega = Float.MAX_VALUE;
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterX() < widget.getCenterX()) {
                     float lenghtSquared = distanceSquared(w, widget);
-                    if (null == closestLeftChild || lenghtSquared < closestLeftChildLengthSquared) {
+		    float omega = omegaAngle(w, widget);
+                    if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
                         closestLeftChild = w;
                     }
@@ -56,10 +58,12 @@ public class AlterContainer extends Container {
         if (null != widget) {
             
             float closestLeftChildLengthSquared = Float.MAX_VALUE;
+	    float closestOmega = Float.MAX_VALUE;
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterX() > widget.getCenterX()) {
                     float lenghtSquared = distanceSquared(w, widget);
-                    if (null == closestLeftChild || lenghtSquared < closestLeftChildLengthSquared) {
+	            float omega = omegaAngle(w, widget);
+                    if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
                         closestLeftChild = w;
                     }
@@ -75,10 +79,12 @@ public class AlterContainer extends Container {
         if (null != widget) {
             
             float closestLeftChildLengthSquared = Float.MAX_VALUE;
+	    float closestOmega = Float.MAX_VALUE;
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterY() < widget.getCenterY()) {
                     float lenghtSquared = distanceSquared(w, widget);
-                    if (null == closestLeftChild || lenghtSquared < closestLeftChildLengthSquared) {
+		    float omega = omegaAngle(w, widget)
+                    if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
                         closestLeftChild = w;
                     }
@@ -94,10 +100,12 @@ public class AlterContainer extends Container {
         if (null != widget) {
             
             float closestLeftChildLengthSquared = Float.MAX_VALUE;
+	    float closestOmega = Float.MAX_VALUE;
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterY() > widget.getCenterY()) {
                     float lenghtSquared = distanceSquared(w, widget);
-                    if (null == closestLeftChild || lenghtSquared < closestLeftChildLengthSquared) {
+		    float omega = omegaAngle(w, widget)
+                    if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
                         closestLeftChild = w;
                     }
