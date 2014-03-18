@@ -49,6 +49,7 @@ import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.MainLoop;
 import im.bci.jnuit.lwjgl.assets.IAssets;
+import org.geekygoblin.nedetlesmaki.game.components.ui.AlterContainer;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
@@ -57,11 +58,11 @@ import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
 public class MainMenu extends Component {
 
     private final Root root;
-    private Container mainMenu;
+    private AlterContainer mainMenu;
     private VideoConfigurator videoConfigurator;
     private AudioConfigurator audioConfigurator;
-    private Container optionsMenu;
-    private Container extrasMenu;
+    private AlterContainer optionsMenu;
+    private AlterContainer extrasMenu;
     private ControlsConfigurator menuControls, gameControls;
     private final LevelSelector levelSelector;
     private final MainLoop mainLoop;
