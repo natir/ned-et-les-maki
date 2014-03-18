@@ -41,7 +41,7 @@ public class AlterContainer extends Container {
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterX() < widget.getCenterX()) {
                     float lenghtSquared = distanceSquared(w, widget);
-		    float omega = omegaAngle(w, widget);
+		    float omega = omegaHorizontal(w, widget);
                     if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
 			closestOmega = omega;
@@ -63,7 +63,7 @@ public class AlterContainer extends Container {
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterX() > widget.getCenterX()) {
                     float lenghtSquared = distanceSquared(w, widget);
-	            float omega = omegaAngle(w, widget);
+	            float omega = omegaHorizontal(w, widget);
                     if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
 			closestOmega = omega;
@@ -85,7 +85,7 @@ public class AlterContainer extends Container {
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterY() < widget.getCenterY()) {
                     float lenghtSquared = distanceSquared(w, widget);
-		    float omega = omegaAngle(w, widget)
+		    float omega = omegaVertical(w, widget)
                     if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
 			closestOmega = omega;
@@ -107,7 +107,7 @@ public class AlterContainer extends Container {
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterY() > widget.getCenterY()) {
                     float lenghtSquared = distanceSquared(w, widget);
-		    float omega = omegaAngle(w, widget)
+		    float omega = omegaVertical(w, widget)
                     if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
 			closestOmega = omega;
@@ -125,9 +125,15 @@ public class AlterContainer extends Container {
         return dx * dx + dy * dy;
     }
 
-    private static float omegaAngle(Widget w1, Widget w2) {
-        float dx = w1.getCenterX() - w2.getCenterX();
-        float dy = w1.getCenterY() - w2.getCenterY();
+    private static float omegaHorizontal(Widget w1, Widget w2) {
+        float dx = Math.abs(w1.getCenterX() - w2.getCenterX());
+        float dy = Math.abs(w1.getCenterY() - w2.getCenterY());
+        return Math.atan(dy/dx);
+    }
+
+    private static float omegavVertical(Widget w1, Widget w2) {
+        float dx = Math.abs(w1.getCenterX() - w2.getCenterX());
+        float dy = Math.abs(w1.getCenterY() - w2.getCenterY());
         return Math.atan(dx/dy);
     }
 }
