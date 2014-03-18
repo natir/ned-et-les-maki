@@ -122,7 +122,7 @@ public class MainMenu extends Component {
         IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_normal");
         IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_survol");
 
-        mainMenu = new Container();
+        mainMenu = new AlterContainer();
         final Button startButton = new Button(toolkit, "main.menu.button.start") {
             @Override
             public void onOK() {
@@ -204,7 +204,7 @@ public class MainMenu extends Component {
         IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_normal");
         IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_survol");
         
-        optionsMenu = new Container();
+        optionsMenu = new AlterContainer();
         optionsMenu.setBackground(new TexturedBackground(assets.getAnimations("menu_options.png").getFirst().start(PlayMode.LOOP)));
         final Button videoButton = new Button(toolkit, "options.menu.button.video") {
             @Override

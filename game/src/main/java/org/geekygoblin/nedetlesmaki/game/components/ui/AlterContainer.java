@@ -23,6 +23,8 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components.ui;
 
+import im.bci.jnuit.widgets.Widget;
+
 import im.bci.jnuit.widgets.Container;
 
 /**
@@ -85,7 +87,7 @@ public class AlterContainer extends Container {
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterY() < widget.getCenterY()) {
                     float lenghtSquared = distanceSquared(w, widget);
-		    float omega = omegaVertical(w, widget)
+		    float omega = omegaVertical(w, widget);
                     if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
 			closestOmega = omega;
@@ -107,7 +109,7 @@ public class AlterContainer extends Container {
             for (Widget w : getChildren()) {
                 if (w.isFocusable() && w.getCenterY() > widget.getCenterY()) {
                     float lenghtSquared = distanceSquared(w, widget);
-		    float omega = omegaVertical(w, widget)
+		    float omega = omegaVertical(w, widget);
                     if (null == closestLeftChild || (omega <= closestOmega && lenghtSquared < closestLeftChildLengthSquared)) {
                         closestLeftChildLengthSquared = lenghtSquared;
 			closestOmega = omega;
@@ -126,14 +128,14 @@ public class AlterContainer extends Container {
     }
 
     private static float omegaHorizontal(Widget w1, Widget w2) {
-        float dx = Math.abs(w1.getCenterX() - w2.getCenterX());
-        float dy = Math.abs(w1.getCenterY() - w2.getCenterY());
-        return Math.atan(dy/dx);
+        float dx = (float)Math.abs(w1.getCenterX() - w2.getCenterX());
+        float dy = (float)Math.abs(w1.getCenterY() - w2.getCenterY());
+        return (float) Math.atan(dy/dx);
     }
 
-    private static float omegavVertical(Widget w1, Widget w2) {
-        float dx = Math.abs(w1.getCenterX() - w2.getCenterX());
-        float dy = Math.abs(w1.getCenterY() - w2.getCenterY());
-        return Math.atan(dx/dy);
+    private static float omegaVertical(Widget w1, Widget w2) {
+        float dx = (float)Math.abs(w1.getCenterX() - w2.getCenterX());
+        float dy = (float)Math.abs(w1.getCenterY() - w2.getCenterY());
+        return (float) Math.atan(dx/dy);
     }
 }
