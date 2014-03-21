@@ -67,6 +67,8 @@ public class GameSystem {
 
         ArrayList<Mouvement> mouv = new ArrayList();
 
+        float destroyBefore = baseBefore;
+
         for (int i = 0; i != this.index.getMovable(e); i++) {
             float animTime = this.calculateAnimationTime(0.6f, i);
             Position newP = PosOperation.sum(oldP, dirP);
@@ -103,7 +105,7 @@ public class GameSystem {
                         if (this.index.isPushableEntity(nextE)) {
                             if (this.index.isDestroyer(e)) {
                                 if (this.index.isDestroyable(nextE)) {
-                                    mouv.addAll(destroyMove(nextE, dirP, baseBefore + this.beforeTime(0.6f, i), animTime));
+                                    mouv.addAll(destroyMove(nextE, dirP, destroyBefore + this.beforeTime(0.6f, i), animTime));
                                     mouv.addAll(runValideMove(dirP, e, false, this.beforeTime(0.6f, i), animTime, i, this.index.isBoosted(e), nedPush));
                                 } else {
                                     ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.6f, i), e == nedEntity);
@@ -129,7 +131,7 @@ public class GameSystem {
                 }
 
                 if (this.index.isBoosted(e)) {
-                    mouv.add(new Mouvement(e).setAnimation(this.getBoostAnimation(true, -1, dirP)).saveMouvement());
+                    mouv.add(new Mouvement(e).setAnimation(this.getMakiAnimation(true, -1, dirP, ColorType.blue)).saveMouvement());
                 }
 
                 if (this.index.nedIsCatched(e) && nedPush) {
@@ -146,12 +148,16 @@ public class GameSystem {
                     mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(this.getNedAnimation(dirP, 0, true, false)).setAnimationTime(this.calculateAnimationTime(0.6f, 0)).saveMouvement());
                 }
 
+                if (mouv.size() == 1 && this.isEndFly(mouv.get(0).getAnimation(0))) {
+                    mouv.remove(0);
+                }
+
                 return mouv;
             }
         }
 
         if (this.index.isBoosted(e)) {
-            mouv.add(new Mouvement(e).setAnimation(this.getBoostAnimation(true, -1, dirP)).saveMouvement());
+            mouv.add(new Mouvement(e).setAnimation(this.getMakiAnimation(true, -1, dirP, ColorType.blue)).saveMouvement());
         }
 
         if (this.index.nedIsCatched(e)) {
@@ -164,7 +170,11 @@ public class GameSystem {
             mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(this.getNedAnimation(dirP, 0, true, false)).setAnimationTime(this.calculateAnimationTime(0.6f, 0)).saveMouvement());
         }
 
-        return mouv;
+        if (mouv.size() == 1 && this.isEndFly(mouv.get(0).getAnimation(0))) {
+            mouv.remove(0);
+        }
+
+       return mouv;
     }
 
     private boolean isBeginFly(AnimationType a) {
@@ -200,7 +210,7 @@ public class GameSystem {
 
                     m.addAll(this.tryPlate());
                 } else {
-                    m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getBoostAnimation(boosted, pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
+                    m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getMakiAnimation(boosted, pas, diff, this.index.getColorType(e))).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
                 }
 
                 Entity ned = this.index.getNed();
@@ -253,7 +263,7 @@ public class GameSystem {
                 return AnimationType.ned_up;
             }
         } else {
-            return this.getBoostAnimation(boosted, pas, diff);
+            return this.getMakiAnimation(boosted, pas, diff, ColorType.no);
         }
     }
 
@@ -356,7 +366,7 @@ public class GameSystem {
         return preM;
     }
 
-    private AnimationType getBoostAnimation(boolean boosted, int pas, Position diff) {
+    private AnimationType getMakiAnimation(boolean boosted, int pas, Position diff, ColorType makiColor) {
 
         if (boosted) {
             if (diff.getX() > 0) {
@@ -394,7 +404,11 @@ public class GameSystem {
             }
         }
 
-        return AnimationType.no;
+        if (makiColor == ColorType.orange) {
+            return AnimationType.maki_orange_no;
+        } else {
+            return AnimationType.no;
+        }
     }
 
     private AnimationType getFlyAnimation(int pas, Position diff) {

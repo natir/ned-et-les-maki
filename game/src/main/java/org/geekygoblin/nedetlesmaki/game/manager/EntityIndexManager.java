@@ -494,7 +494,13 @@ public class EntityIndexManager extends EntityManager {
     }
 
     public ColorType getColorType(Entity e) {
-        return this.getColor(e).getColor();
+        Color c = this.getColor(e);
+        
+        if(c == null) {
+            return ColorType.no;
+        } else {
+            return c.getColor();
+        }
     }
 
     public Plate getPlate(Entity e) {
