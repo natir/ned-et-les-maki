@@ -135,6 +135,7 @@ public class MainMenu extends Component {
         startButton.setHeight(74);
         startButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
         startButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        startButton.setMustDrawFocus(false);
         mainMenu.add(startButton);
 
         final Button resumeButton = new Button(toolkit, "main.menu.button.resume") {
@@ -151,6 +152,7 @@ public class MainMenu extends Component {
         resumeButton.setHeight(74);
         resumeButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
         resumeButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        resumeButton.setMustDrawFocus(false);
         mainMenu.add(resumeButton);
 
         final Button optionsButton = new Button(toolkit, "main.menu.button.options") {
@@ -165,6 +167,7 @@ public class MainMenu extends Component {
         optionsButton.setHeight(74);
         optionsButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
         optionsButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        optionsButton.setMustDrawFocus(false);
         mainMenu.add(optionsButton);
 
         final Button quitButton = new Button(toolkit, "main.menu.button.quit") {
@@ -179,6 +182,7 @@ public class MainMenu extends Component {
         quitButton.setHeight(74);
         quitButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
         quitButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        quitButton.setMustDrawFocus(false);
         mainMenu.add(quitButton);
 
         final Button extrasButton = new Button(toolkit, "main.menu.button.extras") {
@@ -193,6 +197,7 @@ public class MainMenu extends Component {
         extrasButton.setHeight(54);
         extrasButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
         extrasButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        extrasButton.setMustDrawFocus(false);
         mainMenu.add(extrasButton);
         root.add(mainMenu);
     }
@@ -218,6 +223,7 @@ public class MainMenu extends Component {
         videoButton.setHeight(92);
         videoButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
         videoButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        videoButton.setMustDrawFocus(false);
         optionsMenu.add(videoButton);
 
         final Button audioButton = new Button(toolkit, "options.menu.button.audio") {
@@ -232,6 +238,7 @@ public class MainMenu extends Component {
         audioButton.setHeight(92);
         audioButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
         audioButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        audioButton.setMustDrawFocus(false);
         optionsMenu.add(audioButton);
         
         final Button gameControlsButton = new Button(toolkit, "options.menu.button.game.controls") {
@@ -246,6 +253,7 @@ public class MainMenu extends Component {
         gameControlsButton.setHeight(92);
         gameControlsButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
         gameControlsButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        gameControlsButton.setMustDrawFocus(false);
         optionsMenu.add(gameControlsButton);
 
         final Button menuControlsButton = new Button(toolkit, "options.menu.button.menu.controls") {
@@ -260,6 +268,7 @@ public class MainMenu extends Component {
         menuControlsButton.setHeight(92);
         menuControlsButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
         menuControlsButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        menuControlsButton.setMustDrawFocus(false);
         optionsMenu.add(menuControlsButton);
 
         final Button backButton = new Button(toolkit, "options.menu.button.back") {
@@ -274,6 +283,7 @@ public class MainMenu extends Component {
         backButton.setHeight(92);
         backButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
         backButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        backButton.setMustDrawFocus(false);
         optionsMenu.add(backButton);
         root.add(optionsMenu);
     }
