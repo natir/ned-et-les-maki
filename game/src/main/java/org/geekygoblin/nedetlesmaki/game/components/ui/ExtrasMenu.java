@@ -33,11 +33,13 @@ import im.bci.jnuit.widgets.Container;
 import im.bci.jnuit.widgets.Root;
 import im.bci.jnuit.widgets.Widget;
 
+import org.geekygoblin.nedetlesmaki.game.components.ui.AlterContainer;
+
 /**
  *
  * @author devnewton
  */
-public class ExtrasMenu extends Container {
+public class ExtrasMenu extends AlterContainer {
     
     public ExtrasMenu(NuitToolkit toolkit, final Root root, final Widget mainMenu, IAssets assets, CutScenes cutscenes) {
         
@@ -45,8 +47,10 @@ public class ExtrasMenu extends Container {
         root.add(cutscenesMenu);
         
         setBackground(new TexturedBackground(assets.getAnimations("menu_extras.png").getFirst().start(PlayMode.LOOP)));
-        IAnimation buttonBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_normal");
-        IAnimation buttonFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("2_survol");
+        IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("2_normal");
+        IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("2_survol");
+        IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_normal");
+        IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_survol");
 
         final Button cutscenesButton = new Button(toolkit, "extras.menu.button.cutscenes") {
             @Override
@@ -58,8 +62,8 @@ public class ExtrasMenu extends Container {
         cutscenesButton.setY(426);
         cutscenesButton.setWidth(396);
         cutscenesButton.setHeight(92);
-        cutscenesButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));
-        cutscenesButton.setFocusedBackground(new TexturedBackground(buttonFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        cutscenesButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
+        cutscenesButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         cutscenesButton.setMustDrawFocus(false);
         add(cutscenesButton);
 
@@ -73,8 +77,8 @@ public class ExtrasMenu extends Container {
         artworkButton.setY(547);
         artworkButton.setWidth(396);
         artworkButton.setHeight(92);
-        artworkButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));
-        artworkButton.setFocusedBackground(new TexturedBackground(buttonFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        artworkButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
+        artworkButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         artworkButton.setMustDrawFocus(false);
         add(artworkButton);
 
@@ -88,8 +92,8 @@ public class ExtrasMenu extends Container {
         backButton.setY(700);
         backButton.setWidth(396);
         backButton.setHeight(92);
-        backButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));
-        backButton.setFocusedBackground(new TexturedBackground(buttonFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        backButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
+        backButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         backButton.setMustDrawFocus(false);
         add(backButton);
     }

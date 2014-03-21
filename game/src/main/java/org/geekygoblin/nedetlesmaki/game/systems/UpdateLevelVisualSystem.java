@@ -167,7 +167,6 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_up"), PlayMode.ONCE)
                     .waitAnimation()
                     .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_up"), PlayMode.ONCE);
-
         } else if (a == AnimationType.ned_waits_boost_down) {
             updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_down"), PlayMode.ONCE)
                     .waitAnimation()
@@ -227,6 +226,10 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.maki_blue_out) {
             updatable.startAnimation(makiAnim.getAnimationByName("maki_blue_out"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
+        } else if (a == AnimationType.maki_orange_no) {
+            updatable.waitDuring(waitBefore)
+                    .startAnimation(makiAnim.getAnimationByName("maki_orange_no"))
                     .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.disable_entity) {
             e.disable();
