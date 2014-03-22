@@ -204,8 +204,6 @@ public class MainMenu extends Component {
 
         IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("2_normal");
         IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("2_survol");
-        IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_normal");
-        IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_survol");
         
         optionsMenu = new TabOrientedNavigableContainer();
         optionsMenu.setBackground(new TexturedBackground(assets.getAnimations("menu_options.png").getFirst().start(PlayMode.LOOP)));
@@ -216,11 +214,11 @@ public class MainMenu extends Component {
             }
         };
         videoButton.setX(905);
-        videoButton.setY(522);
-        videoButton.setWidth(396);
+        videoButton.setY(420);
+        videoButton.setWidth(852);
         videoButton.setHeight(92);
-        videoButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
-        videoButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        videoButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
+        videoButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         videoButton.setMustDrawFocus(false);
         optionsMenu.add(videoButton);
 
@@ -230,12 +228,12 @@ public class MainMenu extends Component {
                 root.show(audioConfigurator);
             }
         };
-        audioButton.setX(1361);
-        audioButton.setY(522);
-        audioButton.setWidth(396);
+        audioButton.setX(905);
+        audioButton.setY(540);
+        audioButton.setWidth(852);
         audioButton.setHeight(92);
-        audioButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
-        audioButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        audioButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
+        audioButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         audioButton.setMustDrawFocus(false);
         optionsMenu.add(audioButton);
         
@@ -246,7 +244,7 @@ public class MainMenu extends Component {
             }
         };
         gameControlsButton.setX(905);
-        gameControlsButton.setY(668);
+        gameControlsButton.setY(660);
         gameControlsButton.setWidth(852);
         gameControlsButton.setHeight(92);
         gameControlsButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
@@ -261,7 +259,7 @@ public class MainMenu extends Component {
             }
         };
         menuControlsButton.setX(905);
-        menuControlsButton.setY(814);
+        menuControlsButton.setY(780);
         menuControlsButton.setWidth(852);
         menuControlsButton.setHeight(92);
         menuControlsButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
@@ -275,12 +273,12 @@ public class MainMenu extends Component {
                 root.show(mainMenu);
             }
         };
-        backButton.setX(1361);
+        backButton.setX(905);
         backButton.setY(960);
-        backButton.setWidth(396);
+        backButton.setWidth(852);
         backButton.setHeight(92);
-        backButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
-        backButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        backButton.setBackground(new TexturedBackground(buttonClassicBackgroundAnimation.start(PlayMode.LOOP)));
+        backButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         backButton.setMustDrawFocus(false);
         optionsMenu.add(backButton);
         root.add(optionsMenu);
