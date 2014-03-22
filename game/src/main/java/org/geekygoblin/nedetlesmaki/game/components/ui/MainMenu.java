@@ -32,10 +32,8 @@ import org.lwjgl.LWJGLException;
 
 import im.bci.jnuit.widgets.AudioConfigurator;
 import im.bci.jnuit.widgets.Button;
-import im.bci.jnuit.widgets.Container;
 import im.bci.jnuit.widgets.ControlsConfigurator;
 import im.bci.jnuit.widgets.Root;
-import im.bci.jnuit.widgets.Table;
 import im.bci.jnuit.widgets.VideoConfigurator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -49,7 +47,7 @@ import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.MainLoop;
 import im.bci.jnuit.lwjgl.assets.IAssets;
-import org.geekygoblin.nedetlesmaki.game.components.ui.AlterContainer;
+import im.bci.jnuit.widgets.Container;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
@@ -58,11 +56,11 @@ import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
 public class MainMenu extends Component {
 
     private final Root root;
-    private AlterContainer mainMenu;
+    private Container mainMenu;
     private VideoConfigurator videoConfigurator;
     private AudioConfigurator audioConfigurator;
-    private AlterContainer optionsMenu;
-    private AlterContainer extrasMenu;
+    private Container optionsMenu;
+    private Container extrasMenu;
     private ControlsConfigurator menuControls, gameControls;
     private final LevelSelector levelSelector;
     private final MainLoop mainLoop;
@@ -71,8 +69,8 @@ public class MainMenu extends Component {
     private final IAssets assets;
     private final Game game;
     private final Provider<HideMenuTrigger> hideMenuTrigger;
-    private NuitPreferences preferences;
-    private CutScenes cutscenes;
+    private final NuitPreferences preferences;
+    private final CutScenes cutscenes;
 
     @Inject
     public MainMenu(MainLoop mainLoop, Game g, NuitToolkit toolkit, NuitRenderer nuitRenderer, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger, IngameControls ingameControls, CutScenes cutscenes, NuitPreferences preferences) throws LWJGLException {
@@ -122,7 +120,7 @@ public class MainMenu extends Component {
         IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_normal");
         IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_survol");
 
-        mainMenu = new AlterContainer();
+        mainMenu = new TabOrientedNavigableContainer();
         final Button startButton = new Button(toolkit, "main.menu.button.start") {
             @Override
             public void onOK() {
@@ -209,7 +207,7 @@ public class MainMenu extends Component {
         IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_normal");
         IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_survol");
         
-        optionsMenu = new AlterContainer();
+        optionsMenu = new TabOrientedNavigableContainer();
         optionsMenu.setBackground(new TexturedBackground(assets.getAnimations("menu_options.png").getFirst().start(PlayMode.LOOP)));
         final Button videoButton = new Button(toolkit, "options.menu.button.video") {
             @Override
