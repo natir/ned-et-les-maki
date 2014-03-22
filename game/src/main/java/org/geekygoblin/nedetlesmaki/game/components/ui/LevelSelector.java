@@ -43,7 +43,7 @@ import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
  * @author devnewton
  */
 @Singleton
-public class LevelSelector extends Container {
+public class LevelSelector extends TabOrientedNavigableContainer {
 
     private final Game game;
     private final IAnimationCollection bulleAnimations;
