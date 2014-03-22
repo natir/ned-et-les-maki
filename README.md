@@ -4,7 +4,7 @@
 
 master branch is in developement, not stable.
 
-Branch v0.1 is the last stable version.
+Branch v0.2 is the last stable version.
 
 ## Bug report
 
