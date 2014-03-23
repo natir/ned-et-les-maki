@@ -269,6 +269,21 @@
    <property name="type" value="wall"/>
   </properties>
  </tile>
+ <tile id="61">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="62">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="63">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
  <tile id="64">
   <properties>
    <property name="type" value="wall"/>
