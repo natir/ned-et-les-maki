@@ -98,7 +98,7 @@ public class NedModule extends AbstractModule {
     @Provides
     @Singleton
     public IAssets createAssets() {
-        File applicationDir = Main.getApplicationDir();
+        File applicationDir = NormalLauncher.getApplicationDir();
         VirtualFileSystem vfs = new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data"));
         return new GarbageCollectedAssets(new AssetsLoader(vfs));
     }

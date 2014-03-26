@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+
+[Desktop Entry]
+Version=${project.version}
+Type=Application
+Terminal=false
+Categories=Game;
+Exec=/usr/bin/nedetlesmaki --safe
+Name=Ned et les maki safe launcher
+Comment=Ned et les maki
+Icon=/opt/nedetlesmaki/data/icon.png
+Name[fr_FR]=nedetlesmaki.desktop

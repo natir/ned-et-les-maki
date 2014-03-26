@@ -23,7 +23,25 @@
 	categories="Game">
 	<createForPack name="Core"/>
 </shortcut>
-
+<shortcut
+	name="Ned et les maki"
+	target="/usr/bin/java"
+	commandLine="-jar &quot;$INSTALL_PATH/${nedetlesmaki_build_final_name}.jar&quot; --safe"
+	description="Launch Ned et les maki"
+	iconFile="$INSTALL_PATH/icon.png"
+	workingDirectory="$INSTALL_PATH"
+	initialState="normal"
+	programGroup="yes"
+	desktop="no"
+	applications="no"
+	startMenu="no"
+	startup="no"
+	type="Application"
+	terminal="false"
+	encoding="UTF-8"
+	categories="Game">
+	<createForPack name="Core"/>
+</shortcut>
 <shortcut
 	name="Uninstall Ned et les maki"
 	target="/usr/bin/java"
