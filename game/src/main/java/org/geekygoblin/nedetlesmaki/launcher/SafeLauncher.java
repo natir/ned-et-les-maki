@@ -27,20 +27,20 @@ import java.awt.DisplayMode;
 import java.awt.GraphicsEnvironment;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.geekygoblin.nedetlesmaki.game.Main;
+import org.geekygoblin.nedetlesmaki.game.NormalLauncher;
 
 /**
  *
  * @author devnewton <devnewton@bci.im>
  */
-public class LauncherDialog extends javax.swing.JDialog {
+public class SafeLauncher extends javax.swing.JDialog {
 
     private static boolean launchMe;
 
     /**
      * Creates new form LauncherDialog
      */
-    public LauncherDialog(java.awt.Frame parent, boolean modal) {
+    public SafeLauncher(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         GraphicsEnvironment graphicsenvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -251,7 +251,7 @@ public class LauncherDialog extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) throws InterruptedException {
+    public static void launch(String args[]) throws InterruptedException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -265,13 +265,13 @@ public class LauncherDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LauncherDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SafeLauncher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LauncherDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SafeLauncher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LauncherDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SafeLauncher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LauncherDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SafeLauncher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -279,7 +279,7 @@ public class LauncherDialog extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                LauncherDialog dialog = new LauncherDialog(new javax.swing.JFrame(), true);
+                SafeLauncher dialog = new SafeLauncher(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -293,9 +293,9 @@ public class LauncherDialog extends javax.swing.JDialog {
             Thread.sleep(1000);
         }
         try {
-            Main.main(args);
+            NormalLauncher.launch(args);
         } catch (Exception ex) {
-            Logger.getLogger(LauncherDialog.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SafeLauncher.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             System.exit(0);
         }
