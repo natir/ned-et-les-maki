@@ -181,19 +181,19 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_left"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_mount_stairs_up) {
             updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_up"))
-                    .moveToRelative(new Vector3f(diff.getY() - 0.4f, diff.getX() - 0.2f, 1), animationTime)
+                    .moveToRelative(new Vector3(diff.getY() - 0.4f, diff.getX() - 0.2f, 1), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_mount_stairs_down) {
             updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_down"))
-                    .moveToRelative(new Vector3f(diff.getY() + 0.2f, diff.getX() - 0.4f, 1), animationTime)
+                    .moveToRelative(new Vector3(diff.getY() + 0.2f, diff.getX() - 0.4f, 1), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_mount_stairs_right) {
             updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_right"))
-                    .moveToRelative(new Vector3f(diff.getY() - 0.2f, diff.getX() + 0.2f, 1), animationTime)
+                    .moveToRelative(new Vector3(diff.getY() - 0.2f, diff.getX() + 0.2f, 1), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_mount_stairs_left) {
             updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_left"))
-                    .moveToRelative(new Vector3f(diff.getY() - 0.2f, diff.getX() - 0.4f, 1), animationTime)
+                    .moveToRelative(new Vector3(diff.getY() - 0.2f, diff.getX() - 0.4f, 1), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.box_destroy) {
             updatable.waitDuring(waitBefore)
@@ -226,11 +226,11 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.maki_blue_out) {
             updatable.startAnimation(makiAnim.getAnimationByName("maki_blue_out"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.maki_orange_no) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(makiAnim.getAnimationByName("maki_orange_no"))
-                    .moveToRelative(new Vector3f(diff.getY(), diff.getX(), 0), animationTime);
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.disable_entity) {
             e.disable();
         } else if (a == AnimationType.stairs_open_up) {
