@@ -100,7 +100,7 @@ public class NedModule extends AbstractModule {
         @Provides
     @Singleton
     public VirtualFileSystem createVfs() {
-        File applicationDir = Main.getApplicationDir();
+        File applicationDir = NormalLauncher.getApplicationDir();
         return new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data"));
     }
     

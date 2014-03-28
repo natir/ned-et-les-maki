@@ -41,7 +41,6 @@ import im.bci.jnuit.artemis.sprite.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.SpritePuppetControlSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.TriggerWhenRemovedSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.MouseArrowSystem;
 import org.lwjgl.LWJGLException;
 
