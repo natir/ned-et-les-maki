@@ -34,6 +34,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 import com.google.inject.Inject;
+import im.bci.jnuit.artemis.sprite.IsometricSpriteProjector;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
@@ -55,13 +56,14 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Stairs;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.CatchNed;
-import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
-import org.geekygoblin.nedetlesmaki.game.components.visual.SpritePuppetControls;
+import im.bci.jnuit.artemis.sprite.Sprite;
+import im.bci.jnuit.artemis.sprite.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.lwjgl.util.vector.Vector3f;
+import pythagoras.f.Vector3;
 
 /**
  *
@@ -131,8 +133,8 @@ public class StartGameTrigger extends Trigger {
         assets.clearUseless();
     }
 
-    private Vector3f tileToPos(TmxAsset tmx, int y, int x, int layer) {
-        return new Vector3f(x, y, layer);
+    private Vector3 tileToPos(TmxAsset tmx, int y, int x, int layer) {
+        return new Vector3(x, y, layer);
     }
 
     private Entity createEntityFromTile(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
@@ -195,14 +197,14 @@ public class StartGameTrigger extends Trigger {
 
     private Sprite createSprite(TmxAsset tmx, int x, int y, int l, final TmxTileInstance tile, ApparitionEffect apparitionEffect, Entity entity) {
         Sprite sprite = new Sprite();
-        final Vector3f pos = tileToPos(tmx, x, y, l);
-        Vector3f apparitionPos = new Vector3f(pos);
-        switch (apparitionEffect) {
+        final Vector3 pos = tileToPos(tmx, x, y, l);
+        Vector3 apparitionPos = new Vector3(pos);
+        switch(apparitionEffect) {
             case FROM_ABOVE:
-                apparitionPos.translate(0, 0, (1.0f + random.nextFloat()) * VirtualResolution.HEIGHT);
+                apparitionPos.addLocal(0, 0, (1.0f + random.nextFloat()) * VirtualResolution.HEIGHT);
                 break;
             case FROM_BELOW:
-                apparitionPos.translate((2.0f * random.nextFloat() - 1.0f) * tmx.getMap().getWidth(), (2.0f * random.nextFloat() - 1.0f) * tmx.getMap().getWidth(), (1.0f + random.nextFloat() * 2.0f) * -VirtualResolution.HEIGHT);
+                apparitionPos.addLocal((2.0f * random.nextFloat() - 1.0f) * tmx.getMap().getWidth(), (2.0f * random.nextFloat() - 1.0f) * tmx.getMap().getWidth(), (1.0f + random.nextFloat() * 2.0f) * -VirtualResolution.HEIGHT);
                 break;
             case NONE:
             default:

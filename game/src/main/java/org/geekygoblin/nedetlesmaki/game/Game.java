@@ -37,7 +37,7 @@ import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.TriggerSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.SpriteAnimateSystem;
+import im.bci.jnuit.artemis.sprite.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.SpritePuppetControlSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.TriggerWhenRemovedSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
