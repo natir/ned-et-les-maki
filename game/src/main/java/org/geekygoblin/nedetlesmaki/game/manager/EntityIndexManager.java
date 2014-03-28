@@ -38,7 +38,7 @@ import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
-import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import im.bci.jnuit.artemis.sprite.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.BlockOnPlate;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Boostable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;

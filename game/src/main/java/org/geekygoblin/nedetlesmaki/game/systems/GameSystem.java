@@ -30,7 +30,7 @@ import java.util.Collections;
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
 
-import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import im.bci.jnuit.artemis.sprite.Sprite;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pushable;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Pusher;

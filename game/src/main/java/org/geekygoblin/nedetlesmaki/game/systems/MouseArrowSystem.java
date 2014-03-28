@@ -34,13 +34,13 @@ import im.bci.jnuit.lwjgl.assets.IAssets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.components.visual.Sprite;
+import im.bci.jnuit.artemis.sprite.Sprite;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.Color;
-import org.lwjgl.util.vector.Vector3f;
+import pythagoras.f.Vector3;
 
 /**
  *
@@ -50,7 +50,7 @@ public class MouseArrowSystem extends EntityProcessingSystem {
 
     @Mapper
     ComponentMapper<Sprite> spriteMapper;
-    private Vector3f mousePos;
+    private Vector3 mousePos;
     private float nearestSpriteDistance;
     private Sprite nearestSprite;
     private Entity arrow;
@@ -66,7 +66,10 @@ public class MouseArrowSystem extends EntityProcessingSystem {
     @Override
     protected void begin() {
         if (null != nearestSprite) {
-            nearestSprite.setColor((Color) Color.WHITE);
+            nearestSprite.setRed(1.0f);
+            nearestSprite.setGreen(1.0f);
+            nearestSprite.setBlue(1.0f);
+            nearestSprite.setAlpha(1.0f);
             nearestSprite = null;
         }
         nearestSpriteDistance = Float.MAX_VALUE;
@@ -82,7 +85,7 @@ public class MouseArrowSystem extends EntityProcessingSystem {
                 world.addEntity(arrow);
             }
             final Sprite arrowSprite = spriteMapper.get(arrow);
-            arrowSprite.setPosition(new Vector3f(mousePos));
+            arrowSprite.setPosition(new Vector3(mousePos));
         }
     }
 
@@ -90,8 +93,7 @@ public class MouseArrowSystem extends EntityProcessingSystem {
     protected void process(Entity entity) {
         if (null != mousePos && entity != arrow) {
             Sprite sprite = spriteMapper.get(entity);
-            Vector3f v = new Vector3f();
-            Vector3f.sub(mousePos, sprite.getPosition(), v);
+            Vector3 v = mousePos.subtract(sprite.getPosition());
             float distance = v.lengthSquared();
             if (distance < nearestSpriteDistance) {
                 nearestSprite = sprite;
@@ -103,7 +105,10 @@ public class MouseArrowSystem extends EntityProcessingSystem {
     @Override
     protected void end() {
         if (null != nearestSprite) {
-            nearestSprite.setColor((Color) Color.ORANGE);
+            nearestSprite.setRed(1.0f);
+            nearestSprite.setGreen(0.5f);
+            nearestSprite.setBlue(0f);
+            nearestSprite.setAlpha(1.0f);
         }
         if (null != arrow) {
             updateArrowPlay(spriteMapper.get(arrow));
@@ -117,8 +122,8 @@ public class MouseArrowSystem extends EntityProcessingSystem {
     private void updateArrowPlay(Sprite sprite) {
         IAnimation animation = null;
         if (null != nearestSprite) {
-            Vector3f selectedPosition = nearestSprite.getPosition();
-            Vector3f nedPosition = spriteMapper.get(game.getNed()).getPosition();
+            Vector3 selectedPosition = nearestSprite.getPosition();
+            Vector3 nedPosition = spriteMapper.get(game.getNed()).getPosition();
             int nedX = Math.round(nedPosition.x);
             int nedY = Math.round(nedPosition.y);
             int selectedX = Math.round(selectedPosition.x);
