@@ -92,7 +92,7 @@ public class GameSystem {
                     baseBefore = 0;
                 }
             } else {
-                if (this.index.isStairs(newP)) {
+                if (this.index.isStairs(newP) && e.equals(nedEntity)) {
                     mouv.addAll(nedMoveOnStairs(dirP, e, animTime));
                     if (!mouv.isEmpty()) {
                         this.end = true;
