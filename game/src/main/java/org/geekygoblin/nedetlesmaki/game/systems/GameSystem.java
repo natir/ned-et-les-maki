@@ -698,13 +698,13 @@ public class GameSystem {
         boolean reCall = false;
 
         ArrayList<Mouvement> head = this.index.pop();
-
-        Collections.reverse(head);
-
+        
         if (head == null) {
             return;
         }
-
+        
+        Collections.reverse(head);
+        
         ArrayList<Mouvement> rm = new ArrayList<>();
 
         for (int i = 0; i != head.size(); i++) {
