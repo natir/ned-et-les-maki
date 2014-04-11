@@ -165,6 +165,14 @@ THE SOFTWARE. -->
                                             </mapper>
                                         </data>
                                         <data>
+                                            <src>${project.build.directory}/nedetlesmaki-safe.desktop</src>
+                                            <type>file</type>
+                                            <mapper>
+                                                <type>perm</type>
+                                                <prefix>/usr/share/applications</prefix>
+                                            </mapper>
+                                        </data>
+                                        <data>
                                             <src>${project.build.directory}/run_nedetlesmaki.sh</src>
                                             <type>file</type>
                                             <dst>nedetlesmaki</dst>

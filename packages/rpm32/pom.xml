@@ -193,6 +193,17 @@ THE SOFTWARE. -->
                                             </sources>
                                         </mapping>
                                         <mapping>
+                                            <directory>/usr/share/applications</directory>
+                                            <directoryIncluded>false</directoryIncluded>
+                                            <username>root</username>
+                                            <groupname>root</groupname>
+                                            <sources>
+                                                <source>
+                                                    <location>${project.build.directory}/nedetlesmaki-safe.desktop</location>
+                                                </source>
+                                            </sources>
+                                        </mapping>
+                                        <mapping>
                                             <directory>/usr/bin</directory>
                                             <directoryIncluded>false</directoryIncluded>
                                             <filemode>755</filemode>
