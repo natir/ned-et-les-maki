@@ -70,7 +70,7 @@ public class GameSystem {
         float destroyBefore = baseBefore;
 
         for (int i = 0; i != this.index.getMovable(e); i++) {
-            float animTime = this.calculateAnimationTime(0.6f, i);
+            float animTime = this.calculateAnimationTime(0.4f, i);
             Position newP = PosOperation.sum(oldP, dirP);
 
             if (i > this.index.getBoost(e) - 1) {
@@ -105,17 +105,17 @@ public class GameSystem {
                         if (this.index.isPushableEntity(nextE)) {
                             if (this.index.isDestroyer(e)) {
                                 if (this.index.isDestroyable(nextE)) {
-                                    mouv.addAll(destroyMove(nextE, dirP, destroyBefore + this.beforeTime(0.6f, i), animTime));
-                                    mouv.addAll(runValideMove(dirP, e, false, this.beforeTime(0.6f, i), animTime, i, this.index.isBoosted(e), nedPush));
+                                    mouv.addAll(destroyMove(nextE, dirP, destroyBefore + this.beforeTime(0.4f, i), animTime));
+                                    mouv.addAll(runValideMove(dirP, e, false, this.beforeTime(0.4f, i), animTime, i, this.index.isBoosted(e), nedPush));
                                 } else {
-                                    ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.6f, i), e == nedEntity);
+                                    ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.4f, i), e == nedEntity);
                                     if (!recMouv.isEmpty()) {
                                         mouv.addAll(recMouv);
-                                        mouv.addAll(runValideMove(dirP, e, true, this.beforeTime(0.6f, i), animTime, i, this.index.isBoosted(e), nedPush));
+                                        mouv.addAll(runValideMove(dirP, e, true, this.beforeTime(0.4f, i), animTime, i, this.index.isBoosted(e), nedPush));
                                     }
                                 }
                             } else {
-                                ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.6f, i), e == nedEntity);
+                                ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.4f, i), e == nedEntity);
                                 if (!recMouv.isEmpty()) {
                                     mouv.addAll(recMouv);
                                     if (!this.index.isCatchNed(nextE)) {
@@ -145,7 +145,7 @@ public class GameSystem {
                 if (mouv.size() == 3 && this.isBeginFly(mouv.get(1).getAnimation(0)) && this.isEndFly(mouv.get(2).getAnimation(0))) {
                     mouv.remove(2);
                     mouv.remove(1);
-                    mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(this.getNedAnimation(dirP, 0, true, false)).setAnimationTime(this.calculateAnimationTime(0.6f, 0)).saveMouvement());
+                    mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(this.getNedAnimation(dirP, 0, true, false)).setAnimationTime(this.calculateAnimationTime(0.4f, 0)).saveMouvement());
                 }
 
                 if (mouv.size() == 1 && this.isEndFly(mouv.get(0).getAnimation(0))) {
@@ -167,7 +167,7 @@ public class GameSystem {
         if (mouv.size() == 3 && this.isBeginFly(mouv.get(1).getAnimation(0)) && this.isEndFly(mouv.get(2).getAnimation(0))) {
             mouv.remove(2);
             mouv.remove(1);
-            mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(this.getNedAnimation(dirP, 0, true, false)).setAnimationTime(this.calculateAnimationTime(0.6f, 0)).saveMouvement());
+            mouv.add(new Mouvement(nedEntity).setPosition(dirP).setAnimation(this.getNedAnimation(dirP, 0, true, false)).setAnimationTime(this.calculateAnimationTime(0.4f, 0)).saveMouvement());
         }
 
         if (mouv.size() == 1 && this.isEndFly(mouv.get(0).getAnimation(0))) {
@@ -620,37 +620,37 @@ public class GameSystem {
         switch (stairsS.getDir()) {
             case 1:
                 if (open) {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_up).setAnimationTime(0.6f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_up).setAnimationTime(0.4f).saveMouvement());
                 } else {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_up).setAnimationTime(0.6f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_up).setAnimationTime(0.4f).saveMouvement());
                 }
                 break;
             case 2:
                 if (open) {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_down).setAnimationTime(0.6f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_down).setAnimationTime(0.4f).saveMouvement());
                 } else {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_down).setAnimationTime(0.6f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_down).setAnimationTime(0.4f).saveMouvement());
                 }
                 break;
             case 3:
                 if (open) {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_left).setAnimationTime(0.6f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_left).setAnimationTime(0.4f).saveMouvement());
                 } else {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_left).setAnimationTime(0.6f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_left).setAnimationTime(0.4f).saveMouvement());
                 }
                 break;
             case 4:
                 if (open) {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_right).setAnimationTime(0.6f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_right).setAnimationTime(0.4f).saveMouvement());
                 } else {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_right).setAnimationTime(0.6f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_right).setAnimationTime(0.4f).saveMouvement());
                 }
                 break;
             default:
                 if (open) {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_up).setAnimationTime(0.6f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_open_up).setAnimationTime(0.4f).saveMouvement());
                 } else {
-                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_up).setAnimationTime(0.6f).saveMouvement());
+                    tmpm.add(new Mouvement(stairs).setAnimation(AnimationType.stairs_close_up).setAnimationTime(0.4f).saveMouvement());
                 }
         }
 
