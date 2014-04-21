@@ -32,6 +32,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import im.bci.jnuit.background.TexturedBackground;
+import im.bci.jnuit.focus.NullFocusCursor;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
@@ -98,7 +99,7 @@ public class LevelSelector extends TabOrientedNavigableContainer {
             }
 
         };
-        backButton.setMustDrawFocus(false);
+        backButton.setFocusCursor(NullFocusCursor.INSTANCE);
         backButton.setBackground(new TexturedBackground(assets.getAnimations("portail.nanim.gz").getAnimationByName("normal").start(PlayMode.LOOP)));
         backButton.setFocusedBackground(new TexturedBackground(assets.getAnimations("portail.nanim.gz").getAnimationByName("survol").start(PlayMode.LOOP)));
         backButton.setX(555);
@@ -114,7 +115,7 @@ public class LevelSelector extends TabOrientedNavigableContainer {
 
         public LevelSelectorButton(NuitToolkit toolkit, String text, String levelName) {
             super(toolkit, text);
-            setMustDrawFocus(false);
+            setFocusCursor(NullFocusCursor.INSTANCE);
             this.levelName = levelName;
         }
 

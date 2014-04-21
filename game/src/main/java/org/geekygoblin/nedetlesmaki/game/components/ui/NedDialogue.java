@@ -28,6 +28,7 @@ import com.google.inject.Inject;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
+import im.bci.jnuit.focus.NullFocusCursor;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import im.bci.jnuit.widgets.Dialogue;
 
@@ -45,11 +46,11 @@ public class NedDialogue extends Dialogue {
         nextButton.setText("");
         nextButton.setBackground(new TexturedBackground(dialogAnimations.getAnimationByName("next").start(PlayMode.LOOP)));
         nextButton.setFocusedBackground(new TexturedBackground(dialogAnimations.getAnimationByName("next_focused").start(PlayMode.LOOP)));
-        nextButton.setMustDrawFocus(false);
+        nextButton.setFocusCursor(NullFocusCursor.INSTANCE);
        
         previousButton.setText("");
         previousButton.setBackground(new TexturedBackground(dialogAnimations.getAnimationByName("previous").start(PlayMode.LOOP)));
         previousButton.setFocusedBackground(new TexturedBackground(dialogAnimations.getAnimationByName("previous_focused").start(PlayMode.LOOP)));
-        previousButton.setMustDrawFocus(false);
+        previousButton.setFocusCursor(NullFocusCursor.INSTANCE);
     }
 }
