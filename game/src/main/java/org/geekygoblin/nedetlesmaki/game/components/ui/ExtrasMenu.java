@@ -27,6 +27,7 @@ import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.animation.IAnimation;
 import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.background.TexturedBackground;
+import im.bci.jnuit.focus.NullFocusCursor;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import im.bci.jnuit.widgets.Button;
 import im.bci.jnuit.widgets.Root;
@@ -62,7 +63,7 @@ public class ExtrasMenu extends TabOrientedNavigableContainer {
         cutscenesButton.setHeight(92);
         cutscenesButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
         cutscenesButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
-        cutscenesButton.setMustDrawFocus(false);
+        cutscenesButton.setFocusCursor(NullFocusCursor.INSTANCE);
         add(cutscenesButton);
 
         final Button artworkButton = new Button(toolkit, "extras.menu.button.artwork") {
@@ -77,7 +78,7 @@ public class ExtrasMenu extends TabOrientedNavigableContainer {
         artworkButton.setHeight(92);
         artworkButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
         artworkButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
-        artworkButton.setMustDrawFocus(false);
+        artworkButton.setFocusCursor(NullFocusCursor.INSTANCE);
         add(artworkButton);
 
         final Button backButton = new Button(toolkit, "extras.menu.button.back") {
@@ -92,7 +93,7 @@ public class ExtrasMenu extends TabOrientedNavigableContainer {
         backButton.setHeight(92);
         backButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
         backButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
-        backButton.setMustDrawFocus(false);
+        backButton.setFocusCursor(NullFocusCursor.INSTANCE);
         add(backButton);
     }
 

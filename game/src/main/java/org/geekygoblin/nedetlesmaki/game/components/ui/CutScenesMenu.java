@@ -27,6 +27,7 @@ import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.animation.IAnimation;
 import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.background.TexturedBackground;
+import im.bci.jnuit.focus.NullFocusCursor;
 import im.bci.jnuit.lwjgl.assets.IAssets;
 import im.bci.jnuit.widgets.Button;
 import im.bci.jnuit.widgets.Container;
@@ -63,7 +64,7 @@ public class CutScenesMenu extends Stack {
         cutscenesButton.setHeight(80);
         cutscenesButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));
         cutscenesButton.setFocusedBackground(new TexturedBackground(buttonFocusedBackgroundAnimation.start(PlayMode.LOOP)));
-        cutscenesButton.setMustDrawFocus(false);
+        cutscenesButton.setFocusCursor(NullFocusCursor.INSTANCE);
         menu.add(cutscenesButton);
         
         final Button creditsButton = new Button(toolkit, "cutscenes.menu.button.credits") {
@@ -82,7 +83,7 @@ public class CutScenesMenu extends Stack {
         creditsButton.setHeight(80);
         creditsButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));
         creditsButton.setFocusedBackground(new TexturedBackground(buttonFocusedBackgroundAnimation.start(PlayMode.LOOP)));
-        creditsButton.setMustDrawFocus(false);
+        creditsButton.setFocusCursor(NullFocusCursor.INSTANCE);
         menu.add(creditsButton);
 
         final Button backButton = new Button(toolkit, "cutscenes.menu.button.back") {
@@ -97,7 +98,7 @@ public class CutScenesMenu extends Stack {
         backButton.setHeight(80);
         backButton.setBackground(new TexturedBackground(buttonBackgroundAnimation.start(PlayMode.LOOP)));
         backButton.setFocusedBackground(new TexturedBackground(buttonFocusedBackgroundAnimation.start(PlayMode.LOOP)));
-        backButton.setMustDrawFocus(false);
+        backButton.setFocusCursor(NullFocusCursor.INSTANCE);
         menu.add(backButton);
         show(menu);
     }
