@@ -601,12 +601,12 @@ public class GameSystem {
                     stairsAnimation(stairs, stairsS, false);
                 }
 
-                return new ArrayList<>();
+                return new ArrayList<Mouvement>();
             }
         }
 
         if (stairsS.isOpen()) {
-            return new ArrayList<>();
+            return new ArrayList<Mouvement>();
         }
 
         stairsS.setStairs(true);
@@ -705,7 +705,7 @@ public class GameSystem {
         
         Collections.reverse(head);
         
-        ArrayList<Mouvement> rm = new ArrayList<>();
+        ArrayList<Mouvement> rm = new ArrayList<Mouvement>();
 
         for (int i = 0; i != head.size(); i++) {
             for (int j = 0; j != head.get(i).size(); j++) {

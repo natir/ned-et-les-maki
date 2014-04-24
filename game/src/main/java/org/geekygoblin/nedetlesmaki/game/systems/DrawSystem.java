@@ -84,9 +84,9 @@ public class DrawSystem extends EntitySystem {
     private SpriteProjector spriteProjector;
     private final Viewport viewPort = new Viewport();
     private static final float spriteGlobalScale = 1.5f;
-    private final Bag<Entity> backgrounds = new Bag<>();
-    private final Bag<Entity> sprites = new Bag<>();
-    private final Bag<Entity> uis = new Bag<>();
+    private final Bag<Entity> backgrounds = new Bag<Entity>();
+    private final Bag<Entity> sprites = new Bag<Entity>();
+    private final Bag<Entity> uis = new Bag<Entity>();
 
     private final SpriteBatcher spriteBatcher = new SpriteBatcher();
     private final LwjglNuitFont font;

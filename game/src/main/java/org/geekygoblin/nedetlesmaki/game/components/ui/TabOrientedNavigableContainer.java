@@ -68,8 +68,8 @@ public class TabOrientedNavigableContainer extends Container {
     }
 
     public TabOrientedNavigableContainer() {
-        leftToRightChildren = new TreeSet<>(new LeftToRightComparator());
-        topToBottomChildren = new TreeSet<>(new TopToBottomComparator());
+        leftToRightChildren = new TreeSet<Widget>(new LeftToRightComparator());
+        topToBottomChildren = new TreeSet<Widget>(new TopToBottomComparator());
     }
 
     @Override
