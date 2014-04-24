@@ -62,7 +62,6 @@ import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
-import org.lwjgl.util.vector.Vector3f;
 import pythagoras.f.Vector3;
 
 /**
@@ -99,7 +98,7 @@ public class StartGameTrigger extends Trigger {
 
         final GroupManager groupManager = game.getManager(GroupManager.class);
 
-        ArrayList<Entity> entitiesToDelete = new ArrayList<>();
+        ArrayList<Entity> entitiesToDelete = new ArrayList<Entity>();
         for (Entity e : game.getManager(GroupManager.class).getEntities(Group.LEVEL)) {
             entitiesToDelete.add(e);
         }
@@ -138,46 +137,62 @@ public class StartGameTrigger extends Trigger {
     }
 
     private Entity createEntityFromTile(final TmxTileInstance tile, Game game, TmxAsset tmx, int x, int y, int l, TmxLayer layer) {
-        switch (tile.getTile().getProperty("type", "decoration")) {
-            case "ned":
-                return createNed(tile, game, tmx, x, y, l, layer);
-            case "green_maki":
-                return createGreenMaki(tile, game, tmx, x, y, l, layer);
-            case "orange_maki":
-                return createOrangeMaki(tile, game, tmx, x, y, l, layer);
-            case "blue_maki":
-                return createBlueMaki(tile, game, tmx, x, y, l, layer);
-            case "green_maki_on_plate":
-                return createGreenMakiOnPlate(tile, game, tmx, x, y, l, layer);
-            case "orange_maki_on_plate":
-                return createOrangeMakiOnPlate(tile, game, tmx, x, y, l, layer);
-            case "blue_maki_on_plate":
-                return createBlueMakiOnPlate(tile, game, tmx, x, y, l, layer);
-            case "box":
-                return createBox(tile, game, tmx, x, y, l, layer);
-            case "rooted_box":
-                return createRootedBox(tile, game, tmx, x, y, l, layer);
-            case "wall":
-                return createWall(tile, game, tmx, x, y, l, layer);
-            case "green_plate":
-                return createPlate(tile, game, tmx, x, y, l, layer, ColorType.green, false);
-            case "orange_plate":
-                return createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange, false);
-            case "blue_plate":
-                return createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue, false);
-            case "stairs_close_up":
-                return createStairs(tile, game, tmx, x, y, l, layer, 1);
-            case "stairs_close_down":
-                return createStairs(tile, game, tmx, x, y, l, layer, 2);
-            case "stairs_close_left":
-                return createStairs(tile, game, tmx, x, y, l, layer, 3);
-            case "stairs_close_right":
-                return createStairs(tile, game, tmx, x, y, l, layer, 4);
-            case "low_stairs":
-                return createLowStairs(tile, game, tmx, x, y, l, layer);
-            default:
-                return createDecoration(tile, game, tmx, x, y, l, layer);
+        String type = tile.getTile().getProperty("type", "decoration");
+        if ("ned".equals(type)) {
+            return createNed(tile, game, tmx, x, y, l, layer);
         }
+        if ("green_maki".equals(type)) {
+            return createGreenMaki(tile, game, tmx, x, y, l, layer);
+        }
+        if ("orange_maki".equals(type)) {
+            return createOrangeMaki(tile, game, tmx, x, y, l, layer);
+        }
+        if ("blue_maki".equals(type)) {
+            return createBlueMaki(tile, game, tmx, x, y, l, layer);
+        }
+        if ("green_maki_on_plate".equals(type)) {
+            return createGreenMakiOnPlate(tile, game, tmx, x, y, l, layer);
+        }
+        if ("orange_maki_on_plate".equals(type)) {
+            return createOrangeMakiOnPlate(tile, game, tmx, x, y, l, layer);
+        }
+        if ("blue_maki_on_plate".equals(type)) {
+            return createBlueMakiOnPlate(tile, game, tmx, x, y, l, layer);
+        }
+        if ("box".equals(type)) {
+            return createBox(tile, game, tmx, x, y, l, layer);
+        }
+        if ("rooted_box".equals(type)) {
+            return createRootedBox(tile, game, tmx, x, y, l, layer);
+        }
+        if ("wall".equals(type)) {
+            return createWall(tile, game, tmx, x, y, l, layer);
+        }
+        if ("green_plate".equals(type)) {
+            return createPlate(tile, game, tmx, x, y, l, layer, ColorType.green, false);
+        }
+        if ("orange_plate".equals(type)) {
+            return createPlate(tile, game, tmx, x, y, l, layer, ColorType.orange, false);
+        }
+        if ("blue_plate".equals(type)) {
+            return createPlate(tile, game, tmx, x, y, l, layer, ColorType.blue, false);
+        }
+        if ("stairs_close_up".equals(type)) {
+            return createStairs(tile, game, tmx, x, y, l, layer, 1);
+        }
+        if ("stairs_close_down".equals(type)) {
+            return createStairs(tile, game, tmx, x, y, l, layer, 2);
+        }
+        if ("stairs_close_left".equals(type)) {
+            return createStairs(tile, game, tmx, x, y, l, layer, 3);
+        }
+        if ("stairs_close_right".equals(type)) {
+            return createStairs(tile, game, tmx, x, y, l, layer, 4);
+        }
+        if ("low_stairs".equals(type)) {
+            return createLowStairs(tile, game, tmx, x, y, l, layer);
+        }
+        return createDecoration(tile, game, tmx, x, y, l, layer);
 
     }
 
@@ -199,7 +214,7 @@ public class StartGameTrigger extends Trigger {
         Sprite sprite = new Sprite();
         final Vector3 pos = tileToPos(tmx, x, y, l);
         Vector3 apparitionPos = new Vector3(pos);
-        switch(apparitionEffect) {
+        switch (apparitionEffect) {
             case FROM_ABOVE:
                 apparitionPos.addLocal(0, 0, (1.0f + random.nextFloat()) * VirtualResolution.HEIGHT);
                 break;

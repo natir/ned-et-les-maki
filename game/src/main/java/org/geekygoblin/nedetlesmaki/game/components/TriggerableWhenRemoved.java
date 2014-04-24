@@ -15,7 +15,7 @@ import org.geekygoblin.nedetlesmaki.game.events.Trigger;
  */
 public final class TriggerableWhenRemoved extends Component {
 
-    private final List<Trigger> triggers = new ArrayList<>();
+    private final List<Trigger> triggers = new ArrayList<Trigger>();
 
     public TriggerableWhenRemoved(Trigger trigger) {
         this.triggers.add(trigger);
