@@ -21,24 +21,24 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game;
+package org.geekygoblin.nedetlesmaki.game.components;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import im.bci.jnuit.NuitTranslator;
-import im.bci.jnuit.lwjgl.LwjglNuitRenderer;
-import im.bci.jnuit.lwjgl.LwjglNuitFont;
+import com.artemis.Component;
+import org.geekygoblin.nedetlesmaki.game.events.Trigger;
 
 /**
  *
  * @author devnewton
  */
-@Singleton
-public class NedNuitRenderer extends LwjglNuitRenderer {
+public class Triggerable extends Component {
 
-    @Inject
-    public NedNuitRenderer(NuitTranslator translator, @NamedEntities.DefaultFont LwjglNuitFont font) {
-        super(translator, font);
+    private final Trigger trigger;
+
+    public Triggerable(Trigger trigger) {
+        this.trigger = trigger;
     }
 
+    public Trigger getTrigger() {
+        return trigger;
+    }
 }

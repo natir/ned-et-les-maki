@@ -28,9 +28,8 @@ import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.widgets.Root;
 import com.google.inject.Inject;
 import im.bci.jnuit.NuitRenderer;
-import im.bci.jnuit.lwjgl.assets.IAssets;
+import org.geekygoblin.nedetlesmaki.game.IAssets;
 import org.geekygoblin.nedetlesmaki.game.Game;
-import org.lwjgl.LWJGLException;
 
 /**
  *
@@ -44,7 +43,7 @@ public class DialogComponent extends Component {
     private final NedDialogue dialog;
 
     @Inject
-    public DialogComponent(NuitToolkit toolkit, NuitRenderer nuitRenderer, Game game, IAssets assets, NedDialogue dialog) throws LWJGLException {
+    public DialogComponent(NuitToolkit toolkit, NuitRenderer nuitRenderer, Game game, IAssets assets, NedDialogue dialog) {
         this.game = game;
         root = new Root(toolkit);
         this.nuitRenderer = nuitRenderer;

@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -24,12 +24,10 @@
 package org.geekygoblin.nedetlesmaki.game;
 
 import com.artemis.Entity;
-import com.artemis.World;
 import com.artemis.managers.GroupManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import im.bci.jnuit.NuitToolkit;
-import im.bci.jnuit.lwjgl.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.systems.DebugSpriteSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.DialogSystem;
@@ -38,29 +36,28 @@ import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.TriggerSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
 import im.bci.jnuit.artemis.sprite.SpriteAnimateSystem;
+import org.geekygoblin.nedetlesmaki.game.systems.MouseArrowSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.SpritePuppetControlSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.TriggerWhenRemovedSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.MouseArrowSystem;
-import org.lwjgl.LWJGLException;
 
 /**
  *
  * @author devnewton
  */
 @Singleton
-public class Game extends World {
+public class LwjglGame extends Game {
 
     private Entity ned;
 
     @Inject
-    public Game(NuitToolkit toolkit, DrawSystem drawSystem, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, IAssets assets) throws LWJGLException {
+    public LwjglGame(NuitToolkit toolkit, DrawSystem drawSystem, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, IAssets assets) {
         setManager(indexedManager);
         setSystem(ingameInputSystem);
         setSystem(updateLevelVisualSystem);
         setSystem(new SpriteAnimateSystem());
         setSystem(new SpritePuppetControlSystem());
-        setSystem(new MouseArrowSystem(this, assets));
+        setSystem(new MouseArrowSystem(this, assets, drawSystem));
         setSystem(drawSystem);
         setSystem(new TriggerSystem());
         setSystem(new TriggerWhenRemovedSystem());
@@ -72,10 +69,12 @@ public class Game extends World {
         initialize();
     }
 
+    @Override
     public void setNed(Entity ned) {
         this.ned = ned;
     }
 
+    @Override
     public Entity getNed() {
         return ned;
     }

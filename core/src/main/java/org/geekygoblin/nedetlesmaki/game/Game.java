@@ -23,22 +23,22 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import im.bci.jnuit.NuitTranslator;
-import im.bci.jnuit.lwjgl.LwjglNuitRenderer;
-import im.bci.jnuit.lwjgl.LwjglNuitFont;
+import com.artemis.Entity;
+import com.artemis.World;
 
 /**
  *
  * @author devnewton
  */
-@Singleton
-public class NedNuitRenderer extends LwjglNuitRenderer {
+public abstract class Game extends World {
 
-    @Inject
-    public NedNuitRenderer(NuitTranslator translator, @NamedEntities.DefaultFont LwjglNuitFont font) {
-        super(translator, font);
+    private Entity ned;
+
+    public void setNed(Entity ned) {
+        this.ned = ned;
     }
 
+    public Entity getNed() {
+        return ned;
+    }
 }

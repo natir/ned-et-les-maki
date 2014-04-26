@@ -28,7 +28,7 @@ import com.google.inject.Singleton;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.background.ColoredBackground;
-import im.bci.jnuit.lwjgl.assets.IAssets;
+import org.geekygoblin.nedetlesmaki.game.IAssets;
 import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
 
 /**

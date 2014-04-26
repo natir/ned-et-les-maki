@@ -28,8 +28,6 @@ import com.artemis.managers.GroupManager;
 import im.bci.jnuit.NuitToolkit;
 import java.util.Arrays;
 
-import org.lwjgl.LWJGLException;
-
 import im.bci.jnuit.widgets.AudioConfigurator;
 import im.bci.jnuit.widgets.Button;
 import im.bci.jnuit.widgets.ControlsConfigurator;
@@ -43,12 +41,11 @@ import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.animation.IAnimation;
 import im.bci.jnuit.animation.PlayMode;
-import im.bci.jnuit.focus.FocusCursor;
 import im.bci.jnuit.focus.NullFocusCursor;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
-import org.geekygoblin.nedetlesmaki.game.MainLoop;
-import im.bci.jnuit.lwjgl.assets.IAssets;
+import org.geekygoblin.nedetlesmaki.game.IMainLoop;
+import org.geekygoblin.nedetlesmaki.game.IAssets;
 import im.bci.jnuit.widgets.Container;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
@@ -65,7 +62,7 @@ public class MainMenu extends Component {
     private Container extrasMenu;
     private ControlsConfigurator menuControls, gameControls;
     private final LevelSelector levelSelector;
-    private final MainLoop mainLoop;
+    private final IMainLoop mainLoop;
     private final NuitToolkit toolkit;
     private final NuitRenderer nuitRenderer;
     private final IAssets assets;
@@ -75,7 +72,7 @@ public class MainMenu extends Component {
     private final CutScenes cutscenes;
 
     @Inject
-    public MainMenu(MainLoop mainLoop, Game g, NuitToolkit toolkit, NuitRenderer nuitRenderer, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger, IngameControls ingameControls, CutScenes cutscenes, NuitPreferences preferences) throws LWJGLException {
+    public MainMenu(IMainLoop mainLoop, Game g, NuitToolkit toolkit, NuitRenderer nuitRenderer, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger, IngameControls ingameControls, CutScenes cutscenes, NuitPreferences preferences) {
         this.mainLoop = mainLoop;
         this.toolkit = toolkit;
         this.nuitRenderer = nuitRenderer;
@@ -98,7 +95,7 @@ public class MainMenu extends Component {
         root.show(mainMenu);
     }
 
-    private void initVideo() throws LWJGLException {
+    private void initVideo() {
         videoConfigurator = new VideoConfigurator(toolkit) {
             @Override
             protected void changeVideoSettings() {

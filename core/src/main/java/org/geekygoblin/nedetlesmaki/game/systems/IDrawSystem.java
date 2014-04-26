@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,20 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game;
+package org.geekygoblin.nedetlesmaki.game.systems;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import im.bci.jnuit.NuitTranslator;
-import im.bci.jnuit.lwjgl.LwjglNuitRenderer;
-import im.bci.jnuit.lwjgl.LwjglNuitFont;
+import pythagoras.f.Vector3;
 
 /**
  *
- * @author devnewton
+ * @author devnewton <devnewton@bci.im>
  */
-@Singleton
-public class NedNuitRenderer extends LwjglNuitRenderer {
+public interface IDrawSystem {
 
-    @Inject
-    public NedNuitRenderer(NuitTranslator translator, @NamedEntities.DefaultFont LwjglNuitFont font) {
-        super(translator, font);
-    }
+    Vector3 getMouseSpritePos(int yAdjust);
 
+    public void setDefaultCursor();
+
+    public void hideCursor();
+    
 }

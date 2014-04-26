@@ -43,10 +43,7 @@ import im.bci.jnuit.NuitTranslator;
 import im.bci.jnuit.lwjgl.LwjglNuitControls;
 import im.bci.jnuit.lwjgl.LwjglNuitDisplay;
 import im.bci.jnuit.lwjgl.LwjglNuitFont;
-import im.bci.jnuit.lwjgl.assets.AssetsLoader;
 
-import im.bci.jnuit.lwjgl.assets.GarbageCollectedAssets;
-import im.bci.jnuit.lwjgl.assets.IAssets;
 import im.bci.jnuit.lwjgl.assets.VirtualFileSystem;
 import im.bci.jnuit.lwjgl.audio.OpenALNuitAudio;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
@@ -55,8 +52,10 @@ import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
 import org.geekygoblin.nedetlesmaki.game.components.ui.LevelSelector;
 import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
+import org.geekygoblin.nedetlesmaki.game.events.IStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
+import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
 import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
@@ -71,6 +70,7 @@ public class NedModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        bind(IDefaultControls.class).to(LwjglDefaultControls.class);
         bind(NuitRenderer.class).to(NedNuitRenderer.class);
         bind(NuitTranslator.class).to(NedNuitTranslator.class);
         bind(NuitControls.class).toInstance(new LwjglNuitControls());
@@ -89,6 +89,11 @@ public class NedModule extends AbstractModule {
         bind(ShowLevelMenuTrigger.class);
         bind(CutScenes.class);
         bind(Random.class).toInstance(new Random(42));
+        bind(im.bci.jnuit.lwjgl.assets.IAssets.class).to(LwjglAssets.class);
+        bind(org.geekygoblin.nedetlesmaki.game.IAssets.class).to(LwjglAssets.class);
+        bind(Game.class).to(LwjglGame.class);
+        bind(IStartGameTrigger.class).to(StartGameTrigger.class);
+        bind(IMainLoop.class).to(MainLoop.class);
     }
 
     @Provides
@@ -97,17 +102,11 @@ public class NedModule extends AbstractModule {
         return new LwjglNuitPreferences(controls, "nedetlesmaki");
     }
 
-        @Provides
+    @Provides
     @Singleton
     public VirtualFileSystem createVfs() {
         File applicationDir = NormalLauncher.getApplicationDir();
         return new VirtualFileSystem(new File(applicationDir, "data"), new File(applicationDir.getParentFile(), "data"));
-    }
-    
-    @Provides
-    @Singleton
-    public IAssets createAssets(VirtualFileSystem vfs) {
-        return new GarbageCollectedAssets(new AssetsLoader(vfs));
     }
 
     @Provides
@@ -128,7 +127,7 @@ public class NedModule extends AbstractModule {
 
     @Provides
     @NamedEntities.DefaultFont
-    public LwjglNuitFont createDefaultFont(IAssets assets) {
+    public LwjglNuitFont createDefaultFont(im.bci.jnuit.lwjgl.assets.IAssets assets) {
         return (LwjglNuitFont) assets.getFont("ProFontWindows.ttf,32,bold,antialiasing");
     }
 

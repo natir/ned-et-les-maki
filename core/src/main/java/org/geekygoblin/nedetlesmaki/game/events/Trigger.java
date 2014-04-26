@@ -29,6 +29,6 @@ import org.geekygoblin.nedetlesmaki.game.Game;
  *
  * @author devnewton
  */
-public abstract class Trigger {
-    public abstract void process(Game game);
+public interface Trigger {
+    void process(Game game);
 }

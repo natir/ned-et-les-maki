@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- The MIT License (MIT)
 
-Copyright (c) 2013 devnewton <devnewton@bci.im>
+Copyright (c) 2014 devnewton <devnewton@bci.im>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,41 +29,42 @@ THE SOFTWARE. -->
         <version>0.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>nedetlesmaki-game-graph-generator</artifactId>
+    <artifactId>nedetlesmaki-core</artifactId>
     <packaging>jar</packaging>
-    <name>nedetlesmaki-game-graph-generator</name>
+    <name>nedetlesmaki-core</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
                     <!--<compilerArgument>-Xlint:unchecked</compilerArgument>-->
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
     <dependencies>
         <dependency>
-            <groupId>org.geekygoblin</groupId>
-            <artifactId>nedetlesmaki-game</artifactId>
+            <groupId>net.onedaybeard.artemis</groupId>
+            <artifactId>artemis-odb</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.inject.extensions</groupId>
-            <artifactId>guice-grapher</artifactId>
-            <version>3.0</version>
+            <groupId>im.bci</groupId>
+            <artifactId>jnuit-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>im.bci</groupId>
+            <artifactId>jnuit-artemis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
         </dependency>
     </dependencies>
 </project>

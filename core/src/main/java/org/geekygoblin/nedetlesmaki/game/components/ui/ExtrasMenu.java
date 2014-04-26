@@ -28,7 +28,7 @@ import im.bci.jnuit.animation.IAnimation;
 import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.focus.NullFocusCursor;
-import im.bci.jnuit.lwjgl.assets.IAssets;
+import org.geekygoblin.nedetlesmaki.game.IAssets;
 import im.bci.jnuit.widgets.Button;
 import im.bci.jnuit.widgets.Root;
 import im.bci.jnuit.widgets.Widget;

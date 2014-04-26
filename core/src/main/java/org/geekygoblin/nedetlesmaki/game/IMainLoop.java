@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,16 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game.components;
-
-import com.artemis.Component;
-import org.geekygoblin.nedetlesmaki.game.events.Trigger;
+package org.geekygoblin.nedetlesmaki.game;
 
 /**
  *
- * @author devnewton
+ * @author devnewton <devnewton@bci.im>
  */
-public class Triggerable extends Component {
+public interface IMainLoop {
 
-    private Trigger trigger;
+    boolean isCloseRequested();
 
-    public Triggerable(Trigger trigger) {
-        this.trigger = trigger;
-    }
-
-    public Trigger getTrigger() {
-        return trigger;
-    }
+    void setCloseRequested(boolean closeRequested);
+    
 }

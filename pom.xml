@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.geekygoblin</groupId>
     <artifactId>nedetlesmaki</artifactId>
-    <version>0.2</version>
+    <version>0.3-SNAPSHOT</version>
     <name>nedetlesmaki</name>
     <packaging>pom</packaging>
     <properties>
@@ -13,6 +13,7 @@
         <lwjgl.version>2.9.1</lwjgl.version>
     </properties>
     <modules>
+        <module>core</module>
         <module>game</module>
         <module>game-graph-generator</module>
         <module>packages/deb</module>
@@ -20,7 +21,7 @@
         <module>packages/win</module>
         <module>packages/rpm32</module>
         <module>packages/rpm64</module>
-  </modules>
+    </modules>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -55,8 +56,23 @@
             </dependency>
             <dependency>
                 <groupId>im.bci</groupId>
+                <artifactId>jnuit-core</artifactId>
+                <version>${jnuit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>im.bci</groupId>
+                <artifactId>jnuit-artemis</artifactId>
+                <version>${jnuit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>im.bci</groupId>
                 <artifactId>jnuit-lwjgl-utils</artifactId>
                 <version>${jnuit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geekygoblin</groupId>
+                <artifactId>nedetlesmaki-core</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.geekygoblin</groupId>

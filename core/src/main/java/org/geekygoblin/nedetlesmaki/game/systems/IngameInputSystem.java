@@ -35,7 +35,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import im.bci.jnuit.controls.Action;
 import im.bci.jnuit.controls.ActionActivatedDetector;
-import im.bci.jnuit.lwjgl.controls.MouseButtonControl;
 
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
@@ -43,8 +42,8 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.game.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
 import im.bci.jnuit.artemis.sprite.Sprite;
+import org.geekygoblin.nedetlesmaki.game.IDefaultControls;
 import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
-import org.lwjgl.util.vector.Vector3f;
 import pythagoras.f.Vector3;
 
 /**
@@ -58,18 +57,19 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private final Provider<ShowLevelMenuTrigger> showLevelMenuTrigger;
     private final EntityIndexManager indexSystem;
     private final GameSystem gameSystem;
-    private final ActionActivatedDetector mouseClick = new ActionActivatedDetector(new Action("click", new MouseButtonControl(0)));
+    private final ActionActivatedDetector mouseClick;
 
     @Mapper
     ComponentMapper<Sprite> spriteMapper;
 
     @Inject
-    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, EntityIndexManager indexSystem, GameSystem gameSystem) {
+    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, EntityIndexManager indexSystem, GameSystem gameSystem, IDefaultControls defaultControls) {
         super(Aspect.getAspectForAll(IngameControls.class));
         this.showLevelMenuTrigger = showLevelMenuTrigger;
         this.showMenuTrigger = showMenuTrigger;
         this.indexSystem = indexSystem;
         this.gameSystem = gameSystem;
+        this.mouseClick = new ActionActivatedDetector(new Action("click", defaultControls.getMouseClickControls()));
     }
 
     @Override
