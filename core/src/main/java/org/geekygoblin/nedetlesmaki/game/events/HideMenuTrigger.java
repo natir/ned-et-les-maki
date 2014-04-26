@@ -27,27 +27,25 @@ import com.artemis.Entity;
 import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
-import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 
 /**
  *
  * @author devnewton
  */
-public class ShowLevelMenuTrigger extends Trigger {
+public class HideMenuTrigger implements Trigger {
     private final Entity mainMenu;
     private final Entity ingameControls;
     
     @Inject
-    public ShowLevelMenuTrigger(@NamedEntities.MainMenu Entity mainMenu,@NamedEntities.IngameControls Entity ingameControls) {
+    public HideMenuTrigger(@NamedEntities.MainMenu Entity mainMenu,@NamedEntities.IngameControls Entity ingameControls) {
         this.mainMenu = mainMenu;
         this.ingameControls = ingameControls;
     }
 
     @Override
     public void process(Game game) {
-        mainMenu.getComponent(MainMenu.class).showLevelMenu();
-        mainMenu.enable();
-        ingameControls.disable();
+        mainMenu.disable();
+        ingameControls.enable();
     }
 
     

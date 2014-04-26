@@ -26,7 +26,7 @@ THE SOFTWARE. -->
     <parent>
         <groupId>org.geekygoblin</groupId>
         <artifactId>nedetlesmaki</artifactId>
-        <version>0.2</version>
+        <version>0.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>nedetlesmaki-game</artifactId>
@@ -174,7 +174,11 @@ THE SOFTWARE. -->
             </plugins>
         </pluginManagement>
     </build>
-    <dependencies>
+    <dependencies>    
+        <dependency>
+            <groupId>org.geekygoblin</groupId>
+            <artifactId>nedetlesmaki-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.lwjgl.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>

@@ -30,16 +30,9 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import im.bci.jnuit.animation.IAnimation;
 import im.bci.jnuit.animation.PlayMode;
-import im.bci.jnuit.lwjgl.assets.IAssets;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import im.bci.jnuit.artemis.sprite.Sprite;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Cursor;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.util.Color;
+import org.geekygoblin.nedetlesmaki.game.IAssets;
 import pythagoras.f.Vector3;
 
 /**
@@ -56,10 +49,12 @@ public class MouseArrowSystem extends EntityProcessingSystem {
     private Entity arrow;
     private final Game game;
     private final IAssets assets;
+    private final IDrawSystem drawSystem;
 
-    public MouseArrowSystem(Game game, IAssets assets) {
+    public MouseArrowSystem(Game game, IAssets assets, IDrawSystem drawSystem) {
         super(Aspect.getAspectForAll(Sprite.class));
         this.game = game;
+        this.drawSystem = drawSystem;
         this.assets = assets;
     }
 
@@ -73,7 +68,7 @@ public class MouseArrowSystem extends EntityProcessingSystem {
             nearestSprite = null;
         }
         nearestSpriteDistance = Float.MAX_VALUE;
-        mousePos = world.getSystem(DrawSystem.class).getMouseSpritePos(10);
+        mousePos = drawSystem.getMouseSpritePos(10);
         if (null != mousePos) {
             if (null == arrow) {
                 arrow = world.createEntity();
@@ -146,22 +141,13 @@ public class MouseArrowSystem extends EntityProcessingSystem {
 
         if (null == animation) {
             if (null != sprite.getPlay()) {
-                try {
-                    Mouse.setNativeCursor(null);
-                    sprite.setPlay(null);
-                } catch (LWJGLException ex) {
-                    Logger.getLogger(MouseArrowSystem.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                sprite.setPlay(null);
+                drawSystem.setDefaultCursor();
             }
         } else {
             if (null == sprite.getPlay() || sprite.getPlay().getName().equals(animation.getName())) {
                 sprite.setPlay(animation.start(PlayMode.LOOP));
-                try {
-                    Cursor emptyCursor = new Cursor(1, 1, 0, 0, 1, BufferUtils.createIntBuffer(1), null);
-                    Mouse.setNativeCursor(emptyCursor);
-                } catch (LWJGLException ex) {
-                    Logger.getLogger(MouseArrowSystem.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                drawSystem.hideCursor();
             }
         }
 

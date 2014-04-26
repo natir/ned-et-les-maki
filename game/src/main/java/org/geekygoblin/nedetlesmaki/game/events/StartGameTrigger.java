@@ -38,7 +38,6 @@ import im.bci.jnuit.artemis.sprite.IsometricSpriteProjector;
 import org.geekygoblin.nedetlesmaki.game.Game;
 import org.geekygoblin.nedetlesmaki.game.Group;
 import org.geekygoblin.nedetlesmaki.game.NamedEntities;
-import im.bci.jnuit.lwjgl.assets.IAssets;
 import im.bci.jnuit.lwjgl.assets.TmxAsset;
 import org.geekygoblin.nedetlesmaki.game.components.LevelBackground;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Position;
@@ -58,6 +57,7 @@ import org.geekygoblin.nedetlesmaki.game.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.game.components.gamesystems.CatchNed;
 import im.bci.jnuit.artemis.sprite.Sprite;
 import im.bci.jnuit.artemis.sprite.SpritePuppetControls;
+import im.bci.jnuit.lwjgl.assets.IAssets;
 import org.geekygoblin.nedetlesmaki.game.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
@@ -68,7 +68,7 @@ import pythagoras.f.Vector3;
  *
  * @author devnewton natir
  */
-public class StartGameTrigger extends Trigger {
+public class StartGameTrigger implements IStartGameTrigger {
 
     private final IAssets assets;
     private final Entity mainMenu;
@@ -86,6 +86,7 @@ public class StartGameTrigger extends Trigger {
         this.random = random;
     }
 
+    @Override
     public StartGameTrigger withLevelName(String levelName) {
         this.levelName = levelName;
         return this;

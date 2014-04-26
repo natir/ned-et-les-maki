@@ -46,7 +46,12 @@ import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
 import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
 import im.bci.jnuit.lwjgl.sprite.SpriteBatcher;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.geekygoblin.nedetlesmaki.game.utils.Viewport;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
@@ -57,7 +62,7 @@ import pythagoras.f.Vector3;
  *
  * @author devnewton
  */
-public class DrawSystem extends EntitySystem {
+public class DrawSystem extends EntitySystem implements IDrawSystem {
 
     @Mapper
     ComponentMapper<LevelBackground> levelBackgroundMapper;
@@ -197,7 +202,7 @@ public class DrawSystem extends EntitySystem {
         IPlay backgroundAnimationPlay = level.getBackground();
         backgroundAnimationPlay.update((long) (world.getDelta() * 1000L));
         final IAnimationFrame currentFrame = backgroundAnimationPlay.getCurrentFrame();
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, (Integer)currentFrame.getImage().getId());
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, (Integer) currentFrame.getImage().getId());
         float x1 = -VirtualResolution.WIDTH / 2.0f;
         float x2 = VirtualResolution.WIDTH / 2.0f;
         float y1 = VirtualResolution.HEIGHT / 2.0f;
@@ -243,6 +248,7 @@ public class DrawSystem extends EntitySystem {
         return spriteProjector;
     }
 
+    @Override
     public Vector3 getMouseSpritePos(int yAdjust) {
         if (null != spriteProjector) {
             float mouseX = (Mouse.getX() - viewPort.x) * VirtualResolution.WIDTH / viewPort.width - VirtualResolution.WIDTH / 2.0f;
@@ -272,6 +278,25 @@ public class DrawSystem extends EntitySystem {
         }
         viewPort.x = (screenWidth - viewPort.width) / 2;
         viewPort.y = (screenHeight - viewPort.height) / 2;
+    }
+
+    @Override
+    public void hideCursor() {
+        try {
+            Cursor emptyCursor = new Cursor(1, 1, 0, 0, 1, BufferUtils.createIntBuffer(1), null);
+            Mouse.setNativeCursor(emptyCursor);
+        } catch (LWJGLException ex) {
+            Logger.getLogger(MouseArrowSystem.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void setDefaultCursor() {
+        try {
+            Mouse.setNativeCursor(null);
+        } catch (LWJGLException ex) {
+            Logger.getLogger(MouseArrowSystem.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

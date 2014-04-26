@@ -23,14 +23,12 @@
  */
 package org.geekygoblin.nedetlesmaki.game.components;
 
+import org.geekygoblin.nedetlesmaki.game.IDefaultControls;
 import com.artemis.Component;
 import im.bci.jnuit.controls.Action;
 import im.bci.jnuit.controls.ActionActivatedDetector;
-import im.bci.jnuit.lwjgl.controls.KeyControl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import im.bci.jnuit.lwjgl.controls.MouseButtonControl;
-import org.lwjgl.input.Keyboard;
 
 /**
  *
@@ -42,13 +40,13 @@ public class IngameControls extends Component {
     private ActionActivatedDetector up, down, left, right, rewind, showMenu;
 
     @Inject
-    public IngameControls() {
-        up = new ActionActivatedDetector(new Action("action.up", new KeyControl(Keyboard.KEY_UP)));
-        down = new ActionActivatedDetector(new Action("action.down", new KeyControl(Keyboard.KEY_DOWN)));
-        left = new ActionActivatedDetector(new Action("action.left", new KeyControl(Keyboard.KEY_LEFT)));
-        right = new ActionActivatedDetector(new Action("action.right", new KeyControl(Keyboard.KEY_RIGHT)));
-        rewind = new ActionActivatedDetector(new Action("action.rewind", new KeyControl(Keyboard.KEY_BACK), new MouseButtonControl(1)));
-        showMenu = new ActionActivatedDetector(new Action("action.menu", new KeyControl(Keyboard.KEY_ESCAPE)));
+    public IngameControls(IDefaultControls defaultControls) {
+        up = new ActionActivatedDetector(new Action("action.up", defaultControls.getUp()));
+        down = new ActionActivatedDetector(new Action("action.down", defaultControls.getDown()));
+        left = new ActionActivatedDetector(new Action("action.left", defaultControls.getLeft()));
+        right = new ActionActivatedDetector(new Action("action.right", defaultControls.getRight()));
+        rewind = new ActionActivatedDetector(new Action("action.rewind", defaultControls.getRewind()));
+        showMenu = new ActionActivatedDetector(new Action("action.menu", defaultControls.getMenu()));
     }
 
     public ActionActivatedDetector getUp() {
@@ -90,7 +88,7 @@ public class IngameControls extends Component {
     public void setRewind(ActionActivatedDetector r) {
         this.rewind = r;
     }
-    
+
     public ActionActivatedDetector getShowMenu() {
         return showMenu;
     }

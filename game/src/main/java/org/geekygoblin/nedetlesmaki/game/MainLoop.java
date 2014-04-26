@@ -46,7 +46,7 @@ import org.lwjgl.opengl.DisplayMode;
  * @author devnewton
  */
 @Singleton
-public class MainLoop {
+public class MainLoop implements IMainLoop {
 
     private final NuitPreferences preferences;
     private final Logger logger;
@@ -75,10 +75,12 @@ public class MainLoop {
         mainMenu.enable();
     }
 
+    @Override
     public void setCloseRequested(boolean closeRequested) {
         this.closeRequested = closeRequested;
     }
 
+    @Override
     public boolean isCloseRequested() {
         return closeRequested || Display.isCloseRequested();
     }
