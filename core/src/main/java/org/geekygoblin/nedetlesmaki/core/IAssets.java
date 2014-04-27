@@ -21,10 +21,10 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-
 package org.geekygoblin.nedetlesmaki.core;
 
 import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.tmxloader.TmxMap;
 
 /**
  *
@@ -37,5 +37,5 @@ public interface IAssets {
     public void clearUseless();
 
     public void setIcon(String iconpng);
-    
+
 }

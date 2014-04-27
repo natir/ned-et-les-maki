@@ -30,6 +30,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.VoidEntitySystem;
+import com.google.inject.Singleton;
 
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
@@ -51,6 +52,7 @@ import pythagoras.f.Vector3;
  *
  * @author natir
  */
+@Singleton
 public class UpdateLevelVisualSystem extends VoidEntitySystem {
 
     @Mapper

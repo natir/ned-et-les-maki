@@ -30,7 +30,7 @@ import com.artemis.World;
  *
  * @author devnewton
  */
-public abstract class Game extends World {
+public abstract class NedGame extends World {
 
     private Entity ned;
 

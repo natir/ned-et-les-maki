@@ -1,6 +1,7 @@
 <module rename-to='playn'>
   <inherits name='playn.PlayN'/>
   <inherits name='NedEtLesMakiPlaynGameAssets'/>
+  <inherits name='org.geekygoblin.nedetlesmaki.NedEtLesMakiCore'/>
 
   <source path='core'/>
   <source path='html'/>

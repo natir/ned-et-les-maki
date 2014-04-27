@@ -21,46 +21,27 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.core.components.ui;
+package org.geekygoblin.nedetlesmaki.playn.core;
 
-import com.artemis.Component;
-import im.bci.jnuit.NuitToolkit;
-import im.bci.jnuit.widgets.Root;
-import com.google.inject.Inject;
-import im.bci.jnuit.NuitRenderer;
-import org.geekygoblin.nedetlesmaki.core.IAssets;
-import org.geekygoblin.nedetlesmaki.core.NedGame;
+import org.geekygoblin.nedetlesmaki.core.IMainLoop;
+import com.google.inject.Singleton;
 
 /**
  *
  * @author devnewton
  */
-public class DialogComponent extends Component {
+@Singleton
+public class PlaynMainLoop implements IMainLoop {
+    private boolean closeRequested;
 
-    private final Root root;
-    private final NedGame game;
-    private final NuitRenderer nuitRenderer;
-    private final NedDialogue dialog;
-
-    @Inject
-    public DialogComponent(NuitToolkit toolkit, NuitRenderer nuitRenderer, NedGame game, IAssets assets, NedDialogue dialog) {
-        this.game = game;
-        root = new Root(toolkit);
-        this.nuitRenderer = nuitRenderer;
-        root.add(dialog);
-        this.dialog = dialog;
+    @Override
+    public boolean isCloseRequested() {
+        return closeRequested;
     }
 
-    public void update() {
-        final float delta = game.getDelta();
-        root.update(delta);
+    @Override
+    public void setCloseRequested(boolean closeRequested) {
+        this.closeRequested = closeRequested;
     }
 
-    public void draw() {
-        nuitRenderer.render(root);
-    }
-
-    public boolean isFinished() {
-      return dialog.isFinished();
-    }
 }

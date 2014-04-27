@@ -25,7 +25,7 @@ package org.geekygoblin.nedetlesmaki.core.events;
 
 import com.artemis.Entity;
 import com.google.inject.Inject;
-import org.geekygoblin.nedetlesmaki.core.Game;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
 
@@ -44,7 +44,7 @@ public class ShowLevelMenuTrigger implements Trigger {
     }
 
     @Override
-    public void process(Game game) {
+    public void process(NedGame game) {
         mainMenu.getComponent(MainMenu.class).showLevelMenu();
         mainMenu.enable();
         ingameControls.disable();

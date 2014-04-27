@@ -21,7 +21,6 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-
 package org.geekygoblin.nedetlesmaki.game;
 
 import org.geekygoblin.nedetlesmaki.core.IAssets;
@@ -36,11 +35,11 @@ import im.bci.jnuit.lwjgl.assets.VirtualFileSystem;
  * @author devnewton <devnewton@bci.im>
  */
 @Singleton
-public class LwjglAssets extends GarbageCollectedAssets implements IAssets{
+public class LwjglAssets extends GarbageCollectedAssets implements IAssets {
 
     @Inject
     public LwjglAssets(VirtualFileSystem vfs) {
         super(new AssetsLoader(vfs));
     }
-    
+
 }

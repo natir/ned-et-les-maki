@@ -26,6 +26,7 @@ package org.geekygoblin.nedetlesmaki.game;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import im.bci.jnuit.NuitFont;
 import im.bci.jnuit.NuitTranslator;
 import im.bci.jnuit.lwjgl.LwjglNuitRenderer;
 import im.bci.jnuit.lwjgl.LwjglNuitFont;
@@ -38,8 +39,8 @@ import im.bci.jnuit.lwjgl.LwjglNuitFont;
 public class NedNuitRenderer extends LwjglNuitRenderer {
 
     @Inject
-    public NedNuitRenderer(NuitTranslator translator, @NamedEntities.DefaultFont LwjglNuitFont font) {
-        super(translator, font);
+    public NedNuitRenderer(NuitTranslator translator, @NamedEntities.DefaultFont NuitFont font) {
+        super(translator, (LwjglNuitFont)font);
     }
 
 }

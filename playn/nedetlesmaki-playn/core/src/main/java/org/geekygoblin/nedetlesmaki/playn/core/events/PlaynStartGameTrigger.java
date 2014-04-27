@@ -1,7 +1,7 @@
 /*
  The MIT License (MIT)
 
- Copyright (c) 2013 devnewton <devnewton@bci.im>
+ Copyright (c) 2014 devnewton <devnewton@bci.im>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game.events;
+package org.geekygoblin.nedetlesmaki.playn.core.events;
 
 import org.geekygoblin.nedetlesmaki.core.AbstractStartGameTrigger;
 import com.artemis.Entity;
@@ -30,42 +30,38 @@ import java.util.Random;
 import com.google.inject.Inject;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.artemis.sprite.IsometricSpriteProjector;
-import im.bci.jnuit.lwjgl.assets.TmxAsset;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
+import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
-import org.geekygoblin.nedetlesmaki.game.LwjglAssets;
-import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 
 /**
  *
  * @author devnewton natir
  */
-public class StartGameTrigger extends AbstractStartGameTrigger {
-
-    private TmxAsset tmx;
+public class PlaynStartGameTrigger extends AbstractStartGameTrigger {
 
     @Inject
-    public StartGameTrigger(LwjglAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, Random random) {
+    public PlaynStartGameTrigger(IAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, Random random) {
         super(assets, mainMenu, ingameControls, indexSystem, random);
     }
 
     @Override
     protected void loadMap() {
-        this.tmx = ((LwjglAssets) assets).getTmx(levelName);
-        this.map = tmx.getMap();
+        //TODO
     }
 
     @Override
     protected IAnimationCollection getTileAnimationCollection(TmxTileInstance tile) {
-        return tmx.getTileAnimationCollection(tile);
+        //TODO
+        return null;
     }
 
     @Override
     protected void createProjector(NedGame game) {
         final float tileWidth = map.getTilewidth();
         final float tileHeight = map.getTileheight();
-        game.getSystem(DrawSystem.class).setSpriteProjector(new IsometricSpriteProjector(tileWidth, tileHeight));
+        //TODO game.getSystem(DrawSystem.class).setSpriteProjector(new IsometricSpriteProjector(tileWidth, tileHeight));
     }
 
 }

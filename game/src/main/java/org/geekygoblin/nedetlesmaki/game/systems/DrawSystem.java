@@ -40,7 +40,9 @@ import im.bci.jnuit.animation.IAnimationFrame;
 import im.bci.jnuit.animation.IPlay;
 import java.util.Comparator;
 import com.google.inject.Inject;
-import org.geekygoblin.nedetlesmaki.core.Game;
+import com.google.inject.Singleton;
+import im.bci.jnuit.NuitFont;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 import im.bci.jnuit.artemis.sprite.Sprite;
 import org.geekygoblin.nedetlesmaki.core.components.LevelBackground;
@@ -64,6 +66,7 @@ import pythagoras.f.Vector3;
  *
  * @author devnewton
  */
+@Singleton
 public class DrawSystem extends EntitySystem implements IDrawSystem {
 
     @Mapper
@@ -117,9 +120,9 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
     }
 
     @Inject
-    public DrawSystem(@NamedEntities.DefaultFont LwjglNuitFont font) {
+    public DrawSystem(@NamedEntities.DefaultFont NuitFont font) {
         super(Aspect.getAspectForOne(LevelBackground.class, MainMenu.class, DialogComponent.class, Sprite.class));
-        this.font = font;
+        this.font = (LwjglNuitFont) font;
     }
 
     @Override
@@ -148,7 +151,7 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
 
-        Game game = (Game) world;
+        NedGame game = (NedGame) world;
         Entity ned = game.getNed();
         if (null != ned) {
             Sprite nedSprite = spriteMapper.get(ned);
@@ -255,7 +258,7 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
         if (null != spriteProjector) {
             float mouseX = (Mouse.getX() - viewPort.x) * VirtualResolution.WIDTH / viewPort.width - VirtualResolution.WIDTH / 2.0f;
             float mouseY = VirtualResolution.HEIGHT - ((Mouse.getY() + yAdjust - viewPort.y) * VirtualResolution.HEIGHT / viewPort.height) - VirtualResolution.HEIGHT / 2.0f;
-            Entity ned = ((Game) world).getNed();
+            Entity ned = ((NedGame) world).getNed();
             if (null != ned) {
                 Sprite nedSprite = spriteMapper.get(ned);
                 Vector nedPos = spriteProjector.project(nedSprite.getPosition());

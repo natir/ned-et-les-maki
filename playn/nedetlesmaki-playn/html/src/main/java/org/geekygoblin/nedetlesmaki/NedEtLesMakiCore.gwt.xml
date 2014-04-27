@@ -1,5 +1,8 @@
 <module>
     <inherits name='im.bci.TmxLoader'/>
     <inherits name='im.bci.Jnuit'/>
+    <inherits name='com.google.Guice'/>
+    <inherits name='com.Artemis'/>
+    <inherits name="com.google.gwt.inject.Inject" />
     <source path='core'/>
 </module>

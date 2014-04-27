@@ -42,7 +42,7 @@ import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.animation.IAnimation;
 import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.focus.NullFocusCursor;
-import org.geekygoblin.nedetlesmaki.core.Game;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.Group;
 import org.geekygoblin.nedetlesmaki.core.IMainLoop;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
@@ -66,13 +66,13 @@ public class MainMenu extends Component {
     private final NuitToolkit toolkit;
     private final NuitRenderer nuitRenderer;
     private final IAssets assets;
-    private final Game game;
+    private final NedGame game;
     private final Provider<HideMenuTrigger> hideMenuTrigger;
     private final NuitPreferences preferences;
     private final CutScenes cutscenes;
 
     @Inject
-    public MainMenu(IMainLoop mainLoop, Game g, NuitToolkit toolkit, NuitRenderer nuitRenderer, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger, IngameControls ingameControls, CutScenes cutscenes, NuitPreferences preferences) {
+    public MainMenu(IMainLoop mainLoop, NedGame g, NuitToolkit toolkit, NuitRenderer nuitRenderer, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger, IngameControls ingameControls, CutScenes cutscenes, NuitPreferences preferences) {
         this.mainLoop = mainLoop;
         this.toolkit = toolkit;
         this.nuitRenderer = nuitRenderer;

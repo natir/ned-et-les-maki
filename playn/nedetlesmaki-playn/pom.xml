@@ -15,6 +15,7 @@
 
     <properties>
         <playn.version>1.8.5</playn.version>
+        <jnuit.version>0.10</jnuit.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -71,9 +72,45 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.geekygoblin</groupId>
+                <artifactId>nedetlesmaki-core</artifactId>
+                <classifier>sources</classifier>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>im.bci</groupId>
                 <artifactId>jnuit-playn-utils</artifactId>
-                <version>0.10</version>
+                <version>${jnuit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>im.bci</groupId>
+                <artifactId>jnuit-core</artifactId>
+                <classifier>sources</classifier>
+                <version>${jnuit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>im.bci</groupId>
+                <artifactId>jnuit-playn</artifactId>
+                <classifier>sources</classifier>
+                <version>${jnuit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>im.bci</groupId>
+                <artifactId>jnuit-playn-utils</artifactId>
+                <classifier>sources</classifier>
+                <version>${jnuit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+                <classifier>sources</classifier>
+                <version>3.0</version>
+            </dependency>
+            <dependency>
+                <groupId>net.onedaybeard.artemis</groupId>
+                <artifactId>artemis-odb</artifactId>
+                <classifier>sources</classifier>
+                <version>0.5.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

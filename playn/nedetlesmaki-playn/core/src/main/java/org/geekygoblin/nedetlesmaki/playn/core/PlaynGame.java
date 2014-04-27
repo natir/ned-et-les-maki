@@ -21,7 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game;
+package org.geekygoblin.nedetlesmaki.playn.core;
 
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
@@ -33,12 +33,10 @@ import im.bci.jnuit.NuitToolkit;
 import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.core.systems.DebugSpriteSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.DialogSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.TriggerSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.MainMenuSystem;
 import im.bci.jnuit.artemis.sprite.SpriteAnimateSystem;
-import org.geekygoblin.nedetlesmaki.core.systems.MouseArrowSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.SpritePuppetControlSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.TriggerWhenRemovedSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
@@ -48,19 +46,19 @@ import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
  * @author devnewton
  */
 @Singleton
-public class LwjglGame extends NedGame {
+public class PlaynGame extends NedGame {
 
     private Entity ned;
 
     @Inject
-    public LwjglGame(NuitToolkit toolkit, DrawSystem drawSystem, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, IAssets assets) {
+    public PlaynGame(NuitToolkit toolkit, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, IAssets assets) {
         setManager(indexedManager);
         setSystem(ingameInputSystem);
         setSystem(updateLevelVisualSystem);
         setSystem(new SpriteAnimateSystem());
         setSystem(new SpritePuppetControlSystem());
-        setSystem(new MouseArrowSystem(this, assets, drawSystem));
-        setSystem(drawSystem);
+        //setSystem(new MouseArrowSystem(this, assets, drawSystem));
+        //setSystem(drawSystem);
         setSystem(new TriggerSystem());
         setSystem(new TriggerWhenRemovedSystem());
         setSystem(new MainMenuSystem());

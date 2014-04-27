@@ -30,7 +30,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 import im.bci.jnuit.animation.IAnimation;
 import im.bci.jnuit.animation.PlayMode;
-import org.geekygoblin.nedetlesmaki.core.Game;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 import im.bci.jnuit.artemis.sprite.Sprite;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import pythagoras.f.Vector3;
@@ -47,11 +47,11 @@ public class MouseArrowSystem extends EntityProcessingSystem {
     private float nearestSpriteDistance;
     private Sprite nearestSprite;
     private Entity arrow;
-    private final Game game;
+    private final NedGame game;
     private final IAssets assets;
     private final IDrawSystem drawSystem;
 
-    public MouseArrowSystem(Game game, IAssets assets, IDrawSystem drawSystem) {
+    public MouseArrowSystem(NedGame game, IAssets assets, IDrawSystem drawSystem) {
         super(Aspect.getAspectForAll(Sprite.class));
         this.game = game;
         this.drawSystem = drawSystem;
