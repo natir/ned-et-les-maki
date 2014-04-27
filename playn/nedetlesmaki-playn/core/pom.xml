@@ -11,7 +11,7 @@
 
   <artifactId>nedetlesmaki-playn-core</artifactId>
   <packaging>jar</packaging>
-  <name>NedEtLesMakiPlaynGame Core</name>
+  <name>nedetlesmaki-playn-core</name>
 
   <dependencies>
     <dependency>
