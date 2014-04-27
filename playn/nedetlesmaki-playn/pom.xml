@@ -11,7 +11,7 @@
   <artifactId>nedetlesmaki-playn</artifactId>
   <version>0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>NedEtLesMakiPlaynGame Metaproject</name>
+  <name>nedetlesmaki-playn</name>
 
   <properties>
     <playn.version>1.8.5</playn.version>

@@ -11,7 +11,7 @@
 
   <artifactId>nedetlesmaki-playn-android</artifactId>
   <packaging>apk</packaging>
-  <name>NedEtLesMakiPlaynGame Android</name>
+  <name>nedetlesmaki-playn-android</name>
 
   <properties>
     <sign.keystore>game.keystore</sign.keystore>

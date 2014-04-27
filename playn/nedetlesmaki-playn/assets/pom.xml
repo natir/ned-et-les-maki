@@ -10,7 +10,7 @@
     </parent>
     <artifactId>nedetlesmaki-playn-assets</artifactId>
     <packaging>jar</packaging>
-    <name>NedEtLesMakiPlaynGame Assets</name>
+    <name>nedetlesmaki-playn-assets</name>
     <build>
         <resources>
             <resource>

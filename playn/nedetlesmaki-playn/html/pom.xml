@@ -11,7 +11,7 @@
 
   <artifactId>nedetlesmaki-playn-html</artifactId>
   <packaging>war</packaging>
-  <name>NedEtLesMakiPlaynGame HTML</name>
+  <name>nedetlesmaki-playn-html</name>
 
   <properties>
     <gwt.module>org.geekygoblin.nedetlesmaki.playn.NedEtLesMakiPlaynGame</gwt.module>

@@ -11,7 +11,7 @@
 
   <artifactId>nedetlesmaki-playn-java</artifactId>
   <packaging>jar</packaging>
-  <name>NedEtLesMakiPlaynGame Java</name>
+  <name>nedetlesmaki-playn-java</name>
 
   <properties>
     <mainClass>org.geekygoblin.nedetlesmaki.playn.java.NedEtLesMakiPlaynGameJava</mainClass>
