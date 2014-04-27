@@ -1,4 +1,4 @@
-<module rename-to='nedetlesmaki-playn'>
+<module rename-to='playn'>
   <inherits name='playn.PlayN'/>
   <inherits name='NedEtLesMakiPlaynGameAssets'/>
 

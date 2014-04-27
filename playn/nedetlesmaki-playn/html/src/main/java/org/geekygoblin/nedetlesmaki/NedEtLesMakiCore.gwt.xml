@@ -1,0 +1,5 @@
+<module>
+    <inherits name='im.bci.TmxLoader'/>
+    <inherits name='im.bci.Jnuit'/>
+    <source path='core'/>
+</module>

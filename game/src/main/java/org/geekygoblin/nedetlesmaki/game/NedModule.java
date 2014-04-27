@@ -23,6 +23,11 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
+import org.geekygoblin.nedetlesmaki.core.IDefaultControls;
+import org.geekygoblin.nedetlesmaki.core.IMainLoop;
+import org.geekygoblin.nedetlesmaki.core.NamedEntities;
+import org.geekygoblin.nedetlesmaki.core.NedNuitTranslator;
+import org.geekygoblin.nedetlesmaki.core.Game;
 import im.bci.jnuit.lwjgl.LwjglNuitPreferences;
 import com.artemis.Entity;
 import com.google.inject.AbstractModule;
@@ -46,20 +51,20 @@ import im.bci.jnuit.lwjgl.LwjglNuitFont;
 
 import im.bci.jnuit.lwjgl.assets.VirtualFileSystem;
 import im.bci.jnuit.lwjgl.audio.OpenALNuitAudio;
-import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
-import org.geekygoblin.nedetlesmaki.game.components.ui.CutScenes;
-import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
-import org.geekygoblin.nedetlesmaki.game.components.ui.LevelSelector;
-import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
-import org.geekygoblin.nedetlesmaki.game.events.HideMenuTrigger;
-import org.geekygoblin.nedetlesmaki.game.events.IStartGameTrigger;
-import org.geekygoblin.nedetlesmaki.game.events.ShowLevelMenuTrigger;
-import org.geekygoblin.nedetlesmaki.game.events.ShowMenuTrigger;
+import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
+import org.geekygoblin.nedetlesmaki.core.components.ui.CutScenes;
+import org.geekygoblin.nedetlesmaki.core.components.ui.DialogComponent;
+import org.geekygoblin.nedetlesmaki.core.components.ui.LevelSelector;
+import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
+import org.geekygoblin.nedetlesmaki.core.events.HideMenuTrigger;
+import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
+import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
+import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
-import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.GameSystem;
-import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.GameSystem;
+import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 
 /**
@@ -90,7 +95,7 @@ public class NedModule extends AbstractModule {
         bind(CutScenes.class);
         bind(Random.class).toInstance(new Random(42));
         bind(im.bci.jnuit.lwjgl.assets.IAssets.class).to(LwjglAssets.class);
-        bind(org.geekygoblin.nedetlesmaki.game.IAssets.class).to(LwjglAssets.class);
+        bind(org.geekygoblin.nedetlesmaki.core.IAssets.class).to(LwjglAssets.class);
         bind(Game.class).to(LwjglGame.class);
         bind(IStartGameTrigger.class).to(StartGameTrigger.class);
         bind(IMainLoop.class).to(MainLoop.class);

@@ -23,23 +23,25 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
+import org.geekygoblin.nedetlesmaki.core.IAssets;
+import org.geekygoblin.nedetlesmaki.core.Game;
 import com.artemis.Entity;
 import com.artemis.managers.GroupManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import im.bci.jnuit.NuitToolkit;
-import org.geekygoblin.nedetlesmaki.game.manager.EntityIndexManager;
-import org.geekygoblin.nedetlesmaki.game.systems.DebugSpriteSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.DialogSystem;
+import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.core.systems.DebugSpriteSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.DialogSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.IngameInputSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.TriggerSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.TriggerSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.MainMenuSystem;
 import im.bci.jnuit.artemis.sprite.SpriteAnimateSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.MouseArrowSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.SpritePuppetControlSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.TriggerWhenRemovedSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.UpdateLevelVisualSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.MouseArrowSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.SpritePuppetControlSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.TriggerWhenRemovedSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
 
 /**
  *

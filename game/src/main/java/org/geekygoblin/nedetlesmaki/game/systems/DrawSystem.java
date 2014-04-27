@@ -23,6 +23,8 @@
  */
 package org.geekygoblin.nedetlesmaki.game.systems;
 
+import org.geekygoblin.nedetlesmaki.core.systems.IDrawSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.MouseArrowSystem;
 import im.bci.jnuit.artemis.sprite.SpriteProjector;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -38,17 +40,17 @@ import im.bci.jnuit.animation.IAnimationFrame;
 import im.bci.jnuit.animation.IPlay;
 import java.util.Comparator;
 import com.google.inject.Inject;
-import org.geekygoblin.nedetlesmaki.game.Game;
-import org.geekygoblin.nedetlesmaki.game.NamedEntities;
+import org.geekygoblin.nedetlesmaki.core.Game;
+import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 import im.bci.jnuit.artemis.sprite.Sprite;
-import org.geekygoblin.nedetlesmaki.game.components.LevelBackground;
-import org.geekygoblin.nedetlesmaki.game.components.ui.MainMenu;
-import org.geekygoblin.nedetlesmaki.game.components.ui.DialogComponent;
-import org.geekygoblin.nedetlesmaki.game.constants.VirtualResolution;
+import org.geekygoblin.nedetlesmaki.core.components.LevelBackground;
+import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
+import org.geekygoblin.nedetlesmaki.core.components.ui.DialogComponent;
+import org.geekygoblin.nedetlesmaki.core.constants.VirtualResolution;
 import im.bci.jnuit.lwjgl.sprite.SpriteBatcher;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.geekygoblin.nedetlesmaki.game.utils.Viewport;
+import org.geekygoblin.nedetlesmaki.core.utils.Viewport;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Cursor;

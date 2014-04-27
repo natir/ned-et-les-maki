@@ -24,6 +24,7 @@
 
 package org.geekygoblin.nedetlesmaki.game;
 
+import org.geekygoblin.nedetlesmaki.core.IAssets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import im.bci.jnuit.lwjgl.assets.AssetsLoader;
