@@ -23,43 +23,30 @@
  */
 package org.geekygoblin.nedetlesmaki.playn.core;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import org.geekygoblin.nedetlesmaki.core.NedGame;
-import static playn.core.PlayN.*;
+import org.geekygoblin.nedetlesmaki.core.IAssets;
+import com.google.inject.Singleton;
+import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.playn.animation.PlaynAnimationLoader;
+import playn.core.PlayN;
 
-import playn.core.Game;
-import playn.core.Image;
-import playn.core.ImageLayer;
+/**
+ *
+ * @author devnewton <devnewton@bci.im>
+ */
+@Singleton
+public class PlaynAssets implements IAssets {
 
-public class NedEtLesMakiPlaynGame extends Game.Default {
-    private NedGame game;
-
-    public NedEtLesMakiPlaynGame() {
-        super(1000 / 60);
+    @Override
+    public IAnimationCollection getAnimations(String name) {
+        return PlaynAnimationLoader.load(PlayN.assets(), name);
     }
 
     @Override
-    public void init() {
-        // create and add background image layer
-        Image bgImage = assets().getImage("images/bg.png");
-        ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-        graphics().rootLayer().add(bgLayer);
-
-        PlaynNedModule module = new PlaynNedModule();
-        Injector injector = Guice.createInjector(module);
-        game = injector.getInstance(NedGame.class);
-
+    public void clearUseless() {
     }
 
     @Override
-    public void update(int delta) {
-        game.setDelta(1.0f / 60.0f);
-        game.process();
+    public void setIcon(String icon) {
     }
 
-    @Override
-    public void paint(float alpha) {
-        // the background automatically paints itself, so no need to do anything here!
-    }
 }

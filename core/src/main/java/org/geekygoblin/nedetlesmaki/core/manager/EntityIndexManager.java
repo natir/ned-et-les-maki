@@ -34,7 +34,7 @@ import com.artemis.annotations.Mapper;
 import com.artemis.managers.GroupManager;
 import com.artemis.utils.ImmutableBag;
 
-import org.geekygoblin.nedetlesmaki.core.Game;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.Group;
 import org.geekygoblin.nedetlesmaki.core.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
@@ -296,7 +296,7 @@ public class EntityIndexManager extends EntityManager {
     }
 
     public Entity getNed() {
-        return ((Game) world).getNed();
+        return ((NedGame) world).getNed();
     }
 
     //Utills 

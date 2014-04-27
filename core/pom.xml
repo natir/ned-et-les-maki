@@ -78,6 +78,10 @@ THE SOFTWARE. -->
             <artifactId>jnuit-artemis</artifactId>
         </dependency>
         <dependency>
+            <groupId>im.bci</groupId>
+            <artifactId>libtiled-jpurexml</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
         </dependency>

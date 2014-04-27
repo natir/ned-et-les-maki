@@ -32,7 +32,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.focus.NullFocusCursor;
-import org.geekygoblin.nedetlesmaki.core.Game;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
@@ -45,14 +45,14 @@ import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 @Singleton
 public class LevelSelector extends TabOrientedNavigableContainer {
 
-    private final Game game;
+    private final NedGame game;
     private final IAnimationCollection bulleAnimations;
     private final NuitToolkit toolkit;
     private final Provider<IStartGameTrigger> startGameTrigger;
     private final Provider<ShowMenuTrigger> showMenuTrigger;
 
     @Inject
-    public LevelSelector(Game game, NuitToolkit toolkit, final IAssets assets, Provider<IStartGameTrigger> startGameTrigger, Provider<ShowMenuTrigger> showMenuTrigger) {
+    public LevelSelector(NedGame game, NuitToolkit toolkit, final IAssets assets, Provider<IStartGameTrigger> startGameTrigger, Provider<ShowMenuTrigger> showMenuTrigger) {
         this.game = game;
         this.toolkit = toolkit;
         this.startGameTrigger = startGameTrigger;

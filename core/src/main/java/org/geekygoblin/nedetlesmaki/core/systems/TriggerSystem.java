@@ -29,7 +29,7 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 
-import org.geekygoblin.nedetlesmaki.core.Game;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
 
 /**
@@ -47,7 +47,7 @@ public class TriggerSystem extends EntityProcessingSystem {
 
     @Override
     protected void process(Entity e) {
-        triggerableMapper.get(e).getTrigger().process((Game) world);
+        triggerableMapper.get(e).getTrigger().process((NedGame) world);
         e.deleteFromWorld();
     }
 }

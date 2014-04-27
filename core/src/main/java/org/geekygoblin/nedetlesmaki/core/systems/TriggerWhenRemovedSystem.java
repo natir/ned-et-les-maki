@@ -29,7 +29,7 @@ import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
 
-import org.geekygoblin.nedetlesmaki.core.Game;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.components.TriggerableWhenRemoved;
 import org.geekygoblin.nedetlesmaki.core.events.Trigger;
 
@@ -49,7 +49,7 @@ public class TriggerWhenRemovedSystem extends EntityProcessingSystem {
     @Override
     protected void removed(Entity e) {
         for (Trigger trigger : triggerableMapper.get(e).getTriggers()) {
-            trigger.process((Game) world);
+            trigger.process((NedGame) world);
         }
     }
 

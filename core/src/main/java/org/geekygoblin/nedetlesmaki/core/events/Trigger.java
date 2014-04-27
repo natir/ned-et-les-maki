@@ -23,12 +23,12 @@ THE SOFTWARE.
 */
 package org.geekygoblin.nedetlesmaki.core.events;
 
-import org.geekygoblin.nedetlesmaki.core.Game;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 
 /**
  *
  * @author devnewton
  */
 public interface Trigger {
-    void process(Game game);
+    void process(NedGame game);
 }

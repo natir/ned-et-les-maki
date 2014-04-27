@@ -30,6 +30,11 @@
         </dependency>
         <dependency>
             <groupId>org.geekygoblin</groupId>
+            <artifactId>nedetlesmaki-core</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.geekygoblin</groupId>
             <artifactId>nedetlesmaki-playn-assets</artifactId>
         </dependency>
         <dependency>
@@ -39,6 +44,31 @@
         <dependency>
             <groupId>com.googlecode.playn</groupId>
             <artifactId>playn-html</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>im.bci</groupId>
+            <artifactId>jnuit-core</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>im.bci</groupId>
+            <artifactId>jnuit-playn</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>im.bci</groupId>
+            <artifactId>jnuit-playn-utils</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>net.onedaybeard.artemis</groupId>
+            <artifactId>artemis-odb</artifactId>
             <classifier>sources</classifier>
         </dependency>
     </dependencies>

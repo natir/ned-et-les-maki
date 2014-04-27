@@ -22,18 +22,17 @@
  THE SOFTWARE.
  */
 
-package org.geekygoblin.nedetlesmaki.game;
+package org.geekygoblin.nedetlesmaki.core;
 
-import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import im.bci.jnuit.NuitAudio;
 import im.bci.jnuit.NuitControls;
 import im.bci.jnuit.NuitDisplay;
+import im.bci.jnuit.NuitFont;
 import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.NuitTranslator;
-import im.bci.jnuit.lwjgl.LwjglNuitFont;
 
 /**
  *
@@ -43,7 +42,7 @@ import im.bci.jnuit.lwjgl.LwjglNuitFont;
 public class NedNuitToolkit extends NuitToolkit {
 
     @Inject
-    public NedNuitToolkit(NuitDisplay display, NuitTranslator translator, @NamedEntities.DefaultFont LwjglNuitFont font, NuitRenderer renderer, NuitControls controls, NuitAudio audio) {
+    public NedNuitToolkit(NuitDisplay display, NuitTranslator translator, @NamedEntities.DefaultFont NuitFont font, NuitRenderer renderer, NuitControls controls, NuitAudio audio) {
         super(display, controls, translator, font, renderer, audio);
     }
     

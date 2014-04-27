@@ -36,7 +36,7 @@ import com.google.inject.Singleton;
 import im.bci.jnuit.controls.Action;
 import im.bci.jnuit.controls.ActionActivatedDetector;
 
-import org.geekygoblin.nedetlesmaki.core.Game;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
@@ -75,7 +75,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
     @Override
     protected void process(Entity e) {
         if (e.isEnabled()) {
-            Game game = (Game) world;
+            NedGame game = (NedGame) world;
 
             IngameControls controls = e.getComponent(IngameControls.class);
             controls.getShowMenu().poll();

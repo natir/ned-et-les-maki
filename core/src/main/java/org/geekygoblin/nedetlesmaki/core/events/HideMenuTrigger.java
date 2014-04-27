@@ -25,7 +25,7 @@ package org.geekygoblin.nedetlesmaki.core.events;
 
 import com.artemis.Entity;
 import com.google.inject.Inject;
-import org.geekygoblin.nedetlesmaki.core.Game;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 
 /**
@@ -43,7 +43,7 @@ public class HideMenuTrigger implements Trigger {
     }
 
     @Override
-    public void process(Game game) {
+    public void process(NedGame game) {
         mainMenu.disable();
         ingameControls.enable();
     }

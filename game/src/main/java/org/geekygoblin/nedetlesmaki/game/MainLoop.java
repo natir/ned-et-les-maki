@@ -25,7 +25,7 @@ package org.geekygoblin.nedetlesmaki.game;
 
 import org.geekygoblin.nedetlesmaki.core.IMainLoop;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
-import org.geekygoblin.nedetlesmaki.core.Game;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 import com.artemis.Entity;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -55,7 +55,7 @@ public class MainLoop implements IMainLoop {
     private final Logger logger;
     private boolean closeRequested;
     private NuitToolkit toolkit;
-    private Game game;
+    private NedGame game;
     private IAssets assets;
     private IngameControls ingameControls;
 
@@ -68,7 +68,7 @@ public class MainLoop implements IMainLoop {
     }
 
     @Inject
-    public void init(IAssets assets, NuitToolkit toolkit, Game game, @NamedEntities.MainMenu Entity mainMenu, IngameControls ingameControls) {
+    public void init(IAssets assets, NuitToolkit toolkit, NedGame game, @NamedEntities.MainMenu Entity mainMenu, IngameControls ingameControls) {
         this.toolkit = toolkit;
         this.game = game;
         this.assets = assets;

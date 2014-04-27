@@ -23,43 +23,25 @@
  */
 package org.geekygoblin.nedetlesmaki.playn.core;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import org.geekygoblin.nedetlesmaki.core.NedGame;
-import static playn.core.PlayN.*;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+import im.bci.jnuit.NuitFont;
+import im.bci.jnuit.NuitTranslator;
+import im.bci.jnuit.playn.PlaynNuitFont;
+import im.bci.jnuit.playn.PlaynNuitRenderer;
+import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 
-import playn.core.Game;
-import playn.core.Image;
-import playn.core.ImageLayer;
+/**
+ *
+ * @author devnewton <devnewton@bci.im>
+ */
+@Singleton
+class NedPlaynNuitRenderer extends PlaynNuitRenderer{
 
-public class NedEtLesMakiPlaynGame extends Game.Default {
-    private NedGame game;
-
-    public NedEtLesMakiPlaynGame() {
-        super(1000 / 60);
+    @Inject
+    public NedPlaynNuitRenderer(NuitTranslator translator, @NamedEntities.DefaultFont NuitFont font) {
+        super(translator, (PlaynNuitFont)font);
     }
-
-    @Override
-    public void init() {
-        // create and add background image layer
-        Image bgImage = assets().getImage("images/bg.png");
-        ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-        graphics().rootLayer().add(bgLayer);
-
-        PlaynNedModule module = new PlaynNedModule();
-        Injector injector = Guice.createInjector(module);
-        game = injector.getInstance(NedGame.class);
-
-    }
-
-    @Override
-    public void update(int delta) {
-        game.setDelta(1.0f / 60.0f);
-        game.process();
-    }
-
-    @Override
-    public void paint(float alpha) {
-        // the background automatically paints itself, so no need to do anything here!
-    }
+    
 }
