@@ -17,13 +17,11 @@
     <dependency>
       <groupId>org.geekygoblin</groupId>
       <artifactId>nedetlesmaki-playn-core</artifactId>
-      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.googlecode.playn</groupId>
       <artifactId>playn-ios</artifactId>
-      <version>${playn.version}</version>
     </dependency>
   </dependencies>
 

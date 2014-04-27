@@ -23,6 +23,7 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
+import org.geekygoblin.nedetlesmaki.core.IDefaultControls;
 import com.google.inject.Singleton;
 import im.bci.jnuit.controls.Control;
 import im.bci.jnuit.lwjgl.controls.KeyControl;

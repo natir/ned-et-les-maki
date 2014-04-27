@@ -11,9 +11,9 @@ public class NedEtLesMakiPlaynGameHtml extends HtmlGame {
   @Override
   public void start() {
     HtmlPlatform.Config config = new HtmlPlatform.Config();
-    // use config to customize the HTML platform, if needed
+    config.mode = HtmlPlatform.Mode.CANVAS;
     HtmlPlatform platform = HtmlPlatform.register(config);
-    platform.assets().setPathPrefix("nedetlesmaki-playn/");
+    platform.assets().setPathPrefix("playn/");
     PlayN.run(new NedEtLesMakiPlaynGame());
   }
 }

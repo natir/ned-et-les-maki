@@ -23,6 +23,9 @@
  */
 package org.geekygoblin.nedetlesmaki.game;
 
+import org.geekygoblin.nedetlesmaki.core.IMainLoop;
+import org.geekygoblin.nedetlesmaki.core.NamedEntities;
+import org.geekygoblin.nedetlesmaki.core.Game;
 import com.artemis.Entity;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -33,7 +36,7 @@ import im.bci.jnuit.lwjgl.LwjglHelper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import im.bci.jnuit.lwjgl.assets.IAssets;
-import org.geekygoblin.nedetlesmaki.game.components.IngameControls;
+import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controllers;
 import org.lwjgl.input.Keyboard;
