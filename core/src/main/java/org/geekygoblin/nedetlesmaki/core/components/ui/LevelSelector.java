@@ -57,7 +57,7 @@ public class LevelSelector extends TabOrientedNavigableContainer {
         this.toolkit = toolkit;
         this.startGameTrigger = startGameTrigger;
         this.showMenuTrigger = showMenuTrigger;
-        bulleAnimations = assets.getAnimations("bulle.nanim.gz");
+        bulleAnimations = assets.getAnimations("bulle.json");
         setBackground(new TexturedBackground(assets.getAnimations("tour.png").getFirst().start(PlayMode.LOOP)));
         setFocusedChild(addButton("level.01.name", "levels/t1/lvl01.tmx", 1087, 938, 1));
         addButton("level.02.name", "levels/t1/lvl02.tmx", 825, 910, -1);
@@ -99,8 +99,8 @@ public class LevelSelector extends TabOrientedNavigableContainer {
 
         };
         backButton.setFocusCursor(NullFocusCursor.INSTANCE);
-        backButton.setBackground(new TexturedBackground(assets.getAnimations("portail.nanim.gz").getAnimationByName("normal").start(PlayMode.LOOP)));
-        backButton.setFocusedBackground(new TexturedBackground(assets.getAnimations("portail.nanim.gz").getAnimationByName("survol").start(PlayMode.LOOP)));
+        backButton.setBackground(new TexturedBackground(assets.getAnimations("portail.json").getAnimationByName("normal").start(PlayMode.LOOP)));
+        backButton.setFocusedBackground(new TexturedBackground(assets.getAnimations("portail.json").getAnimationByName("survol").start(PlayMode.LOOP)));
         backButton.setX(555);
         backButton.setY(406);
         backButton.setWidth(195);

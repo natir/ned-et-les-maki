@@ -21,7 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.core.systems;
+package org.geekygoblin.nedetlesmaki.game.systems;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -37,7 +37,7 @@ import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
 public class MainMenuSystem extends EntityProcessingSystem {
     
     @Mapper
-    ComponentMapper<MainMenu> mainMenuMapper;
+    protected ComponentMapper<MainMenu> mainMenuMapper;
     
     public MainMenuSystem() {
         super(Aspect.getAspectForOne(MainMenu.class));

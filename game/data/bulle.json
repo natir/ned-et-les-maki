@@ -1,0 +1,51 @@
+{
+  "animations": [
+    {
+      "name": "bulle",
+      "frames": [
+        {
+          "duration": 1000000,
+          "image": "bulle0.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 0.3125,
+          "v2": 0.1796875
+        }
+      ]
+    },
+    {
+      "name": "bulle_verouillee",
+      "frames": [
+        {
+          "duration": 1000000,
+          "image": "bulle0.png",
+          "u1": 0.0,
+          "v1": 0.359375,
+          "u2": 0.3125,
+          "v2": 0.5390625
+        }
+      ]
+    },
+    {
+      "name": "bulle_selectionnee",
+      "frames": [
+        {
+          "duration": 200,
+          "image": "bulle0.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 0.3125,
+          "v2": 0.1796875
+        },
+        {
+          "duration": 200,
+          "image": "bulle0.png",
+          "u1": 0.0,
+          "v1": 0.1796875,
+          "u2": 0.3125,
+          "v2": 0.359375
+        }
+      ]
+    }
+  ]
+}

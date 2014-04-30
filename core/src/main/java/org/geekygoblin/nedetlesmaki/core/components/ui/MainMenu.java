@@ -54,7 +54,7 @@ import org.geekygoblin.nedetlesmaki.core.events.HideMenuTrigger;
 @Singleton
 public class MainMenu extends Component {
 
-    private final Root root;
+    protected final Root root;
     private Container mainMenu;
     private VideoConfigurator videoConfigurator;
     private AudioConfigurator audioConfigurator;
@@ -114,10 +114,10 @@ public class MainMenu extends Component {
 
     private void initMain() {
 
-        IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("2_normal");
-        IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("2_survol");
-        IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_normal");
-        IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("1_survol");
+        IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("2_normal");
+        IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("2_survol");
+        IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("1_normal");
+        IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("1_survol");
 
         mainMenu = new TabOrientedNavigableContainer();
         final Button startButton = new Button(toolkit, "main.menu.button.start") {
@@ -201,9 +201,9 @@ public class MainMenu extends Component {
 
     private void initOptions() {
 
-        IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("2_normal");
-        IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.nanim.gz").getAnimationByName("2_survol");
-        
+        IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("2_normal");
+        IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("2_survol");
+
         optionsMenu = new TabOrientedNavigableContainer();
         optionsMenu.setBackground(new TexturedBackground(assets.getAnimations("menu_options.png").getFirst().start(PlayMode.LOOP)));
         final Button videoButton = new Button(toolkit, "options.menu.button.video") {
@@ -235,7 +235,7 @@ public class MainMenu extends Component {
         audioButton.setFocusedBackground(new TexturedBackground(buttonClassicFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         audioButton.setFocusCursor(NullFocusCursor.INSTANCE);
         optionsMenu.add(audioButton);
-        
+
         final Button gameControlsButton = new Button(toolkit, "options.menu.button.game.controls") {
             @Override
             public void onOK() {
@@ -343,5 +343,9 @@ public class MainMenu extends Component {
     private void initExtras() {
         extrasMenu = new ExtrasMenu(toolkit, root, mainMenu, assets, cutscenes);
         root.add(extrasMenu);
+    }
+
+    public Root getRoot() {
+        return root;
     }
 }

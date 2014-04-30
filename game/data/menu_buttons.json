@@ -1,0 +1,56 @@
+{
+  "animations": [
+    {
+      "name": "1_normal",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "menu_buttons0.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "1_survol",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "menu_buttons1.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "2_normal",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "menu_buttons2.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "2_survol",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "menu_buttons3.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    }
+  ]
+}

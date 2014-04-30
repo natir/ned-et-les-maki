@@ -23,8 +23,12 @@
  */
 package org.geekygoblin.nedetlesmaki.playn.core;
 
+import com.artemis.Entity;
+import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.core.IMainLoop;
 import com.google.inject.Singleton;
+import org.geekygoblin.nedetlesmaki.core.NamedEntities;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
 
 /**
  *
@@ -32,7 +36,19 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class PlaynMainLoop implements IMainLoop {
+
     private boolean closeRequested;
+    private final NedGame game;
+
+    @Inject
+    public PlaynMainLoop(NedGame game) {
+        this.game = game;
+    }
+
+    @Inject
+    public void init(@NamedEntities.MainMenu Entity mainMenu) {
+        mainMenu.enable();
+    }
 
     @Override
     public boolean isCloseRequested() {
@@ -42,6 +58,12 @@ public class PlaynMainLoop implements IMainLoop {
     @Override
     public void setCloseRequested(boolean closeRequested) {
         this.closeRequested = closeRequested;
+    }
+
+    @Override
+    public void tick() {
+        game.setDelta(1.0f / 60.0f);
+        game.process();
     }
 
 }
