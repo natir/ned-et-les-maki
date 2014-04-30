@@ -23,9 +23,35 @@
  */
 package org.geekygoblin.nedetlesmaki.playn.core;
 
+import com.artemis.Entity;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
+import im.bci.jnuit.NuitAudio;
+import im.bci.jnuit.NuitFont;
+import im.bci.jnuit.NuitRenderer;
+import im.bci.jnuit.NuitToolkit;
+import im.bci.jnuit.NuitTranslator;
+import im.bci.jnuit.playn.PlaynNuitAudio;
+import im.bci.jnuit.playn.PlaynNuitDisplay;
+import im.bci.jnuit.playn.PlaynNuitFont;
+import im.bci.jnuit.playn.PlaynNuitRenderer;
+import im.bci.jnuit.playn.controls.PlaynNuitControls;
+import org.geekygoblin.nedetlesmaki.core.IAssets;
+import org.geekygoblin.nedetlesmaki.core.IDefaultControls;
 import org.geekygoblin.nedetlesmaki.core.IMainLoop;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
+import org.geekygoblin.nedetlesmaki.core.NedNuitToolkit;
+import org.geekygoblin.nedetlesmaki.core.NedNuitTranslator;
+import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
+import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
+import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.core.systems.GameSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
+import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
+import org.geekygoblin.nedetlesmaki.game.systems.PlaynDrawSystem;
+import org.geekygoblin.nedetlesmaki.game.systems.PlaynMainMenuSystem;
+import playn.core.Font;
 import static playn.core.PlayN.*;
 
 import playn.core.Game;
@@ -33,6 +59,7 @@ import playn.core.Image;
 import playn.core.ImageLayer;
 
 public class NedEtLesMakiPlaynGame extends Game.Default {
+
     private IMainLoop mainLoop;
 
     public NedEtLesMakiPlaynGame() {
@@ -41,15 +68,12 @@ public class NedEtLesMakiPlaynGame extends Game.Default {
 
     @Override
     public void init() {
-        // create and add background image layer
-        Image bgImage = assets().getImage("images/bg.png");
-        ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-        graphics().rootLayer().add(bgLayer);
 
-        PlaynNedModule module = new PlaynNedModule();
-        Injector injector = Guice.createInjector(module);
-        mainLoop = injector.getInstance(IMainLoop.class);
-
+        /*PlaynNedModule module = new PlaynNedModule();
+         Injector injector = Guice.createInjector(module);
+         mainLoop = injector.getInstance(IMainLoop.class);
+         */
+        mainLoop = new NedFactory().getMainLoop();
     }
 
     @Override
