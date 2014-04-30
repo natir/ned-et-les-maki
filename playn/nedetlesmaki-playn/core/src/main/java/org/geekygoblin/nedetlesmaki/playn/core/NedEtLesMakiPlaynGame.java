@@ -25,7 +25,7 @@ package org.geekygoblin.nedetlesmaki.playn.core;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.geekygoblin.nedetlesmaki.core.NedGame;
+import org.geekygoblin.nedetlesmaki.core.IMainLoop;
 import static playn.core.PlayN.*;
 
 import playn.core.Game;
@@ -33,7 +33,7 @@ import playn.core.Image;
 import playn.core.ImageLayer;
 
 public class NedEtLesMakiPlaynGame extends Game.Default {
-    private NedGame game;
+    private IMainLoop mainLoop;
 
     public NedEtLesMakiPlaynGame() {
         super(1000 / 60);
@@ -48,14 +48,13 @@ public class NedEtLesMakiPlaynGame extends Game.Default {
 
         PlaynNedModule module = new PlaynNedModule();
         Injector injector = Guice.createInjector(module);
-        game = injector.getInstance(NedGame.class);
+        mainLoop = injector.getInstance(IMainLoop.class);
 
     }
 
     @Override
     public void update(int delta) {
-        game.setDelta(1.0f / 60.0f);
-        game.process();
+        mainLoop.tick();
     }
 
     @Override

@@ -79,8 +79,10 @@ public class PlaynNedModule extends AbstractModule {
         bind(IDefaultControls.class).to(PlaynDefaultControls.class);
         bind(NuitRenderer.class).to(NedPlaynNuitRenderer.class);
         bind(NuitTranslator.class).to(NedNuitTranslator.class);
-        bind(NuitControls.class).to(PlaynNuitControls.class).in(Singleton.class);
-        bind(NuitDisplay.class).to(PlaynNuitDisplay.class).in(Singleton.class);
+        bind(NuitControls.class).to(PlaynNuitControls.class);
+        bind(PlaynNuitControls.class).in(Singleton.class);
+        bind(NuitDisplay.class).to(PlaynNuitDisplay.class);
+        bind(PlaynNuitDisplay.class).in(Singleton.class);
         bind(NuitToolkit.class).to(NedNuitToolkit.class);
         bind(LevelSelector.class);
         bind(IngameInputSystem.class);
@@ -98,7 +100,9 @@ public class PlaynNedModule extends AbstractModule {
         bind(IAssets.class).to(PlaynAssets.class);
         bind(NedGame.class).to(PlaynGame.class);
         bind(IStartGameTrigger.class).to(PlaynStartGameTrigger.class);
-        bind(NuitAudio.class).to(PlaynNuitAudio.class).in(Singleton.class);
+        bind(NuitAudio.class).to(PlaynNuitAudio.class);
+        bind(PlaynNuitAudio.class).in(Singleton.class);
+        bind(MainMenu.class);
     }
 
     @Provides

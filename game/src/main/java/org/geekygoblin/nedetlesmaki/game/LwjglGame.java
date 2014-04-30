@@ -36,7 +36,7 @@ import org.geekygoblin.nedetlesmaki.core.systems.DialogSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.TriggerSystem;
-import org.geekygoblin.nedetlesmaki.core.systems.MainMenuSystem;
+import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
 import im.bci.jnuit.artemis.sprite.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.MouseArrowSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.SpritePuppetControlSystem;

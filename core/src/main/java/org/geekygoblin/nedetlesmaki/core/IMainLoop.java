@@ -32,5 +32,7 @@ public interface IMainLoop {
     boolean isCloseRequested();
 
     void setCloseRequested(boolean closeRequested);
+
+    public void tick();
     
 }
