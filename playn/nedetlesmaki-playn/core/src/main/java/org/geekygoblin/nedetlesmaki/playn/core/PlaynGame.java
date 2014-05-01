@@ -27,8 +27,6 @@ import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import com.artemis.Entity;
 import com.artemis.managers.GroupManager;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import im.bci.jnuit.NuitToolkit;
 import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.core.systems.DebugSpriteSystem;
@@ -39,19 +37,17 @@ import im.bci.jnuit.artemis.sprite.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.SpritePuppetControlSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.TriggerWhenRemovedSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.PlaynDrawSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.PlaynMainMenuSystem;
+import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynDrawSystem;
+import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynMainMenuSystem;
 
 /**
  *
  * @author devnewton
  */
-@Singleton
 public class PlaynGame extends NedGame {
 
     private Entity ned;
 
-    @Inject
     public PlaynGame(NuitToolkit toolkit, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, IAssets assets, PlaynDrawSystem drawSystem, PlaynMainMenuSystem mainMenuSystem) {
         setManager(indexedManager);
         setSystem(ingameInputSystem);

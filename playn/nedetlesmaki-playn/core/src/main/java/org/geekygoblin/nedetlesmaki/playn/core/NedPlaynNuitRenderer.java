@@ -23,9 +23,6 @@
  */
 package org.geekygoblin.nedetlesmaki.playn.core;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 import im.bci.jnuit.NuitFont;
 import im.bci.jnuit.NuitTranslator;
 import im.bci.jnuit.playn.PlaynNuitFont;
@@ -36,12 +33,10 @@ import org.geekygoblin.nedetlesmaki.core.NamedEntities;
  *
  * @author devnewton <devnewton@bci.im>
  */
-@Singleton
-class NedPlaynNuitRenderer extends PlaynNuitRenderer{
+class NedPlaynNuitRenderer extends PlaynNuitRenderer {
 
-    @Inject
     public NedPlaynNuitRenderer(NuitTranslator translator, @NamedEntities.DefaultFont NuitFont font) {
-        super(translator, (PlaynNuitFont)font);
+        super(translator, (PlaynNuitFont) font);
     }
-    
+
 }

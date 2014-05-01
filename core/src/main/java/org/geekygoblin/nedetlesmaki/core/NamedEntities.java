@@ -23,13 +23,13 @@
  */
 package org.geekygoblin.nedetlesmaki.core;
 
-import com.google.inject.BindingAnnotation;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Target;
+import javax.inject.Qualifier;
 
 /**
  *
@@ -37,31 +37,31 @@ import java.lang.annotation.Target;
  */
 public interface NamedEntities {
 
-    @BindingAnnotation
+    @Qualifier
     @Target({FIELD, PARAMETER, METHOD})
     @Retention(RUNTIME)
     public @interface DefaultFont {
     }
 
-    @BindingAnnotation
+    @Qualifier
     @Target({FIELD, PARAMETER, METHOD})
     @Retention(RUNTIME)
     public @interface MainMenu {
     }
 
-    @BindingAnnotation
+    @Qualifier
     @Target({FIELD, PARAMETER, METHOD})
     @Retention(RUNTIME)
     public @interface MainMenuRoot {
     }
 
-    @BindingAnnotation
+    @Qualifier
     @Target({FIELD, PARAMETER, METHOD})
     @Retention(RUNTIME)
     public @interface IngameControls {
     }
 
-    @BindingAnnotation
+    @Qualifier
     @Target({FIELD, PARAMETER, METHOD})
     @Retention(RUNTIME)
     public @interface EntityPosIndex {

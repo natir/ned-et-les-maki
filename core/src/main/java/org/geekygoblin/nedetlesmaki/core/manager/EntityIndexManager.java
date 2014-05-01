@@ -24,8 +24,8 @@ package org.geekygoblin.nedetlesmaki.core.manager;
 import java.util.Stack;
 import java.util.ArrayList;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import com.artemis.Entity;
 import com.artemis.EntityManager;

@@ -26,7 +26,7 @@ package org.geekygoblin.nedetlesmaki.core.components.ui;
 import com.artemis.Component;
 import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.widgets.Root;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import im.bci.jnuit.NuitRenderer;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.NedGame;

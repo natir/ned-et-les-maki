@@ -27,8 +27,8 @@ import org.geekygoblin.nedetlesmaki.core.IDefaultControls;
 import com.artemis.Component;
 import im.bci.jnuit.controls.Action;
 import im.bci.jnuit.controls.ActionActivatedDetector;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  *

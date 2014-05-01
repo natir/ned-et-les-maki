@@ -24,7 +24,7 @@
 package org.geekygoblin.nedetlesmaki.playn.core;
 
 import com.artemis.Entity;
-import com.google.inject.Provider;
+import javax.inject.Provider;
 import im.bci.jnuit.NuitAudio;
 import im.bci.jnuit.NuitFont;
 import im.bci.jnuit.NuitPreferences;
@@ -53,8 +53,8 @@ import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.core.systems.GameSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.PlaynDrawSystem;
-import org.geekygoblin.nedetlesmaki.game.systems.PlaynMainMenuSystem;
+import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynDrawSystem;
+import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynMainMenuSystem;
 import org.geekygoblin.nedetlesmaki.playn.core.events.PlaynStartGameTrigger;
 import playn.core.Font;
 

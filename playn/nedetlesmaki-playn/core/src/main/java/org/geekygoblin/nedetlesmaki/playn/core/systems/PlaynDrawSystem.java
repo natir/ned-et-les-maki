@@ -21,7 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game.systems;
+package org.geekygoblin.nedetlesmaki.playn.core.systems;
 
 import org.geekygoblin.nedetlesmaki.core.systems.IDrawSystem;
 import im.bci.jnuit.artemis.sprite.SpriteProjector;
@@ -34,8 +34,6 @@ import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.artemis.utils.Sort;
 import java.util.Comparator;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import im.bci.jnuit.NuitFont;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
@@ -51,7 +49,6 @@ import pythagoras.f.Vector3;
  *
  * @author devnewton
  */
-@Singleton
 public class PlaynDrawSystem extends EntitySystem implements IDrawSystem {
 
     @Mapper
@@ -101,7 +98,6 @@ public class PlaynDrawSystem extends EntitySystem implements IDrawSystem {
         uis.remove(e);
     }
 
-    @Inject
     public PlaynDrawSystem(@NamedEntities.DefaultFont NuitFont font) {
         super(Aspect.getAspectForOne(LevelBackground.class, MainMenu.class, DialogComponent.class, Sprite.class));
 
