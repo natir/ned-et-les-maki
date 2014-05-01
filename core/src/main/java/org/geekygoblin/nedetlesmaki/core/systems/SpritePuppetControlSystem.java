@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+
 import com.artemis.systems.EntityProcessingSystem;
 
 import im.bci.jnuit.artemis.sprite.SpritePuppetControls;
@@ -39,13 +39,18 @@ import im.bci.jnuit.artemis.sprite.SpriteControl;
  * @author devnewton
  */
 public class SpritePuppetControlSystem extends EntityProcessingSystem {
-    @Mapper
+
     ComponentMapper<SpritePuppetControls> spriteMapper;
 
     public SpritePuppetControlSystem() {
         super(Aspect.getAspectForAll(SpritePuppetControls.class));
     }
 
+    @Override
+    protected void initialize() {
+        spriteMapper = world.getMapper(SpritePuppetControls.class);
+    }
+    
     @Override
     protected void process(Entity entity) {
         SpritePuppetControls updatable = spriteMapper.get(entity);

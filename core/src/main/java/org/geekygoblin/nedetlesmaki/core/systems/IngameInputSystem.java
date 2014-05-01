@@ -28,7 +28,7 @@ import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+
 import com.artemis.systems.EntityProcessingSystem;
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -59,8 +59,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private final GameSystem gameSystem;
     private final ActionActivatedDetector mouseClick;
 
-    @Mapper
-    ComponentMapper<Sprite> spriteMapper;
+    private ComponentMapper<Sprite> spriteMapper;
 
     @Inject
     public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, EntityIndexManager indexSystem, GameSystem gameSystem, IDefaultControls defaultControls) {
@@ -70,6 +69,11 @@ public class IngameInputSystem extends EntityProcessingSystem {
         this.indexSystem = indexSystem;
         this.gameSystem = gameSystem;
         this.mouseClick = new ActionActivatedDetector(new Action("click", defaultControls.getMouseClickControls()));
+    }
+
+    @Override
+    protected void initialize() {
+        spriteMapper = world.getMapper(Sprite.class);
     }
 
     @Override

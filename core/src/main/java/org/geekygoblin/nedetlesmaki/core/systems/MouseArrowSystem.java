@@ -26,7 +26,7 @@ package org.geekygoblin.nedetlesmaki.core.systems;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+
 import com.artemis.systems.EntityProcessingSystem;
 import im.bci.jnuit.animation.IAnimation;
 import im.bci.jnuit.animation.PlayMode;
@@ -41,8 +41,7 @@ import pythagoras.f.Vector3;
  */
 public class MouseArrowSystem extends EntityProcessingSystem {
 
-    @Mapper
-    ComponentMapper<Sprite> spriteMapper;
+    private ComponentMapper<Sprite> spriteMapper;
     private Vector3 mousePos;
     private float nearestSpriteDistance;
     private Sprite nearestSprite;
@@ -56,6 +55,11 @@ public class MouseArrowSystem extends EntityProcessingSystem {
         this.game = game;
         this.drawSystem = drawSystem;
         this.assets = assets;
+    }
+
+    @Override
+    protected void initialize() {
+        spriteMapper = world.getMapper(Sprite.class);
     }
 
     @Override

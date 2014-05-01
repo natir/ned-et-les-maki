@@ -26,7 +26,7 @@ package org.geekygoblin.nedetlesmaki.core.systems;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+
 import com.artemis.systems.EntityProcessingSystem;
 
 import org.geekygoblin.nedetlesmaki.core.NedGame;
@@ -38,11 +38,15 @@ import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
  */
 public class TriggerSystem extends EntityProcessingSystem {
 
-    @Mapper
     ComponentMapper<Triggerable> triggerableMapper;
 
     public TriggerSystem() {
         super(Aspect.getAspectForOne(Triggerable.class));
+    }
+    
+    @Override
+    protected void initialize() {
+        triggerableMapper = world.getMapper(Triggerable.class);
     }
 
     @Override

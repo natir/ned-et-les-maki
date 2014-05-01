@@ -26,7 +26,7 @@ package org.geekygoblin.nedetlesmaki.core.systems;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+
 import com.artemis.systems.EntityProcessingSystem;
 import org.geekygoblin.nedetlesmaki.core.components.ui.DialogComponent;
 
@@ -36,11 +36,15 @@ import org.geekygoblin.nedetlesmaki.core.components.ui.DialogComponent;
  */
 public class DialogSystem extends EntityProcessingSystem {
 
-    @Mapper
     ComponentMapper<DialogComponent> dialogMapper;
 
     public DialogSystem() {
         super(Aspect.getAspectForOne(DialogComponent.class));
+    }
+
+    @Override
+    protected void initialize() {
+        dialogMapper = world.getMapper(DialogComponent.class);
     }
 
     @Override

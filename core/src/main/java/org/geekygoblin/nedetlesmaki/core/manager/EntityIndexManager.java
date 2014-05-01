@@ -30,7 +30,6 @@ import javax.inject.Singleton;
 import com.artemis.Entity;
 import com.artemis.EntityManager;
 import com.artemis.ComponentMapper;
-import com.artemis.annotations.Mapper;
 import com.artemis.managers.GroupManager;
 import com.artemis.utils.ImmutableBag;
 
@@ -66,35 +65,20 @@ public class EntityIndexManager extends EntityManager {
     private final Stack<ArrayList<Mouvement>> oldIndex;
     private ArrayList<Mouvement> remove;
 
-    @Mapper
     ComponentMapper<Pushable> pushableMapper;
-    @Mapper
     ComponentMapper<Pusher> pusherMapper;
-    @Mapper
     ComponentMapper<Position> positionMapper;
-    @Mapper
     ComponentMapper<Movable> movableMapper;
-    @Mapper
     ComponentMapper<Plate> plateMapper;
-    @Mapper
     ComponentMapper<Color> colorMapper;
-    @Mapper
     ComponentMapper<Boostable> boostMapper;
-    @Mapper
     ComponentMapper<BlockOnPlate> blockOnPlateMapper;
-    @Mapper
     ComponentMapper<StopOnPlate> stopOnPlateMapper;
-    @Mapper
     ComponentMapper<Destroyer> destroyerMapper;
-    @Mapper
     ComponentMapper<Destroyable> destroyableMapper;
-    @Mapper
     ComponentMapper<Stairs> stairsMapper;
-    @Mapper
     ComponentMapper<Rooted> rootedMapper;
-    @Mapper
     ComponentMapper<CatchNed> catchMapper;
-    @Mapper
     ComponentMapper<Sprite> spriteMapper;
 
     @Inject
@@ -103,6 +87,25 @@ public class EntityIndexManager extends EntityManager {
         this.index = new Square[15][15];
         this.oldIndex = new Stack();
         this.remove = null;
+    }
+
+    @Override
+    protected void initialize() {
+        pushableMapper = world.getMapper(Pushable.class);
+        pusherMapper = world.getMapper(Pusher.class);
+        positionMapper = world.getMapper(Position.class);
+        movableMapper = world.getMapper(Movable.class);
+        plateMapper = world.getMapper(Plate.class);
+        colorMapper = world.getMapper(Color.class);
+        boostMapper = world.getMapper(Boostable.class);
+        blockOnPlateMapper = world.getMapper(BlockOnPlate.class);
+        stopOnPlateMapper = world.getMapper(StopOnPlate.class);
+        destroyerMapper = world.getMapper(Destroyer.class);
+        destroyableMapper = world.getMapper(Destroyable.class);
+        stairsMapper = world.getMapper(Stairs.class);
+        rootedMapper = world.getMapper(Rooted.class);
+        catchMapper = world.getMapper(CatchNed.class);
+        spriteMapper = world.getMapper(Sprite.class);
     }
 
     @Override
@@ -306,12 +309,7 @@ public class EntityIndexManager extends EntityManager {
         if (s != null) {
             ArrayList<Entity> plate = s.getWith(Plate.class);
             ArrayList<Entity> all = s.getAll();
-
-            if (all.size() == plate.size()) {
-                return true;
-            } else {
-                return false;
-            }
+            return all.size() == plate.size();
         }
 
         return true;
@@ -376,13 +374,7 @@ public class EntityIndexManager extends EntityManager {
     }
 
     public boolean isRooted(Entity e) {
-        Rooted d = this.rootedMapper.getSafe(e);
-
-        if (d == null) {
-            return false;
-        }
-
-        return true;
+        return this.rootedMapper.has(e);
     }
 
     public boolean isDestroyable(Entity e) {
@@ -495,8 +487,8 @@ public class EntityIndexManager extends EntityManager {
 
     public ColorType getColorType(Entity e) {
         Color c = this.getColor(e);
-        
-        if(c == null) {
+
+        if (c == null) {
             return ColorType.no;
         } else {
             return c.getColor();

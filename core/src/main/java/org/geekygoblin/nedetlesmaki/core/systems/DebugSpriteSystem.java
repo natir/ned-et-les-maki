@@ -27,7 +27,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
-import com.artemis.annotations.Mapper;
+
 import com.artemis.managers.GroupManager;
 import com.artemis.utils.ImmutableBag;
 import org.geekygoblin.nedetlesmaki.core.Group;
@@ -39,11 +39,15 @@ import im.bci.jnuit.artemis.sprite.Sprite;
  */
 public class DebugSpriteSystem extends EntitySystem {
 
-    @Mapper
     ComponentMapper<Sprite> spriteMapper;
 
     public DebugSpriteSystem() {
         super(Aspect.getAspectForAll(Sprite.class));
+    }
+
+    @Override
+    protected void initialize() {
+        spriteMapper = world.getMapper(Sprite.class);
     }
 
     @Override

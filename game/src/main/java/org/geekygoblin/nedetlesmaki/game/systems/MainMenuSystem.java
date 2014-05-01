@@ -26,7 +26,7 @@ package org.geekygoblin.nedetlesmaki.game.systems;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+
 import com.artemis.systems.EntityProcessingSystem;
 import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
 
@@ -35,17 +35,21 @@ import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
  * @author devnewton
  */
 public class MainMenuSystem extends EntityProcessingSystem {
-    
-    @Mapper
+
     protected ComponentMapper<MainMenu> mainMenuMapper;
-    
+
     public MainMenuSystem() {
         super(Aspect.getAspectForOne(MainMenu.class));
-    }    
-    
+    }
+
+    @Override
+    protected void initialize() {
+        mainMenuMapper = world.getMapper(MainMenu.class);
+    }
+
     @Override
     protected void process(Entity e) {
-        if(e.isEnabled()) {
+        if (e.isEnabled()) {
             mainMenuMapper.get(e).update();
         }
     }
