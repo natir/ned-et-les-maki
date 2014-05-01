@@ -23,8 +23,8 @@
  */
 package org.geekygoblin.nedetlesmaki.core.components.ui;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.background.ColoredBackground;

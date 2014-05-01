@@ -27,9 +27,7 @@ import org.geekygoblin.nedetlesmaki.core.AbstractStartGameTrigger;
 import com.artemis.Entity;
 import im.bci.tmxloader.TmxTileInstance;
 import java.util.Random;
-import com.google.inject.Inject;
 import im.bci.jnuit.animation.IAnimationCollection;
-import im.bci.jnuit.artemis.sprite.IsometricSpriteProjector;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
@@ -41,7 +39,6 @@ import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
  */
 public class PlaynStartGameTrigger extends AbstractStartGameTrigger {
 
-    @Inject
     public PlaynStartGameTrigger(IAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, Random random) {
         super(assets, mainMenu, ingameControls, indexSystem, random);
     }

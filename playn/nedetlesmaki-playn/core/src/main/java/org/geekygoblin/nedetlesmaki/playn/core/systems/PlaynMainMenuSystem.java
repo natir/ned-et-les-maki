@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.geekygoblin.nedetlesmaki.game.systems;
+package org.geekygoblin.nedetlesmaki.playn.core.systems;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.EntityProcessingSystem;
-import com.google.inject.Inject;
 import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.playn.PlaynNuitRenderer;
 import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
-import org.geekygoblin.nedetlesmaki.game.components.ui.PlaynLayerOwner;
+import org.geekygoblin.nedetlesmaki.playn.core.components.ui.PlaynLayerOwner;
 import playn.core.ImmediateLayer;
 import playn.core.PlayN;
 import playn.core.Surface;
@@ -40,7 +39,6 @@ public class PlaynMainMenuSystem extends EntityProcessingSystem {
         }
     }
 
-    @Inject
     public PlaynMainMenuSystem(NuitRenderer nuitRenderer) {
         super(Aspect.getAspectForOne(MainMenu.class));
 

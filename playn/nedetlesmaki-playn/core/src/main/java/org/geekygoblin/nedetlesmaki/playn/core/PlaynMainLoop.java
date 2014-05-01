@@ -24,9 +24,7 @@
 package org.geekygoblin.nedetlesmaki.playn.core;
 
 import com.artemis.Entity;
-import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.core.IMainLoop;
-import com.google.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 
@@ -34,20 +32,13 @@ import org.geekygoblin.nedetlesmaki.core.NedGame;
  *
  * @author devnewton
  */
-@Singleton
 public class PlaynMainLoop implements IMainLoop {
 
     private boolean closeRequested;
     private final NedGame game;
 
-    @Inject
     public PlaynMainLoop(NedGame game) {
         this.game = game;
-    }
-
-    @Inject
-    public void init(@NamedEntities.MainMenu Entity mainMenu) {
-        mainMenu.enable();
     }
 
     @Override

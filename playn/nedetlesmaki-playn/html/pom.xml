@@ -47,8 +47,18 @@
             <classifier>sources</classifier>
         </dependency>
         <dependency>
-            <groupId>com.google.inject</groupId>
-            <artifactId>guice</artifactId>
+            <groupId>im.bci</groupId>
+            <artifactId>tablelayout</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>im.bci</groupId>
+            <artifactId>jnuit-artemis</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
             <classifier>sources</classifier>
         </dependency>
         <dependency>

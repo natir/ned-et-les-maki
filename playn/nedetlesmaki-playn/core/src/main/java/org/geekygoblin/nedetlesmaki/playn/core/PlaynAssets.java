@@ -24,7 +24,6 @@
 package org.geekygoblin.nedetlesmaki.playn.core;
 
 import org.geekygoblin.nedetlesmaki.core.IAssets;
-import com.google.inject.Singleton;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.playn.animation.PlaynAnimationLoader;
 import playn.core.PlayN;
@@ -33,7 +32,6 @@ import playn.core.PlayN;
  *
  * @author devnewton <devnewton@bci.im>
  */
-@Singleton
 public class PlaynAssets implements IAssets {
 
     @Override

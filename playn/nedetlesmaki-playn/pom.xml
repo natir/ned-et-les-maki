@@ -90,6 +90,12 @@
             </dependency>
             <dependency>
                 <groupId>im.bci</groupId>
+                <artifactId>tablelayout</artifactId>
+                <version>${jnuit.version}</version>
+                <classifier>sources</classifier>
+            </dependency>
+            <dependency>
+                <groupId>im.bci</groupId>
                 <artifactId>jnuit-playn</artifactId>
                 <classifier>sources</classifier>
                 <version>${jnuit.version}</version>
@@ -101,10 +107,16 @@
                 <version>${jnuit.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.google.inject</groupId>
-                <artifactId>guice</artifactId>
+                <groupId>im.bci</groupId>
+                <artifactId>jnuit-artemis</artifactId>
                 <classifier>sources</classifier>
-                <version>3.0</version>
+                <version>${jnuit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <classifier>sources</classifier>
+                <version>1</version>
             </dependency>
             <dependency>
                 <groupId>net.onedaybeard.artemis</groupId>

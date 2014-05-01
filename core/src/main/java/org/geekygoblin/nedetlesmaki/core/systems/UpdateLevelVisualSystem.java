@@ -21,8 +21,8 @@
  */
 package org.geekygoblin.nedetlesmaki.core.systems;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 import java.util.ArrayList;
 
@@ -30,7 +30,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.annotations.Mapper;
 import com.artemis.systems.VoidEntitySystem;
-import com.google.inject.Singleton;
+import javax.inject.Singleton;
 
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;

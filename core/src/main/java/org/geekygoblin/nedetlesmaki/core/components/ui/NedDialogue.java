@@ -24,7 +24,7 @@
 package org.geekygoblin.nedetlesmaki.core.components.ui;
 
 import im.bci.jnuit.NuitToolkit;
-import com.google.inject.Inject;
+import javax.inject.Inject;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;

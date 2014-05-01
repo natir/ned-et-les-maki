@@ -21,7 +21,7 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.game.components.ui;
+package org.geekygoblin.nedetlesmaki.playn.core.components.ui;
 
 import com.artemis.Component;
 import playn.core.Layer;

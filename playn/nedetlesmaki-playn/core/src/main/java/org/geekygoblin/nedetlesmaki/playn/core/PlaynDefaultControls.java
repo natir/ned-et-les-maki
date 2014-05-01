@@ -23,9 +23,7 @@
  */
 package org.geekygoblin.nedetlesmaki.playn.core;
 
-import com.google.inject.Inject;
 import org.geekygoblin.nedetlesmaki.core.IDefaultControls;
-import com.google.inject.Singleton;
 import im.bci.jnuit.controls.Control;
 import im.bci.jnuit.playn.controls.KeyControl;
 import im.bci.jnuit.playn.controls.PlaynNuitControls;
@@ -35,12 +33,10 @@ import playn.core.Key;
  *
  * @author devnewton <devnewton@bci.im>
  */
-@Singleton
 public class PlaynDefaultControls implements IDefaultControls {
 
     private final PlaynNuitControls controls;
 
-    @Inject
     public PlaynDefaultControls(PlaynNuitControls controls) {
         this.controls = controls;
     }
