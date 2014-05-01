@@ -30,7 +30,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
-import com.artemis.annotations.Mapper;
+
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.artemis.utils.Sort;
@@ -69,16 +69,11 @@ import pythagoras.f.Vector3;
 @Singleton
 public class DrawSystem extends EntitySystem implements IDrawSystem {
 
-    @Mapper
-    ComponentMapper<LevelBackground> levelBackgroundMapper;
-    @Mapper
-    ComponentMapper<Sprite> spriteMapper;
-    @Mapper
-    ComponentMapper<MainMenu> mainMenuMapper;
-    @Mapper
-    ComponentMapper<DialogComponent> dialogMapper;
-    @Mapper
-    ComponentMapper<LevelBackground> levelMapper;
+    private ComponentMapper<LevelBackground> levelBackgroundMapper;
+    private ComponentMapper<Sprite> spriteMapper;
+    private ComponentMapper<MainMenu> mainMenuMapper;
+    private ComponentMapper<DialogComponent> dialogMapper;
+
     private final Comparator<Entity> zComparator = new Comparator<Entity>() {
         @Override
         public int compare(Entity o1, Entity o2) {
@@ -100,6 +95,14 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
 
     private final SpriteBatcher spriteBatcher = new SpriteBatcher();
     private final LwjglNuitFont font;
+
+    @Override
+    protected void initialize() {
+        levelBackgroundMapper = world.getMapper(LevelBackground.class);
+        spriteMapper = world.getMapper(Sprite.class);
+        mainMenuMapper = world.getMapper(MainMenu.class);
+        dialogMapper = world.getMapper(DialogComponent.class);
+    }
 
     @Override
     protected void inserted(Entity e) {
@@ -160,7 +163,7 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
         }
 
         for (Entity e : backgrounds) {
-            LevelBackground level = levelMapper.getSafe(e);
+            LevelBackground level = levelBackgroundMapper.getSafe(e);
             if (null != level) {
                 drawLevel(level);
             }

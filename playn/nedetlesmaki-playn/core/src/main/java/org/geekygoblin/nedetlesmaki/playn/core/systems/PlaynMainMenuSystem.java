@@ -8,7 +8,7 @@ package org.geekygoblin.nedetlesmaki.playn.core.systems;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+
 import com.artemis.systems.EntityProcessingSystem;
 import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.playn.PlaynNuitRenderer;
@@ -26,11 +26,14 @@ public class PlaynMainMenuSystem extends EntityProcessingSystem {
 
     private final PlaynNuitRenderer nuitRenderer;
 
-    @Mapper
     private ComponentMapper<PlaynLayerOwner> layerOwnerMapper;
-
-    @Mapper
     protected ComponentMapper<MainMenu> mainMenuMapper;
+
+    @Override
+    protected void initialize() {
+        layerOwnerMapper = world.getMapper(PlaynLayerOwner.class);
+        mainMenuMapper = world.getMapper(MainMenu.class);
+    }
 
     @Override
     protected void process(Entity e) {

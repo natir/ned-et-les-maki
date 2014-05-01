@@ -28,7 +28,6 @@ import java.util.ArrayList;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
 import com.artemis.systems.VoidEntitySystem;
 import javax.inject.Singleton;
 
@@ -36,7 +35,6 @@ import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
 
 import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
 import im.bci.jnuit.artemis.sprite.Sprite;
 import im.bci.jnuit.artemis.sprite.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
@@ -55,14 +53,7 @@ import pythagoras.f.Vector3;
 @Singleton
 public class UpdateLevelVisualSystem extends VoidEntitySystem {
 
-    @Mapper
-    ComponentMapper<Sprite> spriteMapper;
-    @Mapper
-    ComponentMapper<Plate> plateMapper;
-    @Mapper
-    ComponentMapper<Position> positionMapper;
-    @Mapper
-    ComponentMapper<SpritePuppetControls> controlsMapper;
+    private ComponentMapper<SpritePuppetControls> controlsMapper;
 
     private final IAssets assets;
     private int nbIndexSaved;
@@ -78,7 +69,10 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         this.gameSystem = gameSystem;
         this.showLevelMenuTrigger = showLevelMenuTrigger;
     }
-
+    @Override
+    protected void initialize() {
+        controlsMapper = world.getMapper(SpritePuppetControls.class);
+    }
     @Override
     protected void processSystem() {
         if (this.gameSystem.end) {

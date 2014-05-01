@@ -29,7 +29,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
-import com.artemis.annotations.Mapper;
+
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.artemis.utils.Sort;
@@ -51,16 +51,10 @@ import pythagoras.f.Vector3;
  */
 public class PlaynDrawSystem extends EntitySystem implements IDrawSystem {
 
-    @Mapper
     ComponentMapper<LevelBackground> levelBackgroundMapper;
-    @Mapper
     ComponentMapper<Sprite> spriteMapper;
-    @Mapper
     ComponentMapper<MainMenu> mainMenuMapper;
-    @Mapper
     ComponentMapper<DialogComponent> dialogMapper;
-    @Mapper
-    ComponentMapper<LevelBackground> levelMapper;
     private final Comparator<Entity> zComparator = new Comparator<Entity>() {
         @Override
         public int compare(Entity o1, Entity o2) {
@@ -79,6 +73,14 @@ public class PlaynDrawSystem extends EntitySystem implements IDrawSystem {
     private final Bag<Entity> backgrounds = new Bag<Entity>();
     private final Bag<Entity> sprites = new Bag<Entity>();
     private final Bag<Entity> uis = new Bag<Entity>();
+
+    @Override
+    protected void initialize() {
+        levelBackgroundMapper = world.getMapper(LevelBackground.class);
+        spriteMapper = world.getMapper(Sprite.class);
+        mainMenuMapper = world.getMapper(MainMenu.class);
+        dialogMapper = world.getMapper(DialogComponent.class);
+    }
 
     @Override
     protected void inserted(final Entity e) {
@@ -116,9 +118,9 @@ public class PlaynDrawSystem extends EntitySystem implements IDrawSystem {
         }
 
         for (Entity e : backgrounds) {
-            LevelBackground level = levelMapper.getSafe(e);
+            LevelBackground level = levelBackgroundMapper.getSafe(e);
             if (null != level) {
-              //  drawLevel(level);
+                //  drawLevel(level);
             }
         }
 
@@ -139,20 +141,20 @@ public class PlaynDrawSystem extends EntitySystem implements IDrawSystem {
 
     @Override
     public Vector3 getMouseSpritePos(int yAdjust) {
-/*        if (null != spriteProjector) {
-            float mouseX = (Mouse.getX() - viewPort.x) * VirtualResolution.WIDTH / viewPort.width - VirtualResolution.WIDTH / 2.0f;
-            float mouseY = VirtualResolution.HEIGHT - ((Mouse.getY() + yAdjust - viewPort.y) * VirtualResolution.HEIGHT / viewPort.height) - VirtualResolution.HEIGHT / 2.0f;
-            Entity ned = ((NedGame) world).getNed();
-            if (null != ned) {
-                Sprite nedSprite = spriteMapper.get(ned);
-                Vector nedPos = spriteProjector.project(nedSprite.getPosition());
-                mouseX += nedPos.x;
-                mouseY += nedPos.y;
-            }
-            return spriteProjector.unProject(new Vector(mouseX / spriteGlobalScale, mouseY / spriteGlobalScale));
-        } else {
-            return null;
-        }*/
+        /*        if (null != spriteProjector) {
+         float mouseX = (Mouse.getX() - viewPort.x) * VirtualResolution.WIDTH / viewPort.width - VirtualResolution.WIDTH / 2.0f;
+         float mouseY = VirtualResolution.HEIGHT - ((Mouse.getY() + yAdjust - viewPort.y) * VirtualResolution.HEIGHT / viewPort.height) - VirtualResolution.HEIGHT / 2.0f;
+         Entity ned = ((NedGame) world).getNed();
+         if (null != ned) {
+         Sprite nedSprite = spriteMapper.get(ned);
+         Vector nedPos = spriteProjector.project(nedSprite.getPosition());
+         mouseX += nedPos.x;
+         mouseY += nedPos.y;
+         }
+         return spriteProjector.unProject(new Vector(mouseX / spriteGlobalScale, mouseY / spriteGlobalScale));
+         } else {
+         return null;
+         }*/
         return null;
     }
 

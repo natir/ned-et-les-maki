@@ -26,10 +26,11 @@ package org.geekygoblin.nedetlesmaki.core.systems;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import com.artemis.annotations.Mapper;
+
 import com.artemis.systems.EntityProcessingSystem;
 
 import org.geekygoblin.nedetlesmaki.core.NedGame;
+import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.core.components.TriggerableWhenRemoved;
 import org.geekygoblin.nedetlesmaki.core.events.Trigger;
 
@@ -39,11 +40,15 @@ import org.geekygoblin.nedetlesmaki.core.events.Trigger;
  */
 public class TriggerWhenRemovedSystem extends EntityProcessingSystem {
 
-    @Mapper
     ComponentMapper<TriggerableWhenRemoved> triggerableMapper;
 
     public TriggerWhenRemovedSystem() {
         super(Aspect.getAspectForOne(TriggerableWhenRemoved.class));
+    }
+
+    @Override
+    protected void initialize() {
+        triggerableMapper = world.getMapper(TriggerableWhenRemoved.class);
     }
 
     @Override
