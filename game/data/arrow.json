@@ -1,0 +1,56 @@
+{
+  "animations": [
+    {
+      "name": "arrow_down",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "arrow0.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "arrow_left",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "arrow1.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "arrow_right",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "arrow2.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "arrow_up",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "arrow3.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    }
+  ]
+}

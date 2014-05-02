@@ -42,10 +42,9 @@ public class PlaynMainMenuSystem extends EntityProcessingSystem {
         }
     }
 
-    public PlaynMainMenuSystem(NuitRenderer nuitRenderer) {
+    public PlaynMainMenuSystem(PlaynNuitRenderer nuitRenderer) {
         super(Aspect.getAspectForOne(MainMenu.class));
-
-        this.nuitRenderer = (PlaynNuitRenderer) nuitRenderer;
+        this.nuitRenderer = nuitRenderer;
     }
 
     @Override

@@ -27,7 +27,6 @@ import com.artemis.Component;
 import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.widgets.Root;
 import javax.inject.Inject;
-import im.bci.jnuit.NuitRenderer;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 
@@ -39,14 +38,12 @@ public class DialogComponent extends Component {
 
     private final Root root;
     private final NedGame game;
-    private final NuitRenderer nuitRenderer;
     private final NedDialogue dialog;
 
     @Inject
-    public DialogComponent(NuitToolkit toolkit, NuitRenderer nuitRenderer, NedGame game, IAssets assets, NedDialogue dialog) {
+    public DialogComponent(NuitToolkit toolkit, NedGame game, IAssets assets, NedDialogue dialog) {
         this.game = game;
         root = new Root(toolkit);
-        this.nuitRenderer = nuitRenderer;
         root.add(dialog);
         this.dialog = dialog;
     }
@@ -55,12 +52,11 @@ public class DialogComponent extends Component {
         final float delta = game.getDelta();
         root.update(delta);
     }
-
-    public void draw() {
-        nuitRenderer.render(root);
+    public boolean isFinished() {
+        return dialog.isFinished();
     }
 
-    public boolean isFinished() {
-      return dialog.isFinished();
+    public Root getRoot() {
+        return root;
     }
 }

@@ -36,7 +36,7 @@ import org.geekygoblin.nedetlesmaki.core.components.ui.DialogComponent;
  */
 public class DialogSystem extends EntityProcessingSystem {
 
-    ComponentMapper<DialogComponent> dialogMapper;
+    protected ComponentMapper<DialogComponent> dialogMapper;
 
     public DialogSystem() {
         super(Aspect.getAspectForOne(DialogComponent.class));

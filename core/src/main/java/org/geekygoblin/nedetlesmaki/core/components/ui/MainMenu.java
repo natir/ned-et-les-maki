@@ -64,7 +64,6 @@ public class MainMenu extends Component {
     private final LevelSelector levelSelector;
     private final IMainLoop mainLoop;
     private final NuitToolkit toolkit;
-    private final NuitRenderer nuitRenderer;
     private final IAssets assets;
     private final NedGame game;
     private final Provider<HideMenuTrigger> hideMenuTrigger;
@@ -72,10 +71,9 @@ public class MainMenu extends Component {
     private final CutScenes cutscenes;
 
     @Inject
-    public MainMenu(IMainLoop mainLoop, NedGame g, NuitToolkit toolkit, NuitRenderer nuitRenderer, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger, IngameControls ingameControls, CutScenes cutscenes, NuitPreferences preferences) {
+    public MainMenu(IMainLoop mainLoop, NedGame g, NuitToolkit toolkit, IAssets assets, LevelSelector levelSelector, Provider<HideMenuTrigger> hideMenuTrigger, IngameControls ingameControls, CutScenes cutscenes, NuitPreferences preferences) {
         this.mainLoop = mainLoop;
         this.toolkit = toolkit;
-        this.nuitRenderer = nuitRenderer;
         this.assets = assets;
         this.game = g;
         this.hideMenuTrigger = hideMenuTrigger;
@@ -307,10 +305,6 @@ public class MainMenu extends Component {
 
     public void update() {
         root.update(game.getDelta());
-    }
-
-    public void draw() {
-        nuitRenderer.render(root);
     }
 
     private void onStartGame() {
