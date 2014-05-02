@@ -47,8 +47,8 @@ public class CutScenes {
 
     public void createCredits(NedDialogue dialog) {
         assets.clearUseless();
-        IAnimationCollection animations = assets.getAnimations("devnewton.nanim.gz");
-        IAnimationCollection natir_credit = assets.getAnimations("natir.nanim.gz");
+        IAnimationCollection animations = assets.getAnimations("devnewton.json");
+        IAnimationCollection natir_credit = assets.getAnimations("natir.json");
         dialog.setBackground(new ColoredBackground(0, 0, 0, 1));
         dialog.addTirade(animations.getAnimationByName("devnewton").start(PlayMode.ONCE), (VirtualResolution.WIDTH - 512) / 2, (VirtualResolution.HEIGHT - 128) / 2, 512, 128, "dialog.credits.devnewton");
         dialog.addTirade(natir_credit.getAnimationByName("natir").start(PlayMode.ONCE), (VirtualResolution.WIDTH - 600) / 2, (VirtualResolution.HEIGHT - 360) / 2, 600, 360, "dialog.credits.natir");

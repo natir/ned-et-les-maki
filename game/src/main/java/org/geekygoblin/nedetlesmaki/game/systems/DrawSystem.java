@@ -42,6 +42,7 @@ import java.util.Comparator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import im.bci.jnuit.NuitFont;
+import im.bci.jnuit.NuitRenderer;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 import im.bci.jnuit.artemis.sprite.Sprite;
@@ -95,6 +96,7 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
 
     private final SpriteBatcher spriteBatcher = new SpriteBatcher();
     private final LwjglNuitFont font;
+    private final NuitRenderer nuitRenderer;
 
     @Override
     protected void initialize() {
@@ -123,9 +125,10 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
     }
 
     @Inject
-    public DrawSystem(@NamedEntities.DefaultFont NuitFont font) {
+    public DrawSystem(@NamedEntities.DefaultFont NuitFont font, NuitRenderer nuitRenderer) {
         super(Aspect.getAspectForOne(LevelBackground.class, MainMenu.class, DialogComponent.class, Sprite.class));
         this.font = (LwjglNuitFont) font;
+        this.nuitRenderer = nuitRenderer;
     }
 
     @Override
@@ -184,11 +187,11 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
         for (Entity e : uis) {
             MainMenu mainMenu = mainMenuMapper.getSafe(e);
             if (null != mainMenu) {
-                mainMenu.draw();
+                nuitRenderer.render(mainMenu.getRoot());
             }
             DialogComponent dialog = dialogMapper.getSafe(e);
             if (null != dialog) {
-                dialog.draw();
+                nuitRenderer.render(dialog.getRoot());
             }
         }
         GL11.glPopMatrix();

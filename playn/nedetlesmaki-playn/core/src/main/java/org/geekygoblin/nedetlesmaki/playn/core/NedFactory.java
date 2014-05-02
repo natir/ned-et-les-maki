@@ -129,7 +129,7 @@ public class NedFactory {
         ingameControls.disable();
         game.addEntity(ingameControls);
 
-        MainMenu mainMenuComponent = new MainMenu(mainLoop, game, toolkit, renderer, assets, levelSelector, hideMenuTrigger, ingameControlsComponent, cutscenes, preferences);
+        MainMenu mainMenuComponent = new MainMenu(mainLoop, game, toolkit, assets, levelSelector, hideMenuTrigger, ingameControlsComponent, cutscenes, preferences);
         mainMenu = game.createEntity();
         mainMenu.addComponent(mainMenuComponent);
         game.addEntity(mainMenu);

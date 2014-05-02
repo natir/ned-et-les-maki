@@ -41,7 +41,7 @@ public class NedDialogue extends Dialogue {
     @Inject
     public NedDialogue(NuitToolkit toolkit, IAssets assets) {
         super(toolkit);
-        IAnimationCollection dialogAnimations = assets.getAnimations("dialog_ui.nanim.gz");
+        IAnimationCollection dialogAnimations = assets.getAnimations("dialog_ui.json");
 
         nextButton.setText("");
         nextButton.setBackground(new TexturedBackground(dialogAnimations.getAnimationByName("next").start(PlayMode.LOOP)));

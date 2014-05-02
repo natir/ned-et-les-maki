@@ -130,15 +130,15 @@ public class MouseArrowSystem extends EntityProcessingSystem {
 
             if (nedX == selectedX) {
                 if (nedY < selectedY) {
-                    animation = assets.getAnimations("arrow.nanim.gz").getAnimationByName("arrow_right");
+                    animation = assets.getAnimations("arrow.json").getAnimationByName("arrow_right");
                 } else if (nedY > selectedY) {
-                    animation = assets.getAnimations("arrow.nanim.gz").getAnimationByName("arrow_left");
+                    animation = assets.getAnimations("arrow.json").getAnimationByName("arrow_left");
                 }
             } else if (nedY == selectedY) {
                 if (nedX < selectedX) {
-                    animation = assets.getAnimations("arrow.nanim.gz").getAnimationByName("arrow_down");
+                    animation = assets.getAnimations("arrow.json").getAnimationByName("arrow_down");
                 } else if (nedX > selectedX) {
-                    animation = assets.getAnimations("arrow.nanim.gz").getAnimationByName("arrow_up");
+                    animation = assets.getAnimations("arrow.json").getAnimationByName("arrow_up");
                 }
             }
         }
