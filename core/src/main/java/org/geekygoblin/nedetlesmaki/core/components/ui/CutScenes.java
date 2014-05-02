@@ -56,7 +56,7 @@ public class CutScenes {
 
     public void createIntro(NedDialogue dialog) {
         assets.clearUseless();
-        IAnimationCollection animations = assets.getAnimations("intro.nanim.gz");
+        IAnimationCollection animations = assets.getAnimations("intro.json");
         dialog.addTirade(animations.getAnimationByName("01").start(PlayMode.LOOP), "dialog.intro.01");
         dialog.addTirade(animations.getAnimationByName("02").start(PlayMode.LOOP), "dialog.intro.02");
         dialog.addTirade(animations.getAnimationByName("03").start(PlayMode.LOOP), "dialog.intro.03");
@@ -75,7 +75,7 @@ public class CutScenes {
          @Override
          public void process(Game game) {
 
-         assets.forceAnimationUnload("intro.nanim.gz");
+         assets.forceAnimationUnload("intro.json");
          }
          }));
          game.addEntity(intro);

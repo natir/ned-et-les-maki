@@ -115,14 +115,11 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             updatable = new SpritePuppetControls(sprite);
         }
 
-        IAnimationCollection nedAnim = this.assets.getAnimations("ned.nanim.gz");
-        IAnimationCollection nedWaitBoostAnim = this.assets.getAnimations("ned_waits_boost.nanim.gz");
-        IAnimationCollection nedMountAnim = this.assets.getAnimations("ned_mount.nanim.gz");
-        IAnimationCollection makiAnim = this.assets.getAnimations("maki.nanim.gz");
-        IAnimationCollection boxAnim = this.assets.getAnimations("box.nanim.gz");
-        IAnimationCollection stairsAnim = this.assets.getAnimations("stairs.nanim.gz");
-        IAnimationCollection makiAnimBoost = this.assets.getAnimations("blue_maki_boost.nanim.gz");
-        IAnimationCollection nedAnimFly = this.assets.getAnimations("fly.nanim.gz");
+        IAnimationCollection nedAnim = this.assets.getAnimations("ned.json");
+        IAnimationCollection makiAnim = this.assets.getAnimations("maki.json");
+        IAnimationCollection boxAnim = this.assets.getAnimations("box.json");
+        IAnimationCollection stairsAnim = this.assets.getAnimations("stairs.json");
+        IAnimationCollection makiAnimBoost = this.assets.getAnimations("blue_maki_boost.json");
 
         if (a == AnimationType.no) {
             updatable.waitDuring(waitBefore)
@@ -160,35 +157,35 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_waits_boost_up) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_up"), PlayMode.ONCE)
+            updatable.startAnimation(nedAnim.getAnimationByName("ned_waits_boost_start_up"), PlayMode.ONCE)
                     .waitAnimation()
-                    .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_up"), PlayMode.ONCE);
+                    .startAnimation(nedAnim.getAnimationByName("ned_waits_boost_stop_up"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_waits_boost_down) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_down"), PlayMode.ONCE)
+            updatable.startAnimation(nedAnim.getAnimationByName("ned_waits_boost_start_down"), PlayMode.ONCE)
                     .waitAnimation()
-                    .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_down"), PlayMode.ONCE);
+                    .startAnimation(nedAnim.getAnimationByName("ned_waits_boost_stop_down"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_waits_boost_right) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_right"), PlayMode.ONCE)
+            updatable.startAnimation(nedAnim.getAnimationByName("ned_waits_boost_start_right"), PlayMode.ONCE)
                     .waitAnimation()
-                    .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_right"), PlayMode.ONCE);
+                    .startAnimation(nedAnim.getAnimationByName("ned_waits_boost_stop_right"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_waits_boost_left) {
-            updatable.startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_start_left"), PlayMode.ONCE)
+            updatable.startAnimation(nedAnim.getAnimationByName("ned_waits_boost_start_left"), PlayMode.ONCE)
                     .waitAnimation()
-                    .startAnimation(nedWaitBoostAnim.getAnimationByName("ned_waits_boost_stop_left"), PlayMode.ONCE);
+                    .startAnimation(nedAnim.getAnimationByName("ned_waits_boost_stop_left"), PlayMode.ONCE);
         } else if (a == AnimationType.ned_mount_stairs_up) {
-            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_up"))
+            updatable.startAnimation(nedAnim.getAnimationByName("ned_mount_up"))
                     .moveToRelative(new Vector3(diff.getY() - 0.4f, diff.getX() - 0.2f, 1), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_mount_stairs_down) {
-            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_down"))
+            updatable.startAnimation(nedAnim.getAnimationByName("ned_mount_down"))
                     .moveToRelative(new Vector3(diff.getY() + 0.2f, diff.getX() - 0.4f, 1), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_mount_stairs_right) {
-            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_right"))
+            updatable.startAnimation(nedAnim.getAnimationByName("ned_mount_right"))
                     .moveToRelative(new Vector3(diff.getY() - 0.2f, diff.getX() + 0.2f, 1), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.ned_mount_stairs_left) {
-            updatable.startAnimation(nedMountAnim.getAnimationByName("ned_mount_left"))
+            updatable.startAnimation(nedAnim.getAnimationByName("ned_mount_left"))
                     .moveToRelative(new Vector3(diff.getY() - 0.2f, diff.getX() - 0.4f, 1), animationTime)
                     .stopAnimation();
         } else if (a == AnimationType.box_destroy) {
@@ -323,55 +320,55 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_start_up) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(nedAnimFly.getAnimationByName("fly_start_up"), PlayMode.ONCE)
+                    .startAnimation(nedAnim.getAnimationByName("fly_start_up"), PlayMode.ONCE)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_start_down) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(nedAnimFly.getAnimationByName("fly_start_down"), PlayMode.ONCE)
+                    .startAnimation(nedAnim.getAnimationByName("fly_start_down"), PlayMode.ONCE)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_start_left) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(nedAnimFly.getAnimationByName("fly_start_left"), PlayMode.ONCE)
+                    .startAnimation(nedAnim.getAnimationByName("fly_start_left"), PlayMode.ONCE)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_start_right) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(nedAnimFly.getAnimationByName("fly_start_right"), PlayMode.ONCE)
+                    .startAnimation(nedAnim.getAnimationByName("fly_start_right"), PlayMode.ONCE)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_stop_up) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(nedAnimFly.getAnimationByName("fly_stop_up"), PlayMode.ONCE)
+                    .startAnimation(nedAnim.getAnimationByName("fly_stop_up"), PlayMode.ONCE)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
         } else if (a == AnimationType.fly_stop_down) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(nedAnimFly.getAnimationByName("fly_stop_down"), PlayMode.ONCE)
+                    .startAnimation(nedAnim.getAnimationByName("fly_stop_down"), PlayMode.ONCE)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
         } else if (a == AnimationType.fly_stop_left) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(nedAnimFly.getAnimationByName("fly_stop_left"), PlayMode.ONCE)
+                    .startAnimation(nedAnim.getAnimationByName("fly_stop_left"), PlayMode.ONCE)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
         } else if (a == AnimationType.fly_stop_right) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(nedAnimFly.getAnimationByName("fly_stop_right"), PlayMode.ONCE)
+                    .startAnimation(nedAnim.getAnimationByName("fly_stop_right"), PlayMode.ONCE)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
                     .waitAnimation();
         } else if (a == AnimationType.fly_loop_up) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(nedAnimFly.getAnimationByName("fly_loop_up"), PlayMode.LOOP)
+                    .startAnimation(nedAnim.getAnimationByName("fly_loop_up"), PlayMode.LOOP)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_loop_down) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(nedAnimFly.getAnimationByName("fly_loop_down"), PlayMode.LOOP)
+                    .startAnimation(nedAnim.getAnimationByName("fly_loop_down"), PlayMode.LOOP)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_loop_left) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(nedAnimFly.getAnimationByName("fly_loop_left"), PlayMode.LOOP)
+                    .startAnimation(nedAnim.getAnimationByName("fly_loop_left"), PlayMode.LOOP)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.fly_loop_right) {
             updatable.waitDuring(waitBefore)
-                    .startAnimation(nedAnimFly.getAnimationByName("fly_loop_right"), PlayMode.LOOP)
+                    .startAnimation(nedAnim.getAnimationByName("fly_loop_right"), PlayMode.LOOP)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         }
 
