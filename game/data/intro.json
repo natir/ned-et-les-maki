@@ -1,0 +1,134 @@
+{
+  "animations": [
+    {
+      "name": "01",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "intro00.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "02",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "intro01.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "03",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "intro02.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "04",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "intro03.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "05",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "intro04.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "06",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "intro05.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "07",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "intro06.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "08",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "intro07.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "09",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "intro08.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "10",
+      "frames": [
+        {
+          "duration": 1,
+          "image": "intro09.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    }
+  ]
+}
