@@ -91,6 +91,7 @@ public class EntityIndexManager extends EntityManager {
 
     @Override
     protected void initialize() {
+        super.initialize();
         pushableMapper = world.getMapper(Pushable.class);
         pusherMapper = world.getMapper(Pusher.class);
         positionMapper = world.getMapper(Position.class);
