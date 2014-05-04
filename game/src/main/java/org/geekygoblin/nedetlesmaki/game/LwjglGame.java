@@ -40,7 +40,6 @@ import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
 import im.bci.jnuit.artemis.sprite.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.MouseArrowSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.SpritePuppetControlSystem;
-import org.geekygoblin.nedetlesmaki.core.systems.TriggerWhenRemovedSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
 
 /**
@@ -62,7 +61,6 @@ public class LwjglGame extends NedGame {
         setSystem(new MouseArrowSystem(this, assets, drawSystem));
         setSystem(drawSystem);
         setSystem(new TriggerSystem());
-        setSystem(new TriggerWhenRemovedSystem());
         setSystem(new MainMenuSystem());
         setSystem(new DialogSystem());
         setSystem(new DebugSpriteSystem());

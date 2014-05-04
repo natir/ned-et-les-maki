@@ -72,16 +72,67 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
     protected String levelName;
     protected final Random random;
     protected TmxMap map;
+    private State state = State.CLEAN;
 
     protected abstract IAnimationCollection getTileAnimationCollection(TmxTileInstance tile);
-    
-    protected abstract  void loadMap();
+
+    private State clean(NedGame game) {
+        game.setNed(null);
+        mainMenu.disable();
+        ingameControls.enable();
+        ArrayList<Entity> entitiesToDelete = new ArrayList<Entity>();
+        for (Entity e : game.getManager(GroupManager.class).getEntities(Group.LEVEL)) {
+            entitiesToDelete.add(e);
+        }
+        this.indexSystem.cleanIndex();
+        this.indexSystem.cleanStack();
+        for (Entity e : entitiesToDelete) {
+            e.deleteFromWorld();
+        }
+        return State.LOAD;
+    }
+
+    protected abstract State load(NedGame game);
+
+    private State build(NedGame game) {
+        GroupManager groupManager = game.getManager(GroupManager.class);
+        Entity level = game.createEntity();
+        level.addComponent(new LevelBackground(assets.getAnimations("background.png").getFirst().start(PlayMode.ONCE)));
+        groupManager.add(level, Group.LEVEL);
+        game.addEntity(level);
+
+        createProjector(game);
+        final List<TmxLayer> layers = map.getLayers();
+        for (int l = 0, n = layers.size(); l < n; ++l) {
+            TmxLayer layer = map.getLayers().get(l);
+            for (int y = 0, lh = layer.getHeight(); y < lh; ++y) {
+                for (int x = 0, lw = layer.getWidth(); x < lw; ++x) {
+                    final TmxTileInstance tile = layer.getTileAt(x, y);
+                    if (null != tile) {
+                        Entity entity = createEntityFromTile(tile, game, x, y, l, layer);
+                        groupManager.add(entity, Group.LEVEL);
+                    }
+                }
+            }
+        }
+
+        assets.clearUseless();
+        return State.END;
+    }
 
     private enum ApparitionEffect {
 
         FROM_ABOVE,
         FROM_BELOW,
         NONE
+    }
+
+    protected enum State {
+
+        CLEAN,
+        LOAD,
+        BUILD,
+        END
     }
 
     protected AbstractStartGameTrigger(IAssets assets, Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, Random random) {
@@ -100,38 +151,19 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     @Override
     public void process(NedGame game) {
-        mainMenu.disable();
-        ingameControls.enable();
-        final GroupManager groupManager = game.getManager(GroupManager.class);
-        ArrayList<Entity> entitiesToDelete = new ArrayList<Entity>();
-        for (Entity e : game.getManager(GroupManager.class).getEntities(Group.LEVEL)) {
-            entitiesToDelete.add(e);
+        switch (state) {
+            case CLEAN:
+                state = clean(game);
+                break;
+            case LOAD:
+                state = load(game);
+                break;
+            case BUILD:
+                state = build(game);
+                break;
+            case END:
+                break;
         }
-        this.indexSystem.cleanIndex();
-        this.indexSystem.cleanStack();
-        Entity level = game.createEntity();
-        level.addComponent(new LevelBackground(assets.getAnimations("background.png").getFirst().start(PlayMode.ONCE)));
-        groupManager.add(level, Group.LEVEL);
-        game.addEntity(level);
-        loadMap();
-        createProjector(game);
-        final List<TmxLayer> layers = map.getLayers();
-        for (int l = 0, n = layers.size(); l < n; ++l) {
-            TmxLayer layer = map.getLayers().get(l);
-            for (int y = 0, lh = layer.getHeight(); y < lh; ++y) {
-                for (int x = 0, lw = layer.getWidth(); x < lw; ++x) {
-                    final TmxTileInstance tile = layer.getTileAt(x, y);
-                    if (null != tile) {
-                        Entity entity = createEntityFromTile(tile, game, x, y, l, layer);
-                        groupManager.add(entity, Group.LEVEL);
-                    }
-                }
-            }
-        }
-        for (Entity e : entitiesToDelete) {
-            e.deleteFromWorld();
-        }
-        assets.clearUseless();
     }
 
     protected Vector3 tileToPos(int y, int x, int layer) {
@@ -416,4 +448,19 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected abstract void createProjector(NedGame game);
 
+    @Override
+    public float getProgress() {
+        switch (state) {
+            case CLEAN:
+                return 0f;
+            case LOAD:
+                return 0.1f;
+            case BUILD:
+                return 0.5f;
+            case END:
+                return 1f;
+            default:
+                return 0f;
+        }
+    }
 }

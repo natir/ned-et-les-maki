@@ -51,12 +51,6 @@ public class StartGameTrigger extends AbstractStartGameTrigger {
     }
 
     @Override
-    protected void loadMap() {
-        this.tmx = ((LwjglAssets) assets).getTmx(levelName);
-        this.map = tmx.getMap();
-    }
-
-    @Override
     protected IAnimationCollection getTileAnimationCollection(TmxTileInstance tile) {
         return tmx.getTileAnimationCollection(tile);
     }
@@ -68,4 +62,10 @@ public class StartGameTrigger extends AbstractStartGameTrigger {
         game.getSystem(DrawSystem.class).setSpriteProjector(new IsometricSpriteProjector(tileWidth, tileHeight));
     }
 
+    @Override
+    protected State load(NedGame game) {
+        this.tmx = ((LwjglAssets) assets).getTmx(levelName);
+        this.map = tmx.getMap();
+        return State.BUILD;
+    }
 }

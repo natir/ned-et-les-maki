@@ -33,7 +33,7 @@ import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
  *
  * @author devnewton
  */
-public class ShowLevelMenuTrigger implements Trigger {
+public class ShowLevelMenuTrigger extends OneShotTrigger {
     private final Entity mainMenu;
     private final Entity ingameControls;
     

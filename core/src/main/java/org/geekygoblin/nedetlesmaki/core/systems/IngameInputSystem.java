@@ -100,29 +100,32 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 boolean rewindPressed = controls.getRewind().isPressed();
                 Entity ned = game.getNed();
                 if (mouseClick.isPressed()) {
-                    Vector3 selectedPosition = game.getSystem(MouseArrowSystem.class).getSelectedSprite().getPosition();
-                    Vector3 nedPosition = spriteMapper.get(ned).getPosition();
-                    int nedX = Math.round(nedPosition.x);
-                    int nedY = Math.round(nedPosition.y);
-                    int selectedX = Math.round(selectedPosition.x);
-                    int selectedY = Math.round(selectedPosition.y);
+                    final Sprite selectedSprite = game.getSystem(MouseArrowSystem.class).getSelectedSprite();
+                    if (null != selectedSprite) {
+                        Vector3 selectedPosition = selectedSprite.getPosition();
 
-                    if (nedX == selectedX) {
-                        if (nedY < selectedY) {
-                            rightPressed = true;
-                        } else if (nedY > selectedY) {
-                            leftPressed = true;
-                        }
-                    } else if (nedY == selectedY) {
-                        if (nedX < selectedX) {
-                            downPressed = true;
-                        } else if (nedX > selectedX) {
-                            upPressed = true;
+                        Vector3 nedPosition = spriteMapper.get(ned).getPosition();
+                        int nedX = Math.round(nedPosition.x);
+                        int nedY = Math.round(nedPosition.y);
+                        int selectedX = Math.round(selectedPosition.x);
+                        int selectedY = Math.round(selectedPosition.y);
+
+                        if (nedX == selectedX) {
+                            if (nedY < selectedY) {
+                                rightPressed = true;
+                            } else if (nedY > selectedY) {
+                                leftPressed = true;
+                            }
+                        } else if (nedY == selectedY) {
+                            if (nedX < selectedX) {
+                                downPressed = true;
+                            } else if (nedX > selectedX) {
+                                upPressed = true;
+                            }
                         }
                     }
                 }
                 if (upPressed) {
-
                     indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1), 0, false));
                     ned.changedInWorld();
                 } else if (downPressed) {
@@ -143,6 +146,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
     }
 
     private boolean canMoveNed() {
-        return world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty();
+        NedGame game = (NedGame) world;
+        return null != game.getNed() && world.getSystem(SpritePuppetControlSystem.class).getActives().isEmpty();
     }
 }
