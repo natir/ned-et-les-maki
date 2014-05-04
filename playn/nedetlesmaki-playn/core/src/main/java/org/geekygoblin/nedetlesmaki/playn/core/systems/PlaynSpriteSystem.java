@@ -30,23 +30,20 @@ import com.artemis.EntitySystem;
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.artemis.utils.Sort;
-import im.bci.jnuit.NuitFont;
+import im.bci.jnuit.NuitControls;
 import im.bci.jnuit.animation.IAnimationFrame;
 import im.bci.jnuit.animation.IPlay;
 import im.bci.jnuit.artemis.sprite.Sprite;
 import im.bci.jnuit.artemis.sprite.SpriteProjector;
+import im.bci.jnuit.controls.Pointer;
 import im.bci.jnuit.playn.animation.PlaynAnimationImage;
 import java.util.Comparator;
-import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.systems.IDrawSystem;
 import playn.core.Color;
-import playn.core.GroupLayer;
-import playn.core.ImageLayer;
 import playn.core.ImmediateLayer;
 import playn.core.PlayN;
 import playn.core.Surface;
-import playn.core.SurfaceImage;
 import pythagoras.f.Vector;
 import pythagoras.f.Vector3;
 
@@ -72,6 +69,8 @@ public class PlaynSpriteSystem extends EntitySystem implements IDrawSystem, Imme
     private SpriteProjector spriteProjector;
     private final Bag<Entity> sprites = new Bag<Entity>();
     private ImmediateLayer spriteLayer;
+    private final NuitControls controls;
+    private final Pointer pointer = new Pointer();
 
     @Override
     protected void initialize() {
@@ -90,8 +89,9 @@ public class PlaynSpriteSystem extends EntitySystem implements IDrawSystem, Imme
         sprites.remove(e);
     }
 
-    public PlaynSpriteSystem(@NamedEntities.DefaultFont NuitFont font) {
+    public PlaynSpriteSystem(NuitControls controls) {
         super(Aspect.getAspectForOne(Sprite.class));
+        this.controls = controls;
     }
 
     @Override
@@ -103,8 +103,6 @@ public class PlaynSpriteSystem extends EntitySystem implements IDrawSystem, Imme
             Sprite nedSprite = spriteMapper.get(ned);
             Vector nedPos = spriteProjector.project(nedSprite.getPosition());
             spriteLayer.setTranslation(-nedPos.x + PlayN.graphics().width() / 2.0f, -nedPos.y + PlayN.graphics().height() / 2.0f);
-
-//TODO            GL11.glTranslatef(-nedPos.x, -nedPos.y, 0.0f);
         }
 
     }
@@ -124,21 +122,21 @@ public class PlaynSpriteSystem extends EntitySystem implements IDrawSystem, Imme
 
     @Override
     public Vector3 getMouseSpritePos(int yAdjust) {
-        /*        if (null != spriteProjector) {
-         float mouseX = (Mouse.getX() - viewPort.x) * VirtualResolution.WIDTH / viewPort.width - VirtualResolution.WIDTH / 2.0f;
-         float mouseY = VirtualResolution.HEIGHT - ((Mouse.getY() + yAdjust - viewPort.y) * VirtualResolution.HEIGHT / viewPort.height) - VirtualResolution.HEIGHT / 2.0f;
-         Entity ned = ((NedGame) world).getNed();
-         if (null != ned) {
-         Sprite nedSprite = spriteMapper.get(ned);
-         Vector nedPos = spriteProjector.project(nedSprite.getPosition());
-         mouseX += nedPos.x;
-         mouseY += nedPos.y;
-         }
-         return spriteProjector.unProject(new Vector(mouseX / spriteGlobalScale, mouseY / spriteGlobalScale));
-         } else {
-         return null;
-         }*/
-        return null;
+        if (null != spriteProjector) {
+            controls.pollPointer(PlayN.graphics().width(), PlayN.graphics().height(), pointer);
+            Entity ned = ((NedGame) world).getNed();
+            float mouseX = pointer.getX() - PlayN.graphics().width() / 2.0f;
+            float mouseY = pointer.getY() - yAdjust * 4.0f - PlayN.graphics().height() / 2.0f;
+            if (null != ned) {
+                Sprite nedSprite = spriteMapper.get(ned);
+                Vector nedPos = spriteProjector.project(nedSprite.getPosition());
+                mouseX += nedPos.x;
+                mouseY += nedPos.y;
+            }
+            return spriteProjector.unProject(new Vector(mouseX /*/ spriteGlobalScale*/, mouseY /*/ spriteGlobalScale*/));
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -151,7 +149,6 @@ public class PlaynSpriteSystem extends EntitySystem implements IDrawSystem, Imme
 
     @Override
     public void render(Surface surface) {
-        int depth = 0;
         for (Entity e : sprites) {
             Sprite sprite = spriteMapper.get(e);
             final IPlay play = sprite.getPlay();
@@ -159,18 +156,19 @@ public class PlaynSpriteSystem extends EntitySystem implements IDrawSystem, Imme
                 final IAnimationFrame currentFrame = play.getCurrentFrame();
                 if (null != currentFrame) {
                     PlaynAnimationImage image = (PlaynAnimationImage) currentFrame.getImage();
-                    ;
                     Vector projectedPos = spriteProjector.project(sprite.getPosition());
+                    surface.save();
+                    surface.rotate(sprite.getRotate());
+                    surface.scale(sprite.getScale(), sprite.getScale());
+                    surface.setTint(Color.argb((int) (255 * sprite.getAlpha()), (int) (255 * sprite.getRed()), (int) (255 * sprite.getGreen()), (int) (255 * sprite.getBlue())));
                     surface.drawImage(image.getImage(), projectedPos.x, projectedPos.y);
-                    /*layer.setScale(sprite.getScale());
-                     layer.setRotation(sprite.getRotate());
-                     layer.setAlpha(sprite.getAlpha());
-                     layer.setTint(Color.argb((int) (255 * sprite.getAlpha()), (int) (255 * sprite.getRed()), (int) (255 * sprite.getGreen()), (int) (255 * sprite.getBlue())));
-                     layer.setAlpha(sprite.getAlpha());*/
+                    surface.setTint(WHITE);
+                    surface.restore();
                 }
             }
         }
 
     }
+    private static final int WHITE = Color.argb(255, 255, 255, 255);
 
 }

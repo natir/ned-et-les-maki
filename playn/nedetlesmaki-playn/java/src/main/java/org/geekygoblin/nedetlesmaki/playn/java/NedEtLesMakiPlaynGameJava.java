@@ -9,7 +9,7 @@ public class NedEtLesMakiPlaynGameJava {
 
   public static void main(String[] args) {
     JavaPlatform.Config config = new JavaPlatform.Config();
-    // use config to customize the Java platform, if needed
+    config.appName = "Ned et les maki";
     JavaPlatform.register(config);
     PlayN.run(new NedEtLesMakiPlaynGame());
   }

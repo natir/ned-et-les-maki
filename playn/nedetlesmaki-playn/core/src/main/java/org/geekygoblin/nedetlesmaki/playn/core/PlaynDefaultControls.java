@@ -43,7 +43,7 @@ public class PlaynDefaultControls implements IDefaultControls {
 
     @Override
     public Control[] getMouseClickControls() {
-        return new Control[]{};
+        return new Control[]{controls.getClickControl()};
     }
 
     @Override

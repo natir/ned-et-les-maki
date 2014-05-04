@@ -10,7 +10,6 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 
 import com.artemis.systems.EntityProcessingSystem;
-import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.playn.PlaynNuitRenderer;
 import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.playn.core.components.ui.PlaynLayerOwner;
