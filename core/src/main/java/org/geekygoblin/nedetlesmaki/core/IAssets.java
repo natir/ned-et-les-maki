@@ -24,7 +24,6 @@
 package org.geekygoblin.nedetlesmaki.core;
 
 import im.bci.jnuit.animation.IAnimationCollection;
-import im.bci.tmxloader.TmxMap;
 
 /**
  *
@@ -32,7 +31,7 @@ import im.bci.tmxloader.TmxMap;
  */
 public interface IAssets {
 
-    public IAnimationCollection getAnimations(String bullenanimgz);
+    public IAnimationCollection getAnimations(String name);
 
     public void clearUseless();
 

@@ -29,6 +29,7 @@ import com.artemis.Entity;
 
 import com.artemis.systems.EntityProcessingSystem;
 import im.bci.jnuit.animation.IAnimation;
+import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import im.bci.jnuit.artemis.sprite.Sprite;
@@ -60,6 +61,7 @@ public class MouseArrowSystem extends EntityProcessingSystem {
     @Override
     protected void initialize() {
         spriteMapper = world.getMapper(Sprite.class);
+        arrowAnimations = assets.getAnimations("arrow.json");
     }
 
     @Override
@@ -130,7 +132,7 @@ public class MouseArrowSystem extends EntityProcessingSystem {
 
             if (nedX == selectedX) {
                 if (nedY < selectedY) {
-                    animation = assets.getAnimations("arrow.json").getAnimationByName("arrow_right");
+                    animation = arrowAnimations.getAnimationByName("arrow_right");
                 } else if (nedY > selectedY) {
                     animation = assets.getAnimations("arrow.json").getAnimationByName("arrow_left");
                 }
@@ -156,4 +158,5 @@ public class MouseArrowSystem extends EntityProcessingSystem {
         }
 
     }
+    private IAnimationCollection arrowAnimations;
 }
