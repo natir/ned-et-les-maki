@@ -100,7 +100,7 @@ public class NedFactory {
         IDefaultControls defaultControls = new PlaynDefaultControls(controls);
         IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, indexedManager, gameSystem, defaultControls);
         UpdateLevelVisualSystem updateLevelVisualSystem = new UpdateLevelVisualSystem(assets, indexedManager, gameSystem, showLevelMenuTrigger);
-        PlaynSpriteSystem drawSystem = new PlaynSpriteSystem(font);
+        PlaynSpriteSystem drawSystem = new PlaynSpriteSystem(controls);
         PlaynMainMenuSystem mainMenuSystem = new PlaynMainMenuSystem(renderer);
         NedGame game = new PlaynGame(toolkit, ingameInputSystem, updateLevelVisualSystem, indexedManager, assets, drawSystem, mainMenuSystem);
 
