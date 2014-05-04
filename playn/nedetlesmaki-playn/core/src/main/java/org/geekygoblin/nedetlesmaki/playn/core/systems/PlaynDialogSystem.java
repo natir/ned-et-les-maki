@@ -23,13 +23,10 @@
  */
 package org.geekygoblin.nedetlesmaki.playn.core.systems;
 
-import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
-import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.playn.PlaynNuitRenderer;
 
-import org.geekygoblin.nedetlesmaki.core.components.ui.DialogComponent;
 import org.geekygoblin.nedetlesmaki.core.systems.DialogSystem;
 import org.geekygoblin.nedetlesmaki.playn.core.components.ui.PlaynLayerOwner;
 import playn.core.ImmediateLayer;

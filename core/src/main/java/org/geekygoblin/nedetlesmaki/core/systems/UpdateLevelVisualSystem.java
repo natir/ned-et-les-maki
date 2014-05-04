@@ -373,7 +373,6 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         }
 
         e.addComponent(updatable);
-
         e.changedInWorld();
     }
 }

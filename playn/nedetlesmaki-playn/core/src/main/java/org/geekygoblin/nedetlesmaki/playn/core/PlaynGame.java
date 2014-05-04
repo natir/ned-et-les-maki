@@ -35,9 +35,9 @@ import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.TriggerSystem;
 import im.bci.jnuit.artemis.sprite.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.SpritePuppetControlSystem;
-import org.geekygoblin.nedetlesmaki.core.systems.TriggerWhenRemovedSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
-import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynDrawSystem;
+import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynLevelBackgroundSystem;
+import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynSpriteSystem;
 import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynMainMenuSystem;
 
 /**
@@ -48,16 +48,16 @@ public class PlaynGame extends NedGame {
 
     private Entity ned;
 
-    public PlaynGame(NuitToolkit toolkit, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, IAssets assets, PlaynDrawSystem drawSystem, PlaynMainMenuSystem mainMenuSystem) {
+    public PlaynGame(NuitToolkit toolkit, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, IAssets assets, PlaynSpriteSystem drawSystem, PlaynMainMenuSystem mainMenuSystem) {
         setManager(indexedManager);
         setSystem(ingameInputSystem);
         setSystem(updateLevelVisualSystem);
         setSystem(new SpriteAnimateSystem());
         setSystem(new SpritePuppetControlSystem());
         //setSystem(new MouseArrowSystem(this, assets, drawSystem));
+        setSystem(new PlaynLevelBackgroundSystem());
         setSystem(drawSystem);
         setSystem(new TriggerSystem());
-        setSystem(new TriggerWhenRemovedSystem());
         setSystem(mainMenuSystem);
         setSystem(new DialogSystem());
         setSystem(new DebugSpriteSystem());

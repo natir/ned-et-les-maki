@@ -21,38 +21,17 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-package org.geekygoblin.nedetlesmaki.playn.core;
-
-import org.geekygoblin.nedetlesmaki.core.IAssets;
-import im.bci.jnuit.animation.IAnimationCollection;
-import im.bci.jnuit.playn.animation.PlaynAnimationLoader;
-import java.util.HashMap;
-import playn.core.PlayN;
+package org.geekygoblin.nedetlesmaki.core.events;
 
 /**
  *
  * @author devnewton <devnewton@bci.im>
  */
-public class PlaynAssets implements IAssets {
-    
-    private final HashMap<String, IAnimationCollection> animations = new HashMap<String, IAnimationCollection>();
+public abstract class OneShotTrigger implements Trigger {
 
     @Override
-    public IAnimationCollection getAnimations(String name) {
-        IAnimationCollection collection = animations.get(name);
-        if(null == collection) {
-            collection = PlaynAnimationLoader.load(PlayN.assets(), name);
-            animations.put(name, collection);
-        }
-        return collection;
-    }
-
-    @Override
-    public void clearUseless() {
-    }
-
-    @Override
-    public void setIcon(String icon) {
+    public float getProgress() {
+        return 1.0f;
     }
 
 }

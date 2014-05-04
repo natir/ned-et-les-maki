@@ -23,25 +23,30 @@
  */
 package org.geekygoblin.nedetlesmaki.playn.core.systems;
 
-import org.geekygoblin.nedetlesmaki.core.systems.IDrawSystem;
-import im.bci.jnuit.artemis.sprite.SpriteProjector;
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
-
 import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import com.artemis.utils.Sort;
-import java.util.Comparator;
 import im.bci.jnuit.NuitFont;
-import org.geekygoblin.nedetlesmaki.core.NedGame;
-import org.geekygoblin.nedetlesmaki.core.NamedEntities;
+import im.bci.jnuit.animation.IAnimationFrame;
+import im.bci.jnuit.animation.IPlay;
 import im.bci.jnuit.artemis.sprite.Sprite;
-import org.geekygoblin.nedetlesmaki.core.components.LevelBackground;
-import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
-import org.geekygoblin.nedetlesmaki.core.components.ui.DialogComponent;
-import org.geekygoblin.nedetlesmaki.core.utils.Viewport;
+import im.bci.jnuit.artemis.sprite.SpriteProjector;
+import im.bci.jnuit.playn.animation.PlaynAnimationImage;
+import java.util.Comparator;
+import org.geekygoblin.nedetlesmaki.core.NamedEntities;
+import org.geekygoblin.nedetlesmaki.core.NedGame;
+import org.geekygoblin.nedetlesmaki.core.systems.IDrawSystem;
+import playn.core.Color;
+import playn.core.GroupLayer;
+import playn.core.ImageLayer;
+import playn.core.ImmediateLayer;
+import playn.core.PlayN;
+import playn.core.Surface;
+import playn.core.SurfaceImage;
 import pythagoras.f.Vector;
 import pythagoras.f.Vector3;
 
@@ -49,12 +54,9 @@ import pythagoras.f.Vector3;
  *
  * @author devnewton
  */
-public class PlaynDrawSystem extends EntitySystem implements IDrawSystem {
+public class PlaynSpriteSystem extends EntitySystem implements IDrawSystem, ImmediateLayer.Renderer {
 
-    ComponentMapper<LevelBackground> levelBackgroundMapper;
     ComponentMapper<Sprite> spriteMapper;
-    ComponentMapper<MainMenu> mainMenuMapper;
-    ComponentMapper<DialogComponent> dialogMapper;
     private final Comparator<Entity> zComparator = new Comparator<Entity>() {
         @Override
         public int compare(Entity o1, Entity o2) {
@@ -68,60 +70,41 @@ public class PlaynDrawSystem extends EntitySystem implements IDrawSystem {
         }
     };
     private SpriteProjector spriteProjector;
-    private final Viewport viewPort = new Viewport();
-    private static final float spriteGlobalScale = 1.5f;
-    private final Bag<Entity> backgrounds = new Bag<Entity>();
     private final Bag<Entity> sprites = new Bag<Entity>();
-    private final Bag<Entity> uis = new Bag<Entity>();
+    private ImmediateLayer spriteLayer;
 
     @Override
     protected void initialize() {
-        levelBackgroundMapper = world.getMapper(LevelBackground.class);
         spriteMapper = world.getMapper(Sprite.class);
-        mainMenuMapper = world.getMapper(MainMenu.class);
-        dialogMapper = world.getMapper(DialogComponent.class);
+        spriteLayer = PlayN.graphics().createImmediateLayer(this);
+        PlayN.graphics().rootLayer().add(spriteLayer);
     }
 
     @Override
     protected void inserted(final Entity e) {
-        if (levelBackgroundMapper.has(e)) {
-            backgrounds.add(e);
-        } else if (spriteMapper.has(e)) {
-            sprites.add(e);
-        } else {
-            uis.add(e);
-        }
+        sprites.add(e);
     }
 
     @Override
     protected void removed(Entity e) {
-        backgrounds.remove(e);
         sprites.remove(e);
-        uis.remove(e);
     }
 
-    public PlaynDrawSystem(@NamedEntities.DefaultFont NuitFont font) {
-        super(Aspect.getAspectForOne(LevelBackground.class, MainMenu.class, DialogComponent.class, Sprite.class));
-
+    public PlaynSpriteSystem(@NamedEntities.DefaultFont NuitFont font) {
+        super(Aspect.getAspectForOne(Sprite.class));
     }
 
     @Override
     protected void processEntities(ImmutableBag<Entity> entities) {
         Sort.instance().sort(sprites, zComparator);
-
         NedGame game = (NedGame) world;
         Entity ned = game.getNed();
         if (null != ned) {
             Sprite nedSprite = spriteMapper.get(ned);
             Vector nedPos = spriteProjector.project(nedSprite.getPosition());
-//TODO            GL11.glTranslatef(-nedPos.x, -nedPos.y, 0.0f);
-        }
+            spriteLayer.setTranslation(-nedPos.x + PlayN.graphics().width() / 2.0f, -nedPos.y + PlayN.graphics().height() / 2.0f);
 
-        for (Entity e : backgrounds) {
-            LevelBackground level = levelBackgroundMapper.getSafe(e);
-            if (null != level) {
-                //  drawLevel(level);
-            }
+//TODO            GL11.glTranslatef(-nedPos.x, -nedPos.y, 0.0f);
         }
 
     }
@@ -164,6 +147,30 @@ public class PlaynDrawSystem extends EntitySystem implements IDrawSystem {
 
     @Override
     public void setDefaultCursor() {
+    }
+
+    @Override
+    public void render(Surface surface) {
+        int depth = 0;
+        for (Entity e : sprites) {
+            Sprite sprite = spriteMapper.get(e);
+            final IPlay play = sprite.getPlay();
+            if (null != play) {
+                final IAnimationFrame currentFrame = play.getCurrentFrame();
+                if (null != currentFrame) {
+                    PlaynAnimationImage image = (PlaynAnimationImage) currentFrame.getImage();
+                    ;
+                    Vector projectedPos = spriteProjector.project(sprite.getPosition());
+                    surface.drawImage(image.getImage(), projectedPos.x, projectedPos.y);
+                    /*layer.setScale(sprite.getScale());
+                     layer.setRotation(sprite.getRotate());
+                     layer.setAlpha(sprite.getAlpha());
+                     layer.setTint(Color.argb((int) (255 * sprite.getAlpha()), (int) (255 * sprite.getRed()), (int) (255 * sprite.getGreen()), (int) (255 * sprite.getBlue())));
+                     layer.setAlpha(sprite.getAlpha());*/
+                }
+            }
+        }
+
     }
 
 }

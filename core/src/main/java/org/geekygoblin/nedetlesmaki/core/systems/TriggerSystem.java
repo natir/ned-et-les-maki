@@ -31,6 +31,7 @@ import com.artemis.systems.EntityProcessingSystem;
 
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
+import org.geekygoblin.nedetlesmaki.core.events.Trigger;
 
 /**
  *
@@ -43,7 +44,7 @@ public class TriggerSystem extends EntityProcessingSystem {
     public TriggerSystem() {
         super(Aspect.getAspectForOne(Triggerable.class));
     }
-    
+
     @Override
     protected void initialize() {
         triggerableMapper = world.getMapper(Triggerable.class);
@@ -51,7 +52,10 @@ public class TriggerSystem extends EntityProcessingSystem {
 
     @Override
     protected void process(Entity e) {
-        triggerableMapper.get(e).getTrigger().process((NedGame) world);
-        e.deleteFromWorld();
+        final Trigger trigger = triggerableMapper.get(e).getTrigger();
+        trigger.process((NedGame) world);
+        if (trigger.getProgress() >= 1.0f) {
+            e.deleteFromWorld();
+        }
     }
 }

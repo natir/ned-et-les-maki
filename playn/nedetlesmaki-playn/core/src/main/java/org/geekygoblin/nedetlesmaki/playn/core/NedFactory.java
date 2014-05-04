@@ -53,7 +53,7 @@ import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.core.systems.GameSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
-import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynDrawSystem;
+import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynSpriteSystem;
 import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynMainMenuSystem;
 import org.geekygoblin.nedetlesmaki.playn.core.events.PlaynStartGameTrigger;
 import playn.core.Font;
@@ -100,7 +100,7 @@ public class NedFactory {
         IDefaultControls defaultControls = new PlaynDefaultControls(controls);
         IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, indexedManager, gameSystem, defaultControls);
         UpdateLevelVisualSystem updateLevelVisualSystem = new UpdateLevelVisualSystem(assets, indexedManager, gameSystem, showLevelMenuTrigger);
-        PlaynDrawSystem drawSystem = new PlaynDrawSystem(font);
+        PlaynSpriteSystem drawSystem = new PlaynSpriteSystem(font);
         PlaynMainMenuSystem mainMenuSystem = new PlaynMainMenuSystem(renderer);
         NedGame game = new PlaynGame(toolkit, ingameInputSystem, updateLevelVisualSystem, indexedManager, assets, drawSystem, mainMenuSystem);
 

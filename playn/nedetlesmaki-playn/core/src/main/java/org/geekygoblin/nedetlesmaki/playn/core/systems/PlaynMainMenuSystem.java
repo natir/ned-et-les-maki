@@ -65,5 +65,5 @@ public class PlaynMainMenuSystem extends EntityProcessingSystem {
     protected void removed(Entity e) {
         PlayN.graphics().rootLayer().remove(layerOwnerMapper.get(e).getLayer());
     }
-
+    
 }

@@ -32,7 +32,7 @@ import org.geekygoblin.nedetlesmaki.core.NamedEntities;
  *
  * @author devnewton
  */
-public class HideMenuTrigger implements Trigger {
+public class HideMenuTrigger extends OneShotTrigger {
     private final Entity mainMenu;
     private final Entity ingameControls;
     
@@ -46,7 +46,5 @@ public class HideMenuTrigger implements Trigger {
     public void process(NedGame game) {
         mainMenu.disable();
         ingameControls.enable();
-    }
-
-    
+    }    
 }
