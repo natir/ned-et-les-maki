@@ -60,6 +60,11 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     private final EntityIndexManager index;
     private final GameSystem gameSystem;
     private final Provider<ShowLevelMenuTrigger> showLevelMenuTrigger;
+    private IAnimationCollection nedAnim;
+    private IAnimationCollection makiAnim;
+    private IAnimationCollection boxAnim;
+    private IAnimationCollection stairsAnim;
+    private IAnimationCollection makiAnimBoost;
 
     @Inject
     public UpdateLevelVisualSystem(IAssets assets, EntityIndexManager indexSystem, GameSystem gameSystem, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger) {
@@ -69,10 +74,17 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         this.gameSystem = gameSystem;
         this.showLevelMenuTrigger = showLevelMenuTrigger;
     }
+
     @Override
     protected void initialize() {
         controlsMapper = world.getMapper(SpritePuppetControls.class);
+        nedAnim = this.assets.getAnimations("ned.json");
+        makiAnim = this.assets.getAnimations("maki.json");
+        boxAnim = this.assets.getAnimations("box.json");
+        stairsAnim = this.assets.getAnimations("stairs.json");
+        makiAnimBoost = this.assets.getAnimations("blue_maki_boost.json");
     }
+
     @Override
     protected void processSystem() {
         if (this.gameSystem.end) {
@@ -114,12 +126,6 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         if (updatable == null) {
             updatable = new SpritePuppetControls(sprite);
         }
-
-        IAnimationCollection nedAnim = this.assets.getAnimations("ned.json");
-        IAnimationCollection makiAnim = this.assets.getAnimations("maki.json");
-        IAnimationCollection boxAnim = this.assets.getAnimations("box.json");
-        IAnimationCollection stairsAnim = this.assets.getAnimations("stairs.json");
-        IAnimationCollection makiAnimBoost = this.assets.getAnimations("blue_maki_boost.json");
 
         if (a == AnimationType.no) {
             updatable.waitDuring(waitBefore)

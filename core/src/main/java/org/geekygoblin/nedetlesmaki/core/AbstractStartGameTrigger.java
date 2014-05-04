@@ -115,7 +115,6 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
                 }
             }
         }
-
         assets.clearUseless();
         return State.END;
     }
