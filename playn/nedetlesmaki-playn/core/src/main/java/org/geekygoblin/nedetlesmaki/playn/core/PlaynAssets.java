@@ -23,34 +23,20 @@
  */
 package org.geekygoblin.nedetlesmaki.playn.core;
 
+import im.bci.jnuit.playn.TimeBasedCachedAssets;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
-import im.bci.jnuit.animation.IAnimationCollection;
-import im.bci.jnuit.playn.animation.PlaynAnimationLoader;
-import java.util.HashMap;
-import playn.core.PlayN;
 
 /**
  *
  * @author devnewton <devnewton@bci.im>
  */
-public class PlaynAssets implements IAssets {
+public class PlaynAssets extends TimeBasedCachedAssets implements IAssets {
+
+    public PlaynAssets() {
+        super(1000f);
+    }
+ 
     
-    private final HashMap<String, IAnimationCollection> animations = new HashMap<String, IAnimationCollection>();
-
-    @Override
-    public IAnimationCollection getAnimations(String name) {
-        IAnimationCollection collection = animations.get(name);
-        if(null == collection) {
-            collection = PlaynAnimationLoader.load(PlayN.assets(), name);
-            animations.put(name, collection);
-        }
-        return collection;
-    }
-
-    @Override
-    public void clearUseless() {
-    }
-
     @Override
     public void setIcon(String icon) {
     }
