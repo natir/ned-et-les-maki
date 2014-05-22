@@ -28,8 +28,6 @@ public class PlaynTouchControls implements Listener {
 
     @Override
     public void onTouchStart(Touch.Event[] events) {
-        PlayN.log().debug("Touch start event " + events.length + " +++");
-
         if (events.length == 1) {
             this.begin = events[0];
         }
@@ -37,7 +35,6 @@ public class PlaynTouchControls implements Listener {
 
     @Override
     public void onTouchMove(Touch.Event[] events) {
-        PlayN.log().debug("Touch event " + events.length + " +++");
         if (events.length == 1) {
 
             Touch.Event end = events[0];
@@ -47,22 +44,14 @@ public class PlaynTouchControls implements Listener {
             if (diffX > 0) {
                 if (diffY > 0) {
                     this.setupMove(Key.LEFT);
-
-                    PlayN.log().debug("Touch left");
                 } else {
                     this.setupMove(Key.DOWN);
-
-                    PlayN.log().debug("Touch up");
                 }
             } else {
                 if (diffY > 0) {
                     this.setupMove(Key.UP);
-
-                    PlayN.log().debug("Touch down");
                 } else {
                     this.setupMove(Key.RIGHT);
-
-                    PlayN.log().debug("Touch right");
                 }
             }
         }
@@ -70,7 +59,6 @@ public class PlaynTouchControls implements Listener {
 
     @Override
     public void onTouchEnd(Touch.Event[] events) {
-        PlayN.log().debug("Touch end");
         this.move[this.last.ordinal()] = false;
     }
 
