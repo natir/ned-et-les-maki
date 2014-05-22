@@ -5,8 +5,9 @@
  */
 package org.geekygoblin.nedetlesmaki.playn.core;
 
+import playn.core.Key;
+
 import im.bci.jnuit.controls.Control;
-import org.geekygoblin.nedetlesmaki.playn.core.PlaynTouchControls;
 
 /**
  *
@@ -14,10 +15,10 @@ import org.geekygoblin.nedetlesmaki.playn.core.PlaynTouchControls;
  */
 public class TouchControls implements Control {
 
-    private TouchMove move;
+    private Key move;
     private PlaynTouchControls controls; 
     
-    public TouchControls(PlaynTouchControls controls, TouchMove move) {
+    public TouchControls(PlaynTouchControls controls, Key move) {
         this.move = move;
         this.controls = controls;
     }

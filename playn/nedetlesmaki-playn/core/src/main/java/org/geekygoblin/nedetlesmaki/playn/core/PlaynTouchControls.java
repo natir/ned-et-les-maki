@@ -5,10 +5,10 @@
  */
 package org.geekygoblin.nedetlesmaki.playn.core;
 
+import playn.core.Key;
+import playn.core.PlayN;
 import playn.core.Touch;
 import playn.core.Touch.Listener;
-
-import org.geekygoblin.nedetlesmaki.playn.core.TouchMove;
 
 /*
  *
@@ -16,48 +16,53 @@ import org.geekygoblin.nedetlesmaki.playn.core.TouchMove;
  */
 public class PlaynTouchControls implements Listener {
 
-    public boolean move[] = new boolean[TouchMove.values().length];
-    private double lastStart;
-    private String name; 
-    
+    public boolean move[] = new boolean[Key.values().length];
+    private Touch.Event begin;
+    private Key last;
+
+    public PlaynTouchControls() {
+        PlayN.touch().setListener(this);
+
+        this.last = Key.UNKNOWN;
+    }
+
     @Override
     public void onTouchStart(Touch.Event[] events) {
-        if (events.length > 0) {
-            if (events[0].time() - events[events.length - 1].time() < 1000) {
-                move[TouchMove.REWIND.ordinal()] = true;
-                this.name = "Rewind";
-            }
-        } else if (events.length == 0) {
-            if (events[0].time() - this.lastStart < 1000) {
-                move[TouchMove.REWIND.ordinal()] = true;
-                this.name = "Rewind";
-            }
+        PlayN.log().debug("Touch start event " + events.length + " +++");
 
-            this.lastStart = events[0].time();
+        if (events.length == 1) {
+            this.begin = events[0];
         }
     }
 
     @Override
     public void onTouchMove(Touch.Event[] events) {
-        if (events.length > 1) {
-            Touch.Event begin = events[0];
-            Touch.Event end = events[events.length - 1];
+        PlayN.log().debug("Touch event " + events.length + " +++");
+        if (events.length == 1) {
 
-            if (begin.x() - end.x() > 0) {
-                if (begin.y() - end.y() > 0) {
-                    this.move[TouchMove.LEFT.ordinal()] = true;
-                    this.name = "Left";
+            Touch.Event end = events[0];
+            float diffX = this.begin.x() - end.x();
+            float diffY = this.begin.y() - end.y();
+
+            if (diffX > 0) {
+                if (diffY > 0) {
+                    this.setupMove(Key.LEFT);
+
+                    PlayN.log().debug("Touch left");
                 } else {
-                    this.move[TouchMove.UP.ordinal()] = true;
-                    this.name = "Up";
+                    this.setupMove(Key.DOWN);
+
+                    PlayN.log().debug("Touch up");
                 }
             } else {
-                if (begin.y() - end.y() > 0) {
-                    this.move[TouchMove.DOWN.ordinal()] = true;
-                    this.name = "Down";
+                if (diffY > 0) {
+                    this.setupMove(Key.UP);
+
+                    PlayN.log().debug("Touch down");
                 } else {
-                    this.move[TouchMove.RIGHT.ordinal()] = true;
-                    this.name = "Right";
+                    this.setupMove(Key.RIGHT);
+
+                    PlayN.log().debug("Touch right");
                 }
             }
         }
@@ -65,21 +70,25 @@ public class PlaynTouchControls implements Listener {
 
     @Override
     public void onTouchEnd(Touch.Event[] events) {
-        resetValue();
+        PlayN.log().debug("Touch end");
+        this.move[this.last.ordinal()] = false;
     }
 
     @Override
     public void onTouchCancel(Touch.Event[] events) {
-        resetValue();
+
     }
 
     public String getName() {
-        return this.name;
+        return this.last.toString();
     }
-    
-    private void resetValue() {
-        for (boolean tmp : this.move) {
-            tmp = false;
+
+    private void setupMove(Key next) {
+        if (this.last != next) {
+            this.move[this.last.ordinal()] = false;
         }
+
+        this.move[next.ordinal()] = true;
+        this.last = next;
     }
 }
