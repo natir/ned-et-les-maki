@@ -74,6 +74,7 @@ public class NedFactory {
     public NedFactory() {
         this.random = new Random(42);
         PlaynNuitControls controls = new PlaynNuitControls();
+        PlaynTouchControls touch = new PlaynTouchControls();
         PlaynNuitDisplay display = new PlaynNuitDisplay();
         NuitFont font = new PlaynNuitFont("Arial", Font.Style.BOLD, 32, true);
         NuitTranslator translator = new NedNuitTranslator();
@@ -97,7 +98,7 @@ public class NedFactory {
         assets = new PlaynAssets();
         indexedManager = new EntityIndexManager();
         GameSystem gameSystem = new GameSystem(indexedManager);
-        IDefaultControls defaultControls = new PlaynDefaultControls(controls);
+        IDefaultControls defaultControls = new PlaynDefaultControls(controls, touch);
         IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, indexedManager, gameSystem, defaultControls);
         UpdateLevelVisualSystem updateLevelVisualSystem = new UpdateLevelVisualSystem(assets, indexedManager, gameSystem, showLevelMenuTrigger);
         PlaynSpriteSystem drawSystem = new PlaynSpriteSystem(controls);

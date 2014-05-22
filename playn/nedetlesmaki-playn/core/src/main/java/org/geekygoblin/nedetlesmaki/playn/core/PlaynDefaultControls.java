@@ -36,9 +36,11 @@ import playn.core.Key;
 public class PlaynDefaultControls implements IDefaultControls {
 
     private final PlaynNuitControls controls;
+    private final PlaynTouchControls touch;
 
-    public PlaynDefaultControls(PlaynNuitControls controls) {
+    public PlaynDefaultControls(PlaynNuitControls controls, PlaynTouchControls touch) {
         this.controls = controls;
+        this.touch = touch;
     }
 
     @Override
@@ -48,27 +50,27 @@ public class PlaynDefaultControls implements IDefaultControls {
 
     @Override
     public Control[] getUp() {
-        return new Control[]{new KeyControl(controls, Key.UP)};
+        return new Control[]{new KeyControl(controls, Key.UP), new TouchControls(touch, TouchMove.UP)};
     }
 
     @Override
     public Control[] getDown() {
-        return new Control[]{new KeyControl(controls, Key.DOWN)};
+        return new Control[]{new KeyControl(controls, Key.DOWN), new TouchControls(touch, TouchMove.DOWN)};
     }
 
     @Override
     public Control[] getLeft() {
-        return new Control[]{new KeyControl(controls, Key.LEFT)};
+        return new Control[]{new KeyControl(controls, Key.LEFT), new TouchControls(touch, TouchMove.LEFT)};
     }
 
     @Override
     public Control[] getRight() {
-        return new Control[]{new KeyControl(controls, Key.RIGHT)};
+        return new Control[]{new KeyControl(controls, Key.RIGHT), new TouchControls(touch, TouchMove.RIGHT)};
     }
 
     @Override
     public Control[] getRewind() {
-        return new Control[]{new KeyControl(controls, Key.BACK)};
+        return new Control[]{new KeyControl(controls, Key.BACK), new TouchControls(touch, TouchMove.REWIND)};
     }
 
     @Override
