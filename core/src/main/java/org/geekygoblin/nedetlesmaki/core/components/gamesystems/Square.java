@@ -20,58 +20,32 @@
  * Software.
  */
 package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
-
-import java.util.Iterator;
-import java.util.ArrayList;
-
 import com.artemis.Component;
-import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 
 public class Square extends Component {
 
-    private final ArrayList<Entity> array;
+    private Entity plate;
+    private Entity entity;
 
     public Square() {
-	this.array = new ArrayList();
+        this.plate = null;
+        this.entity = null;
     }
 
-    public boolean add(Entity e) {
-	return this.array.add(e);
+    public Entity getPlate() {
+        return plate;
     }
 
-    public void remove(Entity del) {
-	for(Iterator it = this.array.iterator(); it.hasNext();) {
-	    Entity e = (Entity) it.next();
-	    
-	    if(e.getId() == del.getId()) {
-		it.remove();
-	    }
-	}
+    public void setPlate(Entity plate) {
+        this.plate = plate;
     }
 
-    public ArrayList<Entity> getWith(Class componentClass) {
-        
-        if(this.array.isEmpty())
-        {
-            return new ArrayList();
-        }
-        
-        ComponentMapper access = ComponentMapper.getFor(componentClass, this.array.get(0).getWorld());
-        ArrayList<Entity> ret = new ArrayList();
-        for (Entity e : this.array) {
-            Object c;
-            c = access.getSafe(e);
-            
-            if(c != null) {
-                ret.add(e);
-            }
-        }
-
-        return ret;
+    public Entity getEntity() {
+        return entity;
     }
 
-    public ArrayList<Entity> getAll() {
-	return this.array;
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 }
