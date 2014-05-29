@@ -33,6 +33,7 @@ import com.artemis.utils.ImmutableBag;
 import im.bci.jnuit.artemis.sprite.Sprite;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Pushable;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.PositionIndexed;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Pusher;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Square;
@@ -63,7 +64,7 @@ public class GameSystem {
     public ArrayList<Mouvement> moveEntity(Entity e, Position dirP, float baseBefore, boolean nedPush) {
         Entity nedEntity = this.index.getNed();
 
-        Position oldP = this.index.getPosition(e);
+        Position oldP = this.index.getPositionIndexed(e);
 
         ArrayList<Mouvement> mouv = new ArrayList();
 
@@ -99,30 +100,27 @@ public class GameSystem {
                     }
                 }
                 if (this.index.isPusherEntity(e)) {
-                    ArrayList<Entity> aNextE = index.getSquare(newP.getX(), newP.getY()).getWith(Pushable.class);
-                    if (!aNextE.isEmpty()) {
-                        Entity nextE = aNextE.get(0);
-                        if (this.index.isPushableEntity(nextE)) {
-                            if (this.index.isDestroyer(e)) {
-                                if (this.index.isDestroyable(nextE)) {
-                                    mouv.addAll(destroyMove(nextE, dirP, destroyBefore + this.beforeTime(0.4f, i), animTime));
-                                    mouv.addAll(runValideMove(dirP, e, false, this.beforeTime(0.4f, i), animTime, i, this.index.isBoosted(e), nedPush));
-                                } else {
-                                    ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.4f, i), e == nedEntity);
-                                    if (!recMouv.isEmpty()) {
-                                        mouv.addAll(recMouv);
-                                        mouv.addAll(runValideMove(dirP, e, true, this.beforeTime(0.4f, i), animTime, i, this.index.isBoosted(e), nedPush));
-                                    }
-                                }
+                    Entity nextE = index.getSquare(newP.getX(), newP.getY()).getEntity();
+                    if (this.index.isPushableEntity(nextE)) {
+                        if (this.index.isDestroyer(e)) {
+                            if (this.index.isDestroyable(nextE)) {
+                                mouv.addAll(destroyMove(nextE, dirP, destroyBefore + this.beforeTime(0.4f, i), animTime));
+                                mouv.addAll(runValideMove(dirP, e, false, this.beforeTime(0.4f, i), animTime, i, this.index.isBoosted(e), nedPush));
                             } else {
                                 ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.4f, i), e == nedEntity);
                                 if (!recMouv.isEmpty()) {
                                     mouv.addAll(recMouv);
-                                    if (!this.index.isCatchNed(nextE)) {
-                                        mouv.addAll(runValideMove(dirP, e, true, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
-                                        if (recMouv.size() > 2) {
-                                            mouv.add(new Mouvement(nedEntity).setAnimation(this.nedWaitBoostChoice(dirP)).saveMouvement());
-                                        }
+                                    mouv.addAll(runValideMove(dirP, e, true, this.beforeTime(0.4f, i), animTime, i, this.index.isBoosted(e), nedPush));
+                                }
+                            }
+                        } else {
+                            ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.4f, i), e == nedEntity);
+                            if (!recMouv.isEmpty()) {
+                                mouv.addAll(recMouv);
+                                if (!this.index.isCatchNed(nextE)) {
+                                    mouv.addAll(runValideMove(dirP, e, true, baseBefore, animTime, i, this.index.isBoosted(e), nedPush));
+                                    if (recMouv.size() > 2) {
+                                        mouv.add(new Mouvement(nedEntity).setAnimation(this.nedWaitBoostChoice(dirP)).saveMouvement());
                                     }
                                 }
                             }
@@ -174,7 +172,7 @@ public class GameSystem {
             mouv.remove(0);
         }
 
-       return mouv;
+        return mouv;
     }
 
     private boolean isBeginFly(AnimationType a) {
@@ -186,20 +184,21 @@ public class GameSystem {
     }
 
     private ArrayList<Mouvement> runValideMove(Position diff, Entity e, boolean push, float bw, float aT, int pas, boolean boosted, boolean pusherIsNed) {
-        Position oldP = this.index.getPosition(e);
+        Position oldP = new Position(this.index.getPositionIndexed(e).getX(), this.index.getPositionIndexed(e).getY());
         Position newP = PosOperation.sum(oldP, diff);
 
         ArrayList<Mouvement> m = new ArrayList();
 
-        if (index.moveEntity(oldP.getX(), oldP.getY(), newP.getX(), newP.getY())) {
+        if (this.index.getEntity(newP.getX(), newP.getY()) == null) {
+            index.getPositionIndexed(e).setPosition(newP.getX(), newP.getY());
             if (e == this.index.getNed()) {
                 m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getNedAnimation(diff, pas, push, boosted)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
             } else {
                 if (makiMoveOnePlate(newP, e)) {
                     if (actualIsColorPlate(oldP, e)) {
-                        this.index.getSquare(oldP.getX(), oldP.getY()).getWith(Plate.class).get(0).getComponent(Plate.class).setMaki(false);
-                        this.index.getSquare(newP.getX(), newP.getY()).getWith(Plate.class).get(0).getComponent(Plate.class).setMaki(true);
-                        m.addAll(makiPlateMove(oldP, newP, e, true, aT, bw, true));
+                        this.index.getSquare(oldP.getX(), oldP.getY()).getPlate().getComponent(Plate.class).setMaki(false);
+                        this.index.getSquare(newP.getX(), newP.getY()).getPlate().getComponent(Plate.class).setMaki(true);
+                        m.addAll(makiPlateMove(oldP, newP, e, true, aT, bw, false));
                     } else {
                         m.addAll(makiPlateMove(oldP, newP, e, true, aT, bw, false));
                     }
@@ -215,21 +214,14 @@ public class GameSystem {
 
                 Entity ned = this.index.getNed();
                 if (this.index.isCatchNed(e) && pusherIsNed) {
-                    if (index.moveEntity(oldP.getX() - diff.getX(), oldP.getY() - diff.getY(), oldP.getX(), oldP.getY())) {
-                        if (pusherIsNed) {
-                            m.add(new Mouvement(ned).setPosition(diff).setAnimation(this.getFlyAnimation(pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
+                    ned.getComponent(PositionIndexed.class).setPosition(newP.getX() - diff.getX(), newP.getY() - diff.getY());
+                    if (pusherIsNed) {
+                        m.add(new Mouvement(ned).setPosition(diff).setAnimation(this.getFlyAnimation(pas, diff)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
 
-                            this.index.getCatchNed(e).nedCatched(true);
-
-                            ned.getComponent(Position.class).setX(oldP.getX());
-                            ned.getComponent(Position.class).setY(oldP.getY());
-                        }
+                        this.index.getCatchNed(e).nedCatched(true);
                     }
                 }
             }
-
-            e.getComponent(Position.class).setX(newP.getX());
-            e.getComponent(Position.class).setY(newP.getY());
 
             return m;
         }
@@ -268,7 +260,7 @@ public class GameSystem {
     }
 
     private ArrayList<Mouvement> nedMoveOnStairs(Position diff, Entity e, float aT) {
-        Position newP = PosOperation.sum(this.index.getPosition(e), diff);
+        Position newP = PosOperation.sum(this.index.getPositionIndexed(e), diff);
 
         ArrayList<Mouvement> m = new ArrayList();
 
@@ -287,11 +279,9 @@ public class GameSystem {
         } else {
             if (m.isEmpty()) {
                 m.add(new Mouvement(e).setPosition(diff).setAnimation(AnimationType.no).setAnimationTime(aT).saveMouvement());
+
             }
         }
-
-        e.getComponent(Position.class).setX(newP.getX());
-        e.getComponent(Position.class).setY(newP.getY());
 
         return m;
     }
@@ -312,13 +302,11 @@ public class GameSystem {
             return m;
         }
 
-        ArrayList<Entity> plates = obj.getWith(Plate.class);
+        Entity plate = obj.getPlate();
 
-        if (plates.isEmpty()) {
+        if (plate == null) {
             return m;
         }
-
-        Entity plate = plates.get(0);
 
         Color plateC = this.index.getColor(plate);
         Color makiC = this.index.getColor(e);
@@ -457,9 +445,9 @@ public class GameSystem {
             return false;
         }
 
-        ArrayList<Entity> plates = s.getWith(Plate.class);
+        Entity plate = s.getPlate();
 
-        if (plates.isEmpty()) {
+        if (plate == null) {
             return false;
         }
 
@@ -467,8 +455,8 @@ public class GameSystem {
             return false;
         }
 
-        if (this.index.getColorType(e) == this.index.getColorType(plates.get(0))) {
-            plates.get(0).getComponent(Plate.class).setMaki(true);
+        if (this.index.getColorType(e) == this.index.getColorType(plate)) {
+            plate.getComponent(Plate.class).setMaki(true);
             return true;
         }
 
@@ -482,8 +470,8 @@ public class GameSystem {
             return false;
         }
 
-        ArrayList<Entity> plates = s.getWith(Plate.class);
-        if (plates.isEmpty()) {
+        Entity plate = s.getPlate();
+        if (plate == null) {
             return false;
         }
 
@@ -491,8 +479,8 @@ public class GameSystem {
             return false;
         }
 
-        if (this.index.getColorType(e) == this.index.getColorType(plates.get(0))) {
-            plates.get(0).getComponent(Plate.class).setMaki(false);
+        if (this.index.getColorType(e) == this.index.getColorType(plate)) {
+            plate.getComponent(Plate.class).setMaki(false);
             return true;
         }
 
@@ -506,8 +494,8 @@ public class GameSystem {
             return false;
         }
 
-        ArrayList<Entity> plates = s.getWith(Plate.class);
-        if (plates.isEmpty()) {
+        Entity plate = s.getPlate();
+        if (plate == null) {
             return false;
         }
 
@@ -515,7 +503,7 @@ public class GameSystem {
             return false;
         }
 
-        if (this.index.getColorType(maki) == this.index.getColorType(plates.get(0))) {
+        if (this.index.getColorType(maki) == this.index.getColorType(plate)) {
             return true;
         }
 
@@ -528,13 +516,12 @@ public class GameSystem {
 
         }
 
-        ArrayList<Entity> array = obj.getWith(Plate.class);
+        Entity plate = obj.getPlate();
 
-        if (array.isEmpty()) {
+        if (plate == null) {
             return false;
         }
 
-        Entity plate = obj.getWith(Plate.class).get(0);
         Plate p = this.index.getPlate(plate);
         boolean block = this.index.stopOnPlate(eMove);
 
@@ -559,13 +546,12 @@ public class GameSystem {
 
         }
 
-        ArrayList<Entity> array = obj.getWith(Plate.class);
+        Entity plate = obj.getPlate();
 
-        if (array.isEmpty()) {
+        if (plate == null) {
             return false;
         }
 
-        Entity plate = obj.getWith(Plate.class).get(0);
         Plate p = plate.getComponent(Plate.class);
         boolean block = this.index.isBlockOnPlate(eMove);
 
@@ -676,20 +662,18 @@ public class GameSystem {
         ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
 
         Entity ned = this.index.getNed();
-        Position nedP = this.index.getPosition(ned);
+        Position nedP = this.index.getPositionIndexed(ned);
         Sprite nedS = this.index.getSprite(ned);
 
         Entity stairs = stairsGroup.get(0);
-        Position stairsP = this.index.getPosition(stairs);
+        Position stairsP = this.index.getPositionIndexed(stairs);
         Stairs stairsS = this.index.getStairs(stairs);
 
-        if (stairsS.isOpen() && PosOperation.equale(nedP, stairsP)) {
             if (nedS.getPlay().getName().length() > 9) {
                 if (nedS.getPlay().getName().substring(0, 9).equals("ned_mount") && nedS.getPlay().isStopped()) {
                     return true;
                 }
             }
-        }
 
         return false;
     }
@@ -698,13 +682,13 @@ public class GameSystem {
         boolean reCall = false;
 
         ArrayList<Mouvement> head = this.index.pop();
-        
+
         if (head == null) {
             return;
         }
-        
+
         Collections.reverse(head);
-        
+
         ArrayList<Mouvement> rm = new ArrayList<Mouvement>();
 
         for (int i = 0; i != head.size(); i++) {
@@ -716,7 +700,7 @@ public class GameSystem {
                 }
 
                 Position diff = PosOperation.deduction(new Position(0, 0), headP);
-                Position current = this.index.getPosition(head.get(i).getEntity());
+                Position current = this.index.getPositionIndexed(head.get(i).getEntity());
 
                 if (current == null) {
                     return;
@@ -727,12 +711,10 @@ public class GameSystem {
                 rm.add(new Mouvement(head.get(i).getEntity()).setAnimation(invertAnim).setPosition(diff).setAnimationTime(head.get(i).getAnimationTime(j)).saveMouvement());
 
                 if (invertAnim == AnimationType.maki_blue_out || invertAnim == AnimationType.maki_orange_out || invertAnim == AnimationType.maki_green_out) {
-                    this.index.getSquare(current.getX(), current.getY()).getWith(Plate.class).get(0).getComponent(Plate.class).setMaki(false);
+                    this.index.getSquare(current.getX(), current.getY()).getPlate().getComponent(Plate.class).setMaki(false);
                 }
 
-                this.index.moveEntity(current.getX(), current.getY(), current.getX() + diff.getX(), current.getY() + diff.getY());
-                head.get(i).getEntity().getComponent(Position.class).setX(current.getX() + diff.getX());
-                head.get(i).getEntity().getComponent(Position.class).setY(current.getY() + diff.getY());
+                this.index.getEntity(current.getX(), current.getY()).getComponent(PositionIndexed.class).setPosition(current.getX() + diff.getX(), current.getY() + diff.getY());
 
                 if (invertAnim == AnimationType.stairs_open_down || invertAnim == AnimationType.stairs_open_up || invertAnim == AnimationType.stairs_open_left || invertAnim == AnimationType.stairs_open_right) {
                     reCall = true;

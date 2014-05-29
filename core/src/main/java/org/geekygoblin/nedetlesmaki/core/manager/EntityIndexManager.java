@@ -44,6 +44,7 @@ import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Color;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Destroyable;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Destroyer;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.PositionIndexed;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Movable;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
@@ -68,6 +69,7 @@ public class EntityIndexManager extends EntityManager {
     ComponentMapper<Pushable> pushableMapper;
     ComponentMapper<Pusher> pusherMapper;
     ComponentMapper<Position> positionMapper;
+    ComponentMapper<PositionIndexed> positionIndexedMapper;
     ComponentMapper<Movable> movableMapper;
     ComponentMapper<Plate> plateMapper;
     ComponentMapper<Color> colorMapper;
@@ -95,6 +97,7 @@ public class EntityIndexManager extends EntityManager {
         pushableMapper = world.getMapper(Pushable.class);
         pusherMapper = world.getMapper(Pusher.class);
         positionMapper = world.getMapper(Position.class);
+        positionIndexedMapper = world.getMapper(PositionIndexed.class);
         movableMapper = world.getMapper(Movable.class);
         plateMapper = world.getMapper(Plate.class);
         colorMapper = world.getMapper(Color.class);
@@ -111,34 +114,26 @@ public class EntityIndexManager extends EntityManager {
 
     @Override
     public void added(Entity e) {
-        Position p = this.getPosition(e);
+        Position p = this.getPositionIndexed(e);
 
         if (p != null) {
             if (this.index[p.getX()][p.getY()] == null) {
                 this.index[p.getX()][p.getY()] = new Square();
             }
 
-            if (this.getPlate(e) != null && !this.index[p.getX()][p.getY()].getWith(Plate.class).isEmpty()) {
-                return;
-            }
-
-            if (this.getMovable(e) != 0 && !this.index[p.getX()][p.getY()].getWith(Movable.class).isEmpty()) {
-                return;
-            }
-
-            this.index[p.getX()][p.getY()].add(e);
+            this.index[p.getX()][p.getY()].setEntity(e);
             super.added(e);
         }
     }
 
     @Override
     public void deleted(Entity e) {
-        Position p = this.getPosition(e);
+        Position p = this.getPositionIndexed(e);
 
         if (p != null) {
             Square s = this.index[p.getX()][p.getY()];
             if (s != null) {
-                s.remove(e);
+                s.setEntity(null);
             }
 
             super.deleted(e);
@@ -147,12 +142,12 @@ public class EntityIndexManager extends EntityManager {
 
     @Override
     public void disabled(Entity e) {
-        Position p = this.getPosition(e);
+        Position p = this.getPositionIndexed(e);
 
         if (p != null) {
             Square s = this.index[p.getX()][p.getY()];
             if (s != null) {
-                s.remove(e);
+                s.setEntity(null);
             }
 
             super.disabled(e);
@@ -161,6 +156,20 @@ public class EntityIndexManager extends EntityManager {
 
     @Override
     public void enabled(Entity e) {
+        Position p = this.getPositionIndexed(e);
+
+        if (p != null) {
+            if (this.index[p.getX()][p.getY()] == null) {
+                this.index[p.getX()][p.getY()] = new Square();
+            }
+
+            e.enable();
+            this.index[p.getX()][p.getY()].setEntity(e);
+            super.enabled(e);
+        }
+    }
+
+    public void addPlate(Entity e) {
         Position p = this.getPosition(e);
 
         if (p != null) {
@@ -168,25 +177,17 @@ public class EntityIndexManager extends EntityManager {
                 this.index[p.getX()][p.getY()] = new Square();
             }
 
-            if (this.getPlate(e) != null && !this.index[p.getX()][p.getY()].getWith(Plate.class).isEmpty()) {
-                return;
-            }
-
-            if (this.getMovable(e) != 0 && !this.index[p.getX()][p.getY()].getWith(Movable.class).isEmpty()) {
-                return;
-            }
-
-            this.index[p.getX()][p.getY()].add(e);
-            super.enabled(e);
-        }
-    }
-
-    public ArrayList<Entity> getEntity(int x, int y) {
+            this.index[p.getX()][p.getY()].setPlate(e);
+            super.added(e);
+        }        
+    } 
+    
+    public Entity getEntity(int x, int y) {
 
         Square test = this.getSquare(x, y);
 
         if (test != null) {
-            return test.getAll();
+            return test.getEntity();
         } else {
             return null;
         }
@@ -207,39 +208,10 @@ public class EntityIndexManager extends EntityManager {
         }
     }
 
-    public boolean moveEntity(int x, int y, int x2, int y2) {
-        if (index[x][y] == null) {
-            return false;
-        }
-
-        if (x2 > 14 || x2 < 0 || y2 > 14 || y2 < 0) {
-            return false;
-        }
-
-        if (x == x2 && y == y2) {
-            return true;
-        }
-
-        ArrayList<Entity> tmpE = index[x][y].getWith(Movable.class);
-
-        Square newC = this.index[x2][y2];
-
-        if (tmpE.isEmpty()) {
-            return false;
-        }
-
-        if (newC != null) {
-            newC.add(tmpE.get(0));
-        } else {
-            this.index[x2][y2] = new Square();
-            this.index[x2][y2].add(tmpE.get(0));
-        }
-
-        this.index[x][y].remove(tmpE.get(0));
-
-        return true;
+    public void setSquare(int x, int y, Square s) {
+        index[x][y] = s;
     }
-
+    
     public boolean addMouvement(ArrayList<Mouvement> vM) {
         return this.oldIndex.add(vM);
     }
@@ -308,9 +280,7 @@ public class EntityIndexManager extends EntityManager {
         Square s = this.getSquare(p.getX(), p.getY());
 
         if (s != null) {
-            ArrayList<Entity> plate = s.getWith(Plate.class);
-            ArrayList<Entity> all = s.getAll();
-            return all.size() == plate.size();
+            return s.getEntity() == null;
         }
 
         return true;
@@ -319,23 +289,13 @@ public class EntityIndexManager extends EntityManager {
     public boolean isStairs(Position newP) {
         Square s = this.getSquare(newP.getX(), newP.getY());
 
-        ArrayList<Entity> stairsEntity = s.getWith(Stairs.class);
+        Entity stairsEntity = s.getEntity();
 
-        if (stairsEntity.isEmpty()) {
+        if (stairsEntity.getComponent(Stairs.class) == null) {
             return false;
+        } else {
+            return true;
         }
-
-        Entity e = stairsEntity.get(0);
-
-        Stairs st = this.getStairs(e);
-
-        if (st != null) {
-            if (st.isOpen()) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public boolean isPushableEntity(Entity e) {
@@ -469,6 +429,16 @@ public class EntityIndexManager extends EntityManager {
 
     public Position getPosition(Entity e) {
         Position p = this.positionMapper.getSafe(e);
+
+        if (p != null) {
+            return p;
+        }
+
+        return null;
+    }
+
+    public PositionIndexed getPositionIndexed(Entity e) {
+        PositionIndexed p = this.positionIndexedMapper.getSafe(e);
 
         if (p != null) {
             return p;
