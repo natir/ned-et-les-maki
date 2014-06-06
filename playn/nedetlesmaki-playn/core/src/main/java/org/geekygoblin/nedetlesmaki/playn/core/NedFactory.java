@@ -24,7 +24,6 @@
 package org.geekygoblin.nedetlesmaki.playn.core;
 
 import com.artemis.Entity;
-import javax.inject.Provider;
 import im.bci.jnuit.NuitAudio;
 import im.bci.jnuit.NuitFont;
 import im.bci.jnuit.NuitPreferences;
@@ -37,6 +36,7 @@ import im.bci.jnuit.playn.PlaynNuitPreferences;
 import im.bci.jnuit.playn.PlaynNuitRenderer;
 import im.bci.jnuit.playn.controls.PlaynNuitControls;
 import java.util.Random;
+import javax.inject.Provider;
 import org.geekygoblin.nedetlesmaki.core.IDefaultControls;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.NedNuitToolkit;
@@ -53,9 +53,10 @@ import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.core.systems.GameSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
-import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynSpriteSystem;
-import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynMainMenuSystem;
+import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
 import org.geekygoblin.nedetlesmaki.playn.core.events.PlaynStartGameTrigger;
+import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynMainMenuSystem;
+import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynSpriteSystem;
 import playn.core.Font;
 
 /**
@@ -69,6 +70,7 @@ public class NedFactory {
     private final Entity ingameControls;
     private final PlaynAssets assets;
     private final EntityIndexManager indexedManager;
+    private final MoveStory moveStory;
     private final Random random;
 
     public NedFactory() {
@@ -97,10 +99,11 @@ public class NedFactory {
         };
         assets = new PlaynAssets();
         indexedManager = new EntityIndexManager();
-        GameSystem gameSystem = new GameSystem(indexedManager);
+        moveStory = new MoveStory();
+        GameSystem gameSystem = new GameSystem(indexedManager, moveStory);
         IDefaultControls defaultControls = new PlaynDefaultControls(controls, touch);
-        IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, indexedManager, gameSystem, defaultControls);
-        UpdateLevelVisualSystem updateLevelVisualSystem = new UpdateLevelVisualSystem(assets, indexedManager, gameSystem, showLevelMenuTrigger);
+        IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, indexedManager, moveStory, gameSystem, defaultControls);
+        UpdateLevelVisualSystem updateLevelVisualSystem = new UpdateLevelVisualSystem(assets, indexedManager, moveStory, gameSystem, showLevelMenuTrigger);
         PlaynSpriteSystem drawSystem = new PlaynSpriteSystem(controls);
         PlaynMainMenuSystem mainMenuSystem = new PlaynMainMenuSystem(renderer);
         NedGame game = new PlaynGame(toolkit, ingameInputSystem, updateLevelVisualSystem, indexedManager, assets, drawSystem, mainMenuSystem);
@@ -110,7 +113,7 @@ public class NedFactory {
 
             @Override
             public IStartGameTrigger get() {
-                return new PlaynStartGameTrigger(assets, mainMenu, ingameControls, indexedManager, random);
+                return new PlaynStartGameTrigger(assets, mainMenu, ingameControls, indexedManager, moveStory, random);
             }
         };
         LevelSelector levelSelector = new LevelSelector(game, toolkit, assets, startGameTrigger, showMenuTrigger);

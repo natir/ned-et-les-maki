@@ -21,29 +21,26 @@
  */
 package org.geekygoblin.nedetlesmaki.core.systems;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import java.util.ArrayList;
-import java.util.Collections;
-
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
-
 import im.bci.jnuit.artemis.sprite.Sprite;
+import java.util.ArrayList;
+import java.util.Collections;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Color;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Pushable;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.PositionIndexed;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Pusher;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Square;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Stairs;
-import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
-import org.geekygoblin.nedetlesmaki.core.utils.PosOperation;
-import org.geekygoblin.nedetlesmaki.core.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.core.constants.AnimationType;
 import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
+import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.core.utils.Mouvement;
+import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
+import org.geekygoblin.nedetlesmaki.core.utils.PosOperation;
 
 /**
  *
@@ -53,12 +50,14 @@ import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
 public class GameSystem {
 
     private final EntityIndexManager index;
+    private final MoveStory move;
     public boolean end;
 
     @Inject
-    public GameSystem(EntityIndexManager index) {
+    public GameSystem(EntityIndexManager index, MoveStory move) {
         this.index = index;
         this.end = false;
+        this.move = move;
     }
 
     public ArrayList<Mouvement> moveEntity(Entity e, Position dirP, float baseBefore, boolean nedPush) {
@@ -681,7 +680,7 @@ public class GameSystem {
     public void removeMouv() {
         boolean reCall = false;
 
-        ArrayList<Mouvement> head = this.index.pop();
+        ArrayList<Mouvement> head = this.move.pop();
 
         if (head == null) {
             return;
@@ -724,7 +723,7 @@ public class GameSystem {
 
         Collections.reverse(rm);
 
-        this.index.setRemove(rm);
+        this.move.setRemove(rm);
 
         if (reCall) {
             this.removeMouv();

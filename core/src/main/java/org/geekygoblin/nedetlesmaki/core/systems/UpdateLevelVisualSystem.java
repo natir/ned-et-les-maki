@@ -21,29 +21,25 @@
  */
 package org.geekygoblin.nedetlesmaki.core.systems;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
-
-import java.util.ArrayList;
-
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.systems.VoidEntitySystem;
-import javax.inject.Singleton;
-
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
-
-import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
 import im.bci.jnuit.artemis.sprite.Sprite;
 import im.bci.jnuit.artemis.sprite.SpritePuppetControls;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
-import org.geekygoblin.nedetlesmaki.core.constants.AnimationType;
+import java.util.ArrayList;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
-import org.geekygoblin.nedetlesmaki.core.utils.Mouvement;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
+import org.geekygoblin.nedetlesmaki.core.constants.AnimationType;
 import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
-
+import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.core.utils.Mouvement;
+import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
 import pythagoras.f.Vector3;
 
 /**
@@ -58,6 +54,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     private final IAssets assets;
     private int nbIndexSaved;
     private final EntityIndexManager index;
+    private final MoveStory move;
     private final GameSystem gameSystem;
     private final Provider<ShowLevelMenuTrigger> showLevelMenuTrigger;
     private IAnimationCollection nedAnim;
@@ -67,10 +64,11 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
     private IAnimationCollection makiAnimBoost;
 
     @Inject
-    public UpdateLevelVisualSystem(IAssets assets, EntityIndexManager indexSystem, GameSystem gameSystem, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger) {
+    public UpdateLevelVisualSystem(IAssets assets, EntityIndexManager indexSystem, MoveStory moveStory, GameSystem gameSystem, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger) {
         this.assets = assets;
         this.nbIndexSaved = 0;
         this.index = indexSystem;
+        this.move = moveStory;
         this.gameSystem = gameSystem;
         this.showLevelMenuTrigger = showLevelMenuTrigger;
     }
@@ -94,7 +92,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             }
         }
 
-        ArrayList<Mouvement> rm = index.getRemove();
+        ArrayList<Mouvement> rm = this.move.getRemove();
         if (rm != null) {
             for (int i = 0; i != rm.size(); i++) {
                 for (int j = 0; j != rm.get(i).size(); j++) {
@@ -102,11 +100,11 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                 }
             }
 
-            this.index.setRemove(null);
+            this.move.setRemove(null);
         }
 
-        if (index.sizeOfStack() > nbIndexSaved) {
-            ArrayList<Mouvement> change = this.index.getChangement();
+        if (this.move.sizeOfStack() > nbIndexSaved) {
+            ArrayList<Mouvement> change = this.move.getChangement();
 
             if (change != null) {
                 for (int i = 0; i != change.size(); i++) {
@@ -116,7 +114,7 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
                 }
             }
         }
-        nbIndexSaved = index.sizeOfStack();
+        nbIndexSaved = this.move.sizeOfStack();
     }
 
     private void moveSprite(Entity e, Position diff, AnimationType a, float waitBefore, float animationTime) {

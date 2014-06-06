@@ -47,17 +47,18 @@ import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Destroyer;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Movable;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.PositionIndexed;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Pushable;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Pusher;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Rooted;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Square;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Stairs;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.StopOnPlate;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.PositionIndexed;
 import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.core.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
 import pythagoras.f.Vector3;
 
 /**
@@ -70,6 +71,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
     protected final Entity mainMenu;
     protected final Entity ingameControls;
     protected final EntityIndexManager indexSystem;
+    protected final MoveStory moveStory;
     protected String levelName;
     protected final Random random;
     protected TmxMap map;
@@ -86,7 +88,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
             entitiesToDelete.add(e);
         }
         this.indexSystem.cleanIndex();
-        this.indexSystem.cleanStack();
+        this.moveStory.cleanStack();
         for (Entity e : entitiesToDelete) {
             e.deleteFromWorld();
         }
@@ -135,12 +137,13 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
         END
     }
 
-    protected AbstractStartGameTrigger(IAssets assets, Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, Random random) {
+    protected AbstractStartGameTrigger(IAssets assets, Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, Random random, MoveStory moveStory) {
         this.assets = assets;
         this.mainMenu = mainMenu;
         this.ingameControls = ingameControls;
         this.indexSystem = indexSystem;
         this.random = random;
+        this.moveStory = moveStory;
     }
 
     @Override

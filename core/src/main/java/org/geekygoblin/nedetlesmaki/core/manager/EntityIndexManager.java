@@ -63,8 +63,6 @@ import org.geekygoblin.nedetlesmaki.core.components.gamesystems.CatchNed;
 public class EntityIndexManager extends EntityManager {
 
     private Square[][] index;
-    private final Stack<ArrayList<Mouvement>> oldIndex;
-    private ArrayList<Mouvement> remove;
 
     ComponentMapper<Pushable> pushableMapper;
     ComponentMapper<Pusher> pusherMapper;
@@ -87,8 +85,6 @@ public class EntityIndexManager extends EntityManager {
     public EntityIndexManager() {
         super();
         this.index = new Square[15][15];
-        this.oldIndex = new Stack();
-        this.remove = null;
     }
 
     @Override
@@ -179,9 +175,9 @@ public class EntityIndexManager extends EntityManager {
 
             this.index[p.getX()][p.getY()].setPlate(e);
             super.added(e);
-        }        
-    } 
-    
+        }
+    }
+
     public Entity getEntity(int x, int y) {
 
         Square test = this.getSquare(x, y);
@@ -211,56 +207,9 @@ public class EntityIndexManager extends EntityManager {
     public void setSquare(int x, int y, Square s) {
         index[x][y] = s;
     }
-    
-    public boolean addMouvement(ArrayList<Mouvement> vM) {
-        return this.oldIndex.add(vM);
-    }
 
     public void cleanIndex() {
         this.index = new Square[15][15];
-    }
-
-    public void cleanStack() {
-        this.oldIndex.clear();
-    }
-
-    public int sizeOfStack() {
-        return this.oldIndex.size();
-    }
-
-    public ArrayList<Mouvement> getChangement() {
-        if (!this.oldIndex.empty()) {
-            ArrayList<Mouvement> o = this.oldIndex.peek();
-            if (o != null) {
-                return o;
-            }
-        }
-
-        return null;
-    }
-
-    public ArrayList<Mouvement> pop() {
-        if (this.oldIndex.isEmpty()) {
-            return null;
-        }
-
-        return this.oldIndex.pop();
-    }
-
-    public ArrayList<Mouvement> peek() {
-        if (this.oldIndex.isEmpty()) {
-            return null;
-        }
-
-        return this.oldIndex.peek();
-    }
-
-    public void setRemove(ArrayList<Mouvement> set) {
-        this.remove = set;
-    }
-
-    public ArrayList<Mouvement> getRemove() {
-        return this.remove;
     }
 
     public ImmutableBag<Entity> getAllPlate() {
