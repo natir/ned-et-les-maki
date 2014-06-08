@@ -45,7 +45,7 @@ public class Stairs extends Component {
 	this.open = b;
     }
     
-    public int getDir() {
+    public int getDir() { // 1 = Up, 2 = Down, 3 = Leftt, 4 = Right,
                   return this.dir;
     }
     

@@ -93,7 +93,17 @@ public class GameSystem {
                 }
             } else {
                 if (this.index.isStairs(newP) && e.equals(nedEntity)) {
-                    mouv.addAll(nedMoveOnStairs(dirP, e, animTime));
+                    Stairs s = index.getStairs(this.index.getEntity(newP.getX(), newP.getY()));
+                    if (dirP.getX() == 0 && dirP.getY() > 0 && s.getDir() == 1) {
+                        mouv.addAll(nedMoveOnStairs(dirP, e, animTime));
+                    } else if (dirP.getX() == 0 && dirP.getY() < 0 && s.getDir() == 2) {
+                        mouv.addAll(nedMoveOnStairs(dirP, e, animTime));
+                    } else if (dirP.getX() > 0 && dirP.getY() == 0 && s.getDir() == 3) {
+                        mouv.addAll(nedMoveOnStairs(dirP, e, animTime));
+                    } else if (dirP.getX() < 0 && dirP.getY() == 0 && s.getDir() == 4) {
+                        mouv.addAll(nedMoveOnStairs(dirP, e, animTime));
+                    } 
+
                     if (!mouv.isEmpty()) {
                         this.end = true;
                     }
@@ -668,11 +678,11 @@ public class GameSystem {
         Position stairsP = this.index.getPositionIndexed(stairs);
         Stairs stairsS = this.index.getStairs(stairs);
 
-            if (nedS.getPlay().getName().length() > 9) {
-                if (nedS.getPlay().getName().substring(0, 9).equals("ned_mount") && nedS.getPlay().isStopped()) {
-                    return true;
-                }
+        if (nedS.getPlay().getName().length() > 9) {
+            if (nedS.getPlay().getName().substring(0, 9).equals("ned_mount") && nedS.getPlay().isStopped()) {
+                return true;
             }
+        }
 
         return false;
     }
