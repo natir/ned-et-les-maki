@@ -23,7 +23,6 @@ package org.geekygoblin.nedetlesmaki.core.systems;
 
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import im.bci.jnuit.artemis.sprite.Sprite;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -121,7 +120,6 @@ public class GameSystem {
                                 if (!recMouv.isEmpty()) {
                                     mouv.addAll(recMouv);
                                     mouv.addAll(this.moveEntity(e, dirP, 0.0f, false));
-                                    //  runValideMove(dirP, e, true, 0.0f, animTime, i, this.index.isBoosted(e), nedPush));
                                 }
                             }
                         } else {
