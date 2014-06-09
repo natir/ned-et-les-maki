@@ -119,7 +119,8 @@ public class GameSystem {
                                 ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.4f, i), e == nedEntity);
                                 if (!recMouv.isEmpty()) {
                                     mouv.addAll(recMouv);
-                                    mouv.addAll(runValideMove(dirP, e, true, 0.0f, animTime, i, this.index.isBoosted(e), nedPush));
+                                    mouv.addAll(this.moveEntity(e, dirP, 0.0f, false));
+                                          //  runValideMove(dirP, e, true, 0.0f, animTime, i, this.index.isBoosted(e), nedPush));
                                 }
                             }
                         } else {
