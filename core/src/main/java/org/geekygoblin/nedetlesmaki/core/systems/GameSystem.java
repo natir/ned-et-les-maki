@@ -23,6 +23,7 @@ package org.geekygoblin.nedetlesmaki.core.systems;
 
 import com.artemis.Entity;
 import com.artemis.utils.ImmutableBag;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import im.bci.jnuit.artemis.sprite.Sprite;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -585,29 +586,34 @@ public class GameSystem {
         ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
         Entity stairs = stairsGroup.get(0);
         Stairs stairsS = this.index.getStairs(stairs);
-
+        boolean baseIs = stairsS.isOpen();
+        boolean plateIsUnvalide = true;
+        
         for (int i = 0; i != plateGroup.size(); i++) {
             Entity plateE = plateGroup.get(i);
 
             Plate plate = this.index.getPlate(plateE);
 
             if (!plate.haveMaki()) {
-                if (stairsS.isOpen()) {
-                    stairsAnimation(stairs, stairsS, false);
-                }
-
-                stairsS.setStairs(false);
-                return new ArrayList<Mouvement>();
+                plateIsUnvalide = false;
+                return this.tryPlateReturn(baseIs, plateIsUnvalide, stairs, stairsS);
             }
         }
-
-        if (stairsS.isOpen()) {
+        
+        return this.tryPlateReturn(baseIs, plateIsUnvalide, stairs, stairsS);
+    }
+    
+    private ArrayList<Mouvement> tryPlateReturn(boolean baseEtat, boolean newEtat, Entity entity, Stairs stairs)
+    {
+        if(baseEtat == newEtat) {
             return new ArrayList<Mouvement>();
+        }else if (newEtat) {
+            stairs.setStairs(true);
+            return stairsAnimation(entity, stairs, true);
+        } else {
+            stairs.setStairs(false);
+            return stairsAnimation(entity, stairs, false);
         }
-
-        stairsS.setStairs(true);
-
-        return stairsAnimation(stairs, stairsS, true);
     }
 
     private ArrayList<Mouvement> stairsAnimation(Entity stairs, Stairs stairsS, boolean open) {
