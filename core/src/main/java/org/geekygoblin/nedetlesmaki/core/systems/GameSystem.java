@@ -359,7 +359,7 @@ public class GameSystem {
         } else {
             preM.add(new Mouvement(e).setPosition(new Position(0, 0)).setAnimation(AnimationType.box_destroy).setBeforeWait(bT).setAnimationTime(aT).saveMouvement());
         }
-
+        this.index.disabled(e);
         return preM;
     }
 

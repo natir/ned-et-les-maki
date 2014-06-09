@@ -195,11 +195,9 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
         } else if (a == AnimationType.box_destroy) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(boxAnim.getAnimationByName("destroy"), PlayMode.ONCE);
-            this.index.disabled(e);
         } else if (a == AnimationType.box_boom) {
             updatable.waitDuring(waitBefore)
                     .startAnimation(boxAnim.getAnimationByName("box_boom"), PlayMode.ONCE);
-            this.index.disabled(e);
         } else if (a == AnimationType.box_create) {
             this.index.enabled(e);
             updatable.startAnimation(boxAnim.getAnimationByName("create"), PlayMode.ONCE);
