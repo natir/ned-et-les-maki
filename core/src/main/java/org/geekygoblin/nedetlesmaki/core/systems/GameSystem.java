@@ -102,7 +102,7 @@ public class GameSystem {
                         mouv.addAll(nedMoveOnStairs(dirP, e, animTime));
                     } else if (dirP.getX() < 0 && dirP.getY() == 0 && s.getDir() == 4) {
                         mouv.addAll(nedMoveOnStairs(dirP, e, animTime));
-                    } 
+                    }
 
                     if (!mouv.isEmpty()) {
                         this.end = true;
@@ -114,12 +114,12 @@ public class GameSystem {
                         if (this.index.isDestroyer(e)) {
                             if (this.index.isDestroyable(nextE)) {
                                 mouv.addAll(destroyMove(nextE, dirP, destroyBefore + this.beforeTime(0.4f, i), animTime));
-                                mouv.addAll(runValideMove(dirP, e, false, this.beforeTime(0.4f, i), animTime, i, this.index.isBoosted(e), nedPush));
+                                mouv.addAll(runValideMove(dirP, e, true, 0.0f, animTime, i, this.index.isBoosted(e), nedPush));
                             } else {
                                 ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.4f, i), e == nedEntity);
                                 if (!recMouv.isEmpty()) {
                                     mouv.addAll(recMouv);
-                                    mouv.addAll(runValideMove(dirP, e, true, this.beforeTime(0.4f, i), animTime, i, this.index.isBoosted(e), nedPush));
+                                    mouv.addAll(runValideMove(dirP, e, true, 0.0f, animTime, i, this.index.isBoosted(e), nedPush));
                                 }
                             }
                         } else {

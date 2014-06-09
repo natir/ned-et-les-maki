@@ -21,9 +21,6 @@
  */
 package org.geekygoblin.nedetlesmaki.core.manager;
 
-import java.util.Stack;
-import java.util.ArrayList;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -35,7 +32,6 @@ import com.artemis.utils.ImmutableBag;
 
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.Group;
-import org.geekygoblin.nedetlesmaki.core.utils.Mouvement;
 import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
 import im.bci.jnuit.artemis.sprite.Sprite;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.BlockOnPlate;
