@@ -203,7 +203,7 @@ public class GameSystem {
             if (e == this.index.getNed()) {
                 m.add(new Mouvement(e).setPosition(diff).setAnimation(this.getNedAnimation(diff, pas, push, boosted)).setBeforeWait(bw).setAnimationTime(aT).saveMouvement());
             } else {
-                if (makiMoveOnePlate(newP, e)) {
+                if (makiMoveWithPlate(newP, e, true)) {
                     if (actualIsColorPlate(oldP, e)) {
                         this.index.getSquare(oldP.getX(), oldP.getY()).getPlate().getComponent(Plate.class).setMaki(false);
                         this.index.getSquare(newP.getX(), newP.getY()).getPlate().getComponent(Plate.class).setMaki(true);
@@ -213,7 +213,7 @@ public class GameSystem {
                     }
 
                     m.addAll(this.tryPlate());
-                } else if (makiMoveOutPlate(oldP, e)) {
+                } else if (makiMoveWithPlate(oldP, e, false)) {
                     m.addAll(makiPlateMove(oldP, newP, e, false, aT, bw, actualIsColorPlate(oldP, e)));
 
                     m.addAll(this.tryPlate());
@@ -448,7 +448,7 @@ public class GameSystem {
         return AnimationType.no;
     }
 
-    public boolean makiMoveOnePlate(Position newP, Entity e) {
+    public boolean makiMoveWithPlate(Position newP, Entity e, boolean value) {
         Square s = this.index.getSquare(newP.getX(), newP.getY());
 
         if (s == null) {
@@ -466,37 +466,13 @@ public class GameSystem {
         }
 
         if (this.index.getColorType(e) == this.index.getColorType(plate)) {
-            plate.getComponent(Plate.class).setMaki(true);
+            plate.getComponent(Plate.class).setMaki(value);
             return true;
         }
 
         return false;
     }
-
-    public boolean makiMoveOutPlate(Position oldP, Entity e) {
-        Square s = this.index.getSquare(oldP.getX(), oldP.getY());
-
-        if (s == null) {
-            return false;
-        }
-
-        Entity plate = s.getPlate();
-        if (plate == null) {
-            return false;
-        }
-
-        if (this.index.getColor(e) == null) {
-            return false;
-        }
-
-        if (this.index.getColorType(e) == this.index.getColorType(plate)) {
-            plate.getComponent(Plate.class).setMaki(false);
-            return true;
-        }
-
-        return false;
-    }
-
+       
     private boolean actualIsColorPlate(Position nextnextP, Entity maki) {
         Square s = this.index.getSquare(nextnextP.getX(), nextnextP.getY());
 
