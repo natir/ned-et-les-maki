@@ -269,7 +269,7 @@ public class GameSystem {
     }
 
     private ArrayList<Mouvement> nedMoveOnStairs(Position diff, Entity e, float aT) {
-       
+
         ArrayList<Mouvement> m = new ArrayList();
 
         if (this.index.getStairs(this.index.getAllStairs().get(0)).isOpen()) {
@@ -471,7 +471,7 @@ public class GameSystem {
 
         return false;
     }
-       
+
     private boolean actualIsColorPlate(Position nextnextP, Entity maki) {
         Square s = this.index.getSquare(nextnextP.getX(), nextnextP.getY());
 
@@ -561,7 +561,7 @@ public class GameSystem {
         Stairs stairsS = this.index.getStairs(stairs);
         boolean baseIs = stairsS.isOpen();
         boolean plateIsUnvalide = true;
-        
+
         for (int i = 0; i != plateGroup.size(); i++) {
             Entity plateE = plateGroup.get(i);
 
@@ -572,15 +572,14 @@ public class GameSystem {
                 return this.tryPlateReturn(baseIs, plateIsUnvalide, stairs, stairsS);
             }
         }
-        
+
         return this.tryPlateReturn(baseIs, plateIsUnvalide, stairs, stairsS);
     }
-    
-    private ArrayList<Mouvement> tryPlateReturn(boolean baseEtat, boolean newEtat, Entity entity, Stairs stairs)
-    {
-        if(baseEtat == newEtat) {
+
+    private ArrayList<Mouvement> tryPlateReturn(boolean baseEtat, boolean newEtat, Entity entity, Stairs stairs) {
+        if (baseEtat == newEtat) {
             return new ArrayList<Mouvement>();
-        }else if (newEtat) {
+        } else if (newEtat) {
             stairs.setStairs(true);
             return stairsAnimation(entity, stairs, true);
         } else {
@@ -815,5 +814,47 @@ public class GameSystem {
         }
 
         return ret;
+    }
+
+    public ArrayList<Mouvement> findPath(Position next, Entity e) {
+        int dir[] = new int[4];
+        Position actual = this.index.getPosition(e);
+        Position diff = PosOperation.deduction(next, actual);
+        ArrayList<Mouvement> ret = new ArrayList<Mouvement>();
+        
+        //If diff is juste one make nothing
+        if ((diff.getX() == -1 && diff.getY() == 0) || (diff.getX() == 1 && diff.getY() == 0) || (diff.getX() == 0 && diff.getY() == -1) || (diff.getX() == 0 && diff.getY() == 1)) {
+            this.moveEntity(e, diff, 0, false);
+        } else {
+            for (actual = this.index.getPosition(e); actual != null && PosOperation.equale(actual, next); actual = this.index.getPosition(e)) {
+                dir[0] = this.weightOfPos(PosOperation.sum(actual, new Position(-1, 0)), diff);
+                dir[1] = this.weightOfPos(PosOperation.sum(actual, new Position(1, 0)), diff);
+                dir[2] = this.weightOfPos(PosOperation.sum(actual, new Position(0, -1)), diff);
+                dir[3] = this.weightOfPos(PosOperation.sum(actual, new Position(0, 1)), diff);
+
+                int min = indexMin(dir);
+                
+                if(min > 100) {
+                    ret.addAll(this.moveEntity(e, diff, 0, false));
+                    return ret;
+                } else {
+                    ret.addAll(this.moveEntity(e, diff, 0, false));
+                }
+            }
+        }
+        
+        return ret;
+    }
+
+    private int weightOfPos(Position p, Position diff) {
+        if (this.index.getEntity(p.getX(), p.getY()) == null) {
+            return diff.getX() + diff.getY();
+        } else {
+            return diff.getX() + diff.getY() + 100; // just strong value
+        }
+    }
+    
+    private int indexMin(int [] tab) {
+        return 0;
     }
 }
