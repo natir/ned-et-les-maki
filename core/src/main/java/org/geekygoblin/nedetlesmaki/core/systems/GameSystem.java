@@ -821,7 +821,7 @@ public class GameSystem {
         Position actual = this.index.getPosition(e);
         Position diff = PosOperation.deduction(next, actual);
         ArrayList<Mouvement> ret = new ArrayList<Mouvement>();
-        
+
         //If diff is juste one make nothing
         if ((diff.getX() == -1 && diff.getY() == 0) || (diff.getX() == 1 && diff.getY() == 0) || (diff.getX() == 0 && diff.getY() == -1) || (diff.getX() == 0 && diff.getY() == 1)) {
             this.moveEntity(e, diff, 0, false);
@@ -833,8 +833,8 @@ public class GameSystem {
                 dir[3] = this.weightOfPos(PosOperation.sum(actual, new Position(0, 1)), diff);
 
                 int min = indexMin(dir);
-                
-                if(min > 100) {
+
+                if (min > 100) {
                     ret.addAll(this.moveEntity(e, diff, 0, false));
                     return ret;
                 } else {
@@ -842,7 +842,7 @@ public class GameSystem {
                 }
             }
         }
-        
+
         return ret;
     }
 
@@ -853,8 +853,13 @@ public class GameSystem {
             return diff.getX() + diff.getY() + 100; // just strong value
         }
     }
-    
-    private int indexMin(int [] tab) {
-        return 0;
+
+    private int indexMin(int[] tab) {
+        int begin, end;
+
+        begin = tab[0] < tab[1] ? 0 : 1;
+        end = tab[2] < tab[3] ? 2 : 3;
+        
+        return tab[begin] < tab[end] ? begin : end;
     }
 }
