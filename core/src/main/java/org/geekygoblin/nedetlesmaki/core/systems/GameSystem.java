@@ -269,8 +269,7 @@ public class GameSystem {
     }
 
     private ArrayList<Mouvement> nedMoveOnStairs(Position diff, Entity e, float aT) {
-        Position newP = PosOperation.sum(this.index.getPositionIndexed(e), diff);
-
+       
         ArrayList<Mouvement> m = new ArrayList();
 
         if (this.index.getStairs(this.index.getAllStairs().get(0)).isOpen()) {
@@ -652,12 +651,7 @@ public class GameSystem {
         ImmutableBag<Entity> stairsGroup = this.index.getAllStairs();
 
         Entity ned = this.index.getNed();
-        Position nedP = this.index.getPositionIndexed(ned);
         Sprite nedS = this.index.getSprite(ned);
-
-        Entity stairs = stairsGroup.get(0);
-        Position stairsP = this.index.getPositionIndexed(stairs);
-        Stairs stairsS = this.index.getStairs(stairs);
 
         if (nedS.getPlay().getName().length() > 9) {
             if (nedS.getPlay().getName().substring(0, 9).equals("ned_mount") && nedS.getPlay().isStopped()) {

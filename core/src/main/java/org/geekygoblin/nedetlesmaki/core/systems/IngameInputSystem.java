@@ -57,8 +57,6 @@ import pythagoras.f.Vector3;
 public class IngameInputSystem extends EntityProcessingSystem {
 
     private final Provider<ShowMenuTrigger> showMenuTrigger;
-    private final Provider<ShowLevelMenuTrigger> showLevelMenuTrigger;
-    private final EntityIndexManager indexSystem;
     private final GameSystem gameSystem;
     private final ActionActivatedDetector mouseClick;
     private final MoveStory moveStory;
@@ -68,9 +66,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
     @Inject
     public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, EntityIndexManager indexSystem, MoveStory moveStory, GameSystem gameSystem, IDefaultControls defaultControls) {
         super(Aspect.getAspectForAll(IngameControls.class));
-        this.showLevelMenuTrigger = showLevelMenuTrigger;
         this.showMenuTrigger = showMenuTrigger;
-        this.indexSystem = indexSystem;
         this.gameSystem = gameSystem;
         this.moveStory = moveStory;
         this.mouseClick = new ActionActivatedDetector(new Action("click", defaultControls.getMouseClickControls()));
