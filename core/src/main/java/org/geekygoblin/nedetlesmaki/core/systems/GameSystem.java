@@ -119,7 +119,7 @@ public class GameSystem {
                                 ArrayList<Mouvement> recMouv = this.moveEntity(nextE, dirP, baseBefore + this.beforeTime(0.4f, i), e == nedEntity);
                                 if (!recMouv.isEmpty()) {
                                     mouv.addAll(recMouv);
-                                    mouv.addAll(this.moveEntity(e, dirP, 0.0f, false));
+                                    mouv.addAll(runValideMove(dirP, e, true, 0.0f, animTime, i, this.index.isBoosted(e), nedPush));
                                 }
                             }
                         } else {
@@ -138,7 +138,9 @@ public class GameSystem {
                 }
 
                 if (this.index.isBoosted(e)) {
-                    mouv.add(new Mouvement(e).setAnimation(this.getMakiAnimation(true, -1, dirP, ColorType.blue)).saveMouvement());
+                    if (mouv.get(mouv.size() - 1).getAnimation(0) != AnimationType.maki_blue_one) {
+                         mouv.add(new Mouvement(e).setAnimation(this.getMakiAnimation(true, -1, dirP, ColorType.blue)).saveMouvement());   
+                    }
                 }
 
                 if (this.index.nedIsCatched(e) && nedPush) {
@@ -859,7 +861,7 @@ public class GameSystem {
 
         begin = tab[0] < tab[1] ? 0 : 1;
         end = tab[2] < tab[3] ? 2 : 3;
-        
+
         return tab[begin] < tab[end] ? begin : end;
     }
 }
