@@ -138,7 +138,7 @@ public class GameSystem {
                 }
 
                 if (this.index.isBoosted(e)) {
-                    if (mouv.get(mouv.size() - 1).getAnimation(0) != AnimationType.maki_blue_one) {
+                    if (mouv.get(mouv.size() - 1).getAnimation(0) != AnimationType.maki_blue_one && mouv.get(mouv.size() - 2).getAnimation(0) != AnimationType.maki_blue_one) {
                          mouv.add(new Mouvement(e).setAnimation(this.getMakiAnimation(true, -1, dirP, ColorType.blue)).saveMouvement());   
                     }
                 }
