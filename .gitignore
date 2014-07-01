@@ -21,3 +21,7 @@ target/
 /game/nedetlesmaki-game-0.1-installer.jar
 /game/nedetlesmaki-game-0.1-SNAPSHOT-installer.exe
 /game/nedetlesmaki-game-0.1-SNAPSHOT-installer.jar
+
+# Assets file duplicate
+playn/nedetlesmaki-playn/assets/*
+playn/nedetlesmaki-playn/android/assets

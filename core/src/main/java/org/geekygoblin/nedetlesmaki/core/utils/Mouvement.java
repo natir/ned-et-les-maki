@@ -102,7 +102,7 @@ public class Mouvement {
         Collections.reverse(this.list);
     }
 
-    private class Mouvement_struct {
+    private static class Mouvement_struct {
 
         public Position p;
         public AnimationType a;

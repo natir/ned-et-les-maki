@@ -63,31 +63,31 @@ public class LevelSelector extends TabOrientedNavigableContainer {
         addButton("level.02.name", "levels/t1/lvl02.tmx", 825, 910, -1);
         addButton("level.03.name", "levels/t1/lvl03.tmx", 1087, 881, 1);
         addButton("level.04.name", "levels/t1/lvl04.tmx", 825, 853, -1);
-        addButton("level.05.name", "levels/t2/lvl01.tmx", 1087, 825, 1);
-        addButton("level.06.name", "levels/t2/lvl02.tmx", 825, 796, -1);
-        addButton("level.07.name", "levels/t2/lvl03.tmx", 1087, 768, 1);
-        addButton("level.08.name", "levels/t2/lvl04.tmx", 825, 740, -1);
-        addButton("level.09.name", "levels/t2/lvl05.tmx", 1087, 711, 1);
-        /*addButton("level.10.name", "levels/lvl10.tmx", 550, 506, -1);
-         addButton("level.11.name", "levels/lvl11.tmx", 725, 485, 1);
-         addButton("level.12.name", "levels/lvl12.tmx", 550, 464, -1);
-         addButton("level.13.name", "levels/lvl13.tmx", 725, 443, 1);
-         addButton("level.14.name", "levels/lvl14.tmx", 550, 422, -1);
-         addButton("level.15.name", "levels/lvl15.tmx", 725, 401, 1);
-         addButton("level.16.name", "levels/lvl16.tmx", 550, 380, -1);
-         addButton("level.17.name", "levels/lvl17.tmx", 725, 359, 1);
-         addButton("level.18.name", "levels/lvl18.tmx", 550, 338, -1);
-         addButton("level.19.name", "levels/lvl19.tmx", 725, 317, 1);
-         addButton("level.20.name", "levels/lvl20.tmx", 550, 296, -1);
-         addButton("level.21.name", "levels/lvl21.tmx", 725, 275, 1);
-         addButton("level.22.name", "levels/lvl22.tmx", 550, 254, -1);
-         addButton("level.23.name", "levels/lvl23.tmx", 725, 233, 1);
-         addButton("level.24.name", "levels/lvl24.tmx", 550, 212, -1);
-         addButton("level.25.name", "levels/lvl25.tmx", 725, 191, 1);
-         addButton("level.26.name", "levels/lvl26.tmx", 550, 170, -1);
-         addButton("level.27.name", "levels/lvl27.tmx", 725, 149, 1);
-         addButton("level.28.name", "levels/lvl28.tmx", 550, 129, -1);
-         addButton("level.29.name", "levels/lvl29.tmx", 725, 107, 1);*/
+        addButton("level.05.name", "levels/t1/lvl05.tmx", 1087, 825, 1);
+        addButton("level.06.name", "levels/t1/lvl06.tmx", 825, 796, -1);
+        addButton("level.07.name", "levels/t1/lvl07.tmx", 1087, 768, 1);
+        addButton("level.08.name", "levels/t2/lvl01.tmx", 825, 740, -1);
+        addButton("level.09.name", "levels/t2/lvl02.tmx", 1087, 711, 1);
+        addButton("level.10.name", "levels/t2/lvl03.tmx", 825, 682, -1);
+        addButton("level.11.name", "levels/t2/lvl04.tmx", 1087, 654, 1);
+        addButton("level.12.name", "levels/t2/lvl05.tmx", 825, 626, -1);
+        /*addButton("level.13.name", "levels/lvl13.tmx", 1087, 597, 1);
+         addButton("level.14.name", "levels/lvl14.tmx", 825, 568, -1);
+         addButton("level.15.name", "levels/lvl15.tmx", 1087, 540, 1);
+         addButton("level.16.name", "levels/lvl16.tmx", 825, 512, -1);
+         addButton("level.17.name", "levels/lvl17.tmx", 1087, 483, 1);
+         addButton("level.18.name", "levels/lvl18.tmx", 825, 454, -1);
+         addButton("level.19.name", "levels/lvl19.tmx", 1087, 426, 1);
+         addButton("level.20.name", "levels/lvl20.tmx", 825, 398, -1);
+         addButton("level.21.name", "levels/lvl21.tmx", 1087, 369, 1);
+         addButton("level.22.name", "levels/lvl22.tmx", 825, 340, -1);
+         addButton("level.23.name", "levels/lvl23.tmx", 1087, 312, 1);
+         addButton("level.24.name", "levels/lvl24.tmx", 825, 284, -1);
+         addButton("level.25.name", "levels/lvl25.tmx", 1087, 256, 1);
+         addButton("level.26.name", "levels/lvl26.tmx", 825, 227, -1);
+         addButton("level.27.name", "levels/lvl27.tmx", 1087, 198, 1);
+         addButton("level.28.name", "levels/lvl28.tmx", 825, 170, -1);
+         addButton("level.29.name", "levels/lvl29.tmx", 1087, 142, 1);*/
         addButton("level.30.name", "levels/test.tmx", 825, 117, -1);
 
         Button backButton = new Button(toolkit, "options.menu.button.back") {

@@ -23,27 +23,30 @@
  */
 package org.geekygoblin.nedetlesmaki.core.systems;
 
-import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
+import javax.inject.Inject;
+import javax.inject.Provider;
+import javax.inject.Singleton;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 
 import com.artemis.systems.EntityProcessingSystem;
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.inject.Singleton;
+
 import im.bci.jnuit.controls.Action;
+import im.bci.jnuit.artemis.sprite.Sprite;
 import im.bci.jnuit.controls.ActionActivatedDetector;
 
 import org.geekygoblin.nedetlesmaki.core.NedGame;
+import org.geekygoblin.nedetlesmaki.core.IDefaultControls;
+import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
+import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
+import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
-import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
-import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
-import im.bci.jnuit.artemis.sprite.Sprite;
-import org.geekygoblin.nedetlesmaki.core.IDefaultControls;
 import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
+import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
+
 import pythagoras.f.Vector3;
 
 /**
@@ -54,20 +57,18 @@ import pythagoras.f.Vector3;
 public class IngameInputSystem extends EntityProcessingSystem {
 
     private final Provider<ShowMenuTrigger> showMenuTrigger;
-    private final Provider<ShowLevelMenuTrigger> showLevelMenuTrigger;
-    private final EntityIndexManager indexSystem;
     private final GameSystem gameSystem;
     private final ActionActivatedDetector mouseClick;
-
+    private final MoveStory moveStory;
+    
     private ComponentMapper<Sprite> spriteMapper;
 
     @Inject
-    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, EntityIndexManager indexSystem, GameSystem gameSystem, IDefaultControls defaultControls) {
+    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, EntityIndexManager indexSystem, MoveStory moveStory, GameSystem gameSystem, IDefaultControls defaultControls) {
         super(Aspect.getAspectForAll(IngameControls.class));
-        this.showLevelMenuTrigger = showLevelMenuTrigger;
         this.showMenuTrigger = showMenuTrigger;
-        this.indexSystem = indexSystem;
         this.gameSystem = gameSystem;
+        this.moveStory = moveStory;
         this.mouseClick = new ActionActivatedDetector(new Action("click", defaultControls.getMouseClickControls()));
     }
 
@@ -126,16 +127,16 @@ public class IngameInputSystem extends EntityProcessingSystem {
                     }
                 }
                 if (upPressed) {
-                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1), 0, false));
+                    moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1), 0, false));
                     ned.changedInWorld();
                 } else if (downPressed) {
-                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1), 0, false));
+                    moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1), 0, false));
                     ned.changedInWorld();
                 } else if (leftPressed) {
-                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0), 0, false));
+                    moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0), 0, false));
                     ned.changedInWorld();
                 } else if (rightPressed) {
-                    indexSystem.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0), 0, false));
+                    moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0), 0, false));
                     ned.changedInWorld();
                 } else if (rewindPressed) {
                     gameSystem.removeMouv();

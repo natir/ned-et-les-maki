@@ -1,0 +1,82 @@
+{
+  "animations": [
+    {
+      "name": "exit_button",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "image_1.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "exit_button_survol",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "image_0.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "reset_button",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "image_3.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "reset_button_survol",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "image_2.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "rewind_button",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "image_5.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "rewind_button_survol",
+      "frames": [
+        {
+          "duration": 11,
+          "image": "image_4.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    }
+  ]
+}
