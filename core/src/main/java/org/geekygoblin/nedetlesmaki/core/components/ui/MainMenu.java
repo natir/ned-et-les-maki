@@ -38,7 +38,6 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 import im.bci.jnuit.NuitPreferences;
 import im.bci.jnuit.background.TexturedBackground;
-import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.animation.IAnimation;
 import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.focus.NullFocusCursor;

@@ -29,7 +29,7 @@ import com.artemis.Entity;
 
 import com.artemis.systems.EntityProcessingSystem;
 import im.bci.jnuit.playn.PlaynNuitRenderer;
-import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
+import org.geekygoblin.nedetlesmaki.core.components.ui.InGameUI;
 import org.geekygoblin.nedetlesmaki.playn.core.components.ui.PlaynLayerOwner;
 import playn.core.ImmediateLayer;
 import playn.core.PlayN;
@@ -39,28 +39,28 @@ import playn.core.Surface;
  *
  * @author devnewton <devnewton@bci.im>
  */
-public class PlaynMainMenuSystem extends EntityProcessingSystem {
+public class PlaynInGameUISystem extends EntityProcessingSystem {
 
     private final PlaynNuitRenderer nuitRenderer;
 
     private ComponentMapper<PlaynLayerOwner> layerOwnerMapper;
-    protected ComponentMapper<MainMenu> mainMenuMapper;
+    protected ComponentMapper<InGameUI> inGameUIMapper;
 
     @Override
     protected void initialize() {
         layerOwnerMapper = world.getMapper(PlaynLayerOwner.class);
-        mainMenuMapper = world.getMapper(MainMenu.class);
+        inGameUIMapper = world.getMapper(InGameUI.class);
     }
 
     @Override
     protected void process(Entity e) {
         if (e.isEnabled()) {
-            mainMenuMapper.get(e).update();
+            inGameUIMapper.get(e).update(world.getDelta());
         }
     }
 
-    public PlaynMainMenuSystem(PlaynNuitRenderer nuitRenderer) {
-        super(Aspect.getAspectForOne(MainMenu.class));
+    public PlaynInGameUISystem(PlaynNuitRenderer nuitRenderer) {
+        super(Aspect.getAspectForOne(InGameUI.class));
         this.nuitRenderer = nuitRenderer;
     }
 
@@ -71,7 +71,7 @@ public class PlaynMainMenuSystem extends EntityProcessingSystem {
             @Override
             public void render(Surface surface) {
                 nuitRenderer.setSurface(surface);
-                nuitRenderer.render(mainMenuMapper.get(e).getRoot());
+                nuitRenderer.render(inGameUIMapper.get(e).getRoot());
             }
         });
         e.addComponent(new PlaynLayerOwner(layer));

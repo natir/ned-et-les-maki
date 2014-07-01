@@ -55,6 +55,7 @@ import im.bci.jnuit.lwjgl.audio.OpenALNuitAudio;
 import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.core.components.ui.CutScenes;
 import org.geekygoblin.nedetlesmaki.core.components.ui.DialogComponent;
+import org.geekygoblin.nedetlesmaki.core.components.ui.InGameUI;
 import org.geekygoblin.nedetlesmaki.core.components.ui.LevelSelector;
 import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.core.events.HideMenuTrigger;
@@ -127,6 +128,16 @@ public class NedModule extends AbstractModule {
         return mainMenu;
     }
 
+    @Provides
+    @NamedEntities.InGameUI
+    @Singleton
+    public Entity createInGameUI(NedGame game, InGameUI inGameUIComponent) {
+        Entity inGameUI = game.createEntity();
+        inGameUI.addComponent(inGameUIComponent);
+        game.addEntity(inGameUI);
+        return inGameUI;
+    }
+    
     @Provides
     @NamedEntities.DefaultFont
     @Singleton

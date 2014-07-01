@@ -69,6 +69,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected final IAssets assets;
     protected final Entity mainMenu;
+    protected final Entity inGameUI;
     protected final Entity ingameControls;
     protected final EntityIndexManager indexSystem;
     protected final MoveStory moveStory;
@@ -83,6 +84,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
         game.setNed(null);
         mainMenu.disable();
         ingameControls.enable();
+        inGameUI.enable();
         ArrayList<Entity> entitiesToDelete = new ArrayList<Entity>();
         for (Entity e : game.getManager(GroupManager.class).getEntities(Group.LEVEL)) {
             entitiesToDelete.add(e);
@@ -137,9 +139,10 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
         END
     }
 
-    protected AbstractStartGameTrigger(IAssets assets, Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, Random random, MoveStory moveStory) {
+    protected AbstractStartGameTrigger(IAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.InGameUI Entity inGameUI, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, Random random, MoveStory moveStory) {
         this.assets = assets;
         this.mainMenu = mainMenu;
+        this.inGameUI = inGameUI;
         this.ingameControls = ingameControls;
         this.indexSystem = indexSystem;
         this.random = random;

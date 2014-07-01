@@ -1,11 +1,11 @@
 {
   "animations": [
     {
-      "name": "exit_button",
+      "name": "show_menu_button",
       "frames": [
         {
           "duration": 100,
-          "image": "image_1.png",
+          "image": "show_menu_button.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -14,11 +14,11 @@
       ]
     },
     {
-      "name": "exit_button_survol",
+      "name": "show_menu_button_focused",
       "frames": [
         {
           "duration": 100,
-          "image": "image_0.png",
+          "image": "show_menu_button_focused.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -31,7 +31,7 @@
       "frames": [
         {
           "duration": 100,
-          "image": "image_3.png",
+          "image": "reset_button.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -40,11 +40,11 @@
       ]
     },
     {
-      "name": "reset_button_survol",
+      "name": "reset_button_focused",
       "frames": [
         {
           "duration": 100,
-          "image": "image_2.png",
+          "image": "reset_button_focused.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -57,7 +57,7 @@
       "frames": [
         {
           "duration": 100,
-          "image": "image_5.png",
+          "image": "rewind_button.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -66,11 +66,11 @@
       ]
     },
     {
-      "name": "rewind_button_survol",
+      "name": "rewind_button_focused",
       "frames": [
         {
           "duration": 11,
-          "image": "image_4.png",
+          "image": "rewind_button_focused.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,

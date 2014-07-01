@@ -41,6 +41,7 @@ import im.bci.jnuit.artemis.sprite.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.MouseArrowSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.SpritePuppetControlSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
+import org.geekygoblin.nedetlesmaki.game.systems.InGameUISystem;
 
 /**
  *
@@ -62,6 +63,7 @@ public class LwjglGame extends NedGame {
         setSystem(drawSystem);
         setSystem(new TriggerSystem());
         setSystem(new MainMenuSystem());
+        setSystem(new InGameUISystem());
         setSystem(new DialogSystem());
         setSystem(new DebugSpriteSystem());
         setManager(new GroupManager());

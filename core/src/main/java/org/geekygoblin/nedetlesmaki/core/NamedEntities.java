@@ -48,6 +48,12 @@ public interface NamedEntities {
     @Retention(RUNTIME)
     public @interface MainMenu {
     }
+    
+    @Qualifier
+    @Target({FIELD, PARAMETER, METHOD})
+    @Retention(RUNTIME)
+    public @interface InGameUI {
+    }
 
     @Qualifier
     @Target({FIELD, PARAMETER, METHOD})

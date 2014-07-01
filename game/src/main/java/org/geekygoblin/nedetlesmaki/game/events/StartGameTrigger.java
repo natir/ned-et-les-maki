@@ -47,8 +47,8 @@ public class StartGameTrigger extends AbstractStartGameTrigger {
     private TmxAsset tmx;
 
     @Inject
-    public StartGameTrigger(LwjglAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, MoveStory moveStory, Random random) {
-        super(assets, mainMenu, ingameControls, indexSystem, random, moveStory);
+    public StartGameTrigger(LwjglAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.InGameUI Entity inGameUI, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, MoveStory moveStory, Random random) {
+        super(assets, mainMenu, inGameUI, ingameControls, indexSystem, random, moveStory);
     }
 
     @Override

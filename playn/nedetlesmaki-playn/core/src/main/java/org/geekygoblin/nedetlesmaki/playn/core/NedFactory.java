@@ -43,6 +43,7 @@ import org.geekygoblin.nedetlesmaki.core.NedNuitToolkit;
 import org.geekygoblin.nedetlesmaki.core.NedNuitTranslator;
 import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.core.components.ui.CutScenes;
+import org.geekygoblin.nedetlesmaki.core.components.ui.InGameUI;
 import org.geekygoblin.nedetlesmaki.core.components.ui.LevelSelector;
 import org.geekygoblin.nedetlesmaki.core.components.ui.MainMenu;
 import org.geekygoblin.nedetlesmaki.core.events.HideMenuTrigger;
@@ -55,6 +56,7 @@ import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
 import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
 import org.geekygoblin.nedetlesmaki.playn.core.events.PlaynStartGameTrigger;
+import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynInGameUISystem;
 import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynMainMenuSystem;
 import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynSpriteSystem;
 import playn.core.Font;
@@ -72,6 +74,7 @@ public class NedFactory {
     private final EntityIndexManager indexedManager;
     private final MoveStory moveStory;
     private final Random random;
+    private final Entity inGameUI;
 
     public NedFactory() {
         this.random = new Random(42);
@@ -102,18 +105,20 @@ public class NedFactory {
         moveStory = new MoveStory();
         GameSystem gameSystem = new GameSystem(indexedManager, moveStory);
         IDefaultControls defaultControls = new PlaynDefaultControls(controls, touch);
-        IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, indexedManager, moveStory, gameSystem, defaultControls);
+        InGameUI inGameUIComponent = new InGameUI(toolkit, assets);
+        IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, indexedManager, moveStory, gameSystem, defaultControls, inGameUIComponent);
         UpdateLevelVisualSystem updateLevelVisualSystem = new UpdateLevelVisualSystem(assets, indexedManager, moveStory, gameSystem, showLevelMenuTrigger);
         PlaynSpriteSystem drawSystem = new PlaynSpriteSystem(controls);
         PlaynMainMenuSystem mainMenuSystem = new PlaynMainMenuSystem(renderer);
-        NedGame game = new PlaynGame(toolkit, ingameInputSystem, updateLevelVisualSystem, indexedManager, assets, drawSystem, mainMenuSystem);
+        PlaynInGameUISystem inGameUISystem = new PlaynInGameUISystem(renderer);
+        NedGame game = new PlaynGame(toolkit, ingameInputSystem, updateLevelVisualSystem, indexedManager, assets, drawSystem, mainMenuSystem,inGameUISystem);
 
         mainLoop = new PlaynMainLoop(game);
         Provider<IStartGameTrigger> startGameTrigger = new Provider<IStartGameTrigger>() {
 
             @Override
             public IStartGameTrigger get() {
-                return new PlaynStartGameTrigger(assets, mainMenu, ingameControls, indexedManager, moveStory, random);
+                return new PlaynStartGameTrigger(assets, mainMenu, inGameUI, ingameControls, indexedManager, moveStory, random);
             }
         };
         LevelSelector levelSelector = new LevelSelector(game, toolkit, assets, startGameTrigger, showMenuTrigger);
@@ -137,6 +142,10 @@ public class NedFactory {
         mainMenu = game.createEntity();
         mainMenu.addComponent(mainMenuComponent);
         game.addEntity(mainMenu);
+
+        inGameUI = game.createEntity();
+        inGameUI.addComponent(inGameUIComponent);
+        game.addEntity(inGameUI);
 
     }
 

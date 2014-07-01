@@ -44,6 +44,7 @@ import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
+import org.geekygoblin.nedetlesmaki.core.components.ui.InGameUI;
 import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
 
@@ -62,14 +63,16 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private final MoveStory moveStory;
     
     private ComponentMapper<Sprite> spriteMapper;
+    private final InGameUI inGameUI;
 
     @Inject
-    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, EntityIndexManager indexSystem, MoveStory moveStory, GameSystem gameSystem, IDefaultControls defaultControls) {
+    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, EntityIndexManager indexSystem, MoveStory moveStory, GameSystem gameSystem, IDefaultControls defaultControls, InGameUI inGameUI) {
         super(Aspect.getAspectForAll(IngameControls.class));
         this.showMenuTrigger = showMenuTrigger;
         this.gameSystem = gameSystem;
         this.moveStory = moveStory;
         this.mouseClick = new ActionActivatedDetector(new Action("click", defaultControls.getMouseClickControls()));
+        this.inGameUI = inGameUI;
     }
 
     @Override
@@ -84,7 +87,8 @@ public class IngameInputSystem extends EntityProcessingSystem {
 
             IngameControls controls = e.getComponent(IngameControls.class);
             controls.getShowMenu().poll();
-            if (controls.getShowMenu().isActivated()) {
+            inGameUI.getShowMenu().poll();
+            if (controls.getShowMenu().isActivated() || inGameUI.getShowMenu().isActivated()) {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(showMenuTrigger.get())));
             }
             if (canMoveNed()) {
@@ -93,12 +97,14 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 controls.getRight().poll();
                 controls.getLeft().poll();
                 controls.getRewind().poll();
+                inGameUI.getReset().poll();
+                inGameUI.getRewind().poll();
                 mouseClick.poll();
                 boolean upPressed = controls.getUp().isPressed();
                 boolean downPressed = controls.getDown().isPressed();
                 boolean leftPressed = controls.getLeft().isPressed();
                 boolean rightPressed = controls.getRight().isPressed();
-                boolean rewindPressed = controls.getRewind().isPressed();
+                boolean rewindPressed = controls.getRewind().isPressed() || inGameUI.getRewind().isPressed();
                 Entity ned = game.getNed();
                 if (mouseClick.isPressed()) {
                     final Sprite selectedSprite = game.getSystem(MouseArrowSystem.class).getSelectedSprite();

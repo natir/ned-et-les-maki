@@ -53,6 +53,7 @@ import org.geekygoblin.nedetlesmaki.core.constants.VirtualResolution;
 import im.bci.jnuit.lwjgl.sprite.SpriteBatcher;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.geekygoblin.nedetlesmaki.core.components.ui.InGameUI;
 import org.geekygoblin.nedetlesmaki.core.utils.Viewport;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
@@ -74,6 +75,7 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
     private ComponentMapper<Sprite> spriteMapper;
     private ComponentMapper<MainMenu> mainMenuMapper;
     private ComponentMapper<DialogComponent> dialogMapper;
+    private ComponentMapper<InGameUI> inGameUIMapper;
 
     private final Comparator<Entity> zComparator = new Comparator<Entity>() {
         @Override
@@ -104,6 +106,7 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
         spriteMapper = world.getMapper(Sprite.class);
         mainMenuMapper = world.getMapper(MainMenu.class);
         dialogMapper = world.getMapper(DialogComponent.class);
+        inGameUIMapper = world.getMapper(InGameUI.class);
     }
 
     @Override
@@ -126,7 +129,7 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
 
     @Inject
     public DrawSystem(@NamedEntities.DefaultFont NuitFont font, NuitRenderer nuitRenderer) {
-        super(Aspect.getAspectForOne(LevelBackground.class, MainMenu.class, DialogComponent.class, Sprite.class));
+        super(Aspect.getAspectForOne(LevelBackground.class, MainMenu.class, InGameUI.class, DialogComponent.class, Sprite.class));
         this.font = (LwjglNuitFont) font;
         this.nuitRenderer = nuitRenderer;
     }
@@ -192,6 +195,10 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
             DialogComponent dialog = dialogMapper.getSafe(e);
             if (null != dialog) {
                 nuitRenderer.render(dialog.getRoot());
+            }
+            InGameUI inGameUI = inGameUIMapper.getSafe(e);
+            if (null != inGameUI) {
+                nuitRenderer.render(inGameUI.getRoot());
             }
         }
         GL11.glPopMatrix();
