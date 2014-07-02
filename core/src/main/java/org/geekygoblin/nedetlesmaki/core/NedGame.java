@@ -33,6 +33,7 @@ import com.artemis.World;
 public abstract class NedGame extends World {
 
     private Entity ned;
+    private String currentLevel;
 
     public void setNed(Entity ned) {
         this.ned = ned;
@@ -40,5 +41,13 @@ public abstract class NedGame extends World {
 
     public Entity getNed() {
         return ned;
+    }
+
+    public String getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(String currentLevel) {
+        this.currentLevel = currentLevel;
     }
 }
