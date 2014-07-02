@@ -24,16 +24,15 @@
 package org.geekygoblin.nedetlesmaki.core.components.ui;
 
 import im.bci.jnuit.NuitToolkit;
-import im.bci.jnuit.controls.Control;
 import im.bci.jnuit.widgets.Button;
 
 /**
  *
  * @author devnewton <devnewton@bci.im>
  */
-public class InGameButton extends Button implements Control {
+public class InGameButton extends Button {
 
-    private float value;
+    private boolean activated;
 
     public InGameButton(NuitToolkit toolkit, String text) {
         super(toolkit, text);
@@ -41,32 +40,13 @@ public class InGameButton extends Button implements Control {
 
     @Override
     public void onOK() {
-        value = 1.0f;
+        activated = true;
     }
 
-    @Override
-    public void update(float delta) {
-        value = Math.max(0f, value - 0.5f);
-    }
-
-    @Override
-    public String getControllerName() {
-        return "InGameUI";
-    }
-
-    @Override
-    public String getName() {
-        return getText();
-    }
-
-    @Override
-    public float getDeadZone() {
-        return 0.1f;
-    }
-
-    @Override
-    public float getValue() {
-        return value;
+    public boolean pollActivation() {
+        boolean a = activated;
+        activated = false;
+        return a;
     }
 
 }

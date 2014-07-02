@@ -28,8 +28,6 @@ import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
 import im.bci.jnuit.background.TexturedBackground;
-import im.bci.jnuit.controls.Action;
-import im.bci.jnuit.controls.ActionActivatedDetector;
 import im.bci.jnuit.focus.NullFocusCursor;
 import im.bci.jnuit.widgets.Container;
 import im.bci.jnuit.widgets.Root;
@@ -45,7 +43,7 @@ import org.geekygoblin.nedetlesmaki.core.IAssets;
 public class InGameUI extends Component {
 
     private final Root root;
-    private final ActionActivatedDetector reset, rewind, showMenu;
+    private final InGameButton reset, rewind, showMenu;
 
     @Inject
     public InGameUI(NuitToolkit toolkit, IAssets assets) {
@@ -77,52 +75,49 @@ public class InGameUI extends Component {
 
         };
         Container container = new Container();
-        InGameButton rewindButton = new InGameButton(toolkit, "");
-        rewindButton.setFocusCursor(NullFocusCursor.INSTANCE);
+        rewind = new InGameButton(toolkit, "");
+        rewind.setFocusCursor(NullFocusCursor.INSTANCE);
         final IAnimationCollection buttonAnimations = assets.getAnimations("ingame_buttons.json");
-        rewindButton.setBackground(new TexturedBackground(buttonAnimations.getAnimationByName("rewind_button").start(PlayMode.LOOP)));
-        rewindButton.setFocusedBackground(new TexturedBackground(buttonAnimations.getAnimationByName("rewind_button_focused").start(PlayMode.LOOP)));
-        rewindButton.setX(1695);
-        rewindButton.setY(275);
-        rewindButton.setWidth(150);
-        rewindButton.setHeight(150);
-        container.add(rewindButton);
-        rewind = new ActionActivatedDetector(new Action("rewind", rewindButton));
-
-        InGameButton resetButton = new InGameButton(toolkit, "");
-        resetButton.setFocusCursor(NullFocusCursor.INSTANCE);
-        resetButton.setBackground(new TexturedBackground(buttonAnimations.getAnimationByName("reset_button").start(PlayMode.LOOP)));
-        resetButton.setFocusedBackground(new TexturedBackground(buttonAnimations.getAnimationByName("reset_button_focused").start(PlayMode.LOOP)));
-        resetButton.setX(1695);
-        resetButton.setY(75);
-        resetButton.setWidth(150);
-        resetButton.setHeight(150);
-        container.add(resetButton);
-        reset = new ActionActivatedDetector(new Action("reset", resetButton));
-
-        InGameButton showMenuButton = new InGameButton(toolkit, "");
-        showMenuButton.setFocusCursor(NullFocusCursor.INSTANCE);
-        showMenuButton.setBackground(new TexturedBackground(buttonAnimations.getAnimationByName("show_menu_button").start(PlayMode.LOOP)));
-        showMenuButton.setFocusedBackground(new TexturedBackground(buttonAnimations.getAnimationByName("show_menu_button_focused").start(PlayMode.LOOP)));
-        showMenuButton.setX(75);
-        showMenuButton.setY(75);
-        showMenuButton.setWidth(150);
-        showMenuButton.setHeight(150);
-        container.add(showMenuButton);
-        showMenu = new ActionActivatedDetector(new Action("show_menu", showMenuButton));
+        rewind.setBackground(new TexturedBackground(buttonAnimations.getAnimationByName("rewind_button").start(PlayMode.LOOP)));
+        rewind.setFocusedBackground(new TexturedBackground(buttonAnimations.getAnimationByName("rewind_button_focused").start(PlayMode.LOOP)));
+        rewind.setX(1695);
+        rewind.setY(275);
+        rewind.setWidth(150);
+        rewind.setHeight(150);
+        container.add(rewind);
+        
+        reset = new InGameButton(toolkit, "");
+        reset.setFocusCursor(NullFocusCursor.INSTANCE);
+        reset.setBackground(new TexturedBackground(buttonAnimations.getAnimationByName("reset_button").start(PlayMode.LOOP)));
+        reset.setFocusedBackground(new TexturedBackground(buttonAnimations.getAnimationByName("reset_button_focused").start(PlayMode.LOOP)));
+        reset.setX(1695);
+        reset.setY(75);
+        reset.setWidth(150);
+        reset.setHeight(150);
+        container.add(reset);
+        
+        showMenu = new InGameButton(toolkit, "");
+        showMenu.setFocusCursor(NullFocusCursor.INSTANCE);
+        showMenu.setBackground(new TexturedBackground(buttonAnimations.getAnimationByName("show_menu_button").start(PlayMode.LOOP)));
+        showMenu.setFocusedBackground(new TexturedBackground(buttonAnimations.getAnimationByName("show_menu_button_focused").start(PlayMode.LOOP)));
+        showMenu.setX(75);
+        showMenu.setY(75);
+        showMenu.setWidth(150);
+        showMenu.setHeight(150);
+        container.add(showMenu);
 
         root.add(container);
     }
 
-    public ActionActivatedDetector getReset() {
+    public InGameButton getReset() {
         return reset;
     }
 
-    public ActionActivatedDetector getRewind() {
+    public InGameButton getRewind() {
         return rewind;
     }
 
-    public ActionActivatedDetector getShowMenu() {
+    public InGameButton getShowMenu() {
         return showMenu;
     }
 
