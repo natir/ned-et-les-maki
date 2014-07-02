@@ -97,7 +97,7 @@ public class NedFactory {
 
             @Override
             public ShowMenuTrigger get() {
-                return new ShowMenuTrigger(mainMenu, ingameControls);
+                return new ShowMenuTrigger(mainMenu, inGameUI, ingameControls);
             }
         };
         assets = new PlaynAssets();
@@ -146,7 +146,7 @@ public class NedFactory {
         inGameUI = game.createEntity();
         inGameUI.addComponent(inGameUIComponent);
         game.addEntity(inGameUI);
-
+        inGameUI.disable();
     }
 
     public PlaynMainLoop getMainLoop() {

@@ -90,8 +90,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
 
             IngameControls controls = e.getComponent(IngameControls.class);
             controls.getShowMenu().poll();
-            inGameUI.getShowMenu().poll();
-            if (controls.getShowMenu().isActivated() || inGameUI.getShowMenu().isActivated()) {
+            if (controls.getShowMenu().isActivated() || inGameUI.getShowMenu().pollActivation()) {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(showMenuTrigger.get())));
             }
             if (canMoveNed()) {
@@ -100,15 +99,13 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 controls.getRight().poll();
                 controls.getLeft().poll();
                 controls.getRewind().poll();
-                inGameUI.getReset().poll();
-                inGameUI.getRewind().poll();
                 mouseClick.poll();
                 boolean upPressed = controls.getUp().isPressed();
                 boolean downPressed = controls.getDown().isPressed();
                 boolean leftPressed = controls.getLeft().isPressed();
                 boolean rightPressed = controls.getRight().isPressed();
-                boolean rewindPressed = controls.getRewind().isPressed() || inGameUI.getRewind().isPressed();
-                boolean resetPressed = inGameUI.getReset().isPressed();
+                boolean rewindPressed = controls.getRewind().isPressed() || inGameUI.getRewind().pollActivation();
+                boolean resetPressed = inGameUI.getReset().pollActivation();
                 Entity ned = game.getNed();
                 if (mouseClick.isPressed()) {
                     final Sprite selectedSprite = game.getSystem(MouseArrowSystem.class).getSelectedSprite();
