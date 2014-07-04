@@ -24,7 +24,7 @@
 	<createForPack name="Core"/>
 </shortcut>
 <shortcut
-	name="Ned et les maki"
+	name="Ned et les maki safe launcher"
 	target="/usr/bin/java"
 	commandLine="-jar &quot;$INSTALL_PATH/${nedetlesmaki_build_final_name}.jar&quot; --safe"
 	description="Launch Ned et les maki"

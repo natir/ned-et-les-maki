@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.geekygoblin</groupId>
     <artifactId>nedetlesmaki-playn</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.3</version>
   </parent>
 
   <artifactId>nedetlesmaki-playn-ios</artifactId>
