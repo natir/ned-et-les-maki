@@ -24,6 +24,7 @@
 package org.geekygoblin.nedetlesmaki.core.components.ui;
 
 import com.artemis.Component;
+import im.bci.jnuit.NuitControls;
 import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
@@ -31,6 +32,7 @@ import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.focus.NullFocusCursor;
 import im.bci.jnuit.widgets.Container;
 import im.bci.jnuit.widgets.Root;
+import im.bci.jnuit.widgets.Widget;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
@@ -44,6 +46,7 @@ public class InGameUI extends Component {
 
     private final Root root;
     private final InGameButton reset, rewind, showMenu;
+    private final Container container;
 
     @Inject
     public InGameUI(NuitToolkit toolkit, IAssets assets) {
@@ -74,7 +77,25 @@ public class InGameUI extends Component {
             }
 
         };
-        Container container = new Container();
+        container = new Container() {
+
+            @Override
+            public void onMouseMove(float mouseX, float mouseY) {
+                setFocusedChild(null);
+                super.onMouseMove(mouseX, mouseY);
+            }
+
+            @Override
+            public boolean isFocusSucked() {
+                return false;
+            }
+
+            @Override
+            protected Widget getTopLeftFocusableChild() {
+                return null;
+            }
+
+        };
         rewind = new InGameButton(toolkit, "");
         rewind.setFocusCursor(NullFocusCursor.INSTANCE);
         final IAnimationCollection buttonAnimations = assets.getAnimations("ingame_buttons.json");
@@ -85,7 +106,7 @@ public class InGameUI extends Component {
         rewind.setWidth(150);
         rewind.setHeight(150);
         container.add(rewind);
-        
+
         reset = new InGameButton(toolkit, "");
         reset.setFocusCursor(NullFocusCursor.INSTANCE);
         reset.setBackground(new TexturedBackground(buttonAnimations.getAnimationByName("reset_button").start(PlayMode.LOOP)));
@@ -95,7 +116,7 @@ public class InGameUI extends Component {
         reset.setWidth(150);
         reset.setHeight(150);
         container.add(reset);
-        
+
         showMenu = new InGameButton(toolkit, "");
         showMenu.setFocusCursor(NullFocusCursor.INSTANCE);
         showMenu.setBackground(new TexturedBackground(buttonAnimations.getAnimationByName("show_menu_button").start(PlayMode.LOOP)));
@@ -119,6 +140,10 @@ public class InGameUI extends Component {
 
     public InGameButton getShowMenu() {
         return showMenu;
+    }
+
+    public boolean isMouseHoverHoverAButton() {
+        return null != container.getFocusedChild();
     }
 
     public void update(float delta) {

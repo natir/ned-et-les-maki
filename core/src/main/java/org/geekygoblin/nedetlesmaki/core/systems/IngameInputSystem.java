@@ -61,7 +61,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private final GameSystem gameSystem;
     private final ActionActivatedDetector mouseClick;
     private final MoveStory moveStory;
-    
+
     private ComponentMapper<Sprite> spriteMapper;
     private final InGameUI inGameUI;
 
@@ -91,59 +91,61 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 world.addEntity(world.createEntity().addComponent(new Triggerable(showMenuTrigger.get())));
             }
             if (canMoveNed()) {
-                controls.getUp().poll();
-                controls.getDown().poll();
-                controls.getRight().poll();
-                controls.getLeft().poll();
-                controls.getRewind().poll();
-                mouseClick.poll();
-                boolean upPressed = controls.getUp().isPressed();
-                boolean downPressed = controls.getDown().isPressed();
-                boolean leftPressed = controls.getLeft().isPressed();
-                boolean rightPressed = controls.getRight().isPressed();
-                boolean rewindPressed = controls.getRewind().isPressed() || inGameUI.getRewind().pollActivation();
                 Entity ned = game.getNed();
-                if (mouseClick.isPressed()) {
-                    final Sprite selectedSprite = game.getSystem(MouseArrowSystem.class).getSelectedSprite();
-                    if (null != selectedSprite) {
-                        Vector3 selectedPosition = selectedSprite.getPosition();
+                boolean rewindPressed = controls.getRewind().isPressed() || inGameUI.getRewind().pollActivation();
+                if (rewindPressed) {
+                    gameSystem.removeMouv();
+                    ned.changedInWorld();
+                } else {
+                    controls.getUp().poll();
+                    controls.getDown().poll();
+                    controls.getRight().poll();
+                    controls.getLeft().poll();
+                    controls.getRewind().poll();
+                    mouseClick.poll();
+                    boolean upPressed = controls.getUp().isPressed();
+                    boolean downPressed = controls.getDown().isPressed();
+                    boolean leftPressed = controls.getLeft().isPressed();
+                    boolean rightPressed = controls.getRight().isPressed();
+                    if (!inGameUI.isMouseHoverHoverAButton() && mouseClick.isPressed()) {
+                        final Sprite selectedSprite = game.getSystem(MouseArrowSystem.class).getSelectedSprite();
+                        if (null != selectedSprite) {
+                            Vector3 selectedPosition = selectedSprite.getPosition();
 
-                        Vector3 nedPosition = spriteMapper.get(ned).getPosition();
-                        int nedX = Math.round(nedPosition.x);
-                        int nedY = Math.round(nedPosition.y);
-                        int selectedX = Math.round(selectedPosition.x);
-                        int selectedY = Math.round(selectedPosition.y);
+                            Vector3 nedPosition = spriteMapper.get(ned).getPosition();
+                            int nedX = Math.round(nedPosition.x);
+                            int nedY = Math.round(nedPosition.y);
+                            int selectedX = Math.round(selectedPosition.x);
+                            int selectedY = Math.round(selectedPosition.y);
 
-                        if (nedX == selectedX) {
-                            if (nedY < selectedY) {
-                                rightPressed = true;
-                            } else if (nedY > selectedY) {
-                                leftPressed = true;
-                            }
-                        } else if (nedY == selectedY) {
-                            if (nedX < selectedX) {
-                                downPressed = true;
-                            } else if (nedX > selectedX) {
-                                upPressed = true;
+                            if (nedX == selectedX) {
+                                if (nedY < selectedY) {
+                                    rightPressed = true;
+                                } else if (nedY > selectedY) {
+                                    leftPressed = true;
+                                }
+                            } else if (nedY == selectedY) {
+                                if (nedX < selectedX) {
+                                    downPressed = true;
+                                } else if (nedX > selectedX) {
+                                    upPressed = true;
+                                }
                             }
                         }
                     }
-                }
-                if (upPressed) {
-                    moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1), 0, false));
-                    ned.changedInWorld();
-                } else if (downPressed) {
-                    moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1), 0, false));
-                    ned.changedInWorld();
-                } else if (leftPressed) {
-                    moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0), 0, false));
-                    ned.changedInWorld();
-                } else if (rightPressed) {
-                    moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0), 0, false));
-                    ned.changedInWorld();
-                } else if (rewindPressed) {
-                    gameSystem.removeMouv();
-                    ned.changedInWorld();
+                    if (upPressed) {
+                        moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1), 0, false));
+                        ned.changedInWorld();
+                    } else if (downPressed) {
+                        moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1), 0, false));
+                        ned.changedInWorld();
+                    } else if (leftPressed) {
+                        moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0), 0, false));
+                        ned.changedInWorld();
+                    } else if (rightPressed) {
+                        moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0), 0, false));
+                        ned.changedInWorld();
+                    }
                 }
             }
         }
