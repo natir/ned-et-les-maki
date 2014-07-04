@@ -145,6 +145,7 @@ public class LevelSelector extends TabOrientedNavigableContainer {
     }
 
     private void onStartGame(String levelName) {
+        game.setCurrentLevel(levelName);
         game.addEntity(game.createEntity().addComponent(new Triggerable(startGameTrigger.get().withLevelName(levelName))));
     }
 

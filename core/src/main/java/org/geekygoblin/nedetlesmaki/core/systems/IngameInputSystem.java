@@ -45,6 +45,7 @@ import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.core.components.ui.InGameUI;
+import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
 
@@ -58,6 +59,7 @@ import pythagoras.f.Vector3;
 public class IngameInputSystem extends EntityProcessingSystem {
 
     private final Provider<ShowMenuTrigger> showMenuTrigger;
+    private final Provider<IStartGameTrigger> startGameTrigger;
     private final GameSystem gameSystem;
     private final ActionActivatedDetector mouseClick;
     private final MoveStory moveStory;
@@ -66,13 +68,14 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private final InGameUI inGameUI;
 
     @Inject
-    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, EntityIndexManager indexSystem, MoveStory moveStory, GameSystem gameSystem, IDefaultControls defaultControls, InGameUI inGameUI) {
+    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, Provider<IStartGameTrigger> startGameTrigger, EntityIndexManager indexSystem, MoveStory moveStory, GameSystem gameSystem, IDefaultControls defaultControls, InGameUI inGameUI) {
         super(Aspect.getAspectForAll(IngameControls.class));
         this.showMenuTrigger = showMenuTrigger;
         this.gameSystem = gameSystem;
         this.moveStory = moveStory;
         this.mouseClick = new ActionActivatedDetector(new Action("click", defaultControls.getMouseClickControls()));
         this.inGameUI = inGameUI;
+        this.startGameTrigger = startGameTrigger;
     }
 
     @Override
@@ -92,10 +95,11 @@ public class IngameInputSystem extends EntityProcessingSystem {
             }
             if (canMoveNed()) {
                 Entity ned = game.getNed();
-                boolean rewindPressed = controls.getRewind().isPressed() || inGameUI.getRewind().pollActivation();
-                if (rewindPressed) {
+                if (controls.getRewind().isPressed() || inGameUI.getRewind().pollActivation()) {
                     gameSystem.removeMouv();
                     ned.changedInWorld();
+                } else if (inGameUI.getReset().pollActivation()) {
+                    game.addEntity(world.createEntity().addComponent(new Triggerable(startGameTrigger.get().withLevelName(game.getCurrentLevel()))));
                 } else {
                     controls.getUp().poll();
                     controls.getDown().poll();

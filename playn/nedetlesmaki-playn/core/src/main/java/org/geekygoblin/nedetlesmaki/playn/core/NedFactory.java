@@ -100,20 +100,6 @@ public class NedFactory {
                 return new ShowMenuTrigger(mainMenu, inGameUI, ingameControls);
             }
         };
-        assets = new PlaynAssets();
-        indexedManager = new EntityIndexManager();
-        moveStory = new MoveStory();
-        GameSystem gameSystem = new GameSystem(indexedManager, moveStory);
-        IDefaultControls defaultControls = new PlaynDefaultControls(controls, touch);
-        InGameUI inGameUIComponent = new InGameUI(toolkit, assets);
-        IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, indexedManager, moveStory, gameSystem, defaultControls, inGameUIComponent);
-        UpdateLevelVisualSystem updateLevelVisualSystem = new UpdateLevelVisualSystem(assets, indexedManager, moveStory, gameSystem, showLevelMenuTrigger);
-        PlaynSpriteSystem drawSystem = new PlaynSpriteSystem(controls);
-        PlaynMainMenuSystem mainMenuSystem = new PlaynMainMenuSystem(renderer);
-        PlaynInGameUISystem inGameUISystem = new PlaynInGameUISystem(renderer);
-        NedGame game = new PlaynGame(toolkit, ingameInputSystem, updateLevelVisualSystem, indexedManager, assets, drawSystem, mainMenuSystem,inGameUISystem);
-
-        mainLoop = new PlaynMainLoop(game);
         Provider<IStartGameTrigger> startGameTrigger = new Provider<IStartGameTrigger>() {
 
             @Override
@@ -121,6 +107,21 @@ public class NedFactory {
                 return new PlaynStartGameTrigger(assets, mainMenu, inGameUI, ingameControls, indexedManager, moveStory, random);
             }
         };
+        
+        assets = new PlaynAssets();
+        indexedManager = new EntityIndexManager();
+        moveStory = new MoveStory();
+        GameSystem gameSystem = new GameSystem(indexedManager, moveStory);
+        IDefaultControls defaultControls = new PlaynDefaultControls(controls, touch);
+        InGameUI inGameUIComponent = new InGameUI(toolkit, assets);
+        IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, startGameTrigger, indexedManager, moveStory, gameSystem, defaultControls, inGameUIComponent);
+        UpdateLevelVisualSystem updateLevelVisualSystem = new UpdateLevelVisualSystem(assets, indexedManager, moveStory, gameSystem, showLevelMenuTrigger);
+        PlaynSpriteSystem drawSystem = new PlaynSpriteSystem(controls);
+        PlaynMainMenuSystem mainMenuSystem = new PlaynMainMenuSystem(renderer);
+        PlaynInGameUISystem inGameUISystem = new PlaynInGameUISystem(renderer);
+        NedGame game = new PlaynGame(toolkit, ingameInputSystem, updateLevelVisualSystem, indexedManager, assets, drawSystem, mainMenuSystem,inGameUISystem);
+
+        mainLoop = new PlaynMainLoop(game);
         LevelSelector levelSelector = new LevelSelector(game, toolkit, assets, startGameTrigger, showMenuTrigger);
         Provider<HideMenuTrigger> hideMenuTrigger = new Provider<HideMenuTrigger>() {
 
