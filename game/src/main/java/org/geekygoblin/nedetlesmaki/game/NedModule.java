@@ -44,6 +44,7 @@ import im.bci.jnuit.NuitAudio;
 import im.bci.jnuit.NuitControls;
 import im.bci.jnuit.NuitDisplay;
 import im.bci.jnuit.NuitFont;
+import im.bci.jnuit.NuitLocale;
 import im.bci.jnuit.NuitPreferences;
 import im.bci.jnuit.NuitRenderer;
 import im.bci.jnuit.NuitTranslator;
@@ -52,6 +53,7 @@ import im.bci.jnuit.lwjgl.LwjglNuitDisplay;
 
 import im.bci.jnuit.lwjgl.assets.VirtualFileSystem;
 import im.bci.jnuit.lwjgl.audio.OpenALNuitAudio;
+import java.util.Locale;
 import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.core.components.ui.CutScenes;
 import org.geekygoblin.nedetlesmaki.core.components.ui.DialogComponent;
@@ -80,7 +82,6 @@ public class NedModule extends AbstractModule {
     protected void configure() {
         bind(IDefaultControls.class).to(LwjglDefaultControls.class);
         bind(NuitRenderer.class).to(NedNuitRenderer.class);
-        bind(NuitTranslator.class).to(NedNuitTranslator.class);
         bind(NuitControls.class).to(LwjglNuitControls.class).in(Singleton.class);
         bind(NuitDisplay.class).to(LwjglNuitDisplay.class).in(Singleton.class);
         bind(NuitToolkit.class).to(NedNuitToolkit.class);
@@ -103,6 +104,16 @@ public class NedModule extends AbstractModule {
         bind(IMainLoop.class).to(MainLoop.class);
         bind(NuitAudio.class).to(OpenALNuitAudio.class).in(Singleton.class);
         bind(MoveStory.class);
+    }
+
+    @Provides
+    @Singleton
+    public NuitTranslator createTranslator() {
+        NedNuitTranslator translator = new NedNuitTranslator();
+        if (Locale.getDefault().getLanguage().equals(new Locale("fr").getLanguage())) {
+            translator.setCurrentLocale(NuitLocale.FRENCH);
+        }
+        return translator;
     }
 
     @Provides
@@ -137,7 +148,7 @@ public class NedModule extends AbstractModule {
         game.addEntity(inGameUI);
         return inGameUI;
     }
-    
+
     @Provides
     @NamedEntities.DefaultFont
     @Singleton

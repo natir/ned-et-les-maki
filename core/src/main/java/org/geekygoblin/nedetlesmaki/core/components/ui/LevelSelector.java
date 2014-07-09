@@ -32,6 +32,7 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.focus.NullFocusCursor;
+import im.bci.jnuit.widgets.Container;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
@@ -43,7 +44,7 @@ import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
  * @author devnewton
  */
 @Singleton
-public class LevelSelector extends TabOrientedNavigableContainer {
+public class LevelSelector extends Container {
 
     private final NedGame game;
     private final IAnimationCollection bulleAnimations;

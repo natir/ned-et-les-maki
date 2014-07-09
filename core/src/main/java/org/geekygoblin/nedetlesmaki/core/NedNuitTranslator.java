@@ -27,7 +27,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import im.bci.jnuit.NuitLocale;
 import im.bci.jnuit.NuitTranslator;
-import java.util.Locale;
 
 /**
  *
@@ -38,10 +37,6 @@ public class NedNuitTranslator extends NuitTranslator {
 
     @Inject
     public NedNuitTranslator() {
-        if (Locale.getDefault().getLanguage().equals(new Locale("fr").getLanguage())) {
-            setCurrentLocale(NuitLocale.FRENCH);
-        }
-
         addEnglish();
         addFrench();
         addLevelNumbers();

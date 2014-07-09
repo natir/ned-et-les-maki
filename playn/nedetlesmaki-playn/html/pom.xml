@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.geekygoblin</groupId>
         <artifactId>nedetlesmaki-playn</artifactId>
-        <version>0.3</version>
+        <version>0.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>nedetlesmaki-playn-html</artifactId>
@@ -62,6 +62,16 @@
             <classifier>sources</classifier>
         </dependency>
         <dependency>
+            <groupId>com.github.asilvestre</groupId>
+            <artifactId>jpurexml</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
+            <groupId>im.bci</groupId>
+            <artifactId>libtiled-jpurexml</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        <dependency>
             <groupId>im.bci</groupId>
             <artifactId>jnuit-core</artifactId>
             <classifier>sources</classifier>
@@ -81,6 +91,16 @@
             <artifactId>artemis-odb</artifactId>
             <classifier>sources</classifier>
         </dependency>
+        <dependency>
+            <groupId>net.onedaybeard.artemis</groupId>
+            <artifactId>artemis-odb-gwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.onedaybeard.artemis</groupId>
+            <artifactId>artemis-odb-gwt</artifactId>
+            <classifier>sources</classifier>
+        </dependency>
+        
     </dependencies>
     <build>
         <plugins>

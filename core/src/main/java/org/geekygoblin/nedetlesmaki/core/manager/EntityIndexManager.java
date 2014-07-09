@@ -79,7 +79,7 @@ public class EntityIndexManager extends EntityManager {
 
     @Inject
     public EntityIndexManager() {
-        super();
+        super(15 * 15);
         this.index = new Square[15][15];
     }
 

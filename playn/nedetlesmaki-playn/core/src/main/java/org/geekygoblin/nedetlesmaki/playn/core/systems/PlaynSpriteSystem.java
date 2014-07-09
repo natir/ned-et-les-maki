@@ -59,11 +59,13 @@ public class PlaynSpriteSystem extends EntitySystem implements IDrawSystem, Imme
         public int compare(Entity o1, Entity o2) {
             Sprite s1 = spriteMapper.get(o1);
             Sprite s2 = spriteMapper.get(o2);
-            int result = Integer.compare(s1.getZOrder(), s2.getZOrder());
-            if (result == 0) {
-                result = spriteProjector.compare(s1.getPosition(), s2.getPosition());
+            if(s1.getZOrder() < s2.getZOrder()) {
+                return -1;
+            } else if(s1.getZOrder() > s2.getZOrder()) {
+                return 1;
+            } else {
+                return spriteProjector.compare(s1.getPosition(), s2.getPosition());
             }
-            return result;
         }
     };
     private SpriteProjector spriteProjector;

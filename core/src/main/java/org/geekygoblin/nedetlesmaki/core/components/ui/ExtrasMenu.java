@@ -30,6 +30,7 @@ import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.focus.NullFocusCursor;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import im.bci.jnuit.widgets.Button;
+import im.bci.jnuit.widgets.Container;
 import im.bci.jnuit.widgets.Root;
 import im.bci.jnuit.widgets.Widget;
 
@@ -38,7 +39,7 @@ import im.bci.jnuit.widgets.Widget;
  *
  * @author devnewton
  */
-public class ExtrasMenu extends TabOrientedNavigableContainer {
+public class ExtrasMenu extends Container {
     
     public ExtrasMenu(NuitToolkit toolkit, final Root root, final Widget mainMenu, IAssets assets, CutScenes cutscenes) {
         
