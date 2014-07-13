@@ -127,7 +127,7 @@ public class NedFactory {
 
             @Override
             public HideMenuTrigger get() {
-                return new HideMenuTrigger(mainMenu, ingameControls);
+                return new HideMenuTrigger(mainMenu, inGameUI, ingameControls);
             }
         };
         CutScenes cutscenes = new CutScenes(assets);
