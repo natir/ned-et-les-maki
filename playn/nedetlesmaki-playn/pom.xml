@@ -2,9 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.googlecode.playn</groupId>
-        <artifactId>playn-project</artifactId>
-        <version>1.8.5</version>
+        <groupId>org.geekygoblin</groupId>
+        <artifactId>nedetlesmaki</artifactId>
+        <version>0.4-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <groupId>org.geekygoblin</groupId>
@@ -12,143 +13,10 @@
     <version>0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>nedetlesmaki-playn</name>
-
-    <properties>
-        <playn.version>1.8.5</playn.version>
-        <jnuit.version>0.11</jnuit.version>
-    </properties>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.googlecode.playn</groupId>
-                <artifactId>playn-core</artifactId>
-                <version>${playn.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.googlecode.playn</groupId>
-                <artifactId>playn-android</artifactId>
-                <version>${playn.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.googlecode.playn</groupId>
-                <artifactId>playn-java</artifactId>
-                <version>${playn.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.googlecode.playn</groupId>
-                <artifactId>playn-html</artifactId>
-                <version>${playn.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.googlecode.playn</groupId>
-                <artifactId>playn-html</artifactId>
-                <classifier>sources</classifier>
-                <version>${playn.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.googlecode.playn</groupId>
-                <artifactId>playn-ios</artifactId>
-                <version>${playn.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.geekygoblin</groupId>
-                <artifactId>nedetlesmaki-playn-core</artifactId>
-                <version>${project.version}</version>   
-            </dependency>
-            <dependency>
-                <groupId>org.geekygoblin</groupId>
-                <artifactId>nedetlesmaki-playn-core</artifactId>
-                <version>${project.version}</version>   
-                <classifier>sources</classifier>
-            </dependency>
-            <dependency>
-                <groupId>org.geekygoblin</groupId>
-                <artifactId>nedetlesmaki-playn-assets</artifactId>
-                <version>${project.version}</version>   
-            </dependency>
-            <dependency>
-                <groupId>org.geekygoblin</groupId>
-                <artifactId>nedetlesmaki-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.geekygoblin</groupId>
-                <artifactId>nedetlesmaki-core</artifactId>
-                <classifier>sources</classifier>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.asilvestre</groupId>
-                <artifactId>jpurexml</artifactId>
-                <classifier>sources</classifier>
-                <version>0.12</version>
-            </dependency>
-            <dependency>
-                <groupId>im.bci</groupId>
-                <artifactId>libtiled-jpurexml</artifactId>
-                <classifier>sources</classifier>
-                <version>0.4</version>
-            </dependency>
-            <dependency>
-                <groupId>im.bci</groupId>
-                <artifactId>jnuit-playn-utils</artifactId>
-                <version>${jnuit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>im.bci</groupId>
-                <artifactId>jnuit-core</artifactId>
-                <classifier>sources</classifier>
-                <version>${jnuit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>im.bci</groupId>
-                <artifactId>tablelayout</artifactId>
-                <version>${jnuit.version}</version>
-                <classifier>sources</classifier>
-            </dependency>
-            <dependency>
-                <groupId>im.bci</groupId>
-                <artifactId>jnuit-playn</artifactId>
-                <classifier>sources</classifier>
-                <version>${jnuit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>im.bci</groupId>
-                <artifactId>jnuit-playn-utils</artifactId>
-                <classifier>sources</classifier>
-                <version>${jnuit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>im.bci</groupId>
-                <artifactId>jnuit-artemis</artifactId>
-                <classifier>sources</classifier>
-                <version>${jnuit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.inject</groupId>
-                <artifactId>javax.inject</artifactId>
-                <classifier>sources</classifier>
-                <version>1</version>
-            </dependency>
-            <dependency>
-                <groupId>net.onedaybeard.artemis</groupId>
-                <artifactId>artemis-odb</artifactId>
-                <classifier>sources</classifier>
-                <version>0.6.3</version>
-            </dependency>
-            <dependency>
-                <groupId>net.onedaybeard.artemis</groupId>
-                <artifactId>artemis-odb-gwt</artifactId>
-                <version>0.6.3</version>
-            </dependency>
-            <dependency>
-                <groupId>net.onedaybeard.artemis</groupId>
-                <artifactId>artemis-odb-gwt</artifactId>
-                <classifier>sources</classifier>
-                <version>0.6.3</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <modules>
+        <module>assets</module>
+        <module>core</module>
+    </modules>
     <profiles>
         <profile>
             <id>java</id>
@@ -178,8 +46,4 @@
             </modules>
         </profile>
     </profiles>
-    <modules>
-        <module>assets</module>
-        <module>core</module>
-    </modules>
 </project>

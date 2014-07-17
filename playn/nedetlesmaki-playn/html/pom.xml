@@ -100,13 +100,18 @@
             <artifactId>artemis-odb-gwt</artifactId>
             <classifier>sources</classifier>
         </dependency>
-        
+        <dependency>
+            <artifactId>gwt-user</artifactId>
+            <groupId>com.google.gwt</groupId>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
+                <version>${gwt.version}</version>
                 <executions>
                     <execution>
                         <phase>prepare-package</phase>

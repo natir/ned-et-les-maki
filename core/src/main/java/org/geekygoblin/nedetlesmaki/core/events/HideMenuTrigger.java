@@ -35,16 +35,19 @@ import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 public class HideMenuTrigger extends OneShotTrigger {
     private final Entity mainMenu;
     private final Entity ingameControls;
+    private final Entity inGameUI;
     
     @Inject
-    public HideMenuTrigger(@NamedEntities.MainMenu Entity mainMenu,@NamedEntities.IngameControls Entity ingameControls) {
+    public HideMenuTrigger(@NamedEntities.MainMenu Entity mainMenu, @NamedEntities.InGameUI Entity inGameUI, @NamedEntities.IngameControls Entity ingameControls) {
         this.mainMenu = mainMenu;
         this.ingameControls = ingameControls;
+        this.inGameUI = inGameUI;
     }
 
     @Override
     public void process(NedGame game) {
         mainMenu.disable();
         ingameControls.enable();
+        inGameUI.enable();
     }    
 }
