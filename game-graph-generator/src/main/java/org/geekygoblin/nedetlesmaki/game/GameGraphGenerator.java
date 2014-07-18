@@ -21,7 +21,6 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  */
-
 package org.geekygoblin.nedetlesmaki.game;
 
 import com.google.inject.Guice;
@@ -40,30 +39,28 @@ import java.io.PrintWriter;
  * @author devnewton
  */
 public class GameGraphGenerator {
-    
+
     public static void main(String[] args) throws IOException {
-            NedModule module = new NedModule();
-            Injector injector = Guice.createInjector(module);
-            graph("ned.gv", injector);
-            Runtime.getRuntime().exec("dot -Tsvg ned.gv -o ned.svg");
+        NedModule module = new NedModule();
+        Injector injector = Guice.createInjector(module);
+        graph("ned.gv", injector);
+        Runtime.getRuntime().exec("dot -Tsvg ned.gv -o ned.svg");
     }
-        private static void graph(String filename, Injector nedInjector) throws IOException {
+
+    private static void graph(String filename, Injector nedInjector) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try (PrintWriter bout = new PrintWriter(baos)) {
-            Injector injector = Guice.createInjector(new GrapherModule(), new GraphvizModule());
-            GraphvizRenderer renderer = injector.getInstance(GraphvizRenderer.class);
-            renderer.setOut(bout);
-            injector.getInstance(InjectorGrapher.class)
-                    .of(nedInjector)
-                    .graph();
-        }
-        try (PrintWriter out = new PrintWriter(
-                new File(filename), "UTF-8")) {
+        PrintWriter bout = new PrintWriter(baos);
+        Injector injector = Guice.createInjector(new GrapherModule(), new GraphvizModule());
+        GraphvizRenderer renderer = injector.getInstance(GraphvizRenderer.class);
+        renderer.setOut(bout);
+        injector.getInstance(InjectorGrapher.class)
+                .of(nedInjector)
+                .graph();
+        PrintWriter out = new PrintWriter(new File(filename), "UTF-8");
             String s = baos.toString("UTF-8");
-            s = fixGrapherBug(s);
-            s = hideClassPaths(s);
-            out.write(s);
-        }
+        s = fixGrapherBug(s);
+        s = hideClassPaths(s);
+        out.write(s);
 
     }
 
