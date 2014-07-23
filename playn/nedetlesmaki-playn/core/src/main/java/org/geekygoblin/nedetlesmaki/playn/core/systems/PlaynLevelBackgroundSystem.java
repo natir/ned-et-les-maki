@@ -31,7 +31,6 @@ import com.artemis.utils.Bag;
 import com.artemis.utils.ImmutableBag;
 import im.bci.jnuit.animation.IAnimationFrame;
 import im.bci.jnuit.animation.IPlay;
-import im.bci.jnuit.artemis.sprite.Sprite;
 import im.bci.jnuit.playn.animation.PlaynAnimationImage;
 import org.geekygoblin.nedetlesmaki.core.components.LevelBackground;
 import playn.core.ImmediateLayer;

@@ -1,7 +1,16 @@
 <module>
     <inherits name='im.bci.TmxLoader'/>
     <inherits name='im.bci.Jnuit'/>
-    <inherits name='com.artemis.backends.artemis_backends_gwt'/>
+    <inherits name='im.bci.jnuit.Artemis'/>
     <inherits name='javax.Inject'/>
+
+    <inherits name='com.artemis.backends.artemis_backends_gwt'/>
+    <extend-configuration-property name="artemis.reflect.include" value="org.geekygoblin.nedetlesmaki.core.components" />
+    <extend-configuration-property name="artemis.reflect.include" value="org.geekygoblin.nedetlesmaki.core.systems" />
+    <extend-configuration-property name="artemis.reflect.include" value="org.geekygoblin.nedetlesmaki.core.manager" />
+    <extend-configuration-property name="artemis.reflect.include" value="org.geekygoblin.nedetlesmaki.playn.core.components" />
+    <extend-configuration-property name="artemis.reflect.include" value="org.geekygoblin.nedetlesmaki.playn.core.systems" />
+    <extend-configuration-property name="artemis.reflect.include" value="org.geekygoblin.nedetlesmaki.playn.core.manager" />
+
     <source path='core'/>
 </module>

@@ -40,9 +40,10 @@ import im.bci.jnuit.widgets.Widget;
  * @author devnewton
  */
 public class CutScenesMenu extends Stack {
-    
-     final Container menu;
-    CutScenesMenu(final NuitToolkit toolkit, final Root root, final Widget extrasMenu, final IAssets assets, final CutScenes cutScenes) {
+
+    private final Container menu;
+
+    public CutScenesMenu(final NuitToolkit toolkit, final Root root, final Widget extrasMenu, final IAssets assets, final CutScenes cutScenes) {
         menu = new Container();
         menu.setBackground(new TexturedBackground(assets.getAnimations("background.png").getFirst().start(PlayMode.LOOP)));
         IAnimation buttonBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("1_normal");
@@ -66,7 +67,7 @@ public class CutScenesMenu extends Stack {
         cutscenesButton.setFocusedBackground(new TexturedBackground(buttonFocusedBackgroundAnimation.start(PlayMode.LOOP)));
         cutscenesButton.setFocusCursor(NullFocusCursor.INSTANCE);
         menu.add(cutscenesButton);
-        
+
         final Button creditsButton = new Button(toolkit, "cutscenes.menu.button.credits") {
             @Override
             public void onOK() {
@@ -102,7 +103,7 @@ public class CutScenesMenu extends Stack {
         menu.add(backButton);
         show(menu);
     }
-    
+
     class CutScenesMenuDialog extends NedDialogue {
 
         public CutScenesMenuDialog(NuitToolkit toolkit, IAssets assets) {
@@ -114,7 +115,7 @@ public class CutScenesMenu extends Stack {
             CutScenesMenu.this.remove(this);
             CutScenesMenu.this.show(menu);
         }
-        
+
     }
 
 }

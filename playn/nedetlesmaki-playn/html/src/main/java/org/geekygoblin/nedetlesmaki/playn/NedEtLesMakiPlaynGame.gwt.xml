@@ -5,6 +5,7 @@
 
   <source path='core'/>
   <source path='html'/>
+  <super-source path='emu'/>
 
   <public path="resources" />
 
