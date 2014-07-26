@@ -18,7 +18,7 @@
                 <filtering>false</filtering>
             </resource>
             <resource>
-                <directory>../../../game/data</directory>
+                <directory>../../game/data</directory>
                 <targetPath>assets</targetPath>
                 <filtering>false</filtering>
                 <excludes>

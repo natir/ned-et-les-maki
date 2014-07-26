@@ -23,7 +23,7 @@
         <module>packages/win</module>
         <module>packages/rpm32</module>
         <module>packages/rpm64</module>
-        <module>playn/nedetlesmaki-playn</module>
+        <module>playn</module>
     </modules>
     <build>
         <pluginManagement>
