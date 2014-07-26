@@ -39,8 +39,8 @@ public class InGameButton extends Button {
     }
 
     @Override
-    public void onOK() {
-        activated = true;
+    public void onMouseHover(float mouseX, float mouseY, boolean mouseButtonDown) {
+        activated = mouseButtonDown;
     }
 
     public boolean pollActivation() {
