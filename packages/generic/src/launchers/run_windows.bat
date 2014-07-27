@@ -1,1 +1,1 @@
-java -jar nedetlesmaki-game-${project.version}.jar
+java -jar nedetlesmaki-lwjgl-${project.version}.jar

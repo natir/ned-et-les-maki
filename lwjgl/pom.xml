@@ -29,9 +29,9 @@ THE SOFTWARE. -->
         <version>0.4-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>nedetlesmaki-game</artifactId>
+    <artifactId>nedetlesmaki-lwjgl</artifactId>
     <packaging>jar</packaging>
-    <name>nedetlesmaki-game</name>
+    <name>nedetlesmaki-lwjgl</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

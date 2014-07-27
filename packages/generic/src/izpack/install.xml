@@ -18,7 +18,7 @@
     </locale>
 
     <variables>
-        <variable name="nedetlesmaki_build_final_name" value="nedetlesmaki-game-@{project.version}"/>
+        <variable name="nedetlesmaki_build_final_name" value="nedetlesmaki-lwjgl-@{project.version}"/>
 	<variable name="ShowCreateDirectoryMessage" value="false"/>
     </variables>
 
@@ -50,9 +50,9 @@
             <file src="../../target/run_windows.bat" targetdir="$INSTALL_PATH" >
 		<os family="windows"/>
 	    </file>
-            <file src="../../../../game/data/icon.png" targetdir="$INSTALL_PATH" />
+            <file src="../../../../assets/icon.png" targetdir="$INSTALL_PATH" />
             <fileset dir="../../../../licenses" targetdir="$INSTALL_PATH/licenses" override="true"/>
-	    <fileset dir="../../../../game/data" targetdir="$INSTALL_PATH/data" override="true" />
+	    <fileset dir="../../../../assets" targetdir="$INSTALL_PATH/assets" override="true" />
             <fileset dir="../../target/lib" targetdir="$INSTALL_PATH" override="true" />
             <fileset dir="../../target/natives" targetdir="$INSTALL_PATH/natives" override="true">
 		<include name="*.so"/>
@@ -67,7 +67,7 @@
 		<include name="*.dll"/>
 		<os family="windows"/>
 	    </fileset>
-	    <executable type="bin" stage="never" targetfile="$INSTALL_PATH/nedetlesmaki-game-@{project.version}.jar"/>
+	    <executable type="bin" stage="never" targetfile="$INSTALL_PATH/nedetlesmaki-lwjgl-@{project.version}.jar"/>
 	    <executable type="bin" stage="never" targetfile="$INSTALL_PATH/run_linux.sh">
 		<os family="unix"/>
 	    </executable>

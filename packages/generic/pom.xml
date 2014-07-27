@@ -129,7 +129,7 @@ THE SOFTWARE. -->
     <dependencies>
         <dependency>
             <groupId>org.geekygoblin</groupId>
-            <artifactId>nedetlesmaki-game</artifactId>
+            <artifactId>nedetlesmaki-lwjgl</artifactId>
         </dependency>
     </dependencies>
 </project>

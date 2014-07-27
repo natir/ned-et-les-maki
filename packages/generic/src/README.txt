@@ -1,6 +1,6 @@
 Ned et les maki is a free and open source 2D platform game.
 
-The game can be run by double clicking on the nedetlesmaki-game-${project.version}.jar
+The game can be run by double clicking on the nedetlesmaki-lwjgl-${project.version}.jar
 file or using one of the run_* script.
 
 It will run in fullscreen
@@ -17,6 +17,6 @@ THE GAME WILL ONLY WORK IF:
 If it does not work, you can try to get debug messages by running the game
 like this:
 
-java -jar -Dorg.lwjgl.util.Debug=true nedetlesmaki-game-${project.version}.jar
+java -jar -Dorg.lwjgl.util.Debug=true nedetlesmaki-lwjgl-${project.version}.jar
 
 Go to http://devnewton.bci.im/games for news and updates.

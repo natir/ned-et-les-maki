@@ -16,14 +16,14 @@
     </properties>
     <modules>
         <module>core</module>
-        <module>game</module>
-        <module>game-graph-generator</module>
+        <module>lwjgl</module>
         <module>packages/deb</module>
         <module>packages/generic</module>
         <module>packages/win</module>
         <module>packages/rpm32</module>
         <module>packages/rpm64</module>
         <module>playn</module>
+        <module>tools/game-graph-generator</module>
     </modules>
     <build>
         <pluginManagement>
@@ -114,7 +114,7 @@
             </dependency>
             <dependency>
                 <groupId>org.geekygoblin</groupId>
-                <artifactId>nedetlesmaki-game</artifactId>
+                <artifactId>nedetlesmaki-lwjgl</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

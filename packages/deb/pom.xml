@@ -102,9 +102,9 @@ THE SOFTWARE. -->
                                     <deb>${project.build.directory}/nedetlesmaki_${project.version}.deb</deb>
                                     <dataSet>
                                         <data>
-                                            <src>${project.build.directory}/lib/nedetlesmaki-game-${project.version}.jar</src>
+                                            <src>${project.build.directory}/lib/nedetlesmaki-lwjgl-${project.version}.jar</src>
                                             <type>file</type>
-                                            <dst>nedetlesmaki-game-${project.version}.jar</dst>
+                                            <dst>nedetlesmaki-lwjgl-${project.version}.jar</dst>
                                             <mapper>
                                                 <type>perm</type>
                                                 <prefix>/opt/nedetlesmaki</prefix>
@@ -112,17 +112,17 @@ THE SOFTWARE. -->
                                             </mapper>
                                         </data>
                                         <data>
-                                            <src>${basedir}/../../game/data</src>
+                                            <src>${basedir}/../../assets</src>
                                             <type>directory</type>
                                             <mapper>
                                                 <type>perm</type>
-                                                <prefix>/opt/nedetlesmaki/data</prefix>
+                                                <prefix>/opt/nedetlesmaki/assets</prefix>
                                             </mapper>
                                         </data>
                                         <data>
                                             <src>${basedir}/target/lib</src>
                                             <type>directory</type>
-                                            <excludes>nedetlesmaki-game-${project.version}.jar,jinput*,lwjgl*</excludes>
+                                            <excludes>nedetlesmaki-lwjgl-${project.version}.jar,jinput*,lwjgl*</excludes>
                                             <mapper>
                                                 <type>perm</type>
                                                 <prefix>/opt/nedetlesmaki</prefix>
@@ -192,7 +192,7 @@ THE SOFTWARE. -->
             <dependencies>
                 <dependency>
                     <groupId>org.geekygoblin</groupId>
-                    <artifactId>nedetlesmaki-game</artifactId>
+                    <artifactId>nedetlesmaki-lwjgl</artifactId>
                 </dependency>
             </dependencies>
         </profile>

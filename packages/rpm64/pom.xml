@@ -135,12 +135,12 @@ THE SOFTWARE. -->
                                             </sources>
                                         </mapping>
                                         <mapping>
-                                            <directory>/opt/nedetlesmaki/data</directory>
+                                            <directory>/opt/nedetlesmaki/assets</directory>
                                             <username>root</username>
                                             <groupname>root</groupname>
                                             <sources>
                                                 <source>
-                                                    <location>${basedir}/../../game/data</location>
+                                                    <location>${basedir}/../../assets</location>
                                                 </source>
                                             </sources>
                                         </mapping>
@@ -223,7 +223,7 @@ THE SOFTWARE. -->
             <dependencies>
                 <dependency>
                     <groupId>org.geekygoblin</groupId>
-                    <artifactId>nedetlesmaki-game</artifactId>
+                    <artifactId>nedetlesmaki-lwjgl</artifactId>
                 </dependency>
             </dependencies>
         </profile>

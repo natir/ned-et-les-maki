@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-java -jar /opt/nedetlesmaki/nedetlesmaki-game-${project.version}.jar
+java -jar /opt/nedetlesmaki/nedetlesmaki-lwjgl-${project.version}.jar

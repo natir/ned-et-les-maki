@@ -27,11 +27,11 @@ THE SOFTWARE. -->
         <groupId>org.geekygoblin</groupId>
         <artifactId>nedetlesmaki</artifactId>
         <version>0.4-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
-    <artifactId>nedetlesmaki-game-graph-generator</artifactId>
+    <artifactId>nedetlesmaki-lwjgl-graph-generator</artifactId>
     <packaging>jar</packaging>
-    <name>nedetlesmaki-game-graph-generator</name>
+    <name>nedetlesmaki-lwjgl-graph-generator</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -52,7 +52,7 @@ THE SOFTWARE. -->
     <dependencies>
         <dependency>
             <groupId>org.geekygoblin</groupId>
-            <artifactId>nedetlesmaki-game</artifactId>
+            <artifactId>nedetlesmaki-lwjgl</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.inject.extensions</groupId>

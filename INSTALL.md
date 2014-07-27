@@ -11,7 +11,7 @@ Go to the source folder and run maven with the following command:
 
 	mvn package
 
-This will generate an executable jar in target subfolder named nedetlesmaki-game-${project.version}.jar
+This will generate an executable jar in target subfolder named nedetlesmaki-lwjgl-${project.version}.jar
 
 Install
 =======
@@ -19,8 +19,8 @@ Install
 Manual installation
 -------------------
 
-- Create a directory, for example /opt/nedetlesmaki-game
-- Copy the game/target/nedetlesmaki-game-${project.version}.jar, the game/target/natives, game/target/lib game/data folders into it.
+- Create a directory, for example /opt/nedetlesmaki-lwjgl
+- Copy the game/lwjgl/target/nedetlesmaki-lwjgl-${project.version}.jar, the game/lwjgl/target/natives, game/lwjgl/target/lib and assets folders into it.
 
 Create packages and installers
 ------------------------------
@@ -35,14 +35,14 @@ Run
 
 The game can be run using the following command:
 
-	java -jar nedetlesmaki-game-${project.version}.jar
+	java -jar nedetlesmaki-lwjgl-${project.version}.jar
 
 It will try to load the game data files in
 
-	./data
+	./assets
 
 or
 
-	../data
+	../assets
 
 NB: lwjgl shared libraries must be loadable, check the [lwjgl](www.lwjgl.org) documentation for more information.
