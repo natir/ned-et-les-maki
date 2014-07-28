@@ -2,47 +2,22 @@ Requirements
 ============
 
 Java JDK, [openjdk](http://openjdk.java.net/) or [Oracle](http://java.com): 1.7+
-[Maven](http://www.maven.org) 3+
+[Maven](http://www.maven.org) 3+,
+[bash](https://www.gnu.org/software/bash/) 4+
 
-Compile
-=======
+Build
+=====
 
-Go to the source folder and run maven with the following command:
+Go to the source folder and run the build.sh script using bash:
 
-	mvn package
-
-This will generate an executable jar in target subfolder named nedetlesmaki-lwjgl-${project.version}.jar
+	bash build.sh
 
 Install
 =======
 
-Manual installation
--------------------
+The build.sh script generate installers for various OS in the target/release subfolder. Use them to install the game.
 
-- Create a directory, for example /opt/nedetlesmaki-lwjgl
-- Copy the game/lwjgl/target/nedetlesmaki-lwjgl-${project.version}.jar, the game/lwjgl/target/natives, game/lwjgl/target/lib and assets folders into it.
+Develop, debug, contribute
+==========================
 
-Create packages and installers
-------------------------------
-
-Using maven 3 plugins, rpm and deb can be generated and also a generic [izpack](www.izpack.org) based installer.
-
-	mvn clean package -Pizpack,deb,rpm
-
-Run
-===
-
-
-The game can be run using the following command:
-
-	java -jar nedetlesmaki-lwjgl-${project.version}.jar
-
-It will try to load the game data files in
-
-	./assets
-
-or
-
-	../assets
-
-NB: lwjgl shared libraries must be loadable, check the [lwjgl](www.lwjgl.org) documentation for more information.
+Please contact us
