@@ -17,7 +17,23 @@ Install
 
 The build.sh script generate installers for various OS in the target/release subfolder. Use them to install the game.
 
-Develop, debug, contribute
-==========================
+Run without install 
+===================
 
-Please contact us
+Go to the source folder and run the play.sh script using bash:
+
+        bash play.sh
+
+Develop, debug
+==============
+
+Ned et les maki is maven based project, open it with Netbeans or Eclipse.
+
+Contribute
+==========
+
+Please contact us:
+
+- by mail: please.reply @ geekygoblin.org
+- using IRC: #GGP on freenode.net.
+

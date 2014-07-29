@@ -266,6 +266,9 @@
             </activation>
         </profile>
         <profile>
+            <id>play</id>
+        </profile>
+        <profile>
             <id>android</id>
         </profile>
         <profile>
