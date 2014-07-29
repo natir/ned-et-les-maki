@@ -51,10 +51,12 @@ public class NormalLauncher {
 
         try {
             File nativeDir = new File(getApplicationDir(), "natives");
+            logger.log(Level.INFO, "Computed 'natives' folder: {0}", nativeDir);
             if (nativeDir.exists() && nativeDir.isDirectory() && nativeDir.list().length > 0) {
                 String nativePath = nativeDir.getCanonicalPath();
                 System.setProperty("org.lwjgl.librarypath", nativePath);
                 System.setProperty("net.java.games.input.librarypath", nativePath);
+                return;
             }
         } catch (IOException e) {
             logger.log(Level.WARNING, "error", e);
