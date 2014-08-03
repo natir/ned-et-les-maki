@@ -129,37 +129,29 @@ public class UpdateLevelVisualSystem extends VoidEntitySystem {
             updatable.waitDuring(waitBefore)
                     .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.ned_right) {
-            updatable.startAnimation(nedAnim.getAnimationByName("walk_right"))
-                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+            updatable.startAnimation(nedAnim.getAnimationByName("walk_right"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.ned_left) {
-            updatable.startAnimation(nedAnim.getAnimationByName("walk_left"))
-                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+            updatable.startAnimation(nedAnim.getAnimationByName("walk_left"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.ned_down) {
-            updatable.startAnimation(nedAnim.getAnimationByName("walk_down"))
-                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+            updatable.startAnimation(nedAnim.getAnimationByName("walk_down"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.ned_up) {
-            updatable.startAnimation(nedAnim.getAnimationByName("walk_up"))
-                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+            updatable.startAnimation(nedAnim.getAnimationByName("walk_up"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.ned_push_right) {
-            updatable.startAnimation(nedAnim.getAnimationByName("push_right"))
-                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+            updatable.startAnimation(nedAnim.getAnimationByName("push_right"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.ned_push_left) {
-            updatable.startAnimation(nedAnim.getAnimationByName("push_left"))
-                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+            updatable.startAnimation(nedAnim.getAnimationByName("push_left"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.ned_push_down) {
-            updatable.startAnimation(nedAnim.getAnimationByName("push_down"))
-                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+            updatable.startAnimation(nedAnim.getAnimationByName("push_down"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.ned_push_up) {
-            updatable.startAnimation(nedAnim.getAnimationByName("push_up"))
-                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime)
-                    .stopAnimation();
+            updatable.startAnimation(nedAnim.getAnimationByName("push_up"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), animationTime);
         } else if (a == AnimationType.ned_waits_boost_up) {
             updatable.startAnimation(nedAnim.getAnimationByName("ned_waits_boost_start_up"), PlayMode.ONCE)
                     .waitAnimation()
