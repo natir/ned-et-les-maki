@@ -29,9 +29,9 @@ THE SOFTWARE. -->
         <version>0.4-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
-    <artifactId>nedetlesmaki-rpm64</artifactId>
+    <artifactId>nedetlesmaki-rpm</artifactId>
     <packaging>pom</packaging>
-    <name>nedetlesmaki-rpm64</name>
+    <name>nedetlesmaki-rpm</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -119,10 +119,13 @@ THE SOFTWARE. -->
                                     <group>Application/Games</group>
                                     <name>nedetlesmaki</name>
                                     <packager>devnewton</packager>
-                                    <needarch>x86_64</needarch>
+                                    <needarch>noarch</needarch>
                                     <requires>
                                         <require>java &gt; 1-1.7.0 </require>
                                     </requires>
+                                    <defineStatements>
+                                    	<defineStatement>_binaries_in_noarch_packages_terminate_build 0</defineStatement>
+                                    </defineStatements>
                                     <mappings>
                                         <mapping>
                                             <directory>/opt/nedetlesmaki</directory>
@@ -161,9 +164,9 @@ THE SOFTWARE. -->
                                             <sources>
                                                 <source>
                                                     <location>${basedir}/target/natives</location>
-                                                    <targetArchitecture>x86_64</targetArchitecture>
+                                                    <targetArchitecture>noarch</targetArchitecture>
                                                     <includes>
-                                                        <include>*64.so*</include>
+                                                        <include>*.so</include>
                                                     </includes>
                                                 </source>
                                             </sources>

@@ -20,8 +20,7 @@
         <module>packages/deb</module>
         <module>packages/generic</module>
         <module>packages/win</module>
-        <module>packages/rpm32</module>
-        <module>packages/rpm64</module>
+        <module>packages/rpm</module>
         <module>playn</module>
         <module>tools/game-graph-generator</module>
     </modules>

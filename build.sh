@@ -4,5 +4,4 @@ mkdir -p target/release
 cp packages/generic/target/nedetlesmaki-installer*.jar target/release/
 cp packages/win/target/nedetlesmaki-installer*.exe target/release/
 cp packages/deb/target/nedetlesmaki*.deb target/release/
-cp packages/rpm32/target/rpm/nedetlesmaki/RPMS/*/nedetlesmaki-*.rpm target/release/
-cp packages/rpm64/target/rpm/nedetlesmaki/RPMS/*/nedetlesmaki-*.rpm target/release/
+cp packages/rpm/target/rpm/nedetlesmaki/RPMS/*/nedetlesmaki-*.rpm target/release/
