@@ -67,37 +67,5 @@ public class CutScenes {
         dialog.addTirade(animations.getAnimationByName("08").start(PlayMode.LOOP), "dialog.intro.08");
         dialog.addTirade(animations.getAnimationByName("09").start(PlayMode.LOOP), "dialog.intro.09");
         dialog.addTirade(animations.getAnimationByName("10").start(PlayMode.LOOP), "dialog.intro.10");
-        /*Entity intro = game.createEntity();
-         intro.addComponent(dialog);
-         intro.addComponent(new ZOrder(ZOrders.DIALOG));
-         intro.addComponent(new TriggerableWhenRemoved(afterIntroTrigger).add(new Trigger() {
-
-         @Override
-         public void process(Game game) {
-
-         assets.forceAnimationUnload("intro.json");
-         }
-         }));
-         game.addEntity(intro);
-         game.addEntity(game.createEntity().addComponent(new Triggerable(new ShowCutScenesTrigger(intro))));*/
     }
-
-    /* class ShowCutScenesTrigger extends Trigger {
-
-     private final Entity cutscene;
-
-     private ShowCutScenesTrigger(Entity cutscene) {
-     this.cutscene = cutscene;
-     }
-
-     @Override
-     public void process(Game game) {
-     mainMenu.getComponent(MainMenu.class).show();
-     mainMenu.disable();
-     ingameControls.disable();
-     cutscene.enable();
-     cutscene.getComponent(DialogComponent.class).rewind();
-     }
-
-     }*/
 }

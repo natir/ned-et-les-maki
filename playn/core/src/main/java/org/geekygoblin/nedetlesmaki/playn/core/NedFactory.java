@@ -107,7 +107,7 @@ public class NedFactory {
                 return new PlaynStartGameTrigger(assets, mainMenu, inGameUI, ingameControls, indexedManager, moveStory, random);
             }
         };
-        
+
         assets = new PlaynAssets();
         indexedManager = new EntityIndexManager();
         moveStory = new MoveStory();
@@ -119,7 +119,7 @@ public class NedFactory {
         PlaynSpriteSystem drawSystem = new PlaynSpriteSystem(controls);
         PlaynMainMenuSystem mainMenuSystem = new PlaynMainMenuSystem(renderer);
         PlaynInGameUISystem inGameUISystem = new PlaynInGameUISystem(renderer);
-        NedGame game = new PlaynGame(toolkit, ingameInputSystem, updateLevelVisualSystem, indexedManager, assets, drawSystem, mainMenuSystem,inGameUISystem);
+        NedGame game = new PlaynGame(toolkit, ingameInputSystem, updateLevelVisualSystem, indexedManager, assets, drawSystem, mainMenuSystem, inGameUISystem);
 
         mainLoop = new PlaynMainLoop(game);
         LevelSelector levelSelector = new LevelSelector(game, toolkit, assets, startGameTrigger, showMenuTrigger);
@@ -132,6 +132,9 @@ public class NedFactory {
         };
         CutScenes cutscenes = new CutScenes(assets);
         NuitPreferences preferences = new PlaynNuitPreferences(controls, "nedetlesmaki");
+
+        //TODO à retirer quand on aura fixer l'issue #132 Poids des images
+        preferences.putBoolean("cutscenes.intro.seen", true);
 
         ingameControls = game.createEntity();
         IngameControls ingameControlsComponent = new IngameControls(defaultControls);
