@@ -22,7 +22,6 @@
  THE SOFTWARE.
  */
 
-
 package org.geekygoblin.nedetlesmaki.core.events;
 
 /**

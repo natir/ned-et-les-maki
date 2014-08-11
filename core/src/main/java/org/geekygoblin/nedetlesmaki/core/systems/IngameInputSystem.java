@@ -60,7 +60,6 @@ public class IngameInputSystem extends EntityProcessingSystem {
 
     private final Provider<ShowMenuTrigger> showMenuTrigger;
     private final Provider<IStartGameTrigger> startGameTrigger;
-    private final GameSystem gameSystem;
     private final ActionActivatedDetector mouseClick;
     private final MoveStory moveStory;
 
@@ -68,10 +67,9 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private final InGameUI inGameUI;
 
     @Inject
-    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, Provider<IStartGameTrigger> startGameTrigger, EntityIndexManager indexSystem, MoveStory moveStory, GameSystem gameSystem, IDefaultControls defaultControls, InGameUI inGameUI) {
+    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, Provider<IStartGameTrigger> startGameTrigger, EntityIndexManager indexSystem, MoveStory moveStory, IDefaultControls defaultControls, InGameUI inGameUI) {
         super(Aspect.getAspectForAll(IngameControls.class));
         this.showMenuTrigger = showMenuTrigger;
-        this.gameSystem = gameSystem;
         this.moveStory = moveStory;
         this.mouseClick = new ActionActivatedDetector(new Action("click", defaultControls.getMouseClickControls()));
         this.inGameUI = inGameUI;
@@ -96,7 +94,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
             if (canMoveNed()) {
                 Entity ned = game.getNed();
                 if (controls.getRewind().isPressed() || inGameUI.getRewind().pollActivation()) {
-                    gameSystem.removeMouv();
+                    
                     ned.changedInWorld();
                 } else if (inGameUI.getReset().pollActivation()) {
                     game.addEntity(world.createEntity().addComponent(new Triggerable(startGameTrigger.get().withLevelName(game.getCurrentLevel()))));
@@ -138,16 +136,12 @@ public class IngameInputSystem extends EntityProcessingSystem {
                         }
                     }
                     if (upPressed) {
-                        moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(0, -1), 0, false));
                         ned.changedInWorld();
                     } else if (downPressed) {
-                        moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(0, 1), 0, false));
                         ned.changedInWorld();
                     } else if (leftPressed) {
-                        moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(-1, 0), 0, false));
                         ned.changedInWorld();
                     } else if (rightPressed) {
-                        moveStory.addMouvement(gameSystem.moveEntity(ned, new Position(1, 0), 0, false));
                         ned.changedInWorld();
                     }
                 }

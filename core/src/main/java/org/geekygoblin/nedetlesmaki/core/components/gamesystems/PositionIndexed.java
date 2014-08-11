@@ -5,6 +5,7 @@
  */
 package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
+import org.geekygoblin.nedetlesmaki.core.utils.Square;
 import com.artemis.Entity;
 
 import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;

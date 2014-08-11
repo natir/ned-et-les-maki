@@ -40,7 +40,6 @@ import org.geekygoblin.nedetlesmaki.game.systems.MainMenuSystem;
 import im.bci.jnuit.artemis.sprite.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.MouseArrowSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.SpritePuppetControlSystem;
-import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.InGameUISystem;
 
 /**
@@ -53,10 +52,9 @@ public class LwjglGame extends NedGame {
     private Entity ned;
 
     @Inject
-    public LwjglGame(NuitToolkit toolkit, DrawSystem drawSystem, IngameInputSystem ingameInputSystem, UpdateLevelVisualSystem updateLevelVisualSystem, EntityIndexManager indexedManager, IAssets assets) {
+    public LwjglGame(NuitToolkit toolkit, DrawSystem drawSystem, IngameInputSystem ingameInputSystem, EntityIndexManager indexedManager, IAssets assets) {
         setManager(indexedManager);
         setSystem(ingameInputSystem);
-        setSystem(updateLevelVisualSystem);
         setSystem(new SpriteAnimateSystem());
         setSystem(new SpritePuppetControlSystem());
         setSystem(new MouseArrowSystem(this, assets, drawSystem));

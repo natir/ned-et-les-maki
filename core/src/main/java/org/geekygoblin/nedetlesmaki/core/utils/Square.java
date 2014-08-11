@@ -19,11 +19,11 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
-import com.artemis.Component;
+package org.geekygoblin.nedetlesmaki.core.utils;
+
 import com.artemis.Entity;
 
-public class Square extends Component {
+public class Square{
 
     private Entity plate;
     private Entity entity;

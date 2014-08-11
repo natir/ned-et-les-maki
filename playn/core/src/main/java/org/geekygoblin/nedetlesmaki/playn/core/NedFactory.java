@@ -51,9 +51,7 @@ import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
-import org.geekygoblin.nedetlesmaki.core.systems.GameSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
-import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
 import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
 import org.geekygoblin.nedetlesmaki.playn.core.events.PlaynStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynInGameUISystem;
@@ -111,15 +109,13 @@ public class NedFactory {
         assets = new PlaynAssets();
         indexedManager = new EntityIndexManager();
         moveStory = new MoveStory();
-        GameSystem gameSystem = new GameSystem(indexedManager, moveStory);
         IDefaultControls defaultControls = new PlaynDefaultControls(controls, touch);
         InGameUI inGameUIComponent = new InGameUI(toolkit, assets);
-        IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, startGameTrigger, indexedManager, moveStory, gameSystem, defaultControls, inGameUIComponent);
-        UpdateLevelVisualSystem updateLevelVisualSystem = new UpdateLevelVisualSystem(assets, indexedManager, moveStory, gameSystem, showLevelMenuTrigger);
+        IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, startGameTrigger, indexedManager, moveStory, defaultControls, inGameUIComponent);
         PlaynSpriteSystem drawSystem = new PlaynSpriteSystem(controls);
         PlaynMainMenuSystem mainMenuSystem = new PlaynMainMenuSystem(renderer);
         PlaynInGameUISystem inGameUISystem = new PlaynInGameUISystem(renderer);
-        NedGame game = new PlaynGame(toolkit, ingameInputSystem, updateLevelVisualSystem, indexedManager, assets, drawSystem, mainMenuSystem,inGameUISystem);
+        NedGame game = new PlaynGame(toolkit, ingameInputSystem, indexedManager, assets, drawSystem, mainMenuSystem,inGameUISystem);
 
         mainLoop = new PlaynMainLoop(game);
         LevelSelector levelSelector = new LevelSelector(game, toolkit, assets, startGameTrigger, showMenuTrigger);
