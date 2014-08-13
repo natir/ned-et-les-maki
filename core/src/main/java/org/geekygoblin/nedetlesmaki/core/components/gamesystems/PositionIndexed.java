@@ -8,7 +8,7 @@ package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 import org.geekygoblin.nedetlesmaki.core.utils.Square;
 import com.artemis.Entity;
 
-import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
 
 /**
  *
@@ -16,9 +16,9 @@ import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
  */
 public class PositionIndexed extends Position {
 
-    private final EntityIndexManager index;
+    private final LevelIndex index;
 
-    public PositionIndexed(int x, int y, EntityIndexManager index) {
+    public PositionIndexed(int x, int y, LevelIndex index) {
         super(x, y);
         this.index = index;
     }

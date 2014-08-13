@@ -50,7 +50,7 @@ import org.geekygoblin.nedetlesmaki.core.events.HideMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
-import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
 import org.geekygoblin.nedetlesmaki.playn.core.events.PlaynStartGameTrigger;
@@ -69,7 +69,7 @@ public class NedFactory {
     private Entity mainMenu;
     private final Entity ingameControls;
     private final PlaynAssets assets;
-    private final EntityIndexManager indexedManager;
+    private final LevelIndex indexedManager;
     private final MoveStory moveStory;
     private final Random random;
     private final Entity inGameUI;
@@ -107,7 +107,7 @@ public class NedFactory {
         };
         
         assets = new PlaynAssets();
-        indexedManager = new EntityIndexManager();
+        indexedManager = new LevelIndex();
         moveStory = new MoveStory();
         IDefaultControls defaultControls = new PlaynDefaultControls(controls, touch);
         InGameUI inGameUIComponent = new InGameUI(toolkit, assets);
@@ -115,7 +115,7 @@ public class NedFactory {
         PlaynSpriteSystem drawSystem = new PlaynSpriteSystem(controls);
         PlaynMainMenuSystem mainMenuSystem = new PlaynMainMenuSystem(renderer);
         PlaynInGameUISystem inGameUISystem = new PlaynInGameUISystem(renderer);
-        NedGame game = new PlaynGame(toolkit, ingameInputSystem, indexedManager, assets, drawSystem, mainMenuSystem,inGameUISystem);
+        NedGame game = new PlaynGame(toolkit, ingameInputSystem, assets, drawSystem, mainMenuSystem,inGameUISystem);
 
         mainLoop = new PlaynMainLoop(game);
         LevelSelector levelSelector = new LevelSelector(game, toolkit, assets, startGameTrigger, showMenuTrigger);

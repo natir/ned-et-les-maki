@@ -33,7 +33,7 @@ import im.bci.jnuit.artemis.sprite.IsometricSpriteProjector;
 import im.bci.jnuit.lwjgl.assets.TmxAsset;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
-import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
 import org.geekygoblin.nedetlesmaki.game.LwjglAssets;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
@@ -47,7 +47,7 @@ public class StartGameTrigger extends AbstractStartGameTrigger {
     private TmxAsset tmx;
 
     @Inject
-    public StartGameTrigger(LwjglAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.InGameUI Entity inGameUI, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, MoveStory moveStory, Random random) {
+    public StartGameTrigger(LwjglAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.InGameUI Entity inGameUI, @NamedEntities.IngameControls Entity ingameControls, LevelIndex indexSystem, MoveStory moveStory, Random random) {
         super(assets, mainMenu, inGameUI, ingameControls, indexSystem, random, moveStory);
     }
 

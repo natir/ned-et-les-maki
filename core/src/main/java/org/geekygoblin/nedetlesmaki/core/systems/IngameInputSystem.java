@@ -42,7 +42,7 @@ import org.geekygoblin.nedetlesmaki.core.IDefaultControls;
 import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
-import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
 import org.geekygoblin.nedetlesmaki.core.components.ui.InGameUI;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
@@ -67,7 +67,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private final InGameUI inGameUI;
 
     @Inject
-    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, Provider<IStartGameTrigger> startGameTrigger, EntityIndexManager indexSystem, MoveStory moveStory, IDefaultControls defaultControls, InGameUI inGameUI) {
+    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, Provider<IStartGameTrigger> startGameTrigger, LevelIndex indexSystem, MoveStory moveStory, IDefaultControls defaultControls, InGameUI inGameUI) {
         super(Aspect.getAspectForAll(IngameControls.class));
         this.showMenuTrigger = showMenuTrigger;
         this.moveStory = moveStory;

@@ -44,7 +44,7 @@ import org.geekygoblin.nedetlesmaki.core.components.gamesystems.PositionIndexed;
 import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.core.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
-import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
 import org.geekygoblin.nedetlesmaki.core.utils.Square;
 import pythagoras.f.Vector3;
@@ -59,7 +59,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
     protected final Entity mainMenu;
     protected final Entity inGameUI;
     protected final Entity ingameControls;
-    protected final EntityIndexManager indexSystem;
+    protected final LevelIndex index;
     protected final MoveStory moveStory;
     protected String levelName;
     protected final Random random;
@@ -77,7 +77,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
         for (Entity e : game.getManager(GroupManager.class).getEntities(Group.LEVEL)) {
             entitiesToDelete.add(e);
         }
-        this.indexSystem.cleanIndex();
+
         this.moveStory.cleanStack();
         for (Entity e : entitiesToDelete) {
             e.deleteFromWorld();
@@ -98,6 +98,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
         final List<TmxLayer> layers = map.getLayers();
         for (int l = 0, n = layers.size(); l < n; ++l) {
             TmxLayer layer = map.getLayers().get(l);
+            this.index.initialize(layer.getHeight(), layer.getWidth());
             for (int y = 0, lh = layer.getHeight(); y < lh; ++y) {
                 for (int x = 0, lw = layer.getWidth(); x < lw; ++x) {
                     final TmxTileInstance tile = layer.getTileAt(x, y);
@@ -127,12 +128,12 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
         END
     }
 
-    protected AbstractStartGameTrigger(IAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.InGameUI Entity inGameUI, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, Random random, MoveStory moveStory) {
+    protected AbstractStartGameTrigger(IAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.InGameUI Entity inGameUI, @NamedEntities.IngameControls Entity ingameControls, LevelIndex indexSystem, Random random, MoveStory moveStory) {
         this.assets = assets;
         this.mainMenu = mainMenu;
         this.inGameUI = inGameUI;
         this.ingameControls = ingameControls;
-        this.indexSystem = indexSystem;
+        this.index = indexSystem;
         this.random = random;
         this.moveStory = moveStory;
     }
@@ -259,47 +260,47 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createNed(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity ned = game.createEntity();
-        ned.addComponent(new PositionIndexed(x, y, indexSystem));
+        ned.addComponent(new PositionIndexed(x, y, index));
         game.setNed(ned);
         createSprite(x, y, l, tile, ApparitionEffect.NONE, ned);
         game.addEntity(ned);
-        indexSystem.added(ned);
+        index.added(ned, new Position(x, y));
         return ned;
     }
 
     protected Entity createGreenMaki(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        maki.addComponent(new PositionIndexed(x, y, indexSystem));
+        maki.addComponent(new PositionIndexed(x, y, index));
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
-        indexSystem.added(maki);
+        index.added(maki, new Position(x, y));
         return maki;
     }
 
     protected Entity createOrangeMaki(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        maki.addComponent(new PositionIndexed(x, y, indexSystem));
+        maki.addComponent(new PositionIndexed(x, y, index));
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
-        indexSystem.added(maki);
+        index.added(maki, new Position(x, y));
         return maki;
     }
 
     protected Entity createBlueMaki(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        maki.addComponent(new PositionIndexed(x, y, indexSystem));
+        maki.addComponent(new PositionIndexed(x, y, index));
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
-        indexSystem.added(maki);
+        index.added(maki, new Position(x, y));
         return maki;
     }
 
     protected Entity createGreenMakiOnPlate(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        maki.addComponent(new PositionIndexed(x, y, indexSystem));
+        maki.addComponent(new PositionIndexed(x, y, index));
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
-        indexSystem.added(maki);
+        index.added(maki, new Position(x, y));
         Entity plate = createPlate(tile, game, x, y, l, layer, ColorType.green, true);
         if (plate != null) {
             game.getManager(GroupManager.class).add(plate, Group.LEVEL);
@@ -309,10 +310,10 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createOrangeMakiOnPlate(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        maki.addComponent(new PositionIndexed(x, y, indexSystem));
+        maki.addComponent(new PositionIndexed(x, y, index));
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
-        indexSystem.added(maki);
+        index.added(maki, new Position(x, y));
         Entity plate = createPlate(tile, game, x, y, l, layer, ColorType.orange, true);
         if (plate != null) {
             game.getManager(GroupManager.class).add(plate, Group.LEVEL);
@@ -322,10 +323,10 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createBlueMakiOnPlate(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        maki.addComponent(new PositionIndexed(x, y, indexSystem));
+        maki.addComponent(new PositionIndexed(x, y, index));
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
-        indexSystem.added(maki);
+        index.added(maki, new Position(x, y));
         Entity plate = createPlate(tile, game, x, y, l, layer, ColorType.blue, true);
         if (plate != null) {
             game.getManager(GroupManager.class).add(plate, Group.LEVEL);
@@ -335,33 +336,33 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createBox(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity box = game.createEntity();
-        box.addComponent(new PositionIndexed(x, y, indexSystem));
+        box.addComponent(new PositionIndexed(x, y, index));
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, box);
         game.addEntity(box);
-        indexSystem.added(box);
+        index.added(box, new Position(x, y));
         return box;
     }
 
     protected Entity createRootedBox(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity box = game.createEntity();
-        box.addComponent(new PositionIndexed(x, y, indexSystem));
+        box.addComponent(new PositionIndexed(x, y, index));
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, box);
         game.addEntity(box);
-        indexSystem.added(box);
+        index.added(box, new Position(x, y));
         return box;
     }
 
     protected Entity createWall(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity wall = game.createEntity();
-        wall.addComponent(new PositionIndexed(x, y, indexSystem));
+        wall.addComponent(new PositionIndexed(x, y, index));
         createSprite(x, y, l, tile, ApparitionEffect.FROM_BELOW, wall);
         game.addEntity(wall);
-        indexSystem.added(wall);
+        index.added(wall, new Position(x, y));
         return wall;
     }
 
     protected Entity createPlate(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer, ColorType color, boolean maki) {
-        Square s = this.indexSystem.getSquare(x, y);
+        Square s = this.index.getSquare(x, y);
         if (s != null) {
             Entity plate = s.getPlate();
             if (plate != null) {
@@ -372,7 +373,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
         Entity plate = game.createEntity();
         plate.addComponent(new Position(x, y));
-        indexSystem.addPlate(plate);
+        index.addPlate(plate, new Position(x, y));
         game.addEntity(plate);
         game.getManager(GroupManager.class).add(plate, Group.PLATE);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, plate);
@@ -381,10 +382,10 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createStairs(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer, int dir) {
         Entity stairs = game.createEntity();
-        stairs.addComponent(new PositionIndexed(x, y, indexSystem));
+        stairs.addComponent(new PositionIndexed(x, y, index));
         createSprite(x, y, l, tile, ApparitionEffect.NONE, stairs);
         game.addEntity(stairs);
-        indexSystem.added(stairs);
+        index.added(stairs, new Position(x, y));
         game.getManager(GroupManager.class).add(stairs, Group.STAIRS);
         return stairs;
     }

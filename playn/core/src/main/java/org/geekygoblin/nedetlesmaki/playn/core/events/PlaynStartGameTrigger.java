@@ -46,7 +46,7 @@ import org.geekygoblin.nedetlesmaki.core.AbstractStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
-import org.geekygoblin.nedetlesmaki.core.manager.EntityIndexManager;
+import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
 import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynSpriteSystem;
 import playn.core.Image;
@@ -62,7 +62,7 @@ public class PlaynStartGameTrigger extends AbstractStartGameTrigger {
     private static final Logger LOGGER = Logger.getLogger(PlaynStartGameTrigger.class.getName());
     private final HashMap<TmxTileInstance, IAnimationCollection> tileAnimations = new HashMap<TmxTileInstance, IAnimationCollection>();
 
-   public PlaynStartGameTrigger(IAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.InGameUI Entity inGameUI, @NamedEntities.IngameControls Entity ingameControls, EntityIndexManager indexSystem, MoveStory moveStory, Random random) {
+   public PlaynStartGameTrigger(IAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.InGameUI Entity inGameUI, @NamedEntities.IngameControls Entity ingameControls, LevelIndex indexSystem, MoveStory moveStory, Random random) {
         super(assets, mainMenu, inGameUI, ingameControls, indexSystem, random, moveStory);
     }
 
