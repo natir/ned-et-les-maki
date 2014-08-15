@@ -14,5 +14,5 @@ Bug report
 
 For bug report, you can login in http://dev.geekygoblin.org with username : anonymous and password : anonymous
 
-[![build status](http://gitlabci.pierre.marijon.fr/projects/5/status.png?ref=master)](http://gitlabci.pierre.marijon.fr/projects/5?ref=master)
+[![build status](http://strider.pierre.marijon.fr/ned-et-les-maki/ned-et-les-maki/badge)](http://strider.pierre.marijon.fr/ned-et-les-maki/ned-et-les-maki/badge)
 
