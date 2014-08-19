@@ -27,7 +27,7 @@ import com.artemis.Component;
  *
  * @author natir
  */
-public class Position extends Component {
+public class Position {
     
     protected int x, y;
 
