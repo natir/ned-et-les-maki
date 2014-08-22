@@ -22,11 +22,12 @@
 package org.geekygoblin.nedetlesmaki.core.backend;
 
 import com.artemis.Entity;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
 
 public class Square{
 
     private Entity plate;
-    private Entity entity;
+    private GameObject entity;
 
     public Square() {
         this.plate = null;
@@ -41,11 +42,11 @@ public class Square{
         this.plate = plate;
     }
 
-    public Entity getEntity() {
+    public GameObject getGameObject() {
         return entity;
     }
 
-    public void setEntity(Entity entity) {
+    public void setGameObject(GameObject entity) {
         this.entity = entity;
     }
 }

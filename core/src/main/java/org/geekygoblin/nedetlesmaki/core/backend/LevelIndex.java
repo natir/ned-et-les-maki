@@ -28,6 +28,7 @@ import com.artemis.Entity;
 
 import org.geekygoblin.nedetlesmaki.core.backend.Square;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
 
 /**
  *
@@ -54,42 +55,32 @@ public class LevelIndex {
         this.index = new Square[this.height][this.width];
     }
 
-    public void added(Entity e, Position p) {
+    public void added(GameObject e, Position p) {
         if (p != null) {
             if (this.index[p.getX()][p.getY()] == null) {
                 this.index[p.getX()][p.getY()] = new Square();
             }
 
-            this.index[p.getX()][p.getY()].setEntity(e);
+            this.index[p.getX()][p.getY()].setGameObject(e);
         }
     }
 
-    public void deleted(Entity e, Position p) {
+    public void deleted(Position p) {
         if (p != null) {
             Square s = this.index[p.getX()][p.getY()];
             if (s != null) {
-                s.setEntity(null);
+                s.setGameObject(null);
             }
         }
     }
 
-    public void disabled(Entity e, Position p) {
-        if (p != null) {
-            Square s = this.index[p.getX()][p.getY()];
-            if (s != null) {
-                s.setEntity(null);
-            }
-        }
-    }
-
-    public void enabled(Entity e, Position p) {
+    public void enabled(GameObject e, Position p) {
         if (p != null) {
             if (this.index[p.getX()][p.getY()] == null) {
                 this.index[p.getX()][p.getY()] = new Square();
             }
 
-            e.enable();
-            this.index[p.getX()][p.getY()].setEntity(e);
+            this.index[p.getX()][p.getY()].setGameObject(e);
         }
     }
 
@@ -103,15 +94,19 @@ public class LevelIndex {
         }
     }
 
-    public Entity getEntity(int x, int y) {
+    public GameObject getGameObject(int x, int y) {
 
         Square test = this.getSquare(x, y);
 
         if (test != null) {
-            return test.getEntity();
+            return test.getGameObject();
         } else {
             return null;
         }
+    }
+
+    public GameObject getGameObject(Position pos) {
+        return this.getGameObject(pos.getX(), pos.getY());
     }
 
     public Square getSquare(int x, int y) {
@@ -129,6 +124,10 @@ public class LevelIndex {
         }
     }
 
+    public Square getSquare(Position pos) {
+        return this.getSquare(pos.getX(), pos.getY());
+    }
+
     public void setSquare(int x, int y, Square s) {
         index[x][y] = s;
     }
@@ -137,7 +136,7 @@ public class LevelIndex {
         Square s = this.getSquare(p.getX(), p.getY());
 
         if (s != null) {
-            return s.getEntity() == null;
+            return s.getGameObject() == null;
         }
 
         return true;

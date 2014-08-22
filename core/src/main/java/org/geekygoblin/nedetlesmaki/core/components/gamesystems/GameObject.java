@@ -40,4 +40,20 @@ public class GameObject extends Component {
         this.type = type;
         this.pos = pos;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public PositionIndexed getPos() {
+        return pos;
+    }
+
+    public void setPos(PositionIndexed pos) {
+        this.pos = pos;
+    }
 }

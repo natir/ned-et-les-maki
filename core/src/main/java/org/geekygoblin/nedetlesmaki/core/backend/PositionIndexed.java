@@ -25,6 +25,7 @@ package org.geekygoblin.nedetlesmaki.core.backend;
 import com.artemis.Entity;
 
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
         
  public class PositionIndexed extends Position {
 
@@ -50,14 +51,18 @@ import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
         
         if(s == null) { return;}
         
-        Entity tmp = s.getEntity();
-        this.index.getSquare(this.x, this.y).setEntity(null);
+        GameObject tmp = s.getGameObject();
+        this.index.getSquare(this.x, this.y).setGameObject(null);
         super.setX(x);
         super.setY(y);
         if(this.index.getSquare(x, y) == null)
         {
             this.index.setSquare(x, y, new Square());
         }
-        this.index.getSquare(this.x, this.y).setEntity(tmp);
+        this.index.getSquare(this.x, this.y).setGameObject(tmp);
     }
-}
+
+     public void setPosition(Position pos) {
+         this.setPosition(pos.getX(), pos.getY());
+    }
+ }
