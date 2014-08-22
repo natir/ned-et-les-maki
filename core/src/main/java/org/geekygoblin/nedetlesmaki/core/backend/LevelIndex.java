@@ -40,13 +40,10 @@ public class LevelIndex {
     private Square[][] index;
     private int height, width;
 
+    @Inject
     public LevelIndex() {
         this.height = -1;
         this.width = -1;
-    }
-
-    public LevelIndex(int height, int width) {
-        this.initialize(height, width);
     }
 
     public void initialize(int height, int width) {

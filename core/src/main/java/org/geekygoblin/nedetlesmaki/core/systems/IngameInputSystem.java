@@ -40,14 +40,15 @@ import im.bci.jnuit.controls.ActionActivatedDetector;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.IDefaultControls;
 import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
 import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
-import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.components.ui.InGameUI;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.backend.MoveStory;
+import org.geekygoblin.nedetlesmaki.core.backend.Backend;
 
 import pythagoras.f.Vector3;
 
@@ -62,15 +63,17 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private final Provider<IStartGameTrigger> startGameTrigger;
     private final ActionActivatedDetector mouseClick;
     private final MoveStory moveStory;
+    private final Backend backend;
 
     private ComponentMapper<Sprite> spriteMapper;
     private final InGameUI inGameUI;
 
     @Inject
-    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, Provider<IStartGameTrigger> startGameTrigger, LevelIndex indexSystem, MoveStory moveStory, IDefaultControls defaultControls, InGameUI inGameUI) {
+    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, Provider<IStartGameTrigger> startGameTrigger, MoveStory moveStory, Backend backend, IDefaultControls defaultControls, InGameUI inGameUI) {
         super(Aspect.getAspectForAll(IngameControls.class));
         this.showMenuTrigger = showMenuTrigger;
         this.moveStory = moveStory;
+        this.backend = backend;
         this.mouseClick = new ActionActivatedDetector(new Action("click", defaultControls.getMouseClickControls()));
         this.inGameUI = inGameUI;
         this.startGameTrigger = startGameTrigger;
@@ -94,7 +97,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
             if (canMoveNed()) {
                 Entity ned = game.getNed();
                 if (controls.getRewind().isPressed() || inGameUI.getRewind().pollActivation()) {
-                    
+
                     ned.changedInWorld();
                 } else if (inGameUI.getReset().pollActivation()) {
                     game.addEntity(world.createEntity().addComponent(new Triggerable(startGameTrigger.get().withLevelName(game.getCurrentLevel()))));
@@ -136,13 +139,16 @@ public class IngameInputSystem extends EntityProcessingSystem {
                         }
                     }
                     if (upPressed) {
-                        
+                        this.backend.moveGameObject(ned.getComponent(GameObject.class), new Position(1, 0));
                         ned.changedInWorld();
                     } else if (downPressed) {
+                        this.backend.moveGameObject(ned.getComponent(GameObject.class), new Position(-1, 0));
                         ned.changedInWorld();
                     } else if (leftPressed) {
+                        this.backend.moveGameObject(ned.getComponent(GameObject.class), new Position(0, 1));
                         ned.changedInWorld();
                     } else if (rightPressed) {
+                        this.backend.moveGameObject(ned.getComponent(GameObject.class), new Position(0, 1));
                         ned.changedInWorld();
                     }
                 }

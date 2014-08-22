@@ -53,6 +53,7 @@ import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
 import org.geekygoblin.nedetlesmaki.core.backend.MoveStory;
+import org.geekygoblin.nedetlesmaki.core.backend.Backend;
 import org.geekygoblin.nedetlesmaki.playn.core.events.PlaynStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynInGameUISystem;
 import org.geekygoblin.nedetlesmaki.playn.core.systems.PlaynMainMenuSystem;
@@ -71,6 +72,7 @@ public class NedFactory {
     private final PlaynAssets assets;
     private final LevelIndex indexedManager;
     private final MoveStory moveStory;
+    private final Backend backend;
     private final Random random;
     private final Entity inGameUI;
 
@@ -109,9 +111,10 @@ public class NedFactory {
         assets = new PlaynAssets();
         indexedManager = new LevelIndex();
         moveStory = new MoveStory();
+        backend = new Backend(indexedManager);
         IDefaultControls defaultControls = new PlaynDefaultControls(controls, touch);
         InGameUI inGameUIComponent = new InGameUI(toolkit, assets);
-        IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, startGameTrigger, indexedManager, moveStory, defaultControls, inGameUIComponent);
+        IngameInputSystem ingameInputSystem = new IngameInputSystem(showMenuTrigger, showLevelMenuTrigger, startGameTrigger, moveStory, backend,defaultControls, inGameUIComponent);
         PlaynSpriteSystem drawSystem = new PlaynSpriteSystem(controls);
         PlaynMainMenuSystem mainMenuSystem = new PlaynMainMenuSystem(renderer);
         PlaynInGameUISystem inGameUISystem = new PlaynInGameUISystem(renderer);
