@@ -66,9 +66,9 @@ import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.game.events.StartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
-import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
-import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
+import org.geekygoblin.nedetlesmaki.core.backend.MoveStory;
 
 /**
  *

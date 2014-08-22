@@ -33,8 +33,8 @@ import im.bci.jnuit.artemis.sprite.IsometricSpriteProjector;
 import im.bci.jnuit.lwjgl.assets.TmxAsset;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.NamedEntities;
-import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
-import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
+import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.MoveStory;
 import org.geekygoblin.nedetlesmaki.game.LwjglAssets;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 

@@ -42,12 +42,12 @@ import org.geekygoblin.nedetlesmaki.core.IDefaultControls;
 import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
 import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
-import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
+import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.components.ui.InGameUI;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
-import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
+import org.geekygoblin.nedetlesmaki.core.backend.MoveStory;
 
 import pythagoras.f.Vector3;
 
@@ -136,6 +136,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
                         }
                     }
                     if (upPressed) {
+                        
                         ned.changedInWorld();
                     } else if (downPressed) {
                         ned.changedInWorld();

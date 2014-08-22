@@ -19,7 +19,7 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
+package org.geekygoblin.nedetlesmaki.core.backend;
 
 import com.artemis.Component;
 

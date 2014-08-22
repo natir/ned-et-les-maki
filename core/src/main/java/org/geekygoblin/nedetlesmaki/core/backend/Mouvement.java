@@ -19,7 +19,7 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.core.utils;
+package org.geekygoblin.nedetlesmaki.core.backend;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +27,7 @@ import java.util.Collections;
 import com.artemis.Entity;
 
 import org.geekygoblin.nedetlesmaki.core.constants.AnimationType;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
+import org.geekygoblin.nedetlesmaki.core.backend.Position;
 
 /**
  *

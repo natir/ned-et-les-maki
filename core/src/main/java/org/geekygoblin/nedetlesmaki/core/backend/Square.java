@@ -19,37 +19,33 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.core.utils;
+package org.geekygoblin.nedetlesmaki.core.backend;
 
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
+import com.artemis.Entity;
 
-/**
- *
- * @author natir
-*/
-public class PosOperation {
+public class Square{
 
-    public static Position sum(Position p1, Position p2) {
-	return new Position(p1.getX()+p2.getX(), p1.getY()+p2.getY());
+    private Entity plate;
+    private Entity entity;
+
+    public Square() {
+        this.plate = null;
+        this.entity = null;
     }
 
-    public static Position deduction(Position p1, Position p2) {
-	return new Position(p1.getX()-p2.getX(), p1.getY()-p2.getY());
+    public Entity getPlate() {
+        return plate;
     }
 
-    public static Position multiplication(Position p1, int mul) {
-	return new Position(p1.getX()*mul, p1.getY()*mul);
+    public void setPlate(Entity plate) {
+        this.plate = plate;
     }
 
-    public static boolean equale(Position p1, Position p2) {
-	if(p1.getX() != p2.getX()) {
-	    return false;
-	}
-	else if(p1.getY() != p2.getY()) {
-	    return false;
-	}
-	else {
-	    return true;
-	}
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 }

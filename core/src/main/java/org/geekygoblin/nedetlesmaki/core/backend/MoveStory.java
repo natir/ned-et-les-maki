@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.geekygoblin.nedetlesmaki.core.utils;
+package org.geekygoblin.nedetlesmaki.core.backend;
 
 import java.util.ArrayList;
 import java.util.Stack;
 
 import javax.inject.Singleton;
 
-import org.geekygoblin.nedetlesmaki.core.utils.Mouvement;
+import org.geekygoblin.nedetlesmaki.core.backend.Mouvement;
 
 /**
  *

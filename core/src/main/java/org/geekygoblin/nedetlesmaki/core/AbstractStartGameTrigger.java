@@ -38,17 +38,17 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 import org.geekygoblin.nedetlesmaki.core.components.LevelBackground;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.PositionIndexed;
+import org.geekygoblin.nedetlesmaki.core.backend.Plate;
+import org.geekygoblin.nedetlesmaki.core.backend.Position;
+import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
 import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.core.constants.GameObjectType;
 import org.geekygoblin.nedetlesmaki.core.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
-import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
-import org.geekygoblin.nedetlesmaki.core.utils.MoveStory;
-import org.geekygoblin.nedetlesmaki.core.utils.Square;
+import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.MoveStory;
+import org.geekygoblin.nedetlesmaki.core.backend.Square;
 import pythagoras.f.Vector3;
 
 /**

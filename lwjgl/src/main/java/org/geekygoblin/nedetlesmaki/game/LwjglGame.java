@@ -30,7 +30,7 @@ import com.artemis.managers.GroupManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import im.bci.jnuit.NuitToolkit;
-import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.systems.DebugSpriteSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.DialogSystem;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;

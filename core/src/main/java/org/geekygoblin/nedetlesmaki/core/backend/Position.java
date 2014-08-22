@@ -19,50 +19,56 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
- 
-package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
-
-import org.geekygoblin.nedetlesmaki.core.utils.Square;
-import com.artemis.Entity;
-
-import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
+package org.geekygoblin.nedetlesmaki.core.backend;
 
 /**
  *
- * @author pierre
+ * @author natir
  */
-public class PositionIndexed extends Position {
+public class Position {
 
-    private final LevelIndex index;
+    protected int x, y;
 
-    public PositionIndexed(int x, int y, LevelIndex index) {
-        super(x, y);
-        this.index = index;
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
-    @Override
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public void setX(int x) {
-        super.setX(x);
+        this.x = x;
     }
 
-    @Override
     public void setY(int y) {
-        super.setY(y);
+        this.y = y;
     }
 
-    public void setPosition(int x, int y) {
-        Square s = this.index.getSquare(this.x, this.y);
-        
-        if(s == null) { return;}
-        
-        Entity tmp = s.getEntity();
-        this.index.getSquare(this.x, this.y).setEntity(null);
-        super.setX(x);
-        super.setY(y);
-        if(this.index.getSquare(x, y) == null)
-        {
-            this.index.setSquare(x, y, new Square());
+    public static Position sum(Position p1, Position p2) {
+        return new Position(p1.getX() + p2.getX(), p1.getY() + p2.getY());
+    }
+
+    public static Position deduction(Position p1, Position p2) {
+        return new Position(p1.getX() - p2.getX(), p1.getY() - p2.getY());
+    }
+
+    public static Position multiplication(Position p1, int mul) {
+        return new Position(p1.getX() * mul, p1.getY() * mul);
+    }
+
+    public static boolean equale(Position p1, Position p2) {
+        if (p1.getX() != p2.getX()) {
+            return false;
+        } else if (p1.getY() != p2.getY()) {
+            return false;
+        } else {
+            return true;
         }
-        this.index.getSquare(this.x, this.y).setEntity(tmp);
     }
 }

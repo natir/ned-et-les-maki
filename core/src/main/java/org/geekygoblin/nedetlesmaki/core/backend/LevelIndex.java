@@ -19,15 +19,15 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.core.utils;
+package org.geekygoblin.nedetlesmaki.core.backend;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import com.artemis.Entity;
 
-import org.geekygoblin.nedetlesmaki.core.utils.Square;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Position;
+import org.geekygoblin.nedetlesmaki.core.backend.Square;
+import org.geekygoblin.nedetlesmaki.core.backend.Position;
 
 /**
  *

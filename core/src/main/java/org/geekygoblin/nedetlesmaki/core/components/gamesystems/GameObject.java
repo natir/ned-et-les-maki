@@ -22,16 +22,15 @@
 package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Component;
-import javax.inject.Singleton;
 
 import org.geekygoblin.nedetlesmaki.core.constants.GameObjectType;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.PositionIndexed;
+import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
+import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
 
 /**
  *
  * @author pierre
  */
-@Singleton
 public class GameObject extends Component {
 
     private String type;

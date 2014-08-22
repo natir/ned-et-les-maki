@@ -29,7 +29,7 @@ import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.artemis.sprite.SpriteAnimateSystem;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
-import org.geekygoblin.nedetlesmaki.core.utils.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.systems.DebugSpriteSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.DialogSystem;
 import org.geekygoblin.nedetlesmaki.core.systems.IngameInputSystem;
