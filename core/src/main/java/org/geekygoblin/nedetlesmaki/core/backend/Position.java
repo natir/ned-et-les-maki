@@ -71,4 +71,20 @@ public class Position {
             return true;
         }
     }
+
+    public static Position getUp() {
+        return new Position(1, 0);
+    }
+
+    public static Position getDown() {
+        return new Position(-1, 0);
+    }
+
+    public static Position getLeft() {
+        return new Position(0, 1);
+    }
+
+    public static Position getRight() {
+        return new Position(0, -1);
+    }
 }
