@@ -19,35 +19,69 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.core.backend;
+package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
 import com.artemis.Entity;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
+import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
+import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
 
-public class Square{
+/**
+ *
+ * @author pierre
+ */
+public class BlueMaki extends GameObject {
 
-    private Plate plate;
-    private GameObject entity;
-
-    public Square() {
-        this.plate = null;
-        this.entity = null;
+    private boolean boosted;
+    
+    public BlueMaki(PositionIndexed pos, Entity entity, LevelIndex index) {
+        super(pos, entity, index);
+        this.boosted = false;
     }
 
-    public Plate getPlate() {
-        return plate;
+    @Override
+    public boolean stopOnPlate() {
+        return true;
     }
 
-    public void setPlate(Plate plate) {
-        this.plate = plate;
+    @Override
+    public ColorType getColorType() {
+        return ColorType.blue;
     }
 
-    public GameObject getGameObject() {
-        return entity;
+    @Override
+    public boolean isDestroyer() {
+        return boosted;
     }
 
-    public void setGameObject(GameObject entity) {
-        this.entity = entity;
+    @Override
+    public boolean isPushable() {
+        return true;
     }
+
+    @Override
+    public boolean isPusher() {
+        return boosted;
+    }
+
+    @Override
+    public boolean isBoosted() {
+        return boosted;
+    }
+
+    @Override
+    public void setPusher(boolean b) {
+        this.boosted = true;
+    }
+
+    @Override
+    public int getBoost() {
+        return 3;
+    }
+
+    @Override
+    public int getMovable() {
+        return 200;
+    }
+
 }

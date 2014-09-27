@@ -70,6 +70,7 @@ import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.game.systems.DrawSystem;
 import org.geekygoblin.nedetlesmaki.core.backend.MoveStory;
 import org.geekygoblin.nedetlesmaki.core.backend.Backend;
+import org.geekygoblin.nedetlesmaki.core.systems.UpdateLevelVisualSystem;
 
 /**
  *
@@ -102,6 +103,7 @@ public class NedModule extends AbstractModule {
         bind(NuitAudio.class).to(OpenALNuitAudio.class).in(Singleton.class);
         bind(MoveStory.class);
         bind(Backend.class);
+        bind(UpdateLevelVisualSystem.class);
     }
 
     @Provides

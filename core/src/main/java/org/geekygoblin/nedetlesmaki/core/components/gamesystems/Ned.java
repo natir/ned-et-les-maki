@@ -19,35 +19,32 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.core.backend;
+package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
 import com.artemis.Entity;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
+import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.Position;
+import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
 
-public class Square{
+/**
+ *
+ * @author pierre
+ */
+public class Ned extends GameObject {
 
-    private Plate plate;
-    private GameObject entity;
-
-    public Square() {
-        this.plate = null;
-        this.entity = null;
+    public Ned(PositionIndexed pos, Entity entity, LevelIndex index) {
+        super(pos, entity, index);
     }
 
-    public Plate getPlate() {
-        return plate;
+    @Override
+    public boolean isPusher() {
+        return true;
     }
 
-    public void setPlate(Plate plate) {
-        this.plate = plate;
+    @Override
+    public int getMovable() {
+        return 1;
     }
 
-    public GameObject getGameObject() {
-        return entity;
-    }
-
-    public void setGameObject(GameObject entity) {
-        this.entity = entity;
-    }
+    
 }

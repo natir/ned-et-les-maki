@@ -21,10 +21,8 @@
  */
 package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
-import com.artemis.Component;
 import com.artemis.Entity;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
-import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
 import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
 
@@ -32,96 +30,43 @@ import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
  *
  * @author pierre
  */
-public abstract class GameObject extends Component {
+public class OrangeMaki extends GameObject {
 
-    protected Entity entity;
-    protected PositionIndexed pos;
-    protected LevelIndex index;
+    private boolean catchNed;
 
-    public GameObject(PositionIndexed pos, Entity entity, LevelIndex index) {
-        this.pos = pos;
-        this.entity = entity;
-        this.index = index;
+    public OrangeMaki(PositionIndexed pos, Entity entity, LevelIndex index) {
+        super(pos, entity, index);
+        this.catchNed = false;
     }
 
-    public PositionIndexed getPos() {
-        return pos;
-    }
-
-    public void setPos(Position pos) {
-        this.pos.setPosition(pos);
-    }
-
-    public Entity getEntity() {
-        return entity;
-    }
-
-    protected void moveTo(Position pos) {
-        this.getPos().setPosition(pos);
-    }
-
-    public int getMovable() {
-        return 0;
-    }
-
-    public int getBoost() {
-        return 0;
-    }
-
-    public void setPusher(boolean b) {
-        return;
-    }
-
-    public boolean isBoosted() {
-        return false;
-    }
-
-    public boolean isStairs() {
-        return false;
-    }
-
-    public boolean isPusher() {
-        return false;
-    }
-
-    public boolean isPushable() {
-        return false;
-    }
-
-    public boolean isDestroyer() {
-        return false;
-    }
-
-    public boolean isDestroyable() {
-        return false;
-    }
-
-    public boolean isCatchNed() {
-        return false;
-    }
-
-    public boolean nedIsCatched() {
-        return false;
-    }
-
+    @Override
     public ColorType getColorType() {
-        return ColorType.no;
+        return ColorType.orange;
     }
 
+    @Override
+    public boolean isCatchNed() {
+        return true;
+    }
+
+    @Override
+    public boolean isPushable() {
+        return true;
+    }
+
+    @Override
+    public int getMovable() {
+        return 200;
+    }
+
+    @Override
     public void nedCatched(boolean t) {
-
+        this.catchNed = t;
     }
 
-    public boolean stopOnPlate() {
-        return false;
+    @Override
+    public boolean nedIsCatched() {
+        return this.catchNed;
     }
 
-    public boolean isBlockOnPlate() {
-        return false;
-    }
-
-    public void setStairs(boolean s) {
-        
-    }
-    
 }

@@ -19,24 +19,37 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-package org.geekygoblin.nedetlesmaki.core.constants;
+
+package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
+
+import com.artemis.Entity;
+import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
 
 /**
  *
  * @author pierre
  */
-public class GameObjectType {
+public class Box extends GameObject {
 
-    public static final String NED = "ned";
-    public static final String GREEN_MAKI = "green_maki";
-    public static final String ORANGE_MAKI = "orange_maki";
-    public static final String BLUE_MAKI = "blue_maki";
-    public static final String GREEN_PLATE = "green_plate";
-    public static final String ORANGE_PLATE = "orange_plate";
-    public static final String BLUE_PLATE = "blue_plate";
-    public static final String BOX = "box";
-    public static final String ROOT_BOX = "root_box";
-    public static final String STAIRS = "stairs";
-    public static final String STONE = "stone";
-    public static final String WALL = "wall";
+    public Box(PositionIndexed pos, Entity entity, LevelIndex index) {
+        super(pos, entity, index);
+    }
+
+    @Override
+    public boolean isBlockOnPlate() {
+        return true;
+    }
+
+    @Override
+    public boolean isDestroyable() {
+        return true;
+    }
+
+    @Override
+    public int getMovable() {
+        return 1;
+    }
+
+    
 }

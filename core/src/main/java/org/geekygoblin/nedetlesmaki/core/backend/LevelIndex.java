@@ -21,14 +21,13 @@
  */
 package org.geekygoblin.nedetlesmaki.core.backend;
 
+import com.artemis.Entity;
+import java.util.ArrayList;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import com.artemis.Entity;
-
-import org.geekygoblin.nedetlesmaki.core.backend.Square;
-import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Stairs;
 
 /**
  *
@@ -39,11 +38,15 @@ public class LevelIndex {
 
     private Square[][] index;
     private int height, width;
-
+    private Entity ned;
+    private Stairs stairs;
+    private ArrayList<Plate> allPlate;
+    
     @Inject
     public LevelIndex() {
         this.height = -1;
         this.width = -1;
+        this.allPlate = new ArrayList<Plate>(); 
     }
 
     public void initialize(int height, int width) {
@@ -81,13 +84,14 @@ public class LevelIndex {
         }
     }
 
-    public void addPlate(Entity e, Position p) {
+    public void addPlate(Plate e, Position p) {
         if (p != null) {
             if (this.index[p.getX()][p.getY()] == null) {
                 this.index[p.getX()][p.getY()] = new Square();
             }
 
             this.index[p.getX()][p.getY()].setPlate(e);
+            this.allPlate.add(e);
         }
     }
 
@@ -137,5 +141,25 @@ public class LevelIndex {
         }
 
         return true;
+    }
+    
+    public void setNed(Entity ned) {
+        this.ned = ned;
+    }
+    
+    public Entity getNed() {
+        return this.ned;
+    }
+    
+    public void setStairs(Stairs s) {
+        this.stairs = s;
+    }
+    
+    public Stairs getStairs() {
+        return this.stairs;
+    }
+    
+    public ArrayList<Plate> getAllPlate() {
+        return this.allPlate;
     }
 }

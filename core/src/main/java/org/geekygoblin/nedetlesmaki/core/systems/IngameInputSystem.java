@@ -40,7 +40,7 @@ import im.bci.jnuit.controls.ActionActivatedDetector;
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.IDefaultControls;
 import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Ned;
 import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
@@ -66,6 +66,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private final Backend backend;
 
     private ComponentMapper<Sprite> spriteMapper;
+    private ComponentMapper<Ned> nedMapper;
     private final InGameUI inGameUI;
 
     @Inject
@@ -82,6 +83,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
     @Override
     protected void initialize() {
         spriteMapper = world.getMapper(Sprite.class);
+        nedMapper = world.getMapper(Ned.class);
     }
 
     @Override
@@ -139,16 +141,16 @@ public class IngameInputSystem extends EntityProcessingSystem {
                         }
                     }
                     if (upPressed) {
-                        this.backend.moveGameObject(ned.getComponent(GameObject.class), new Position(1, 0));
+                        this.moveStory.addMouvement(this.backend.moveEntity(this.nedMapper.getSafe(ned), Position.getLeft(), 0.2f, false));
                         ned.changedInWorld();
                     } else if (downPressed) {
-                        this.backend.moveGameObject(ned.getComponent(GameObject.class), new Position(-1, 0));
+                        this.moveStory.addMouvement(this.backend.moveEntity(this.nedMapper.getSafe(ned), Position.getRight(), 0.2f, false));
                         ned.changedInWorld();
                     } else if (leftPressed) {
-                        this.backend.moveGameObject(ned.getComponent(GameObject.class), new Position(0, 1));
+                        this.moveStory.addMouvement(this.backend.moveEntity(this.nedMapper.getSafe(ned), Position.getUp(), 0.2f, false));
                         ned.changedInWorld();
                     } else if (rightPressed) {
-                        this.backend.moveGameObject(ned.getComponent(GameObject.class), new Position(0, 1));
+                        this.moveStory.addMouvement(this.backend.moveEntity(this.nedMapper.getSafe(ned), Position.getDown(), 0.2f, false));
                         ned.changedInWorld();
                     }
                 }

@@ -38,12 +38,11 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
 import org.geekygoblin.nedetlesmaki.core.components.LevelBackground;
-import org.geekygoblin.nedetlesmaki.core.backend.Plate;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
-import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.*;
 import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
-import org.geekygoblin.nedetlesmaki.core.constants.GameObjectType;
 import org.geekygoblin.nedetlesmaki.core.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
@@ -262,18 +261,19 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createNed(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity ned = game.createEntity();
-        GameObject obj = new GameObject(GameObjectType.NED, new PositionIndexed(x, y, index));
+        Ned obj = new Ned(new PositionIndexed(x, y, index), ned, index);
         ned.addComponent(obj);
         game.setNed(ned);
         createSprite(x, y, l, tile, ApparitionEffect.NONE, ned);
         game.addEntity(ned);
         index.added(obj, new Position(x, y));
+        index.setNed(ned);
         return ned;
     }
 
     protected Entity createGreenMaki(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        GameObject obj = new GameObject(GameObjectType.GREEN_MAKI, new PositionIndexed(x, y, index));
+        GreenMaki obj = new GreenMaki(new PositionIndexed(x, y, index), maki, index);
         maki.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
@@ -283,7 +283,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createOrangeMaki(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        GameObject obj = new GameObject(GameObjectType.ORANGE_MAKI, new PositionIndexed(x, y, index));
+        OrangeMaki obj = new OrangeMaki(new PositionIndexed(x, y, index), maki, index);
         maki.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
@@ -293,7 +293,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createBlueMaki(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        GameObject obj = new GameObject(GameObjectType.BLUE_MAKI, new PositionIndexed(x, y, index));
+        BlueMaki obj = new BlueMaki(new PositionIndexed(x, y, index), maki, index);
         maki.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
@@ -303,7 +303,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createGreenMakiOnPlate(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        GameObject obj = new GameObject(GameObjectType.GREEN_MAKI, new PositionIndexed(x, y, index));
+        GreenMaki obj = new GreenMaki(new PositionIndexed(x, y, index), maki, index);
         maki.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
@@ -317,7 +317,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createOrangeMakiOnPlate(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        GameObject obj = new GameObject(GameObjectType.ORANGE_MAKI, new PositionIndexed(x, y, index));
+        OrangeMaki obj = new OrangeMaki(new PositionIndexed(x, y, index), maki, index);
         maki.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
@@ -331,7 +331,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createBlueMakiOnPlate(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        GameObject obj = new GameObject(GameObjectType.BLUE_MAKI, new PositionIndexed(x, y, index));
+        BlueMaki obj = new BlueMaki(new PositionIndexed(x, y, index), maki, index);
         maki.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
@@ -345,7 +345,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createBox(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity box = game.createEntity();
-        GameObject obj = new GameObject(GameObjectType.BOX, new PositionIndexed(x, y, index));
+        Box obj = new Box(new PositionIndexed(x, y, index), box, index);
         box.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, box);
         game.addEntity(box);
@@ -355,7 +355,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createRootedBox(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity box = game.createEntity();
-        GameObject obj = new GameObject(GameObjectType.ROOT_BOX, new PositionIndexed(x, y, index));
+        RootBox obj = new RootBox(new PositionIndexed(x, y, index), box, index);
         box.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, box);
         game.addEntity(box);
@@ -365,7 +365,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createWall(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity wall = game.createEntity();
-        GameObject obj = new GameObject(GameObjectType.WALL, new PositionIndexed(x, y, index));
+        Wall obj = new Wall(new PositionIndexed(x, y, index), wall, index);
         wall.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_BELOW, wall);
         game.addEntity(wall);
@@ -376,32 +376,29 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
     protected Entity createPlate(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer, ColorType color, boolean maki) {
         Square s = this.index.getSquare(x, y);
         if (s != null) {
-            Entity plate = s.getPlate();
+            Plate plate = s.getPlate();
             if (plate != null) {
-                plate.getComponent(Plate.class).setMaki(true);
+                plate.setMaki(true);
                 return null;
             }
         }
 
-        Entity plate = game.createEntity();
-        if (ColorType.blue == color) {
-            plate.addComponent(new GameObject(GameObjectType.BLUE_PLATE, (PositionIndexed) new Position(x, y)));
-        }
+        Entity plateEntity = game.createEntity();
+        Plate plate = new Plate(false, color);
         index.addPlate(plate, new Position(x, y));
-        game.addEntity(plate);
-        game.getManager(GroupManager.class).add(plate, Group.PLATE);
-        createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, plate);
-        return plate;
+        game.addEntity(plateEntity);
+        createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, plateEntity);
+        return plateEntity;
     }
 
     protected Entity createStairs(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer, int dir) {
         Entity stairs = game.createEntity();
-        GameObject obj = new GameObject(GameObjectType.STAIRS, new PositionIndexed(x, y, index));
+        Stairs obj = new Stairs(new PositionIndexed(x, y, index), stairs, index);
         stairs.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.NONE, stairs);
         game.addEntity(stairs);
         index.added(obj, new Position(x, y));
-        game.getManager(GroupManager.class).add(stairs, Group.STAIRS);
+        index.setStairs(obj);
         return stairs;
     }
 
