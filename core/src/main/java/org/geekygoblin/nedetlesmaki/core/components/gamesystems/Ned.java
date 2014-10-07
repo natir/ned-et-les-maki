@@ -37,14 +37,7 @@ public class Ned extends GameObject {
     }
 
     @Override
-    public boolean isPusher() {
-        return true;
+    public boolean moveTo(Position diff) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public int getMovable() {
-        return 1;
-    }
-
-    
 }

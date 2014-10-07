@@ -8,6 +8,7 @@ package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Entity;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
 
 /**
@@ -19,4 +20,10 @@ public class Wall extends GameObject{
     public Wall(PositionIndexed pos, Entity entity, LevelIndex index) {
         super(pos, entity, index);
     }
+
+    @Override
+    public boolean moveTo(Position diff) {
+        return false;
+    }
+   
 }

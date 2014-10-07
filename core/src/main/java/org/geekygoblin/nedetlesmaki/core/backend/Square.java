@@ -22,7 +22,6 @@
 package org.geekygoblin.nedetlesmaki.core.backend;
 
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
-import com.artemis.Entity;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
 
 public class Square{

@@ -22,8 +22,6 @@
  
 package org.geekygoblin.nedetlesmaki.core.backend;
 
-import com.artemis.Entity;
-
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
         

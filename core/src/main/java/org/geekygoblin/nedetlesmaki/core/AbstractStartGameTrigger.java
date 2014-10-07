@@ -46,7 +46,6 @@ import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
 import org.geekygoblin.nedetlesmaki.core.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
-import org.geekygoblin.nedetlesmaki.core.backend.MoveStory;
 import org.geekygoblin.nedetlesmaki.core.backend.Square;
 import pythagoras.f.Vector3;
 
@@ -61,7 +60,6 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
     protected final Entity inGameUI;
     protected final Entity ingameControls;
     protected final LevelIndex index;
-    protected final MoveStory moveStory;
     protected String levelName;
     protected final Random random;
     protected TmxMap map;
@@ -79,7 +77,6 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
             entitiesToDelete.add(e);
         }
 
-        this.moveStory.cleanStack();
         for (Entity e : entitiesToDelete) {
             e.deleteFromWorld();
         }
@@ -129,14 +126,13 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
         END
     }
 
-    protected AbstractStartGameTrigger(IAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.InGameUI Entity inGameUI, @NamedEntities.IngameControls Entity ingameControls, LevelIndex indexSystem, Random random, MoveStory moveStory) {
+    protected AbstractStartGameTrigger(IAssets assets, @NamedEntities.MainMenu Entity mainMenu, @NamedEntities.InGameUI Entity inGameUI, @NamedEntities.IngameControls Entity ingameControls, LevelIndex indexSystem, Random random) {
         this.assets = assets;
         this.mainMenu = mainMenu;
         this.inGameUI = inGameUI;
         this.ingameControls = ingameControls;
         this.index = indexSystem;
         this.random = random;
-        this.moveStory = moveStory;
     }
 
     @Override
