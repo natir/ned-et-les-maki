@@ -47,8 +47,6 @@ import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.components.ui.InGameUI;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
-import org.geekygoblin.nedetlesmaki.core.backend.MoveStory;
-import org.geekygoblin.nedetlesmaki.core.backend.Backend;
 
 import pythagoras.f.Vector3;
 
@@ -62,19 +60,15 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private final Provider<ShowMenuTrigger> showMenuTrigger;
     private final Provider<IStartGameTrigger> startGameTrigger;
     private final ActionActivatedDetector mouseClick;
-    private final MoveStory moveStory;
-    private final Backend backend;
 
     private ComponentMapper<Sprite> spriteMapper;
     private ComponentMapper<Ned> nedMapper;
     private final InGameUI inGameUI;
 
     @Inject
-    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, Provider<IStartGameTrigger> startGameTrigger, MoveStory moveStory, Backend backend, IDefaultControls defaultControls, InGameUI inGameUI) {
+    public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, Provider<IStartGameTrigger> startGameTrigger, IDefaultControls defaultControls, InGameUI inGameUI) {
         super(Aspect.getAspectForAll(IngameControls.class));
         this.showMenuTrigger = showMenuTrigger;
-        this.moveStory = moveStory;
-        this.backend = backend;
         this.mouseClick = new ActionActivatedDetector(new Action("click", defaultControls.getMouseClickControls()));
         this.inGameUI = inGameUI;
         this.startGameTrigger = startGameTrigger;
@@ -141,16 +135,16 @@ public class IngameInputSystem extends EntityProcessingSystem {
                         }
                     }
                     if (upPressed) {
-                        this.moveStory.addMouvement(this.backend.moveEntity(this.nedMapper.getSafe(ned), Position.getLeft(), 0.2f, false));
+                        this.nedMapper.getSafe(ned).moveTo(Position.getUp());
                         ned.changedInWorld();
                     } else if (downPressed) {
-                        this.moveStory.addMouvement(this.backend.moveEntity(this.nedMapper.getSafe(ned), Position.getRight(), 0.2f, false));
+                        this.nedMapper.getSafe(ned).moveTo(Position.getDown());
                         ned.changedInWorld();
                     } else if (leftPressed) {
-                        this.moveStory.addMouvement(this.backend.moveEntity(this.nedMapper.getSafe(ned), Position.getUp(), 0.2f, false));
+                        this.nedMapper.getSafe(ned).moveTo(Position.getLeft());
                         ned.changedInWorld();
                     } else if (rightPressed) {
-                        this.moveStory.addMouvement(this.backend.moveEntity(this.nedMapper.getSafe(ned), Position.getDown(), 0.2f, false));
+                        this.nedMapper.getSafe(ned).moveTo(Position.getRight());
                         ned.changedInWorld();
                     }
                 }
