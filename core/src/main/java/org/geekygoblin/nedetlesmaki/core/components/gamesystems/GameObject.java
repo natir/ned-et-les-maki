@@ -23,10 +23,10 @@ package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Component;
 import com.artemis.Entity;
+import java.util.ArrayList;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
-import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
 
 /**
  *
@@ -37,11 +37,13 @@ public abstract class GameObject extends Component {
     protected Entity entity;
     protected PositionIndexed pos;
     protected LevelIndex index;
+    protected GameObjectGuard guard;
 
     public GameObject(PositionIndexed pos, Entity entity, LevelIndex index) {
         this.pos = pos;
         this.entity = entity;
         this.index = index;
+        this.guard = new GameObjectGuard();
     }
 
     public PositionIndexed getPos() {
@@ -58,4 +60,33 @@ public abstract class GameObject extends Component {
 
     public abstract boolean moveTo(Position diff);
 
+    public abstract void save(Memento m);
+
+    public abstract Memento undo();
+
+    protected static class Memento {
+
+        private String state;
+
+        public Memento(String stateToSave) {
+
+        }
+
+        public String getSavedState() {
+            return state;
+        }
+    }
+
+    protected class GameObjectGuard {
+
+        private final ArrayList savedStates = new ArrayList();
+
+        public void addSavedStates(Object m) {
+            savedStates.add(m);
+        }
+
+        public Object getSavedStates(int index) {
+            return this.savedStates.get(index);
+        }
+    }
 }
