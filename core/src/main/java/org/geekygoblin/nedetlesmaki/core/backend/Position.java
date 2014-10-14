@@ -88,6 +88,10 @@ public class Position {
         return new Position(1, 0);
     }
 
+    public static Position getVoid() {
+        return new Position(0, 0);
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -101,9 +105,7 @@ public class Position {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
+
         final Position other = (Position) obj;
         if (this.x != other.x) {
             return false;
@@ -114,5 +116,4 @@ public class Position {
         return true;
     }
 
-    
 }
