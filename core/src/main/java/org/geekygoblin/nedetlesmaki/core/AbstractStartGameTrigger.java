@@ -94,9 +94,9 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
         createProjector(game);
         final List<TmxLayer> layers = map.getLayers();
+        this.index.initialize(map.getHeight(), map.getWidth());
         for (int l = 0, n = layers.size(); l < n; ++l) {
             TmxLayer layer = map.getLayers().get(l);
-            this.index.initialize(layer.getHeight(), layer.getWidth());
             for (int y = 0, lh = layer.getHeight(); y < lh; ++y) {
                 for (int x = 0, lw = layer.getWidth(); x < lw; ++x) {
                     final TmxTileInstance tile = layer.getTileAt(x, y);
@@ -269,7 +269,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createGreenMaki(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        GreenMaki obj = new GreenMaki(new PositionIndexed(x, y, index), maki, index);
+        GreenMaki obj = new GreenMaki(new PositionIndexed(x, y, index), maki, index, assets);
         maki.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
@@ -299,7 +299,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createGreenMakiOnPlate(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        GreenMaki obj = new GreenMaki(new PositionIndexed(x, y, index), maki, index);
+        GreenMaki obj = new GreenMaki(new PositionIndexed(x, y, index), maki, index, assets);
         maki.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
