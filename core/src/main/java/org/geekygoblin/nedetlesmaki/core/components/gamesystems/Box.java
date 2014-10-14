@@ -19,13 +19,19 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-
 package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Entity;
+import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.animation.PlayMode;
+import im.bci.jnuit.artemis.sprite.Sprite;
+import im.bci.jnuit.artemis.sprite.SpritePuppetControls;
+import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
+import org.geekygoblin.nedetlesmaki.core.constants.AnimationTime;
+import pythagoras.f.Vector3;
 
 /**
  *
@@ -33,22 +39,68 @@ import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
  */
 public class Box extends GameObject {
 
-    public Box(PositionIndexed pos, Entity entity, LevelIndex index) {
+    enum MoveType {
+
+        NO,
+        DESTROY,
+        UNDESTROY,
+    }
+
+    private final IAnimationCollection animation;
+
+    public Box(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
         super(pos, entity, index);
+        this.animation = assets.getAnimations("box.json");
     }
 
     @Override
-    public boolean moveTo(Position diff) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Position moveTo(Position diff) {
+        Position n_pos = Position.sum(this.pos, diff);
+        GameObject n_obj = this.index.getGameObject(n_pos);
+        Plate n_plate = this.index.getPlate(n_pos);
+        
+        if (n_obj == null && n_plate == null) {
+            this.pos.setPosition(n_pos);
+            this.run_animation(diff, MoveType.NO);
+        }
+
+        return this.pos;
     }
 
     @Override
-    public void save(Memento m) {
+    public void save(Memento m
+    ) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Memento undo() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void run_animation(Position diff, MoveType type) {
+        Sprite sprite = this.entity.getComponent(Sprite.class);
+        SpritePuppetControls updatable = this.entity.getComponent(SpritePuppetControls.class);
+
+        if (updatable
+                == null) {
+            updatable = new SpritePuppetControls(sprite);
+        }
+
+        if (type == MoveType.NO) { // No animation
+            if (diff.equals(Position.getUp())) {
+                updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+            } else if (diff.equals(Position.getDown())) {
+                updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+            } else if (diff.equals(Position.getRight())) {
+                updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+            } else if (diff.equals(Position.getLeft())) {
+                updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+            }
+        }
+
+        this.entity.addComponent(updatable);
+
+        this.entity.changedInWorld();
     }
 }

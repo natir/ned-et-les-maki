@@ -58,7 +58,7 @@ public abstract class GameObject extends Component {
         return entity;
     }
 
-    public abstract Position moveTo(Position diff);
+    public abstract boolean moveTo(Position diff);
 
     public abstract void save(Memento m);
 

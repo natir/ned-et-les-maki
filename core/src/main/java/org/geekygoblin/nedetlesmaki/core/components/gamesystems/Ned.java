@@ -22,16 +22,9 @@
 package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Entity;
-import im.bci.jnuit.animation.IAnimationCollection;
-import im.bci.jnuit.animation.PlayMode;
-import im.bci.jnuit.artemis.sprite.Sprite;
-import im.bci.jnuit.artemis.sprite.SpritePuppetControls;
-import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
-import org.geekygoblin.nedetlesmaki.core.constants.AnimationTime;
-import pythagoras.f.Vector3;
 
 /**
  *
@@ -39,88 +32,12 @@ import pythagoras.f.Vector3;
  */
 public class Ned extends GameObject {
 
-    enum MoveType {
-
-        WALK,
-        PUSH,
-        FLY,
-    }
-
-    private IAnimationCollection animation;
-
-    public Ned(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
+    public Ned(PositionIndexed pos, Entity entity, LevelIndex index) {
         super(pos, entity, index);
-        this.animation = assets.getAnimations("ned.json");
     }
 
     @Override
-    public Position moveTo(Position diff) {
-        Position n_pos = Position.sum(this.pos, diff);
-        GameObject n_obj = this.index.getGameObject(n_pos);
-
-        if (n_obj == null) {
-            this.pos.setPosition(n_pos);
-            this.run_animation(diff, MoveType.WALK);
-            return this.pos;
-        } else {
-            Position n_move_to = n_obj.moveTo(diff);
-            if (!n_move_to.equals(n_pos)) {
-                if (n_obj instanceof GreenMaki) {
-                    this.pos.setPosition(n_pos);
-                    this.run_animation(diff, MoveType.PUSH);
-                    return this.pos;
-                }
-                if (n_obj instanceof OrangeMaki) {
-                    this.pos.setPosition(Position.deduction(n_move_to, diff));
-                    this.run_animation(diff, MoveType.PUSH);
-                    return this.pos;
-                }
-            }
-        }
-
-        return this.pos;
-    }
-
-    @Override
-    public void save(Memento m
-    ) {
+    public boolean moveTo(Position diff) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Memento undo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
-    }
-
-    private void run_animation(Position diff, MoveType type) {
-        Sprite sprite = this.entity.getComponent(Sprite.class
-        );
-        SpritePuppetControls updatable = this.entity.getComponent(SpritePuppetControls.class);
-
-        if (updatable
-                == null) {
-            updatable = new SpritePuppetControls(sprite);
-        }
-
-        if (type == MoveType.WALK) {
-            if (diff.equals(Position.getUp())) {
-                updatable.startAnimation(this.animation.getAnimationByName("walk_up"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
-            } else if (diff.equals(Position.getDown())) {
-                updatable.startAnimation(this.animation.getAnimationByName("walk_down"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
-            } else if (diff.equals(Position.getRight())) {
-                updatable.startAnimation(this.animation.getAnimationByName("walk_right"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
-            } else if (diff.equals(Position.getLeft())) {
-                updatable.startAnimation(this.animation.getAnimationByName("walk_left"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
-            }
-        }
-
-        this.entity.addComponent(updatable);
-
-        this.entity.changedInWorld();
     }
 }

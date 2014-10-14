@@ -23,7 +23,6 @@ package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Entity;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
-import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
 import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
 
@@ -41,19 +40,48 @@ public class BlueMaki extends GameObject {
     }
 
     @Override
-    public boolean moveTo(Position diff) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean stopOnPlate() {
+        return true;
     }
 
     @Override
-    public void save(Memento m) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ColorType getColorType() {
+        return ColorType.blue;
     }
 
     @Override
-    public Memento undo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean isDestroyer() {
+        return boosted;
     }
 
+    @Override
+    public boolean isPushable() {
+        return true;
+    }
+
+    @Override
+    public boolean isPusher() {
+        return boosted;
+    }
+
+    @Override
+    public boolean isBoosted() {
+        return boosted;
+    }
+
+    @Override
+    public void setPusher(boolean b) {
+        this.boosted = true;
+    }
+
+    @Override
+    public int getBoost() {
+        return 3;
+    }
+
+    @Override
+    public int getMovable() {
+        return 200;
+    }
 
 }
