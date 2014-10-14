@@ -23,6 +23,7 @@ package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Entity;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
 import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
 
@@ -40,33 +41,19 @@ public class OrangeMaki extends GameObject {
     }
 
     @Override
-    public ColorType getColorType() {
-        return ColorType.orange;
+    public boolean moveTo(Position diff) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean isCatchNed() {
-        return true;
+    public void save(Memento m) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean isPushable() {
-        return true;
+    public Memento undo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public int getMovable() {
-        return 200;
-    }
-
-    @Override
-    public void nedCatched(boolean t) {
-        this.catchNed = t;
-    }
-
-    @Override
-    public boolean nedIsCatched() {
-        return this.catchNed;
-    }
-
+    
 }

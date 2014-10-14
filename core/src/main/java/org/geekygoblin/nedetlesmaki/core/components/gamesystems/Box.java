@@ -24,6 +24,7 @@ package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Entity;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
 
 /**
@@ -37,19 +38,17 @@ public class Box extends GameObject {
     }
 
     @Override
-    public boolean isBlockOnPlate() {
-        return true;
+    public boolean moveTo(Position diff) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean isDestroyable() {
-        return true;
+    public void save(Memento m) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public int getMovable() {
-        return 1;
+    public Memento undo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    
 }

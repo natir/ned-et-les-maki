@@ -257,7 +257,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createNed(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity ned = game.createEntity();
-        Ned obj = new Ned(new PositionIndexed(x, y, index), ned, index);
+        Ned obj = new Ned(new PositionIndexed(x, y, index), ned, index, assets);
         ned.addComponent(obj);
         game.setNed(ned);
         createSprite(x, y, l, tile, ApparitionEffect.NONE, ned);
