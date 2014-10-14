@@ -41,12 +41,12 @@ public class LevelIndex {
     private Entity ned;
     private Stairs stairs;
     private ArrayList<Plate> allPlate;
-    
+
     @Inject
     public LevelIndex() {
         this.height = -1;
         this.width = -1;
-        this.allPlate = new ArrayList<Plate>(); 
+        this.allPlate = new ArrayList<Plate>();
     }
 
     public void initialize(int height, int width) {
@@ -110,6 +110,21 @@ public class LevelIndex {
         return this.getGameObject(pos.getX(), pos.getY());
     }
 
+    public Plate getPlate(int x, int y) {
+
+        Square test = this.getSquare(x, y);
+
+        if (test != null) {
+            return test.getPlate();
+        } else {
+            return null;
+        }
+    }
+
+    public Plate getPlate(Position pos) {
+        return this.getPlate(pos.getX(), pos.getY());
+    }
+
     public Square getSquare(int x, int y) {
 
         if (x > this.height - 1 || x < 0 || y > this.width - 1 || y < 0) {
@@ -142,23 +157,23 @@ public class LevelIndex {
 
         return true;
     }
-    
+
     public void setNed(Entity ned) {
         this.ned = ned;
     }
-    
+
     public Entity getNed() {
         return this.ned;
     }
-    
+
     public void setStairs(Stairs s) {
         this.stairs = s;
     }
-    
+
     public Stairs getStairs() {
         return this.stairs;
     }
-    
+
     public ArrayList<Plate> getAllPlate() {
         return this.allPlate;
     }
