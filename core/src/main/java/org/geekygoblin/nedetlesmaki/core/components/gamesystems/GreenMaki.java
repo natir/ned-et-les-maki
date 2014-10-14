@@ -19,38 +19,113 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
-
 package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Entity;
+import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.animation.PlayMode;
+import im.bci.jnuit.artemis.sprite.Sprite;
+import im.bci.jnuit.artemis.sprite.SpritePuppetControls;
+import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
+import org.geekygoblin.nedetlesmaki.core.constants.AnimationTime;
 import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
+import pythagoras.f.Vector3;
 
 /**
  *
  * @author pierre
  */
-public class GreenMaki extends GameObject{
+public class GreenMaki extends GameObject {
 
-    public GreenMaki(PositionIndexed pos, Entity entity, LevelIndex index) {
+    enum MoveType {
+
+        NO,
+        VALIDATE,
+        UNVALIDATE,
+    }
+
+    private boolean validate;
+    private final IAnimationCollection animation;
+
+    public GreenMaki(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
         super(pos, entity, index);
+
+        this.animation = assets.getAnimations("maki.json");
     }
 
     @Override
-    public ColorType getColorType() {
-        return ColorType.green;
+    public Position moveTo(Position diff) {
+        Position n_pos = Position.sum(this.pos, diff);
+        GameObject n_obj = this.index.getGameObject(n_pos);
+        Plate c_plate = this.index.getPlate(this.pos);
+        Plate n_plate = this.index.getPlate(n_pos);
+
+        if (n_obj == null) {
+            this.pos.setPosition(n_pos);
+            if (n_plate != null && n_plate.getColorType() == ColorType.green) { // Move to plate
+                if (this.validate) { // Actuali is in plate
+                    this.run_animation(diff, MoveType.NO);
+                    c_plate.setMaki(false);
+                } else {
+                    this.run_animation(diff, MoveType.VALIDATE);
+                    this.validate = true;
+                }
+                n_plate.setMaki(true);
+            } else { // Didn't move to plate
+                if (this.validate) { // Actuali is in plate
+                    this.run_animation(diff, MoveType.UNVALIDATE);
+                    this.validate = false;
+                    c_plate.setMaki(false);
+                } else {
+                    this.run_animation(diff, MoveType.NO);
+                }
+            }
+            return this.pos;
+        }
+
+        return this.pos;
     }
 
     @Override
-    public boolean isPushable() {
-        return true;
+    public void save(Memento m) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public int getMovable() {
-        return 1;
+    public Memento undo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
+    private void run_animation(Position diff, MoveType type) {
+        Sprite sprite = this.entity.getComponent(Sprite.class);
+        SpritePuppetControls updatable = this.entity.getComponent(SpritePuppetControls.class);
+
+        if (updatable == null) {
+            updatable = new SpritePuppetControls(sprite);
+        }
+
+        if (type == MoveType.NO) {
+            updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+        } else if (type == MoveType.VALIDATE) {
+            updatable.startAnimation(this.animation.getAnimationByName("maki_green_one"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+        } else if (type == MoveType.UNVALIDATE) {
+            updatable.startAnimation(this.animation.getAnimationByName("maki_green_out"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+        }
+
+        this.entity.addComponent(updatable);
+        this.entity.changedInWorld();
+    }
+
+    public boolean isValidate() {
+        return validate;
+    }
+
+    public void setValidate(boolean validate) {
+        this.validate = validate;
+    }
 }
