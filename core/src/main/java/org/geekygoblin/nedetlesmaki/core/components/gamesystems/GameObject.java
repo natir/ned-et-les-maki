@@ -58,7 +58,7 @@ public abstract class GameObject extends Component {
         return entity;
     }
 
-    public abstract boolean moveTo(Position diff);
+    public abstract Position moveTo(Position diff);
 
     public abstract void save(Memento m);
 
@@ -66,14 +66,8 @@ public abstract class GameObject extends Component {
 
     protected static class Memento {
 
-        private String state;
-
         public Memento(String stateToSave) {
 
-        }
-
-        public String getSavedState() {
-            return state;
         }
     }
 
