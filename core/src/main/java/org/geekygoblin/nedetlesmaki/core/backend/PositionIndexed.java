@@ -19,12 +19,13 @@
  * out of or in connection with the software or the use or other dealings in the
  * Software.
  */
+ 
 package org.geekygoblin.nedetlesmaki.core.backend;
 
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
-
-public class PositionIndexed extends Position {
+        
+ public class PositionIndexed extends Position {
 
     private final LevelIndex index;
 
@@ -45,26 +46,21 @@ public class PositionIndexed extends Position {
 
     public void setPosition(int x, int y) {
         Square s = this.index.getSquare(this.x, this.y);
-
-        if (s == null) {
-            return;
-        }
-
+        
+        if(s == null) { return;}
+        
         GameObject tmp = s.getGameObject();
         this.index.getSquare(this.x, this.y).setGameObject(null);
         super.setX(x);
         super.setY(y);
-        if (this.index.getSquare(x, y) == null) {
+        if(this.index.getSquare(x, y) == null)
+        {
             this.index.setSquare(x, y, new Square());
         }
         this.index.getSquare(this.x, this.y).setGameObject(tmp);
     }
 
-    public void setPosition(Position pos) {
-        this.setPosition(pos.getX(), pos.getY());
+     public void setPosition(Position pos) {
+         this.setPosition(pos.getX(), pos.getY());
     }
-
-    public void reIndex() {
-        this.setPosition(x, y);
-    }
-}
+ }

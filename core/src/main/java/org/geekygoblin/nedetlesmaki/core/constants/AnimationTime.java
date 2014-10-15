@@ -26,6 +26,5 @@ package org.geekygoblin.nedetlesmaki.core.constants;
  * @author natir
  */
 public class AnimationTime {
-    public static final float base = 0.3f;
-    public static final float fly = 0.1f;
+    public static final float base = 0.2f;
 }
