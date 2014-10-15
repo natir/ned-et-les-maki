@@ -22,9 +22,17 @@
 package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Entity;
+import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.animation.PlayMode;
+import im.bci.jnuit.artemis.sprite.Sprite;
+import im.bci.jnuit.artemis.sprite.SpritePuppetControls;
+import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
+import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
+import org.geekygoblin.nedetlesmaki.core.constants.AnimationTime;
 import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
+import pythagoras.f.Vector3;
 
 /**
  *
@@ -32,56 +40,124 @@ import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
  */
 public class BlueMaki extends GameObject {
 
-    private boolean boosted;
-    
-    public BlueMaki(PositionIndexed pos, Entity entity, LevelIndex index) {
+    enum MoveType {
+
+        NO,
+        VALIDATE,
+        UNVALIDATE,
+    }
+
+    private boolean validate;
+    private final IAnimationCollection animation;
+
+    public BlueMaki(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
         super(pos, entity, index);
-        this.boosted = false;
+        this.animation = assets.getAnimations("maki.json");
     }
 
     @Override
-    public boolean stopOnPlate() {
-        return true;
+    public Position moveTo(Position diff) {
+        boolean stop = false;
+        Position n_pos = Position.sum(this.pos, diff);
+        GameObject n_obj = this.index.getGameObject(n_pos);
+        Plate c_plate = this.index.getPlate(this.pos);
+        Plate n_plate = this.index.getPlate(n_pos);
+
+        for (int loop_cpt = 0; !stop; loop_cpt++) { // while stop is false
+
+            if (n_obj != null) { // If next pos have object
+                Position n_move_to;
+                if (n_obj instanceof Box) {
+                    if (loop_cpt > 2) {
+                        n_move_to = ((Box) n_obj).destroyMove(diff);
+                    } else {
+                        n_move_to = n_obj.moveTo(diff);
+                    }
+                } else {
+                    n_move_to = n_obj.moveTo(diff);
+                }
+
+                stop = true;
+                if (n_move_to.equals(n_pos)) {
+                    diff = Position.getVoid();
+                } else {
+                    this.pos.setPosition(n_pos);
+                }
+            } else {
+                this.pos.setPosition(n_pos);
+            }
+            if (n_plate != null && n_plate.getColorType() == ColorType.blue && !n_plate.haveMaki()) { // Move to plate
+                if (this.validate && c_plate != null) { // Actuali is in plate
+                    this.run_animation(diff, MoveType.NO);
+                    c_plate.setMaki(false);
+                } else {
+                    this.run_animation(diff, MoveType.VALIDATE);
+                    this.validate = true;
+                }
+                n_plate.setMaki(true);
+                stop = true;
+            } else { // Didn't move to plate
+                if (this.validate && !diff.equals(Position.getVoid())) { // Actuali is in plate
+                    this.run_animation(diff, MoveType.UNVALIDATE);
+                    this.validate = false;
+                    c_plate.setMaki(false);
+                } else {
+                    this.run_animation(diff, MoveType.NO);
+                }
+            }
+
+            //Realocation
+            n_pos = Position.sum(this.pos, diff);
+            n_obj = this.index.getGameObject(n_pos);
+            c_plate = this.index.getPlate(this.pos);
+            n_plate = this.index.getPlate(n_pos);
+        }
+
+        return this.pos;
+
     }
 
     @Override
-    public ColorType getColorType() {
-        return ColorType.blue;
+    public void save(Memento m) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean isDestroyer() {
-        return boosted;
+    public Memento undo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
-    @Override
-    public boolean isPushable() {
-        return true;
+    private void run_animation(Position diff, MoveType type) {
+        Sprite sprite = this.entity.getComponent(Sprite.class
+        );
+        SpritePuppetControls updatable = this.entity.getComponent(SpritePuppetControls.class);
+
+        if (updatable
+                == null) {
+            updatable = new SpritePuppetControls(sprite);
+        }
+
+        if (type == MoveType.NO) {
+            updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.speed);
+        } else if (type == MoveType.VALIDATE) {
+            updatable.startAnimation(this.animation.getAnimationByName("maki_blue_one"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.speed);
+        } else if (type == MoveType.UNVALIDATE) {
+            updatable.startAnimation(this.animation.getAnimationByName("maki_blue_out"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.speed);
+        }
+
+        this.entity.addComponent(updatable);
+
+        this.entity.changedInWorld();
     }
 
-    @Override
-    public boolean isPusher() {
-        return boosted;
+    public boolean isValidate() {
+        return validate;
     }
 
-    @Override
-    public boolean isBoosted() {
-        return boosted;
+    public void setValidate(boolean validate) {
+        this.validate = validate;
     }
-
-    @Override
-    public void setPusher(boolean b) {
-        this.boosted = true;
-    }
-
-    @Override
-    public int getBoost() {
-        return 3;
-    }
-
-    @Override
-    public int getMovable() {
-        return 200;
-    }
-
 }
