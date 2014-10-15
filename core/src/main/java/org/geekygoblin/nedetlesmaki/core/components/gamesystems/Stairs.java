@@ -25,19 +25,19 @@ public class Stairs extends GameObject{
         this.open = false;
     }
 
-    public int getDir() {
-        return dir;
+    @Override
+    public Position moveTo(Position diff) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void setDir(int dir) {
-        this.dir = dir;
+    @Override
+    public void save(Memento m) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public boolean isOpen() {
-        return true;
+    @Override
+    public Memento undo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
+
 }

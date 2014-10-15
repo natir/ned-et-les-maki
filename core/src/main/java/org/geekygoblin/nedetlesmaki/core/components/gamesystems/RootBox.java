@@ -23,6 +23,7 @@
 package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Entity;
+import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
 
@@ -32,7 +33,7 @@ import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
  */
 public class RootBox extends Box{
 
-    public RootBox(PositionIndexed pos, Entity entity, LevelIndex index) {
-        super(pos, entity, index);
+    public RootBox(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
+        super(pos, entity, index, assets);
     }
 }

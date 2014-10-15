@@ -279,7 +279,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createOrangeMaki(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        OrangeMaki obj = new OrangeMaki(new PositionIndexed(x, y, index), maki, index);
+        OrangeMaki obj = new OrangeMaki(new PositionIndexed(x, y, index), maki, index, assets);
         maki.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
@@ -313,7 +313,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createOrangeMakiOnPlate(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity maki = game.createEntity();
-        OrangeMaki obj = new OrangeMaki(new PositionIndexed(x, y, index), maki, index);
+        OrangeMaki obj = new OrangeMaki(new PositionIndexed(x, y, index), maki, index, assets);
         maki.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, maki);
         game.addEntity(maki);
@@ -341,7 +341,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createBox(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity box = game.createEntity();
-        Box obj = new Box(new PositionIndexed(x, y, index), box, index);
+        Box obj = new Box(new PositionIndexed(x, y, index), box, index, assets);
         box.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, box);
         game.addEntity(box);
@@ -351,7 +351,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createRootedBox(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         Entity box = game.createEntity();
-        RootBox obj = new RootBox(new PositionIndexed(x, y, index), box, index);
+        RootBox obj = new RootBox(new PositionIndexed(x, y, index), box, index, assets);
         box.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, box);
         game.addEntity(box);
