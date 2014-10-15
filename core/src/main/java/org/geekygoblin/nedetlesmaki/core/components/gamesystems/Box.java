@@ -42,6 +42,7 @@ public class Box extends GameObject {
     enum MoveType {
 
         NO,
+        BOOM,
         DESTROY,
         UNDESTROY,
     }
@@ -58,7 +59,7 @@ public class Box extends GameObject {
         Position n_pos = Position.sum(this.pos, diff);
         GameObject n_obj = this.index.getGameObject(n_pos);
         Plate n_plate = this.index.getPlate(n_pos);
-        
+
         if (n_obj == null && n_plate == null) {
             this.pos.setPosition(n_pos);
             this.run_animation(diff, MoveType.NO);
@@ -67,9 +68,22 @@ public class Box extends GameObject {
         return this.pos;
     }
 
+    public Position destroyMove(Position diff) {
+        Position current = new Position(this.pos);
+        Position next = this.moveTo(diff);
+
+        if (next.equals(current)) {
+            run_animation(Position.getVoid(), MoveType.BOOM);
+        } else {
+            run_animation(Position.getVoid(), MoveType.DESTROY);
+        }
+
+        this.index.deleted(this.pos);
+        return this.pos;
+    }
+
     @Override
-    public void save(Memento m
-    ) {
+    public void save(Memento m) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -97,6 +111,10 @@ public class Box extends GameObject {
             } else if (diff.equals(Position.getLeft())) {
                 updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
             }
+        } else if (type == MoveType.BOOM) {
+            updatable.startAnimation(this.animation.getAnimationByName("box_boom"), PlayMode.ONCE);
+        } else if (type == MoveType.DESTROY) {
+            updatable.startAnimation(this.animation.getAnimationByName("destroy"), PlayMode.ONCE);
         }
 
         this.entity.addComponent(updatable);
