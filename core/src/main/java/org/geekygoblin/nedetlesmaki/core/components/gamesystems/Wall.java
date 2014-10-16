@@ -22,8 +22,17 @@ public class Wall extends GameObject{
     }
 
     @Override
-    public boolean moveTo(Position diff) {
-        return false;
+    public Position moveTo(Position diff) {
+        return this.pos;
     }
-   
+
+    @Override
+    public void save(Memento m) {
+        
+    }
+
+    @Override
+    public Memento undo() {
+        return null;
+    }
 }
