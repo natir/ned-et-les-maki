@@ -58,60 +58,61 @@ public class BlueMaki extends GameObject {
     @Override
     public Position moveTo(Position diff) {
         boolean stop = false;
+        int loop_cpt;
         Position n_pos = Position.sum(this.pos, diff);
         GameObject n_obj = this.index.getGameObject(n_pos);
         Plate c_plate = this.index.getPlate(this.pos);
         Plate n_plate = this.index.getPlate(n_pos);
+        MoveType type = MoveType.NO;
 
-        for (int loop_cpt = 0; !stop; loop_cpt++) { // while stop is false
+        for (loop_cpt = 0; !stop; loop_cpt++) { // while stop is false
 
             if (n_obj != null) { // If next pos have object
-                Position n_move_to;
-                if (n_obj instanceof Box) {
-                    if (loop_cpt > 2) {
-                        n_move_to = ((Box) n_obj).destroyMove(diff);
+                Position n_move_to = n_pos;
+                if (loop_cpt > 2) {
+                    if (n_obj instanceof Box) {
+                        n_pos = ((Box) n_obj).destroyMove(diff);
                     } else {
-                        n_move_to = n_obj.moveTo(diff);
+                        Position actual = new Position(n_obj.getPos());
+                        n_obj.moveTo(diff);
+                        if (!actual.equals(n_obj.getPos())) {
+                            n_pos = Position.sum(n_pos, diff);
+                        }
                     }
-                } else {
-                    n_move_to = n_obj.moveTo(diff);
                 }
 
                 stop = true;
-                if (n_move_to.equals(n_pos)) {
-                    diff = Position.getVoid();
-                } else {
-                    this.pos.setPosition(n_pos);
-                }
             } else {
-                this.pos.setPosition(n_pos);
+                n_pos = Position.sum(n_pos, diff);
             }
             if (n_plate != null && n_plate.getColorType() == ColorType.blue && !n_plate.haveMaki()) { // Move to plate
                 if (this.validate && c_plate != null) { // Actuali is in plate
-                    this.run_animation(diff, MoveType.NO);
                     c_plate.setMaki(false);
-                } else {
-                    this.run_animation(diff, MoveType.VALIDATE);
+                    type = MoveType.NO;
+                } else { // Actuali isn't in plate
                     this.validate = true;
+                    type = MoveType.VALIDATE;
                 }
                 n_plate.setMaki(true);
                 stop = true;
             } else { // Didn't move to plate
-                if (this.validate && !diff.equals(Position.getVoid())) { // Actuali is in plate
-                    this.run_animation(diff, MoveType.UNVALIDATE);
+                if (this.validate && !diff.equals(Position.getVoid()) && c_plate != null) { // Actuali is in plate
                     this.validate = false;
                     c_plate.setMaki(false);
-                } else {
-                    this.run_animation(diff, MoveType.NO);
+                    type = MoveType.UNVALIDATE;
                 }
             }
 
             //Realocation
-            n_pos = Position.sum(this.pos, diff);
             n_obj = this.index.getGameObject(n_pos);
             c_plate = this.index.getPlate(this.pos);
             n_plate = this.index.getPlate(n_pos);
         }
+
+        n_pos = Position.deduction(n_pos, diff);
+        diff = Position.deduction(n_pos, this.pos);
+        this.pos.setPosition(n_pos);
+        this.run_animation(diff, type);
 
         return this.pos;
 
@@ -138,14 +139,38 @@ public class BlueMaki extends GameObject {
             updatable = new SpritePuppetControls(sprite);
         }
 
-        if (type == MoveType.NO) {
-            updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.speed);
-        } else if (type == MoveType.VALIDATE) {
-            updatable.startAnimation(this.animation.getAnimationByName("maki_blue_one"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.speed);
+        if (diff.getX() == 0 && diff.getY() < - 2) {
+            updatable.moveToRelative(new Vector3(-2, 0, 0), AnimationTime.base * 2)
+                    .startAnimation(this.animation.getAnimationByName("boost_start_up"), PlayMode.ONCE)
+                    .startAnimation(this.animation.getAnimationByName("boost_loop_up"), PlayMode.LOOP)
+                    .moveToRelative(new Vector3(diff.getY() + 2, 0, 0), AnimationTime.speed * diff.getY() * -1)
+                    .startAnimation(this.animation.getAnimationByName("boost_stop_up"), PlayMode.ONCE);
+        } /*else if (diff.getX() == 0 && diff.getY() > 2) {
+         updatable.moveToRelative(new Vector3(2, 0, 0), AnimationTime.base * 2)
+         .startAnimation(this.animation.getAnimationByName("boost_start_down"), PlayMode.ONCE)
+         .startAnimation(this.animation.getAnimationByName("boost_loop_down"), PlayMode.LOOP)
+         //            .moveToRelative(new Vector3(diff.getY() - 2, 0, 0), AnimationTime.speed * diff.getY() * -1)
+         .startAnimation(this.animation.getAnimationByName("boost_stop_down"), PlayMode.ONCE);
+         } else if (diff.getX() > 0 && diff.getY() == 0) {
+         updatable.moveToRelative(new Vector3(0, 2, 0), AnimationTime.base * 2)
+         .startAnimation(this.animation.getAnimationByName("boost_start_right"), PlayMode.ONCE)
+         .startAnimation(this.animation.getAnimationByName("boost_loop_right"), PlayMode.LOOP)
+         //            .moveToRelative(new Vector3(0,diff.getY() - 2, 0), AnimationTime.speed * diff.getY() * -1)
+         .startAnimation(this.animation.getAnimationByName("boost_stop_right"), PlayMode.ONCE);
+         } else if (diff.getX() < 0 && diff.getY() == 0) {
+         updatable.moveToRelative(new Vector3(0, -2, 0), AnimationTime.base * 2)
+         .startAnimation(this.animation.getAnimationByName("boost_start_left"), PlayMode.ONCE)
+         .startAnimation(this.animation.getAnimationByName("boost_loop_left"), PlayMode.LOOP)
+         //            .moveToRelative(new Vector3(0, diff.getY() + 2, 0), AnimationTime.speed * diff.getY() * -1)
+         .startAnimation(this.animation.getAnimationByName("boost_stop_left"), PlayMode.ONCE);
+         }*/ else {
+            updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+        }
+
+        if (type == MoveType.VALIDATE) {
+            updatable.startAnimation(this.animation.getAnimationByName("maki_blue_one"), PlayMode.ONCE);
         } else if (type == MoveType.UNVALIDATE) {
-            updatable.startAnimation(this.animation.getAnimationByName("maki_blue_out"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.speed);
+            updatable.startAnimation(this.animation.getAnimationByName("maki_blue_out"), PlayMode.ONCE);
         }
 
         this.entity.addComponent(updatable);
