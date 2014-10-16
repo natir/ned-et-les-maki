@@ -68,16 +68,17 @@ public class BlueMaki extends GameObject {
         for (loop_cpt = 0; !stop; loop_cpt++) { // while stop is false
 
             if (n_obj != null) { // If next pos have object
-                Position n_move_to = n_pos;
+                Position n_obj_pos = new Position(n_obj.getPos());
                 if (loop_cpt > 2) {
                     if (n_obj instanceof Box) {
-                        n_pos = ((Box) n_obj).destroyMove(diff);
+                        n_obj_pos = ((Box) n_obj).destroyMove(diff);
+                        n_pos = Position.sum(n_pos, diff);
                     } else {
-                        Position actual = new Position(n_obj.getPos());
                         n_obj.moveTo(diff);
-                        if (!actual.equals(n_obj.getPos())) {
-                            n_pos = Position.sum(n_pos, diff);
-                        }
+                    }
+
+                    if (!n_obj_pos.equals(n_obj.getPos())) {
+                        n_pos = Position.sum(n_pos, diff);
                     }
                 }
 
@@ -139,31 +140,31 @@ public class BlueMaki extends GameObject {
             updatable = new SpritePuppetControls(sprite);
         }
 
-        if (diff.getX() == 0 && diff.getY() < - 2) {
+        if (diff.getX() == 0 && diff.getY() < -2) {
             updatable.moveToRelative(new Vector3(-2, 0, 0), AnimationTime.base * 2)
                     .startAnimation(this.animation.getAnimationByName("boost_start_up"), PlayMode.ONCE)
                     .startAnimation(this.animation.getAnimationByName("boost_loop_up"), PlayMode.LOOP)
                     .moveToRelative(new Vector3(diff.getY() + 2, 0, 0), AnimationTime.speed * diff.getY() * -1)
                     .startAnimation(this.animation.getAnimationByName("boost_stop_up"), PlayMode.ONCE);
-        } /*else if (diff.getX() == 0 && diff.getY() > 2) {
-         updatable.moveToRelative(new Vector3(2, 0, 0), AnimationTime.base * 2)
-         .startAnimation(this.animation.getAnimationByName("boost_start_down"), PlayMode.ONCE)
-         .startAnimation(this.animation.getAnimationByName("boost_loop_down"), PlayMode.LOOP)
-         //            .moveToRelative(new Vector3(diff.getY() - 2, 0, 0), AnimationTime.speed * diff.getY() * -1)
-         .startAnimation(this.animation.getAnimationByName("boost_stop_down"), PlayMode.ONCE);
-         } else if (diff.getX() > 0 && diff.getY() == 0) {
-         updatable.moveToRelative(new Vector3(0, 2, 0), AnimationTime.base * 2)
-         .startAnimation(this.animation.getAnimationByName("boost_start_right"), PlayMode.ONCE)
-         .startAnimation(this.animation.getAnimationByName("boost_loop_right"), PlayMode.LOOP)
-         //            .moveToRelative(new Vector3(0,diff.getY() - 2, 0), AnimationTime.speed * diff.getY() * -1)
-         .startAnimation(this.animation.getAnimationByName("boost_stop_right"), PlayMode.ONCE);
-         } else if (diff.getX() < 0 && diff.getY() == 0) {
-         updatable.moveToRelative(new Vector3(0, -2, 0), AnimationTime.base * 2)
-         .startAnimation(this.animation.getAnimationByName("boost_start_left"), PlayMode.ONCE)
-         .startAnimation(this.animation.getAnimationByName("boost_loop_left"), PlayMode.LOOP)
-         //            .moveToRelative(new Vector3(0, diff.getY() + 2, 0), AnimationTime.speed * diff.getY() * -1)
-         .startAnimation(this.animation.getAnimationByName("boost_stop_left"), PlayMode.ONCE);
-         }*/ else {
+        } else if (diff.getX() == 0 && diff.getY() > 2) {
+            updatable.moveToRelative(new Vector3(2, 0, 0), AnimationTime.base * 2)
+                    .startAnimation(this.animation.getAnimationByName("boost_start_down"), PlayMode.ONCE)
+                    .startAnimation(this.animation.getAnimationByName("boost_loop_down"), PlayMode.LOOP)
+                    .moveToRelative(new Vector3(diff.getY() - 2, 0, 0), AnimationTime.speed * diff.getY())
+                    .startAnimation(this.animation.getAnimationByName("boost_stop_down"), PlayMode.ONCE);
+        } else if (diff.getX() > 2 && diff.getY() == 0) {
+            updatable.moveToRelative(new Vector3(0, 2, 0), AnimationTime.base * 2)
+                    .startAnimation(this.animation.getAnimationByName("boost_start_right"), PlayMode.ONCE)
+                    .startAnimation(this.animation.getAnimationByName("boost_loop_right"), PlayMode.LOOP)
+                    .moveToRelative(new Vector3(0, diff.getX() - 2, 0), AnimationTime.speed * diff.getX())
+                    .startAnimation(this.animation.getAnimationByName("boost_stop_right"), PlayMode.ONCE);
+        } else if (diff.getX() < -2 && diff.getY() == 0) {
+            updatable.moveToRelative(new Vector3(0, -2, 0), AnimationTime.base * 2)
+                    .startAnimation(this.animation.getAnimationByName("boost_start_left"), PlayMode.ONCE)
+                    .startAnimation(this.animation.getAnimationByName("boost_loop_left"), PlayMode.LOOP)
+                    .moveToRelative(new Vector3(0, diff.getX() + 2, 0), AnimationTime.speed * diff.getX() * -1)
+                    .startAnimation(this.animation.getAnimationByName("boost_stop_left"), PlayMode.ONCE);
+        } else {
             updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
         }
 
