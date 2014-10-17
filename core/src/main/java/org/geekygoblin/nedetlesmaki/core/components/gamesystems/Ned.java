@@ -70,7 +70,7 @@ public class Ned extends GameObject {
                     Position fly_final_pos = Position.deduction(n_move_to, diff);
                     this.run_animation(Position.deduction(fly_final_pos, this.pos), MoveType.FLY);
                     this.pos.setPosition(fly_final_pos);
-                    this.save(new Memento(diff, MoveType.FLY, n_obj));
+                    this.save(new Memento(Position.sum(Position.deduction(fly_final_pos, n_pos), diff), MoveType.FLY, n_obj));
                     return this.pos;
                 } else if (n_obj instanceof BlueMaki) { //Push BlueMaki
                     this.run_animation(diff, MoveType.WAIT);

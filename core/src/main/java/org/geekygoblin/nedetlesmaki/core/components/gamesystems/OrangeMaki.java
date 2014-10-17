@@ -50,29 +50,35 @@ public class OrangeMaki extends GameObject {
 
     @Override
     public Position moveTo(Position diff, float wait_time) {
+        int loop_cpt;
+        MoveType last_move = MoveType.NO;
         Position n_pos = Position.sum(this.pos, diff);
         GameObject n_obj = this.index.getGameObject(n_pos);
         Plate c_plate = this.index.getPlate(this.pos);
         Plate n_plate = this.index.getPlate(n_pos);
 
-        while (n_obj == null) { // while no objet move continue
+        for (loop_cpt = 0; n_obj == null; loop_cpt++) { // while no objet move continue
             this.pos.setPosition(n_pos);
             if (n_plate != null && n_plate.getColorType() == ColorType.orange) { // Move to plate
                 if (this.validate) { // Actuali is in plate
                     this.run_animation(diff, MoveType.NO);
+                    last_move = MoveType.NO;
                     this.index.setPlateValue(c_plate, false);
                 } else {
                     this.run_animation(diff, MoveType.VALIDATE);
+                    last_move = MoveType.VALIDATE;
                     this.validate = true;
                 }
                 this.index.setPlateValue(n_plate, true);
             } else { // Didn't move to plate
                 if (this.validate) { // Actuali is in plate
                     this.run_animation(diff, MoveType.UNVALIDATE);
+                    last_move = MoveType.UNVALIDATE;
                     this.validate = false;
                     this.index.setPlateValue(c_plate, false);
                 } else {
                     this.run_animation(diff, MoveType.NO);
+                    last_move = MoveType.NO;
                 }
             }
 
@@ -82,12 +88,41 @@ public class OrangeMaki extends GameObject {
             n_plate = this.index.getPlate(n_pos);
         }
 
+        this.save(new Memento(Position.multiplication(diff, loop_cpt), last_move, null));
         return this.pos;
     }
 
     @Override
     public void undo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Memento m = (Memento) this.guard.pullSavedStates();
+
+        if (m == null) {
+            return;
+        }
+
+        Position n_pos = Position.sum(this.pos, Position.multiplication(m.getDiff(), -1));
+        MoveType type = m.getType();
+
+        Plate c_plate = this.index.getPlate(this.pos);
+        Plate n_plate = this.index.getPlate(n_pos);
+
+        if (type == MoveType.VALIDATE) {
+                this.index.setPlateValue(c_plate, false);
+                this.run_animation(Position.multiplication(m.getDiff(), -1), MoveType.UNVALIDATE);
+                this.validate = false;
+        } else if (type == MoveType.UNVALIDATE){
+                this.index.setPlateValue(n_plate, true);
+                this.run_animation(Position.multiplication(m.getDiff(), -1), MoveType.VALIDATE);
+                this.validate = true;
+        } else {
+            this.run_animation(Position.multiplication(m.getDiff(), -1), type);
+        }
+
+        this.pos.setPosition(n_pos);
+
+        if (m.getNext() != null) {
+            m.getNext().undo();
+        }
     }
 
     private void run_animation(Position diff, MoveType type) {
