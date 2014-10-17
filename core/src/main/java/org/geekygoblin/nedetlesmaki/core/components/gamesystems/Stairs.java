@@ -3,26 +3,55 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Entity;
+import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.animation.PlayMode;
+import im.bci.jnuit.artemis.sprite.Sprite;
+import im.bci.jnuit.artemis.sprite.SpritePuppetControls;
+import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
+import org.geekygoblin.nedetlesmaki.core.constants.AnimationTime;
+import pythagoras.f.Vector3;
 
 /**
  *
  * @author pierre
  */
-public class Stairs extends GameObject{
+public class Stairs extends GameObject {
+
+    enum MoveType {
+
+        OPEN,
+        CLOSE,
+    }
 
     private int dir;
     private boolean open;
-    
-    public Stairs(PositionIndexed pos, Entity entity, LevelIndex index) {
+    private final IAnimationCollection animation;
+
+    public Stairs(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
         super(pos, entity, index);
         this.open = false;
+        this.animation = assets.getAnimations("stairs.json");
+    }
+
+    @Override
+    public Position moveTo(Position diff, float wait_time) {
+        return this.pos;
+    }
+
+    @Override
+    public void save(Memento m) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Memento undo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getDir() {
@@ -34,10 +63,52 @@ public class Stairs extends GameObject{
     }
 
     public boolean isOpen() {
-        return true;
+        return open;
     }
-    
+
     public void setOpen(boolean open) {
         this.open = open;
+
+        if (open) {
+            this.run_animation(MoveType.OPEN);
+        } else {
+            this.run_animation(MoveType.CLOSE);
+        }
+    }
+
+    private void run_animation(MoveType type) {
+        Sprite sprite = this.entity.getComponent(Sprite.class);
+        SpritePuppetControls updatable = this.entity.getComponent(SpritePuppetControls.class);
+
+        if (updatable
+                == null) {
+            updatable = new SpritePuppetControls(sprite);
+        }
+
+        if (type == MoveType.OPEN) {
+            if (dir == 1) {
+                updatable.startAnimation(this.animation.getAnimationByName("stairs_up_open"), PlayMode.ONCE);
+            } else if (dir == 2) {
+                updatable.startAnimation(this.animation.getAnimationByName("stairs_down_open"), PlayMode.ONCE);
+            } else if (dir == 3) {
+                updatable.startAnimation(this.animation.getAnimationByName("stairs_left_open"), PlayMode.ONCE);
+            } else if (dir == 4) {
+                updatable.startAnimation(this.animation.getAnimationByName("stairs_right_open"), PlayMode.ONCE);
+            }
+        } else if (type == MoveType.CLOSE) {
+            if (dir == 1) {
+                updatable.startAnimation(this.animation.getAnimationByName("stairs_up_close"), PlayMode.ONCE);
+            } else if (dir == 2) {
+                updatable.startAnimation(this.animation.getAnimationByName("stairs_down_close"), PlayMode.ONCE);
+            } else if (dir == 3) {
+                updatable.startAnimation(this.animation.getAnimationByName("stairs_left_close"), PlayMode.ONCE);
+            } else if (dir == 4) {
+                updatable.startAnimation(this.animation.getAnimationByName("stairs_right_close"), PlayMode.ONCE);
+            }
+        }
+
+        this.entity.addComponent(updatable);
+
+        this.entity.changedInWorld();
     }
 }
