@@ -89,8 +89,19 @@ public class Ned extends GameObject {
 
     @Override
     public void undo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
+        Memento m = (Memento)this.guard.pullSavedStates();
+    
+        if(m == null) {
+            return ;
+        }
+     
+        Position n_pos = Position.sum(this.pos, Position.multiplication(m.getDiff(), -1));
+        this.pos.setPosition(n_pos);
+        this.run_animation(Position.multiplication(m.getDiff(), -1), m.getType());
+        
+        if(m.getNext() != null) {
+            m.getNext().undo();
+        }
     }
 
     private void run_animation(Position diff, MoveType type) {

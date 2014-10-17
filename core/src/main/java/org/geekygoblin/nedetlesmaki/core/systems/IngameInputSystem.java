@@ -98,7 +98,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 }
 
                 if (controls.getRewind().isPressed() || inGameUI.getRewind().pollActivation()) {
-
+                    this.nedMapper.getSafe(ned).undo();
                     ned.changedInWorld();
                 } else if (inGameUI.getReset().pollActivation()) {
                     game.addEntity(world.createEntity().addComponent(new Triggerable(startGameTrigger.get().withLevelName(game.getCurrentLevel()))));

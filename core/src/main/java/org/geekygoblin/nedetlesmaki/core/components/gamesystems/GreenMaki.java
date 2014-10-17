@@ -62,9 +62,11 @@ public class GreenMaki extends GameObject {
                 if (this.validate) { // Actuali is in plate
                     this.run_animation(diff, MoveType.NO);
                     this.index.setPlateValue(c_plate, false);
+                    this.save(new Memento(diff, MoveType.NO, null));
                 } else {
                     this.run_animation(diff, MoveType.VALIDATE);
                     this.validate = true;
+                    this.save(new Memento(diff, MoveType.VALIDATE, null));
                 }
                 this.index.setPlateValue(n_plate, true);
             } else { // Didn't move to plate
@@ -72,8 +74,10 @@ public class GreenMaki extends GameObject {
                     this.run_animation(diff, MoveType.UNVALIDATE);
                     this.validate = false;
                     this.index.setPlateValue(c_plate, false);
+                    this.save(new Memento(diff, MoveType.UNVALIDATE, n_obj));
                 } else {
                     this.run_animation(diff, MoveType.NO);
+                    this.save(new Memento(diff, MoveType.NO, n_obj));
                 }
             }
             return this.pos;
@@ -84,7 +88,35 @@ public class GreenMaki extends GameObject {
 
     @Override
     public void undo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Memento m = (Memento) this.guard.pullSavedStates();
+
+        if (m == null) {
+            return;
+        }
+
+        Position n_pos = Position.sum(this.pos, Position.multiplication(m.getDiff(), -1));
+        MoveType type = m.getType();
+
+        Plate c_plate = this.index.getPlate(this.pos);
+        Plate n_plate = this.index.getPlate(n_pos);
+
+        if (type == MoveType.VALIDATE) {
+                this.index.setPlateValue(c_plate, false);
+                this.run_animation(Position.multiplication(m.getDiff(), -1), MoveType.UNVALIDATE);
+                this.validate = false;
+        } else if (type == MoveType.UNVALIDATE){
+                this.index.setPlateValue(n_plate, true);
+                this.run_animation(Position.multiplication(m.getDiff(), -1), MoveType.VALIDATE);
+                this.validate = true;
+        } else {
+            this.run_animation(Position.multiplication(m.getDiff(), -1), type);
+        }
+
+        this.pos.setPosition(n_pos);
+
+        if (m.getNext() != null) {
+            m.getNext().undo();
+        }
     }
 
     private void run_animation(Position diff, MoveType type) {

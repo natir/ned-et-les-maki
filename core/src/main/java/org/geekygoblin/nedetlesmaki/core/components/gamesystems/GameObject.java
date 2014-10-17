@@ -24,6 +24,7 @@ package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 import com.artemis.Component;
 import com.artemis.Entity;
 import java.util.ArrayList;
+import java.util.Stack;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
@@ -93,7 +94,7 @@ public abstract class GameObject extends Component {
         private Position diff;
         private MoveType type;
         private GameObject next;
-        
+
         public Memento(Position diff, MoveType type, GameObject next) {
             this.diff = diff;
             this.type = type;
@@ -127,14 +128,18 @@ public abstract class GameObject extends Component {
 
     protected class GameObjectGuard {
 
-        private final ArrayList savedStates = new ArrayList();
+        private final Stack savedStates = new Stack();
 
         public void addSavedStates(Object m) {
             savedStates.add(m);
         }
 
-        public Object getSavedStates(int index) {
-            return this.savedStates.get(index);
+        public Object pullSavedStates() {
+            if (!savedStates.empty()) {
+                return this.savedStates.pop();
+            } else {
+                return null;
+            }
         }
     }
 }
