@@ -39,14 +39,6 @@ import pythagoras.f.Vector3;
  */
 public class Box extends GameObject {
 
-    enum MoveType {
-
-        NO,
-        BOOM,
-        DESTROY,
-        UNDESTROY,
-    }
-
     private final IAnimationCollection animation;
 
     public Box(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {

@@ -39,15 +39,6 @@ import pythagoras.f.Vector3;
  */
 public class Ned extends GameObject {
 
-    enum MoveType {
-
-        WALK,
-        PUSH,
-        FLY,
-        WAIT,
-        MOUNT,
-    }
-
     private boolean end;
     private final IAnimationCollection animation;
 
@@ -108,8 +99,7 @@ public class Ned extends GameObject {
         Sprite sprite = this.entity.getComponent(Sprite.class);
         SpritePuppetControls updatable = this.entity.getComponent(SpritePuppetControls.class);
 
-        if (updatable
-                == null) {
+        if (updatable == null) {
             updatable = new SpritePuppetControls(sprite);
         }
 
@@ -193,6 +183,8 @@ public class Ned extends GameObject {
             }
         }
 
+        //this.save(new Memento(diff, type));
+        
         this.entity.addComponent(updatable);
 
         this.entity.changedInWorld();

@@ -40,13 +40,6 @@ import pythagoras.f.Vector3;
  */
 public class OrangeMaki extends GameObject {
 
-    enum MoveType {
-
-        NO,
-        VALIDATE,
-        UNVALIDATE,
-    }
-
     private boolean validate;
     private final IAnimationCollection animation;
 

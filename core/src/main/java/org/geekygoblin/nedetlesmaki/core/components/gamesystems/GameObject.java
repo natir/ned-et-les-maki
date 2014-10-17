@@ -34,6 +34,28 @@ import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
  */
 public abstract class GameObject extends Component {
 
+    protected enum MoveType {
+
+        // All
+        NO,
+        // Maki
+        VALIDATE,
+        UNVALIDATE,
+        //Box
+        BOOM,
+        DESTROY,
+        UNDESTROY,
+        //Ned
+        WALK,
+        PUSH,
+        FLY,
+        WAIT,
+        MOUNT,
+        //stairs
+        OPEN,
+        CLOSE,
+    }
+
     protected Entity entity;
     protected PositionIndexed pos;
     protected LevelIndex index;
@@ -66,8 +88,12 @@ public abstract class GameObject extends Component {
 
     protected static class Memento {
 
-        public Memento(String stateToSave) {
+        private Position diff;
+        private MoveType type;
 
+        public Memento(Position diff, MoveType type) {
+            this.diff = diff;
+            this.type = type;
         }
     }
 

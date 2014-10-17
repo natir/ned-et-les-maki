@@ -14,20 +14,12 @@ import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
-import org.geekygoblin.nedetlesmaki.core.constants.AnimationTime;
-import pythagoras.f.Vector3;
 
 /**
  *
  * @author pierre
  */
 public class Stairs extends GameObject {
-
-    enum MoveType {
-
-        OPEN,
-        CLOSE,
-    }
 
     private int dir;
     private boolean open;
