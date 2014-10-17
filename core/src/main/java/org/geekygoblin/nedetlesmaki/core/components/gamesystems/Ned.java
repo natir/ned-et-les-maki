@@ -56,6 +56,7 @@ public class Ned extends GameObject {
         if (n_obj == null) {
             this.pos.setPosition(n_pos);
             this.run_animation(diff, MoveType.WALK);
+            this.save(new Memento(diff, MoveType.WALK, null));
             return this.pos;
         } else {
             Position n_move_to = n_obj.moveTo(diff, 0.0f);
@@ -63,14 +64,17 @@ public class Ned extends GameObject {
                 if (n_obj instanceof GreenMaki || n_obj instanceof Box || n_obj instanceof RootBox) { //PushGreen Maki, Box or RootedBox
                     this.pos.setPosition(n_pos);
                     this.run_animation(diff, MoveType.PUSH);
+                    this.save(new Memento(diff, MoveType.PUSH, n_obj));
                     return this.pos;
                 } else if (n_obj instanceof OrangeMaki) { //Push OrangeMaki
                     Position fly_final_pos = Position.deduction(n_move_to, diff);
                     this.run_animation(Position.deduction(fly_final_pos, this.pos), MoveType.FLY);
                     this.pos.setPosition(fly_final_pos);
+                    this.save(new Memento(diff, MoveType.FLY, n_obj));
                     return this.pos;
                 } else if (n_obj instanceof BlueMaki) { //Push BlueMaki
                     this.run_animation(diff, MoveType.WAIT);
+                    this.save(new Memento(diff, MoveType.WAIT, n_obj));
                     return this.pos;
                 }
             } else if (n_obj instanceof Stairs && ((Stairs) n_obj).isOpen()) { // Walk on stairs
@@ -84,13 +88,7 @@ public class Ned extends GameObject {
     }
 
     @Override
-    public void save(Memento m
-    ) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Memento undo() {
+    public void undo() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 
     }
@@ -183,8 +181,6 @@ public class Ned extends GameObject {
             }
         }
 
-        //this.save(new Memento(diff, type));
-        
         this.entity.addComponent(updatable);
 
         this.entity.changedInWorld();

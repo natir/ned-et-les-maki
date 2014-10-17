@@ -82,18 +82,46 @@ public abstract class GameObject extends Component {
 
     public abstract Position moveTo(Position diff, float wait_time);
 
-    public abstract void save(Memento m);
+    public void save(Memento m) {
+        this.guard.addSavedStates(m);
+    }
 
-    public abstract Memento undo();
+    public abstract void undo();
 
     protected static class Memento {
 
         private Position diff;
         private MoveType type;
-
-        public Memento(Position diff, MoveType type) {
+        private GameObject next;
+        
+        public Memento(Position diff, MoveType type, GameObject next) {
             this.diff = diff;
             this.type = type;
+            this.next = next;
+        }
+
+        public Position getDiff() {
+            return diff;
+        }
+
+        public void setDiff(Position diff) {
+            this.diff = diff;
+        }
+
+        public MoveType getType() {
+            return type;
+        }
+
+        public void setType(MoveType type) {
+            this.type = type;
+        }
+
+        public GameObject getNext() {
+            return next;
+        }
+
+        public void setNext(GameObject next) {
+            this.next = next;
         }
     }
 

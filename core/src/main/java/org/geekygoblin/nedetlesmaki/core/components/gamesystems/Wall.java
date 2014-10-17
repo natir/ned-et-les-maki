@@ -27,12 +27,7 @@ public class Wall extends GameObject{
     }
 
     @Override
-    public void save(Memento m) {
-        
-    }
+    public void undo() {
 
-    @Override
-    public Memento undo() {
-        return null;
     }
 }

@@ -37,13 +37,7 @@ public class Stairs extends GameObject {
     }
 
     @Override
-    public void save(Memento m) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Memento undo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void undo() {
     }
 
     public int getDir() {
