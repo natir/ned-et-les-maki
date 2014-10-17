@@ -76,7 +76,7 @@ public class Box extends GameObject {
 
     @Override
     public void undo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     private void run_animation(Position diff, MoveType type, float wait_time) {

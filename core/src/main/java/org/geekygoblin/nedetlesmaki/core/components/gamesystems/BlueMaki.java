@@ -52,6 +52,7 @@ public class BlueMaki extends GameObject {
     public Position moveTo(Position diff, float wait_time) {
         boolean stop = false;
         int loop_cpt;
+        GameObject last_obj_push = null;
         Position n_pos = Position.sum(this.pos, diff);
         GameObject n_obj = this.index.getGameObject(n_pos);
         Plate c_plate = this.index.getPlate(this.pos);
@@ -74,7 +75,7 @@ public class BlueMaki extends GameObject {
                         n_pos = Position.sum(n_pos, diff);
                     }
                 }
-
+                last_obj_push = n_obj;
                 stop = true;
             } else {
                 n_pos = Position.sum(n_pos, diff);
@@ -107,6 +108,7 @@ public class BlueMaki extends GameObject {
         diff = Position.deduction(n_pos, this.pos);
         this.pos.setPosition(n_pos);
         this.run_animation(diff, type, wait_time);
+        this.save(new Memento(diff, type, last_obj_push));
 
         return this.pos;
 
@@ -114,8 +116,19 @@ public class BlueMaki extends GameObject {
 
     @Override
     public void undo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Memento m = (Memento) this.guard.pullSavedStates();
 
+        if (m == null) {
+            return;
+        }
+
+        Position n_pos = Position.sum(this.pos, Position.multiplication(m.getDiff(), -1));
+        this.pos.setPosition(n_pos);
+        this.run_animation(Position.multiplication(m.getDiff(), -1), m.getType(), 0.0f);
+
+        if (m.getNext() != null) {
+            m.getNext().undo();
+        }
     }
 
     private void run_animation(Position diff, MoveType type, float wait_time) {

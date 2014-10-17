@@ -74,7 +74,7 @@ public class Ned extends GameObject {
                     return this.pos;
                 } else if (n_obj instanceof BlueMaki) { //Push BlueMaki
                     this.run_animation(diff, MoveType.WAIT);
-                    this.save(new Memento(diff, MoveType.WAIT, n_obj));
+                    this.save(new Memento(Position.getVoid(), MoveType.NO, n_obj));
                     return this.pos;
                 }
             } else if (n_obj instanceof Stairs && ((Stairs) n_obj).isOpen()) { // Walk on stairs
