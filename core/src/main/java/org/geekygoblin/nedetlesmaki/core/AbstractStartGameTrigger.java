@@ -392,7 +392,8 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createStairs(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer, int dir) {
         Entity stairs = game.createEntity();
-        Stairs obj = new Stairs(new PositionIndexed(x, y, index), stairs, index);
+        Stairs obj = new Stairs(new PositionIndexed(x, y, index), stairs, index, assets);
+        obj.setDir(dir);
         stairs.addComponent(obj);
         createSprite(x, y, l, tile, ApparitionEffect.NONE, stairs);
         game.addEntity(stairs);

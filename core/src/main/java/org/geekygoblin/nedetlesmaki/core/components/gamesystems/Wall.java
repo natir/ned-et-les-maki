@@ -22,7 +22,7 @@ public class Wall extends GameObject{
     }
 
     @Override
-    public Position moveTo(Position diff) {
+    public Position moveTo(Position diff, float wait_time) {
         return this.pos;
     }
 

@@ -55,27 +55,27 @@ public class Box extends GameObject {
     }
 
     @Override
-    public Position moveTo(Position diff) {
+    public Position moveTo(Position diff, float wait_time) {
         Position n_pos = Position.sum(this.pos, diff);
         GameObject n_obj = this.index.getGameObject(n_pos);
         Plate n_plate = this.index.getPlate(n_pos);
 
         if (n_obj == null && n_plate == null) {
             this.pos.setPosition(n_pos);
-            this.run_animation(diff, MoveType.NO);
+            this.run_animation(diff, MoveType.NO, wait_time);
         }
 
         return this.pos;
     }
 
-    public Position destroyMove(Position diff) {
+    public Position destroyMove(Position diff, float wait_time) {
         Position current = new Position(this.pos);
-        Position next = this.moveTo(diff);
+        Position next = this.moveTo(diff, wait_time);
 
         if (next.equals(current)) {
-            run_animation(Position.getVoid(), MoveType.BOOM);
+            run_animation(Position.getVoid(), MoveType.BOOM, wait_time);
         } else {
-            run_animation(Position.getVoid(), MoveType.DESTROY);
+            run_animation(Position.getVoid(), MoveType.DESTROY, wait_time);
         }
 
         this.index.deleted(this.pos);
@@ -92,7 +92,7 @@ public class Box extends GameObject {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void run_animation(Position diff, MoveType type) {
+    private void run_animation(Position diff, MoveType type, float wait_time) {
         Sprite sprite = this.entity.getComponent(Sprite.class);
         SpritePuppetControls updatable = this.entity.getComponent(SpritePuppetControls.class);
 
@@ -103,16 +103,21 @@ public class Box extends GameObject {
 
         if (type == MoveType.NO) { // No animation
             if (diff.equals(Position.getUp())) {
-                updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                updatable.waitDuring(wait_time)
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
             } else if (diff.equals(Position.getDown())) {
-                updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                updatable.waitDuring(wait_time)
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
             } else if (diff.equals(Position.getRight())) {
-                updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                updatable.waitDuring(wait_time)
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
             } else if (diff.equals(Position.getLeft())) {
-                updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                updatable.waitDuring(wait_time)
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
             }
         } else if (type == MoveType.BOOM) {
-            updatable.startAnimation(this.animation.getAnimationByName("box_boom"), PlayMode.ONCE);
+            updatable.waitDuring(wait_time)
+                    .startAnimation(this.animation.getAnimationByName("box_boom"), PlayMode.ONCE);
         } else if (type == MoveType.DESTROY) {
             updatable.startAnimation(this.animation.getAnimationByName("destroy"), PlayMode.ONCE);
         }

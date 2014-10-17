@@ -57,7 +57,7 @@ public class GreenMaki extends GameObject {
     }
 
     @Override
-    public Position moveTo(Position diff) {
+    public Position moveTo(Position diff, float wait_time) {
         Position n_pos = Position.sum(this.pos, diff);
         GameObject n_obj = this.index.getGameObject(n_pos);
         Plate c_plate = this.index.getPlate(this.pos);
@@ -68,17 +68,17 @@ public class GreenMaki extends GameObject {
             if (n_plate != null && n_plate.getColorType() == ColorType.green) { // Move to plate
                 if (this.validate) { // Actuali is in plate
                     this.run_animation(diff, MoveType.NO);
-                    c_plate.setMaki(false);
+                    this.index.setPlateValue(c_plate, false);
                 } else {
                     this.run_animation(diff, MoveType.VALIDATE);
                     this.validate = true;
                 }
-                n_plate.setMaki(true);
+                this.index.setPlateValue(n_plate, true);
             } else { // Didn't move to plate
                 if (this.validate) { // Actuali is in plate
                     this.run_animation(diff, MoveType.UNVALIDATE);
                     this.validate = false;
-                    c_plate.setMaki(false);
+                    this.index.setPlateValue(c_plate, false);
                 } else {
                     this.run_animation(diff, MoveType.NO);
                 }

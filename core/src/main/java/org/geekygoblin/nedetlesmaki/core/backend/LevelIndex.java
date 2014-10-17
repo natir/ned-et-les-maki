@@ -40,7 +40,7 @@ public class LevelIndex {
     private int height, width;
     private Entity ned;
     private Stairs stairs;
-    private ArrayList<Plate> allPlate;
+    private final ArrayList<Plate> allPlate;
 
     @Inject
     public LevelIndex() {
@@ -176,5 +176,27 @@ public class LevelIndex {
 
     public ArrayList<Plate> getAllPlate() {
         return this.allPlate;
+    }
+
+    public void setPlateValue(Plate p, boolean b) {
+        if (p != null) {
+            p.setMaki(b);
+
+            if (this.checkEndLevel()) {
+                this.stairs.setOpen(true);
+            } else if (this.stairs.isOpen()) {
+                this.stairs.setOpen(false);
+            }
+        }
+    }
+
+    private boolean checkEndLevel() {
+        for (int i = 0; i < this.allPlate.size(); i++) {
+            if (!this.allPlate.get(i).haveMaki()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

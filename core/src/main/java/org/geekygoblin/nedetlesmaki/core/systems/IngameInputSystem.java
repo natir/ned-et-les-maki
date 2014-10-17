@@ -135,16 +135,16 @@ public class IngameInputSystem extends EntityProcessingSystem {
                         }
                     }
                     if (upPressed) {
-                        this.nedMapper.getSafe(ned).moveTo(Position.getUp());
+                        this.nedMapper.getSafe(ned).moveTo(Position.getUp(), 0.0f);
                         ned.changedInWorld();
                     } else if (downPressed) {
-                        this.nedMapper.getSafe(ned).moveTo(Position.getDown());
+                        this.nedMapper.getSafe(ned).moveTo(Position.getDown(), 0.0f);
                         ned.changedInWorld();
                     } else if (leftPressed) {
-                        this.nedMapper.getSafe(ned).moveTo(Position.getLeft());
+                        this.nedMapper.getSafe(ned).moveTo(Position.getLeft(), 0.0f);
                         ned.changedInWorld();
                     } else if (rightPressed) {
-                        this.nedMapper.getSafe(ned).moveTo(Position.getRight());
+                        this.nedMapper.getSafe(ned).moveTo(Position.getRight(), 0.0f);
                         ned.changedInWorld();
                     }
                 }

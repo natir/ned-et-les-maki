@@ -27,7 +27,7 @@ import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
  *
  * @author natir
  */
-public class Plate{
+public class Plate {
 
     private boolean maki;
     private ColorType c;
@@ -41,8 +41,10 @@ public class Plate{
         return maki;
     }
 
-    public void setMaki(boolean b) {
+    public boolean setMaki(boolean b) {
         this.maki = b;
+
+        return b;
     }
 
     public ColorType getColorType() {
