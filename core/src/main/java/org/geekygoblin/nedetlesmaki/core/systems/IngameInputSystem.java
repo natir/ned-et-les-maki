@@ -92,6 +92,11 @@ public class IngameInputSystem extends EntityProcessingSystem {
             }
             if (canMoveNed()) {
                 Entity ned = game.getNed();
+
+                if (this.nedMapper.getSafe(ned).isEnd()) {
+                    world.addEntity(world.createEntity().addComponent(new Triggerable(showMenuTrigger.get())));
+                }
+
                 if (controls.getRewind().isPressed() || inGameUI.getRewind().pollActivation()) {
 
                     ned.changedInWorld();

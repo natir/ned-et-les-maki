@@ -45,12 +45,15 @@ public class Ned extends GameObject {
         PUSH,
         FLY,
         WAIT,
+        MOUNT,
     }
 
+    private boolean end;
     private final IAnimationCollection animation;
 
     public Ned(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
         super(pos, entity, index);
+        this.end = false;
         this.animation = assets.getAnimations("ned.json");
     }
 
@@ -79,6 +82,10 @@ public class Ned extends GameObject {
                     this.run_animation(diff, MoveType.WAIT);
                     return this.pos;
                 }
+            } else if (n_obj instanceof Stairs && ((Stairs) n_obj).isOpen()) { // Walk on stairs
+                this.run_animation(diff, MoveType.MOUNT);
+                this.end = true;
+                return this.pos;
             }
         }
 
@@ -170,10 +177,28 @@ public class Ned extends GameObject {
                         .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.speed * diff.getX() * -1)
                         .startAnimation(this.animation.getAnimationByName("fly_stop_left"), PlayMode.ONCE);
             }
+        } else if (type == MoveType.MOUNT) { // Mount Stairs animiation
+            if (diff.equals(Position.getUp())) {
+                updatable.startAnimation(this.animation.getAnimationByName("ned_mount_up"), PlayMode.ONCE)
+                        .moveToRelative(new Vector3(diff.getY() - 0.4f, diff.getX() - 0.2f, 1), AnimationTime.base);
+            } else if (diff.equals(Position.getDown())) {
+                updatable.startAnimation(this.animation.getAnimationByName("ned_mount_down"), PlayMode.ONCE)
+                        .moveToRelative(new Vector3(diff.getY() + 0.2f, diff.getX() - 0.4f, 1), AnimationTime.base);
+            } else if (diff.equals(Position.getRight())) {
+                updatable.startAnimation(this.animation.getAnimationByName("ned_mount_right"), PlayMode.ONCE)
+                        .moveToRelative(new Vector3(diff.getY() - 0.2f, diff.getX() + 0.2f, 1), AnimationTime.base);
+            } else if (diff.equals(Position.getLeft())) {
+                updatable.startAnimation(this.animation.getAnimationByName("ned_mount_left"), PlayMode.ONCE)
+                        .moveToRelative(new Vector3(diff.getY() - 0.2f, diff.getX() - 0.4f, 1), AnimationTime.base);
+            }
         }
 
         this.entity.addComponent(updatable);
 
         this.entity.changedInWorld();
+    }
+
+    public boolean isEnd() {
+        return end;
     }
 }
