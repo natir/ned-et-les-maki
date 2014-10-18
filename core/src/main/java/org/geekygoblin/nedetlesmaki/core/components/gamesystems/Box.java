@@ -54,6 +54,7 @@ public class Box extends GameObject {
 
         if (n_obj == null && n_plate == null) {
             this.pos.setPosition(n_pos);
+            this.save(new Memento(diff, MoveType.NO, n_obj));
             this.run_animation(diff, MoveType.NO, wait_time);
         }
 
@@ -63,10 +64,13 @@ public class Box extends GameObject {
     public Position destroyMove(Position diff, float wait_time) {
         Position current = new Position(this.pos);
         Position next = this.moveTo(diff, wait_time);
+        Memento m = (Memento) this.guard.pullSavedStates();
 
         if (next.equals(current)) {
+            this.save(new Memento(m.getDiff(), MoveType.BOOM, null));
             run_animation(Position.getVoid(), MoveType.BOOM, wait_time);
         } else {
+            this.save(new Memento(m.getDiff(), MoveType.DESTROY, null));
             run_animation(Position.getVoid(), MoveType.DESTROY, wait_time);
         }
 
@@ -76,7 +80,25 @@ public class Box extends GameObject {
 
     @Override
     public void undo() {
-        
+        Memento m = (Memento) this.guard.pullSavedStates();
+
+        if (m == null) {
+            return;
+        }
+
+        Position n_pos = Position.sum(this.pos, Position.multiplication(m.getDiff(), -1));
+        this.pos.setPosition(n_pos);
+
+        if (m.getType() == MoveType.DESTROY || m.getType() == MoveType.BOOM) {
+            this.run_animation(Position.multiplication(m.getDiff(), -1), MoveType.UNDESTROY, 0.0f);
+            this.pos.reIndex(this);
+        } else {
+            this.run_animation(Position.multiplication(m.getDiff(), -1), MoveType.NO, 0.0f);
+        }
+
+        if (m.getNext() != null) {
+            m.getNext().undo();
+        }
     }
 
     private void run_animation(Position diff, MoveType type, float wait_time) {
@@ -107,6 +129,9 @@ public class Box extends GameObject {
                     .startAnimation(this.animation.getAnimationByName("box_boom"), PlayMode.ONCE);
         } else if (type == MoveType.DESTROY) {
             updatable.startAnimation(this.animation.getAnimationByName("destroy"), PlayMode.ONCE);
+        } else if (type == MoveType.UNDESTROY) {
+            updatable.startAnimation(this.animation.getAnimationByName("create"), PlayMode.ONCE)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
         }
 
         this.entity.addComponent(updatable);

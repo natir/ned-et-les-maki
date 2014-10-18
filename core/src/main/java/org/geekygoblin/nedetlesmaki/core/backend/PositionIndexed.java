@@ -64,7 +64,13 @@ public class PositionIndexed extends Position {
         this.setPosition(pos.getX(), pos.getY());
     }
 
-    public void reIndex() {
-        this.setPosition(x, y);
+    public void reIndex(GameObject go) {
+        Square s = this.index.getSquare(this.x, this.y);
+
+        if (s == null) {
+            return;
+        }
+        
+        s.setGameObject(go);
     }
 }
