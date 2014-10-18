@@ -56,6 +56,8 @@ public class Box extends GameObject {
             this.pos.setPosition(n_pos);
             this.save(new Memento(diff, MoveType.NO, n_obj));
             this.run_animation(diff, MoveType.NO, wait_time);
+        } else {
+            this.save(new Memento(Position.getVoid(), MoveType.NO, null));
         }
 
         return this.pos;
