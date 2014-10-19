@@ -78,8 +78,12 @@ public class Ned extends GameObject {
                     return this.pos;
                 }
             } else if (n_obj instanceof Stairs && ((Stairs) n_obj).isOpen()) { // Walk on stairs
+                Stairs s = (Stairs) n_obj;
+                if (diff.equals(Position.multiplication(s.getDir(), -1))){
                 this.run_animation(diff, MoveType.MOUNT);
                 this.end = true;
+                }
+
                 return this.pos;
             }
         }
@@ -89,17 +93,17 @@ public class Ned extends GameObject {
 
     @Override
     public void undo() {
-        Memento m = (Memento)this.guard.pullSavedStates();
-    
-        if(m == null) {
-            return ;
+        Memento m = (Memento) this.guard.pullSavedStates();
+
+        if (m == null) {
+            return;
         }
-     
+
         Position n_pos = Position.sum(this.pos, Position.multiplication(m.getDiff(), -1));
         this.pos.setPosition(n_pos);
         this.run_animation(Position.multiplication(m.getDiff(), -1), m.getType());
-        
-        if(m.getNext() != null) {
+
+        if (m.getNext() != null) {
             m.getNext().undo();
         }
     }

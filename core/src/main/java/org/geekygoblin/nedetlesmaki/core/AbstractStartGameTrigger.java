@@ -204,16 +204,16 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
             return createPlate(tile, game, x, y, l, layer, ColorType.blue, false);
         }
         if ("stairs_close_up".equals(type)) {
-            return createStairs(tile, game, x, y, l, layer, 1);
+            return createStairs(tile, game, x, y, l, layer, Position.getUp());
         }
         if ("stairs_close_down".equals(type)) {
-            return createStairs(tile, game, x, y, l, layer, 2);
+            return createStairs(tile, game, x, y, l, layer, Position.getDown());
         }
         if ("stairs_close_left".equals(type)) {
-            return createStairs(tile, game, x, y, l, layer, 3);
+            return createStairs(tile, game, x, y, l, layer, Position.getLeft());
         }
         if ("stairs_close_right".equals(type)) {
-            return createStairs(tile, game, x, y, l, layer, 4);
+            return createStairs(tile, game, x, y, l, layer, Position.getRight());
         }
         if ("low_stairs".equals(type)) {
             return createLowStairs(tile, game, x, y, l, layer);
@@ -390,7 +390,7 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
         return plateEntity;
     }
 
-    protected Entity createStairs(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer, int dir) {
+    protected Entity createStairs(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer, Position dir) {
         Entity stairs = game.createEntity();
         Stairs obj = new Stairs(new PositionIndexed(x, y, index), stairs, index, assets);
         obj.setDir(dir);

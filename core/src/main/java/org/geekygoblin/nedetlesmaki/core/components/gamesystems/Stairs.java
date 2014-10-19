@@ -21,7 +21,7 @@ import org.geekygoblin.nedetlesmaki.core.backend.PositionIndexed;
  */
 public class Stairs extends GameObject {
 
-    private int dir;
+    private Position dir;
     private boolean open;
     private final IAnimationCollection animation;
 
@@ -40,11 +40,11 @@ public class Stairs extends GameObject {
     public void undo() {
     }
 
-    public int getDir() {
+    public Position getDir() {
         return dir;
     }
 
-    public void setDir(int dir) {
+    public void setDir(Position dir) {
         this.dir = dir;
     }
 
@@ -72,23 +72,23 @@ public class Stairs extends GameObject {
         }
 
         if (type == MoveType.OPEN) {
-            if (dir == 1) {
+            if (dir.equals(Position.getUp())) {
                 updatable.startAnimation(this.animation.getAnimationByName("stairs_up_open"), PlayMode.ONCE);
-            } else if (dir == 2) {
+            } else if (dir.equals(Position.getDown())) {
                 updatable.startAnimation(this.animation.getAnimationByName("stairs_down_open"), PlayMode.ONCE);
-            } else if (dir == 3) {
+            } else if (dir.equals(Position.getLeft())) {
                 updatable.startAnimation(this.animation.getAnimationByName("stairs_left_open"), PlayMode.ONCE);
-            } else if (dir == 4) {
+            } else if (dir.equals(Position.getRight())) {
                 updatable.startAnimation(this.animation.getAnimationByName("stairs_right_open"), PlayMode.ONCE);
             }
         } else if (type == MoveType.CLOSE) {
-            if (dir == 1) {
+            if (dir.equals(Position.getUp())) {
                 updatable.startAnimation(this.animation.getAnimationByName("stairs_up_close"), PlayMode.ONCE);
-            } else if (dir == 2) {
+            } else if (dir.equals(Position.getDown())) {
                 updatable.startAnimation(this.animation.getAnimationByName("stairs_down_close"), PlayMode.ONCE);
-            } else if (dir == 3) {
+            } else if (dir.equals(Position.getLeft())) {
                 updatable.startAnimation(this.animation.getAnimationByName("stairs_left_close"), PlayMode.ONCE);
-            } else if (dir == 4) {
+            } else if (dir.equals(Position.getRight())) {
                 updatable.startAnimation(this.animation.getAnimationByName("stairs_right_close"), PlayMode.ONCE);
             }
         }
