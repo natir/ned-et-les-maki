@@ -37,11 +37,6 @@ public class NedEtLesMakiPlaynGame extends Game.Default {
 
     @Override
     public void init() {
-
-        /*PlaynNedModule module = new PlaynNedModule();
-         Injector injector = Guice.createInjector(module);
-         mainLoop = injector.getInstance(IMainLoop.class);
-         */
         mainLoop = new NedFactory().getMainLoop();
     }
 
