@@ -68,8 +68,11 @@ public class Ned extends GameObject {
                     return this.pos;
                 } else if (n_obj instanceof OrangeMaki) { //Push OrangeMaki
                     Position fly_final_pos = Position.deduction(n_move_to, diff);
-                    this.run_animation(Position.getVoid(), MoveType.NO, 0.0f);
-                    this.run_animation(Position.deduction(fly_final_pos, this.pos), MoveType.FLY, 0.0f);
+                    if (Position.deduction(fly_final_pos, this.pos).equals(diff)) {
+                        this.run_animation(diff, MoveType.PUSH, 0.0f);
+                    } else {
+                        this.run_animation(Position.deduction(fly_final_pos, this.pos), MoveType.FLY, 0.0f);
+                    }
                     this.pos.setPosition(fly_final_pos);
                     this.save(new Memento(Position.sum(Position.deduction(fly_final_pos, n_pos), diff), MoveType.FLY, n_obj));
                     return this.pos;
