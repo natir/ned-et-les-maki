@@ -65,10 +65,10 @@ public class BlueMaki extends GameObject {
                 Position n_obj_pos = new Position(n_obj.getPos());
                 if (loop_cpt > 2) {
                     if (n_obj instanceof Box) {
-                        n_obj_pos = ((Box) n_obj).destroyMove(diff, wait_time + AnimationTime.speed * loop_cpt);
+                        n_obj_pos = ((Box) n_obj).destroyMove(diff, this.compute_animation_time(wait_time, loop_cpt));
                         n_pos = Position.sum(n_pos, diff);
                     } else {
-                        n_obj.moveTo(diff, AnimationTime.speed * loop_cpt);
+                        n_obj.moveTo(diff, this.compute_animation_time(wait_time, loop_cpt));
                     }
 
                     if (!n_obj_pos.equals(n_obj.getPos())) {
@@ -190,5 +190,9 @@ public class BlueMaki extends GameObject {
 
     public void setValidate(boolean validate) {
         this.validate = validate;
+    }
+
+    private float compute_animation_time(float wait_time, int loop_cpt) {
+        return wait_time + AnimationTime.base * 2 + AnimationTime.speed * (loop_cpt - 1);
     }
 }

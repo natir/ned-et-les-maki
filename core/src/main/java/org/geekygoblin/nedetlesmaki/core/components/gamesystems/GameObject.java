@@ -23,7 +23,6 @@ package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Component;
 import com.artemis.Entity;
-import java.util.ArrayList;
 import java.util.Stack;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
@@ -50,11 +49,12 @@ public abstract class GameObject extends Component {
         WALK,
         PUSH,
         FLY,
-        WAIT,
         MOUNT,
-        //stairs
+        //Stairs
         OPEN,
         CLOSE,
+        //Orange Maki and Ned
+        WAIT,
     }
 
     protected Entity entity;
@@ -84,7 +84,9 @@ public abstract class GameObject extends Component {
     public abstract Position moveTo(Position diff, float wait_time);
 
     public void save(Memento m) {
-        this.guard.addSavedStates(m);
+        if (m != null) {
+            this.guard.addSavedStates(m);
+        }
     }
 
     public abstract void undo();

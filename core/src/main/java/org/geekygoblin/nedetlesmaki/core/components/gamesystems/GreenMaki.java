@@ -60,23 +60,23 @@ public class GreenMaki extends GameObject {
             this.pos.setPosition(n_pos);
             if (n_plate != null && n_plate.getColorType() == ColorType.green) { // Move to plate
                 if (this.validate) { // Actuali is in plate
-                    this.run_animation(diff, MoveType.NO);
+                    this.run_animation(diff, MoveType.NO, wait_time);
                     this.index.setPlateValue(c_plate, false);
                     this.save(new Memento(diff, MoveType.NO, null));
                 } else {
-                    this.run_animation(diff, MoveType.VALIDATE);
+                    this.run_animation(diff, MoveType.VALIDATE, wait_time);
                     this.validate = true;
                     this.save(new Memento(diff, MoveType.VALIDATE, null));
                 }
                 this.index.setPlateValue(n_plate, true);
             } else { // Didn't move to plate
                 if (this.validate) { // Actuali is in plate
-                    this.run_animation(diff, MoveType.UNVALIDATE);
+                    this.run_animation(diff, MoveType.UNVALIDATE, wait_time);
                     this.validate = false;
                     this.index.setPlateValue(c_plate, false);
                     this.save(new Memento(diff, MoveType.UNVALIDATE, n_obj));
                 } else {
-                    this.run_animation(diff, MoveType.NO);
+                    this.run_animation(diff, MoveType.NO, wait_time);
                     this.save(new Memento(diff, MoveType.NO, n_obj));
                 }
             }
@@ -101,15 +101,15 @@ public class GreenMaki extends GameObject {
         Plate n_plate = this.index.getPlate(n_pos);
 
         if (type == MoveType.VALIDATE) {
-                this.index.setPlateValue(c_plate, false);
-                this.run_animation(Position.multiplication(m.getDiff(), -1), MoveType.UNVALIDATE);
-                this.validate = false;
-        } else if (type == MoveType.UNVALIDATE){
-                this.index.setPlateValue(n_plate, true);
-                this.run_animation(Position.multiplication(m.getDiff(), -1), MoveType.VALIDATE);
-                this.validate = true;
+            this.index.setPlateValue(c_plate, false);
+            this.run_animation(Position.multiplication(m.getDiff(), -1), MoveType.UNVALIDATE, 0.0f);
+            this.validate = false;
+        } else if (type == MoveType.UNVALIDATE) {
+            this.index.setPlateValue(n_plate, true);
+            this.run_animation(Position.multiplication(m.getDiff(), -1), MoveType.VALIDATE, 0.0f);
+            this.validate = true;
         } else {
-            this.run_animation(Position.multiplication(m.getDiff(), -1), type);
+            this.run_animation(Position.multiplication(m.getDiff(), -1), type, 0.0f);
         }
 
         this.pos.setPosition(n_pos);
@@ -119,7 +119,7 @@ public class GreenMaki extends GameObject {
         }
     }
 
-    private void run_animation(Position diff, MoveType type) {
+    private void run_animation(Position diff, MoveType type, float wait_time) {
         Sprite sprite = this.entity.getComponent(Sprite.class);
         SpritePuppetControls updatable = this.entity.getComponent(SpritePuppetControls.class);
 
@@ -128,13 +128,16 @@ public class GreenMaki extends GameObject {
         }
 
         if (type == MoveType.NO) {
-            updatable.moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+            updatable.waitDuring(wait_time)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
         } else if (type == MoveType.VALIDATE) {
-            updatable.startAnimation(this.animation.getAnimationByName("maki_green_one"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+            updatable.waitDuring(wait_time)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                    .startAnimation(this.animation.getAnimationByName("maki_green_one"), PlayMode.ONCE);
         } else if (type == MoveType.UNVALIDATE) {
-            updatable.startAnimation(this.animation.getAnimationByName("maki_green_out"), PlayMode.ONCE)
-                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+            updatable.waitDuring(wait_time)
+                    .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                    .startAnimation(this.animation.getAnimationByName("maki_green_out"), PlayMode.ONCE);
         }
 
         this.entity.addComponent(updatable);

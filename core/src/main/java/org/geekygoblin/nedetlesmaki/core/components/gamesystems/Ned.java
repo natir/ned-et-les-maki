@@ -55,7 +55,7 @@ public class Ned extends GameObject {
 
         if (n_obj == null) {
             this.pos.setPosition(n_pos);
-            this.run_animation(diff, MoveType.WALK);
+            this.run_animation(diff, MoveType.WALK, 0.0f);
             this.save(new Memento(diff, MoveType.WALK, null));
             return this.pos;
         } else {
@@ -63,25 +63,26 @@ public class Ned extends GameObject {
             if (!n_move_to.equals(n_pos)) {
                 if (n_obj instanceof GreenMaki || n_obj instanceof Box || n_obj instanceof RootBox) { //PushGreen Maki, Box or RootedBox
                     this.pos.setPosition(n_pos);
-                    this.run_animation(diff, MoveType.PUSH);
+                    this.run_animation(diff, MoveType.PUSH, 0.0f);
                     this.save(new Memento(diff, MoveType.PUSH, n_obj));
                     return this.pos;
                 } else if (n_obj instanceof OrangeMaki) { //Push OrangeMaki
                     Position fly_final_pos = Position.deduction(n_move_to, diff);
-                    this.run_animation(Position.deduction(fly_final_pos, this.pos), MoveType.FLY);
+                    this.run_animation(Position.getVoid(), MoveType.NO, 0.0f);
+                    this.run_animation(Position.deduction(fly_final_pos, this.pos), MoveType.FLY, 0.0f);
                     this.pos.setPosition(fly_final_pos);
                     this.save(new Memento(Position.sum(Position.deduction(fly_final_pos, n_pos), diff), MoveType.FLY, n_obj));
                     return this.pos;
                 } else if (n_obj instanceof BlueMaki) { //Push BlueMaki
-                    this.run_animation(diff, MoveType.WAIT);
+                    this.run_animation(diff, MoveType.WAIT, 0.0f);
                     this.save(new Memento(Position.getVoid(), MoveType.NO, n_obj));
                     return this.pos;
                 }
             } else if (n_obj instanceof Stairs && ((Stairs) n_obj).isOpen()) { // Walk on stairs
                 Stairs s = (Stairs) n_obj;
-                if (diff.equals(Position.multiplication(s.getDir(), -1))){
-                this.run_animation(diff, MoveType.MOUNT);
-                this.end = true;
+                if (diff.equals(Position.multiplication(s.getDir(), -1))) {
+                    this.run_animation(diff, MoveType.MOUNT, 0.0f);
+                    this.end = true;
                 }
 
                 return this.pos;
@@ -101,14 +102,14 @@ public class Ned extends GameObject {
 
         Position n_pos = Position.sum(this.pos, Position.multiplication(m.getDiff(), -1));
         this.pos.setPosition(n_pos);
-        this.run_animation(Position.multiplication(m.getDiff(), -1), m.getType());
+        this.run_animation(Position.multiplication(m.getDiff(), -1), m.getType(), 0.0f);
 
         if (m.getNext() != null) {
             m.getNext().undo();
         }
     }
 
-    private void run_animation(Position diff, MoveType type) {
+    private void run_animation(Position diff, MoveType type, float wait_time) {
         Sprite sprite = this.entity.getComponent(Sprite.class);
         SpritePuppetControls updatable = this.entity.getComponent(SpritePuppetControls.class);
 
