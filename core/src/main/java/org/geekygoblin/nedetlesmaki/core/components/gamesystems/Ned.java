@@ -45,7 +45,7 @@ public class Ned extends GameObject {
     public Ned(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
         super(pos, entity, index);
         this.end = false;
-        this.animation = assets.getAnimations("ned.json");
+        this.animation = assets.getAnimations("animation/ned/ned.json");
     }
 
     @Override

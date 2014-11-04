@@ -111,10 +111,10 @@ public class MainMenu extends Component {
 
     private void initMain() {
 
-        IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("2_normal");
-        IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("2_survol");
-        IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("1_normal");
-        IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("1_survol");
+        IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("animation/menu_buttons/menu_buttons.json").getAnimationByName("2_normal");
+        IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("animation/menu_buttons/menu_buttons.json").getAnimationByName("2_survol");
+        IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("animation/menu_buttons/menu_buttons.json").getAnimationByName("1_normal");
+        IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("animation/menu_buttons/menu_buttons.json").getAnimationByName("1_survol");
 
         mainMenu = new Container();
         final Button startButton = new Button(toolkit, "main.menu.button.start") {
@@ -198,8 +198,8 @@ public class MainMenu extends Component {
 
     private void initOptions() {
 
-        IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("2_normal");
-        IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("menu_buttons.json").getAnimationByName("2_survol");
+        IAnimation buttonClassicBackgroundAnimation = assets.getAnimations("animation/menu_buttons/menu_buttons.json").getAnimationByName("2_normal");
+        IAnimation buttonClassicFocusedBackgroundAnimation = assets.getAnimations("animation/menu_buttons/menu_buttons.json").getAnimationByName("2_survol");
 
         optionsMenu = new Container();
         optionsMenu.setBackground(new TexturedBackground(assets.getAnimations("menu_options.png").getFirst().start(PlayMode.LOOP)));

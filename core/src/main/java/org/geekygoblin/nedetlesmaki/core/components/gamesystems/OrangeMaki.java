@@ -45,7 +45,7 @@ public class OrangeMaki extends GameObject {
 
     public OrangeMaki(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
         super(pos, entity, index);
-        this.animation = assets.getAnimations("maki.json");
+        this.animation = assets.getAnimations("animation/maki/maki.json");
     }
 
     @Override

@@ -43,7 +43,7 @@ public class Box extends GameObject {
 
     public Box(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
         super(pos, entity, index);
-        this.animation = assets.getAnimations("box.json");
+        this.animation = assets.getAnimations("animation/box/box.json");
     }
 
     @Override

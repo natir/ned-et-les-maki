@@ -98,7 +98,7 @@ public class InGameUI extends Component {
         };
         rewind = new InGameButton(toolkit, "");
         rewind.setFocusCursor(NullFocusCursor.INSTANCE);
-        final IAnimationCollection buttonAnimations = assets.getAnimations("ingame_buttons.json");
+        final IAnimationCollection buttonAnimations = assets.getAnimations("animation/ingame_buttons/ingame_buttons.json");
         rewind.setBackground(new TexturedBackground(buttonAnimations.getAnimationByName("rewind_button").start(PlayMode.LOOP)));
         rewind.setFocusedBackground(new TexturedBackground(buttonAnimations.getAnimationByName("rewind_button_focused").start(PlayMode.LOOP)));
         rewind.setX(1695);

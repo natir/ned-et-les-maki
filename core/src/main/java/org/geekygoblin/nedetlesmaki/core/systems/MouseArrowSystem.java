@@ -61,7 +61,7 @@ public class MouseArrowSystem extends EntityProcessingSystem {
     @Override
     protected void initialize() {
         spriteMapper = world.getMapper(Sprite.class);
-        arrowAnimations = assets.getAnimations("arrow.json");
+        arrowAnimations = assets.getAnimations("animation/arrow/arrow.json");
     }
 
     @Override
@@ -134,13 +134,13 @@ public class MouseArrowSystem extends EntityProcessingSystem {
                 if (nedY < selectedY) {
                     animation = arrowAnimations.getAnimationByName("arrow_right");
                 } else if (nedY > selectedY) {
-                    animation = assets.getAnimations("arrow.json").getAnimationByName("arrow_left");
+                    animation = assets.getAnimations("animation/arrow/arrow.json").getAnimationByName("arrow_left");
                 }
             } else if (nedY == selectedY) {
                 if (nedX < selectedX) {
-                    animation = assets.getAnimations("arrow.json").getAnimationByName("arrow_down");
+                    animation = assets.getAnimations("animation/arrow/arrow.json").getAnimationByName("arrow_down");
                 } else if (nedX > selectedX) {
-                    animation = assets.getAnimations("arrow.json").getAnimationByName("arrow_up");
+                    animation = assets.getAnimations("animation/arrow/arrow.json").getAnimationByName("arrow_up");
                 }
             }
         }

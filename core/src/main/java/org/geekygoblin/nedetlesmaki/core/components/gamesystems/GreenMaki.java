@@ -46,7 +46,7 @@ public class GreenMaki extends GameObject {
     public GreenMaki(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
         super(pos, entity, index);
 
-        this.animation = assets.getAnimations("maki.json");
+        this.animation = assets.getAnimations("animation/maki/maki.json");
     }
 
     @Override

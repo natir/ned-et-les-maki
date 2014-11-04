@@ -28,7 +28,7 @@ public class Stairs extends GameObject {
     public Stairs(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
         super(pos, entity, index);
         this.open = false;
-        this.animation = assets.getAnimations("stairs.json");
+        this.animation = assets.getAnimations("animation/stairs/stairs.json");
     }
 
     @Override
