@@ -87,8 +87,8 @@ public class LevelSelector extends Container {
          addButton("level.25.name", "levels/lvl25.tmx", 1087, 256, 1);
          addButton("level.26.name", "levels/lvl26.tmx", 825, 227, -1);
          addButton("level.27.name", "levels/lvl27.tmx", 1087, 198, 1);
-         addButton("level.28.name", "levels/lvl28.tmx", 825, 170, -1);
-         addButton("level.29.name", "levels/lvl29.tmx", 1087, 142, 1);*/
+         addButton("level.28.name", "levels/lvl28.tmx", 825, 170, -1);*/
+        addButton("level.29.name", "levels/test2020.tmx", 1087, 142, 1);
         addButton("level.30.name", "levels/test.tmx", 825, 117, -1);
 
         Button backButton = new Button(toolkit, "options.menu.button.back") {
