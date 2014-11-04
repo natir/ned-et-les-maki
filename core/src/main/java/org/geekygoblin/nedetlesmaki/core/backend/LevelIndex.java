@@ -28,6 +28,7 @@ import javax.inject.Singleton;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Stairs;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Wall;
 
 /**
  *
@@ -96,6 +97,9 @@ public class LevelIndex {
     }
 
     public GameObject getGameObject(int x, int y) {
+        if(this.outOfBounds(x, y)) {
+            return new Wall(new PositionIndexed(x, y, null), null, null);
+        }
 
         Square test = this.getSquare(x, y);
 
@@ -145,6 +149,10 @@ public class LevelIndex {
     }
 
     public void setSquare(int x, int y, Square s) {
+        if (this.outOfBounds(x, y)) {
+            return;
+        }
+
         index[x][y] = s;
     }
 
@@ -198,5 +206,12 @@ public class LevelIndex {
         }
 
         return true;
+    }
+
+    private boolean outOfBounds(int x, int y) {
+        if (x > this.height - 1 || x < 0 || y > this.width - 1 || y < 0) {
+            return true;
+        }
+        return false;
     }
 }
