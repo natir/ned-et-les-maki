@@ -43,25 +43,35 @@ public class PositionIndexed extends Position {
         super.setY(y);
     }
 
-    public void setPosition(int x, int y) {
+    public boolean setPosition(int x, int y) {
         Square s = this.index.getSquare(this.x, this.y);
 
         if (s == null) {
-            return;
+            return false;
         }
 
         GameObject tmp = s.getGameObject();
+        if (tmp == null) {
+            return false;
+        }
         this.index.getSquare(this.x, this.y).setGameObject(null);
         super.setX(x);
         super.setY(y);
         if (this.index.getSquare(x, y) == null) {
             this.index.setSquare(x, y, new Square());
         }
-        this.index.getSquare(this.x, this.y).setGameObject(tmp);
+
+        Square new_square = this.index.getSquare(x, y);
+        if (new_square != null) {
+            new_square.setGameObject(tmp);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void setPosition(Position pos) {
-        this.setPosition(pos.getX(), pos.getY());
+    public boolean setPosition(Position pos) {
+        return this.setPosition(pos.getX(), pos.getY());
     }
 
     public void reIndex(GameObject go) {
@@ -70,7 +80,7 @@ public class PositionIndexed extends Position {
         if (s == null) {
             return;
         }
-        
+
         s.setGameObject(go);
     }
 }
