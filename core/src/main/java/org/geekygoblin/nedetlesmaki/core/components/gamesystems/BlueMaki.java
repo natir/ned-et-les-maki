@@ -116,7 +116,37 @@ public class BlueMaki extends GameObject {
 
     @Override
     public void undo() {
-        Memento m = (Memento) this.guard.pullSavedStates();
+               Memento m = (Memento) this.guard.pullSavedStates();
+
+        if (m == null) {
+            return;
+        }
+
+        Position n_pos = Position.sum(this.pos, Position.multiplication(m.getDiff(), -1));
+        MoveType type = m.getType();
+
+        Plate c_plate = this.index.getPlate(this.pos);
+        Plate n_plate = this.index.getPlate(n_pos);
+
+        if (type == MoveType.VALIDATE) {
+            this.index.setPlateValue(c_plate, false);
+            this.run_animation(Position.multiplication(m.getDiff(), -1), MoveType.UNVALIDATE, 0.0f);
+            this.validate = false;
+        } else if (type == MoveType.UNVALIDATE) {
+            this.index.setPlateValue(n_plate, true);
+            this.run_animation(Position.multiplication(m.getDiff(), -1), MoveType.VALIDATE, 0.0f);
+            this.validate = true;
+        } else {
+            this.run_animation(Position.multiplication(m.getDiff(), -1), type, 0.0f);
+        }
+
+        this.pos.setPosition(n_pos);
+
+        if (m.getNext() != null) {
+            m.getNext().undo();
+        }
+        
+        /*Memento m = (Memento) this.guard.pullSavedStates();
 
         if (m == null) {
             return;
@@ -128,7 +158,7 @@ public class BlueMaki extends GameObject {
 
         if (m.getNext() != null) {
             m.getNext().undo();
-        }
+        }*/
     }
 
     private void run_animation(Position diff, MoveType type, float wait_time) {
