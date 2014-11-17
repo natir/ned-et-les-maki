@@ -25,10 +25,11 @@ public class Stairs extends GameObject {
     private boolean open;
     private final IAnimationCollection animation;
 
-    public Stairs(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
+    public Stairs(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets, boolean open, Position dir) {
         super(pos, entity, index);
-        this.open = false;
+        this.open = open;
         this.animation = assets.getAnimations("animation/stairs/stairs.json");
+        this.dir = dir;
     }
 
     @Override
