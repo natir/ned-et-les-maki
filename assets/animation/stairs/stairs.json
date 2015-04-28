@@ -1,7 +1,7 @@
 {
   "animations": [
     {
-      "name": "stairs_up_open",
+      "name": "dark_stairs_up_open",
       "frames": [
         {
           "duration": 100,
@@ -54,7 +54,7 @@
       ]
     },
     {
-      "name": "stairs_down_open",
+      "name": "dark_stairs_down_open",
       "frames": [
         {
           "duration": 100,
@@ -115,7 +115,7 @@
       ]
     },
     {
-      "name": "stairs_left_open",
+      "name": "dark_stairs_left_open",
       "frames": [
         {
           "duration": 100,
@@ -168,7 +168,7 @@
       ]
     },
     {
-      "name": "stairs_right_open",
+      "name": "dark_stairs_right_open",
       "frames": [
         {
           "duration": 100,
@@ -229,7 +229,351 @@
       ]
     },
     {
-      "name": "stairs_up_close",
+      "name": "dark_stairs_up_close",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stairs002.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs001.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs000.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "dark_stairs_down_close",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stairs008.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs007.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs006.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "dark_stairs_left_close",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stairs015.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs014.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs013.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "dark_stairs_right_close",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stairs021.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs020.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs019.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "light_stairs_up_open",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stairs026.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs027.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs028.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs029.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs030.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs031.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "light_stairs_down_open",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stairs032.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs033.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs034.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs035.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs036.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs037.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs038.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "light_stairs_left_open",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stairs039.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs040.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs041.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs042.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs043.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs044.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "light_stairs_right_open",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stairs045.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs046.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs047.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs048.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs049.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs050.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stairs051.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "light_stairs_up_close",
       "frames": [
         {
           "duration": 100,
@@ -258,7 +602,7 @@
       ]
     },
     {
-      "name": "stairs_down_close",
+      "name": "light_stairs_down_close",
       "frames": [
         {
           "duration": 100,
@@ -287,7 +631,7 @@
       ]
     },
     {
-      "name": "stairs_left_close",
+      "name": "light_stairs_left_close",
       "frames": [
         {
           "duration": 100,
@@ -316,7 +660,7 @@
       ]
     },
     {
-      "name": "stairs_right_close",
+      "name": "light_stairs_right_close",
       "frames": [
         {
           "duration": 100,

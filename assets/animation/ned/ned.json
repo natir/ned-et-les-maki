@@ -66,6 +66,14 @@
         },
         {
           "duration": 100,
+          "image": "ned0006.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
           "image": "ned0007.png",
           "u1": 0.0,
           "v1": 0.0,
@@ -106,25 +114,12 @@
         },
         {
           "duration": 100,
-          "image": "ned0032.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "fly_stop_down",
-      "frames": [
-        {
-          "duration": 100,
           "image": "ned0012.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
+        }
         {
           "duration": 100,
           "image": "ned0013.png",
@@ -140,7 +135,57 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "fly_stop_down",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "ned0014.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
         },
+        {
+          "duration": 100,
+          "image": "ned0011.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0008.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0006.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0003.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "fly_loop_right",
+      "frames": [
         {
           "duration": 100,
           "image": "ned0015.png",
@@ -156,31 +201,31 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0015.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0017.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
         }
       ]
     },
     {
-      "name": "fly_loop_right",
+      "name": "fly_start_right",
       "frames": [
         {
           "duration": 100,
-          "image": "ned0017.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
           "image": "ned0018.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0017.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -193,12 +238,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "fly_start_right",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0020.png",
@@ -224,6 +264,14 @@
           "v2": 1.0
         },
         {
+          "duration": 0,
+          "image": "ned0023.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
           "duration": 100,
           "image": "ned0024.png",
           "u1": 0.0,
@@ -240,7 +288,7 @@
           "v2": 1.0
         },
         {
-          "duration": 0,
+          "duration": 100,
           "image": "ned0026.png",
           "u1": 0.0,
           "v1": 0.0,
@@ -265,7 +313,7 @@
         },
         {
           "duration": 100,
-          "image": "ned0030.png",
+          "image": "ned0029.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -275,6 +323,88 @@
     },
     {
       "name": "fly_stop_right",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "ned0029.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0026.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0023.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0021.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0018.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "fly_loop_up",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "ned0030.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0031.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0030.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0032.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "fly_start_up",
       "frames": [
         {
           "duration": 100,
@@ -315,12 +445,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "fly_loop_up",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0038.png",
@@ -329,6 +454,19 @@
           "u2": 1.0,
           "v2": 1.0
         },
+        {
+          "duration": 100,
+          "image": "ned0039.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "fly_stop_up",
+      "frames": [
         {
           "duration": 100,
           "image": "ned0039.png",
@@ -347,7 +485,31 @@
         },
         {
           "duration": 100,
-          "image": "ned0040.png",
+          "image": "ned0037.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0036.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0035.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0033.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -356,11 +518,27 @@
       ]
     },
     {
-      "name": "fly_start_up",
+      "name": "fly_loop_left",
       "frames": [
         {
           "duration": 100,
+          "image": "ned0040.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
           "image": "ned0041.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0040.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -373,7 +551,12 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
+        }
+      ]
+    },
+    {
+      "name": "fly_start_left",
+      "frames": [
         {
           "duration": 100,
           "image": "ned0043.png",
@@ -413,65 +596,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "fly_stop_up",
-      "frames": [
-        {
-          "duration": 100,
-          "image": "ned0047.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
         },
-        {
-          "duration": 100,
-          "image": "ned0046.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0044.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0043.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0042.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0041.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "fly_loop_left",
-      "frames": [
         {
           "duration": 100,
           "image": "ned0048.png",
@@ -480,6 +605,19 @@
           "u2": 1.0,
           "v2": 1.0
         },
+        {
+          "duration": 100,
+          "image": "ned0049.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "fly_stop_left",
+      "frames": [
         {
           "duration": 100,
           "image": "ned0049.png",
@@ -498,7 +636,31 @@
         },
         {
           "duration": 100,
-          "image": "ned0050.png",
+          "image": "ned0047.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0046.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0045.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0043.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -507,8 +669,16 @@
       ]
     },
     {
-      "name": "fly_start_left",
+      "name": "walk_up",
       "frames": [
+        {
+          "duration": 100,
+          "image": "ned0050.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
         {
           "duration": 100,
           "image": "ned0051.png",
@@ -559,7 +729,7 @@
         },
         {
           "duration": 100,
-          "image": "ned0057.png",
+          "image": "ned0050.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -568,7 +738,7 @@
       ]
     },
     {
-      "name": "fly_stop_left",
+      "name": "walk_left",
       "frames": [
         {
           "duration": 100,
@@ -578,54 +748,17 @@
           "u2": 1.0,
           "v2": 1.0
         },
-        {
-          "duration": 100,
-          "image": "ned0056.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0054.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0053.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0052.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0051.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "walk_up",
-      "frames": [
         {
           "duration": 100,
           "image": "ned0058.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0057.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -654,11 +787,27 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0060.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0059.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
         }
       ]
     },
     {
-      "name": "walk_left",
+      "name": "walk_right",
       "frames": [
         {
           "duration": 100,
@@ -671,6 +820,14 @@
         {
           "duration": 100,
           "image": "ned0063.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0062.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -691,12 +848,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "walk_right",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0066.png",
@@ -705,6 +857,27 @@
           "u2": 1.0,
           "v2": 1.0
         },
+        {
+          "duration": 100,
+          "image": "ned0065.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0064.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "walk_down",
+      "frames": [
         {
           "duration": 100,
           "image": "ned0067.png",
@@ -723,17 +896,20 @@
         },
         {
           "duration": 100,
+          "image": "ned0067.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
           "image": "ned0069.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "walk_down",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0070.png",
@@ -752,6 +928,27 @@
         },
         {
           "duration": 100,
+          "image": "ned0070.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0069.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "push_up",
+      "frames": [
+        {
+          "duration": 100,
           "image": "ned0072.png",
           "u1": 0.0,
           "v1": 0.0,
@@ -765,15 +962,26 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "push_up",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0074.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0073.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0072.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -797,7 +1005,7 @@
         },
         {
           "duration": 100,
-          "image": "ned0077.png",
+          "image": "ned0075.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -810,6 +1018,14 @@
       "frames": [
         {
           "duration": 100,
+          "image": "ned0077.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
           "image": "ned0078.png",
           "u1": 0.0,
           "v1": 0.0,
@@ -819,6 +1035,22 @@
         {
           "duration": 100,
           "image": "ned0079.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0078.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0077.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -839,12 +1071,129 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0080.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
         }
       ]
     },
     {
       "name": "push_right",
       "frames": [
+        {
+          "duration": 100,
+          "image": "ned0082.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0083.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0084.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0083.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0082.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0085.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0086.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0085.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "push_down",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "ned0087.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0088.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0089.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0088.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "ned0087.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
         {
           "duration": 100,
           "image": "ned0090.png",
@@ -863,6 +1212,19 @@
         },
         {
           "duration": 100,
+          "image": "ned0090.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "ned_umount_up",
+      "frames": [
+        {
+          "duration": 100,
           "image": "ned0092.png",
           "u1": 0.0,
           "v1": 0.0,
@@ -876,12 +1238,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "push_down",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0094.png",
@@ -897,7 +1254,12 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
+        }
+      ]
+    },
+    {
+      "name": "ned_umount_right",
+      "frames": [
         {
           "duration": 100,
           "image": "ned0096.png",
@@ -913,12 +1275,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "ned_umount_up",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0098.png",
@@ -934,7 +1291,12 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
+        }
+      ]
+    },
+    {
+      "name": "ned_umount_down",
+      "frames": [
         {
           "duration": 100,
           "image": "ned0100.png",
@@ -950,12 +1312,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "ned_mount_down",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0102.png",
@@ -971,7 +1328,12 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
+        }
+      ]
+    },
+    {
+      "name": "ned_umount_left",
+      "frames": [
         {
           "duration": 100,
           "image": "ned0104.png",
@@ -987,12 +1349,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "ned_mount_right",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0106.png",
@@ -1008,7 +1365,12 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
+        }
+      ]
+    },
+    {
+      "name": "ned_mount_up",
+      "frames": [
         {
           "duration": 100,
           "image": "ned0108.png",
@@ -1024,12 +1386,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "ned_mount_left",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0110.png",
@@ -1045,7 +1402,12 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
+        }
+      ]
+    },
+    {
+      "name": "ned_mount_right",
+      "frames": [
         {
           "duration": 100,
           "image": "ned0112.png",
@@ -1061,12 +1423,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "ned_mount_up",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0114.png",
@@ -1082,7 +1439,12 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
+        }
+      ]
+    },
+    {
+      "name": "ned_mount_down",
+      "frames": [
         {
           "duration": 100,
           "image": "ned0116.png",
@@ -1098,12 +1460,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "ned_umount_down",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0118.png",
@@ -1119,7 +1476,12 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
+        }
+      ]
+    },
+    {
+      "name": "ned_mount_left",
+      "frames": [
         {
           "duration": 100,
           "image": "ned0120.png",
@@ -1135,12 +1497,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "ned_umount_right",
-      "frames": [
+        },
         {
           "duration": 100,
           "image": "ned0122.png",
@@ -1156,59 +1513,6 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0124.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0125.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "ned_umount_left",
-      "frames": [
-        {
-          "duration": 100,
-          "image": "ned0126.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0127.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0128.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 100,
-          "image": "ned0129.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
         }
       ]
     },
@@ -1217,7 +1521,7 @@
       "frames": [
         {
           "duration": 200,
-          "image": "ned0130.png",
+          "image": "ned0124.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -1225,7 +1529,7 @@
         },
         {
           "duration": 200,
-          "image": "ned0131.png",
+          "image": "ned0125.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -1233,7 +1537,7 @@
         },
         {
           "duration": 200,
-          "image": "ned0132.png",
+          "image": "ned0126.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -1241,7 +1545,7 @@
         },
         {
           "duration": 200,
-          "image": "ned0133.png",
+          "image": "ned0127.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -1249,15 +1553,7 @@
         },
         {
           "duration": 200,
-          "image": "ned0134.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0135.png",
+          "image": "ned0128.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -1270,6 +1566,67 @@
       "frames": [
         {
           "duration": 200,
+          "image": "ned0129.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 200,
+          "image": "ned0130.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 200,
+          "image": "ned0131.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 200,
+          "image": "ned0132.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 200,
+          "image": "ned0133.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 200,
+          "image": "ned0134.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "ned_waits_boost_start_right",
+      "frames": [
+        {
+          "duration": 200,
+          "image": "ned0135.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 200,
           "image": "ned0136.png",
           "u1": 0.0,
           "v1": 0.0,
@@ -1307,7 +1664,12 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
+        }
+      ]
+    },
+    {
+      "name": "ned_waits_boost_start_up",
+      "frames": [
         {
           "duration": 200,
           "image": "ned0141.png",
@@ -1315,12 +1677,7 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "ned_waits_boost_start_right",
-      "frames": [
+        },
         {
           "duration": 200,
           "image": "ned0142.png",
@@ -1352,75 +1709,6 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0146.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0147.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "ned_waits_boost_start_up",
-      "frames": [
-        {
-          "duration": 200,
-          "image": "ned0148.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0149.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0150.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0151.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0152.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0153.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
         }
       ]
     },
@@ -1429,12 +1717,49 @@
       "frames": [
         {
           "duration": 200,
-          "image": "ned0135.png",
+          "image": "ned0128.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
         },
+        {
+          "duration": 200,
+          "image": "ned0127.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 200,
+          "image": "ned0126.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 200,
+          "image": "ned0125.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 200,
+          "image": "ned0124.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "ned_waits_boost_stop_down",
+      "frames": [
         {
           "duration": 200,
           "image": "ned0134.png",
@@ -1474,20 +1799,20 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "ned_waits_boost_stop_down",
-      "frames": [
+        },
         {
           "duration": 200,
-          "image": "ned0141.png",
+          "image": "ned0129.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        },
+        }
+      ]
+    },
+    {
+      "name": "ned_waits_boost_stop_right",
+      "frames": [
         {
           "duration": 200,
           "image": "ned0140.png",
@@ -1527,28 +1852,20 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
+        },
+        {
+          "duration": 200,
+          "image": "ned0135.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
         }
       ]
     },
     {
-      "name": "ned_waits_boost_stop_right",
+      "name": "ned_waits_boost_stop_up",
       "frames": [
-        {
-          "duration": 200,
-          "image": "ned0147.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0146.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
         {
           "duration": 200,
           "image": "ned0145.png",
@@ -1580,55 +1897,10 @@
           "v1": 0.0,
           "u2": 1.0,
           "v2": 1.0
-        }
-      ]
-    },
-    {
-      "name": "ned_waits_boost_stop_up",
-      "frames": [
-        {
-          "duration": 200,
-          "image": "ned0153.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
         },
         {
           "duration": 200,
-          "image": "ned0152.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0151.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0150.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0149.png",
-          "u1": 0.0,
-          "v1": 0.0,
-          "u2": 1.0,
-          "v2": 1.0
-        },
-        {
-          "duration": 200,
-          "image": "ned0148.png",
+          "image": "ned0141.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,

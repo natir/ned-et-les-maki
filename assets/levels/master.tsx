@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset name="tatami" tilewidth="56" tileheight="57" spacing="1" margin="1">
+<tileset name="tatami" tilewidth="88" tileheight="88" spacing="1" margin="1">
  <properties>
   <property name="debug" value="false"/>
  </properties>
- <image source="master.png" width="286" height="1451"/>
+ <image source="master.png" width="446" height="3086"/>
  <tile id="0">
   <properties>
    <property name="type" value="ned"/>
@@ -51,22 +51,22 @@
  </tile>
  <tile id="11">
   <properties>
-   <property name="type" value="stairs_close_down"/>
+   <property name="type" value="dark_stairs_close_down"/>
   </properties>
  </tile>
  <tile id="12">
   <properties>
-   <property name="type" value="stairs_close_right"/>
+   <property name="type" value="dark_stairs_close_right"/>
   </properties>
  </tile>
  <tile id="13">
   <properties>
-   <property name="type" value="stairs_close_up"/>
+   <property name="type" value="dark_stairs_close_up"/>
   </properties>
  </tile>
  <tile id="14">
   <properties>
-   <property name="type" value="stairs_close_left"/>
+   <property name="type" value="dark_stairs_close_left"/>
   </properties>
  </tile>
  <tile id="15">
@@ -76,22 +76,22 @@
  </tile>
  <tile id="16">
   <properties>
-   <property name="type" value="stairs_open_down"/>
+   <property name="type" value="dark_stairs_open_down"/>
   </properties>
  </tile>
  <tile id="17">
   <properties>
-   <property name="type" value="stairs_open_right"/>
+   <property name="type" value="dark_stairs_open_right"/>
   </properties>
  </tile>
  <tile id="18">
   <properties>
-   <property name="type" value="stairs_open_up"/>
+   <property name="type" value="dark_stairs_open_up"/>
   </properties>
  </tile>
  <tile id="19">
   <properties>
-   <property name="type" value="stairs_open_left"/>
+   <property name="type" value="dark_stairs_open_left"/>
   </properties>
  </tile>
  <tile id="21">
@@ -144,6 +144,16 @@
    <property name="type" value="green_plate"/>
   </properties>
  </tile>
+ <tile id="33">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="34">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
  <tile id="35">
   <properties>
    <property name="type" value="orange_plate"/>
@@ -151,22 +161,22 @@
  </tile>
  <tile id="36">
   <properties>
-   <property name="type" value="stairs_close_down"/>
+   <property name="type" value="light_stairs_close_down"/>
   </properties>
  </tile>
  <tile id="37">
   <properties>
-   <property name="type" value="stairs_close_right"/>
+   <property name="type" value="light_stairs_close_right"/>
   </properties>
  </tile>
  <tile id="38">
   <properties>
-   <property name="type" value="stairs_close_up"/>
+   <property name="type" value="light_stairs_close_up"/>
   </properties>
  </tile>
  <tile id="39">
   <properties>
-   <property name="type" value="stairs_close_left"/>
+   <property name="type" value="light_stairs_close_left"/>
   </properties>
  </tile>
  <tile id="40">
@@ -176,22 +186,27 @@
  </tile>
  <tile id="41">
   <properties>
-   <property name="type" value="stairs_open_down"/>
+   <property name="type" value="light_stairs_open_down"/>
   </properties>
  </tile>
  <tile id="42">
   <properties>
-   <property name="type" value="stairs_open_right"/>
+   <property name="type" value="light_stairs_open_right"/>
   </properties>
  </tile>
  <tile id="43">
   <properties>
-   <property name="type" value="stairs_open_up"/>
+   <property name="type" value="light_stairs_open_up"/>
   </properties>
  </tile>
  <tile id="44">
   <properties>
-   <property name="type" value="stairs_open_left"/>
+   <property name="type" value="light_stairs_open_left"/>
+  </properties>
+ </tile>
+ <tile id="45">
+  <properties>
+   <property name="type" value="wall"/>
   </properties>
  </tile>
  <tile id="46">
@@ -334,6 +349,11 @@
    <property name="type" value="wall"/>
   </properties>
  </tile>
+ <tile id="74">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
  <tile id="75">
   <properties>
    <property name="type" value="wall"/>
@@ -350,6 +370,11 @@
   </properties>
  </tile>
  <tile id="78">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="79">
   <properties>
    <property name="type" value="wall"/>
   </properties>
@@ -567,6 +592,126 @@
  <tile id="124">
   <properties>
    <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="129">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="130">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="131">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="132">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="133">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="134">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="135">
+  <properties>
+   <property name="type" value="blue_stele_out"/>
+  </properties>
+ </tile>
+ <tile id="136">
+  <properties>
+   <property name="type" value="blue_stele_pushed"/>
+  </properties>
+ </tile>
+ <tile id="137">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="138">
+  <properties>
+   <property name="type" value="wall"/>
+  </properties>
+ </tile>
+ <tile id="140">
+  <properties>
+   <property name="type" value="orange_stele_out"/>
+  </properties>
+ </tile>
+ <tile id="141">
+  <properties>
+   <property name="type" value="orange_stele_pushed"/>
+  </properties>
+ </tile>
+ <tile id="142">
+  <properties>
+   <property name="type" value="green_stele_out"/>
+  </properties>
+ </tile>
+ <tile id="143">
+  <properties>
+   <property name="type" value="green_stele_pushed"/>
+  </properties>
+ </tile>
+ <tile id="144">
+  <properties>
+   <property name="type" value="root_box"/>
+  </properties>
+ </tile>
+ <tile id="147">
+  <properties>
+   <property name="type" value="green_plate"/>
+  </properties>
+ </tile>
+ <tile id="148">
+  <properties>
+   <property name="type" value="orange_plate"/>
+  </properties>
+ </tile>
+ <tile id="149">
+  <properties>
+   <property name="type" value="blue_plate"/>
+  </properties>
+ </tile>
+ <tile id="152">
+  <properties>
+   <property name="type" value="green_plate"/>
+  </properties>
+ </tile>
+ <tile id="153">
+  <properties>
+   <property name="type" value="orange_plate"/>
+  </properties>
+ </tile>
+ <tile id="154">
+  <properties>
+   <property name="type" value="blue_plate"/>
+  </properties>
+ </tile>
+ <tile id="157">
+  <properties>
+   <property name="type" value="green_plate"/>
+  </properties>
+ </tile>
+ <tile id="158">
+  <properties>
+   <property name="type" value="orange_plate"/>
+  </properties>
+ </tile>
+ <tile id="159">
+  <properties>
+   <property name="type" value="blue_plate"/>
   </properties>
  </tile>
 </tileset>

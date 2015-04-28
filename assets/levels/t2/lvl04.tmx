@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="isometric" width="15" height="15" tilewidth="56" tileheight="27">
+<map version="1.0" orientation="isometric" renderorder="right-down" width="15" height="15" tilewidth="88" tileheight="43" nextobjectid="1">
  <tileset firstgid="1" source="../master.tsx"/>
  <layer name="plate_n_ground" width="15" height="15">
   <data encoding="csv">
-10,5,10,5,10,5,10,5,10,5,10,5,10,5,10,
+140,140,140,140,140,5,10,5,10,5,140,140,140,140,140,
 5,10,5,10,5,10,5,10,5,10,5,10,5,10,5,
 10,10,10,5,10,5,10,5,10,5,10,5,10,5,10,
 5,10,6,10,5,10,5,10,5,10,5,10,5,10,5,
@@ -17,7 +17,7 @@
 5,5,5,10,5,10,5,10,5,10,5,10,5,10,5,
 10,5,5,5,10,5,10,5,10,5,10,5,10,5,10,
 5,10,5,5,5,10,5,10,5,10,5,10,5,10,5,
-10,5,10,5,10,5,10,5,10,5,10,5,10,5,10
+140,140,140,140,140,5,10,5,10,5,140,140,140,140,140
 </data>
  </layer>
  <layer name="game" width="15" height="15">

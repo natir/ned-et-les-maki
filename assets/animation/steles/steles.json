@@ -1,0 +1,562 @@
+{
+  "animations": [
+    {
+      "name": "stele_green_pushed",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stele000.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele001.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele002.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele003.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele004.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele005.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele006.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele007.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele008.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele009.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele010.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele011.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele012.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele013.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "stele_orange_pushed",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stele014.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele015.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele016.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele017.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele018.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele019.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele020.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele021.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele022.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele023.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele024.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele025.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele026.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele027.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "stele_blue_pushed",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stele028.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele029.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele030.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele031.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele032.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele033.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele034.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele035.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele036.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele037.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele038.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele039.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele040.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele041.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "stele_green_out",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stele013.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele012.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele010.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele008.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele006.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele004.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele002.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele000.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "stele_orange_out",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stele027.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele026.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele024.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele022.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele020.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele018.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele016.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele014.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    },
+    {
+      "name": "stele_blue_out",
+      "frames": [
+        {
+          "duration": 100,
+          "image": "stele041.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele040.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele038.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele036.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele034.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele032.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele030.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "stele028.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        }
+      ]
+    }
+  ]
+}
