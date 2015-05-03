@@ -203,17 +203,14 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
         if ("blue_plate".equals(type)) {
             return createPlate(tile, game, x, y, l, layer, ColorType.blue, false);
         }
-        if ("stairs_close_up".equals(type)) {
+        if ("dark_stairs_close_up".equals(type)) {
             return createStairs(tile, game, x, y, l, layer, Position.getUp());
         }
-        if ("stairs_close_down".equals(type)) {
+        if ("dark_stairs_close_down".equals(type)) {
             return createStairs(tile, game, x, y, l, layer, Position.getDown());
         }
-        if ("stairs_close_left".equals(type)) {
+        if ("dark_stairs_close_left".equals(type)) {
             return createStairs(tile, game, x, y, l, layer, Position.getLeft());
-        }
-        if ("stairs_close_right".equals(type)) {
-            return createStairs(tile, game, x, y, l, layer, Position.getRight());
         }
         if ("low_stairs".equals(type)) {
             return createLowStairs(tile, game, x, y, l, layer);

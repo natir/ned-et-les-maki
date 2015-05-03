@@ -74,23 +74,22 @@ public class Stairs extends GameObject {
 
         if (type == MoveType.OPEN) {
             if (dir.equals(Position.getUp())) {
-                updatable.startAnimation(this.animation.getAnimationByName("stairs_up_open"), PlayMode.ONCE);
+                updatable.startAnimation(this.animation.getAnimationByName("dark_stairs_up_open"), PlayMode.ONCE);
             } else if (dir.equals(Position.getDown())) {
-                updatable.startAnimation(this.animation.getAnimationByName("stairs_down_open"), PlayMode.ONCE);
+                updatable.startAnimation(this.animation.getAnimationByName("dark_stairs_down_open"), PlayMode.ONCE);
             } else if (dir.equals(Position.getLeft())) {
-                updatable.startAnimation(this.animation.getAnimationByName("stairs_left_open"), PlayMode.ONCE);
+                updatable.startAnimation(this.animation.getAnimationByName("dark_stairs_left_open"), PlayMode.ONCE);
             } else if (dir.equals(Position.getRight())) {
-                updatable.startAnimation(this.animation.getAnimationByName("stairs_right_open"), PlayMode.ONCE);
+                updatable.startAnimation(this.animation.getAnimationByName("dark_stairs_right_open"), PlayMode.ONCE);
             }
         } else if (type == MoveType.CLOSE) {
             if (dir.equals(Position.getUp())) {
-                updatable.startAnimation(this.animation.getAnimationByName("stairs_up_close"), PlayMode.ONCE);
+                updatable.startAnimation(this.animation.getAnimationByName("dark_stairs_up_close"), PlayMode.ONCE);
             } else if (dir.equals(Position.getDown())) {
-                updatable.startAnimation(this.animation.getAnimationByName("stairs_down_close"), PlayMode.ONCE);
+                updatable.startAnimation(this.animation.getAnimationByName("dark_stairs_down_close"), PlayMode.ONCE);
             } else if (dir.equals(Position.getLeft())) {
-                updatable.startAnimation(this.animation.getAnimationByName("stairs_left_close"), PlayMode.ONCE);
+                updatable.startAnimation(this.animation.getAnimationByName("dark_stairs_left_close"), PlayMode.ONCE);
             } else if (dir.equals(Position.getRight())) {
-                updatable.startAnimation(this.animation.getAnimationByName("stairs_right_close"), PlayMode.ONCE);
             }
         }
 
