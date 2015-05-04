@@ -55,36 +55,43 @@ public class Ned extends GameObject {
 
         if (n_obj == null) {
             this.pos.setPosition(n_pos);
-            this.run_animation(diff, MoveType.WALK, 0.0f);
+            this.run_animation(diff, MoveType.WALK, 0.0f, false);
             this.save(new Memento(diff, MoveType.WALK, null));
             return this.pos;
         } else {
             Position n_move_to = n_obj.moveTo(diff, 0.0f);
             if (!n_move_to.equals(n_pos)) {
+                
                 if (n_obj instanceof GreenMaki || n_obj instanceof Box || n_obj instanceof RootBox) { //PushGreen Maki, Box or RootedBox
+                
                     this.pos.setPosition(n_pos);
-                    this.run_animation(diff, MoveType.PUSH, 0.0f);
+                    this.run_animation(diff, MoveType.PUSH, 0.0f, false);
                     this.save(new Memento(diff, MoveType.PUSH, n_obj));
                     return this.pos;
+                
                 } else if (n_obj instanceof OrangeMaki) { //Push OrangeMaki
+                
                     Position fly_final_pos = Position.deduction(n_move_to, diff);
+                    
                     if (Position.deduction(fly_final_pos, this.pos).equals(diff)) {
-                        this.run_animation(diff, MoveType.PUSH, 0.0f);
+                        this.run_animation(diff, MoveType.PUSH, 0.0f, false);
                     } else {
-                        this.run_animation(Position.deduction(fly_final_pos, this.pos), MoveType.FLY, 0.0f);
+                        this.run_animation(Position.deduction(fly_final_pos, this.pos), MoveType.FLY, 0.0f, false);
                     }
+                    
                     this.pos.setPosition(fly_final_pos);
                     this.save(new Memento(Position.sum(Position.deduction(fly_final_pos, n_pos), diff), MoveType.FLY, n_obj));
+                   
                     return this.pos;
                 } else if (n_obj instanceof BlueMaki) { //Push BlueMaki
-                    this.run_animation(diff, MoveType.WAIT, 0.0f);
+                    this.run_animation(diff, MoveType.WAIT, 0.0f, false);
                     this.save(new Memento(Position.getVoid(), MoveType.NO, n_obj));
                     return this.pos;
                 }
             } else if (n_obj instanceof Stairs && ((Stairs) n_obj).isOpen()) { // Walk on stairs
                 Stairs s = (Stairs) n_obj;
                 if (diff.equals(Position.multiplication(s.getDir(), -1))) {
-                    this.run_animation(diff, MoveType.MOUNT, 0.0f);
+                    this.run_animation(diff, MoveType.MOUNT, 0.0f, false);
                     this.end = true;
                 }
 
@@ -105,14 +112,14 @@ public class Ned extends GameObject {
 
         Position n_pos = Position.sum(this.pos, Position.multiplication(m.getDiff(), -1));
         this.pos.setPosition(n_pos);
-        this.run_animation(Position.multiplication(m.getDiff(), -1), m.getType(), 0.0f);
+        this.run_animation(Position.multiplication(m.getDiff(), -1), m.getType(), 0.0f, true);
 
         if (m.getNext() != null) {
             m.getNext().undo();
         }
     }
 
-    private void run_animation(Position diff, MoveType type, float wait_time) {
+    private void run_animation(Position diff, MoveType type, float wait_time, boolean undo) {
         Sprite sprite = this.entity.getComponent(Sprite.class);
         SpritePuppetControls updatable = this.entity.getComponent(SpritePuppetControls.class);
 
@@ -135,7 +142,19 @@ public class Ned extends GameObject {
                         .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
             }
         } else if (type == MoveType.PUSH) { // Push animation
-            if (diff.equals(Position.getUp())) {
+            if (diff.equals(Position.getUp()) && undo) {
+                updatable.startAnimation(this.animation.getAnimationByName("push_down"), PlayMode.ONCE)
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+            } else if (diff.equals(Position.getDown()) && undo) {
+                updatable.startAnimation(this.animation.getAnimationByName("push_up"), PlayMode.ONCE)
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+            } else if (diff.equals(Position.getRight()) && undo) {
+                updatable.startAnimation(this.animation.getAnimationByName("push_left"), PlayMode.ONCE)
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+            } else if (diff.equals(Position.getLeft()) && undo) {
+                updatable.startAnimation(this.animation.getAnimationByName("push_right"), PlayMode.ONCE)
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+            } else if (diff.equals(Position.getUp())) {
                 updatable.startAnimation(this.animation.getAnimationByName("push_up"), PlayMode.ONCE)
                         .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
             } else if (diff.equals(Position.getDown())) {
