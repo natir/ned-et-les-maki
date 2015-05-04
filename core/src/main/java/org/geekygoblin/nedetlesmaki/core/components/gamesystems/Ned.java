@@ -130,42 +130,54 @@ public class Ned extends GameObject {
         if (type == MoveType.WALK) { // Walk animation
             if (diff.equals(Position.getUp())) {
                 updatable.startAnimation(this.animation.getAnimationByName("walk_up"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                        .stopAnimation();
             } else if (diff.equals(Position.getDown())) {
                 updatable.startAnimation(this.animation.getAnimationByName("walk_down"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                        .stopAnimation();
             } else if (diff.equals(Position.getRight())) {
                 updatable.startAnimation(this.animation.getAnimationByName("walk_right"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                        .stopAnimation();
             } else if (diff.equals(Position.getLeft())) {
                 updatable.startAnimation(this.animation.getAnimationByName("walk_left"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                        .stopAnimation();
             }
         } else if (type == MoveType.PUSH) { // Push animation
             if (diff.equals(Position.getUp()) && undo) {
                 updatable.startAnimation(this.animation.getAnimationByName("push_down"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                        .stopAnimation();
             } else if (diff.equals(Position.getDown()) && undo) {
                 updatable.startAnimation(this.animation.getAnimationByName("push_up"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                        .stopAnimation();
             } else if (diff.equals(Position.getRight()) && undo) {
                 updatable.startAnimation(this.animation.getAnimationByName("push_left"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                        .stopAnimation();
             } else if (diff.equals(Position.getLeft()) && undo) {
                 updatable.startAnimation(this.animation.getAnimationByName("push_right"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                        .stopAnimation();
             } else if (diff.equals(Position.getUp())) {
                 updatable.startAnimation(this.animation.getAnimationByName("push_up"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                        .stopAnimation();
             } else if (diff.equals(Position.getDown())) {
                 updatable.startAnimation(this.animation.getAnimationByName("push_down"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                        .stopAnimation();
             } else if (diff.equals(Position.getRight())) {
                 updatable.startAnimation(this.animation.getAnimationByName("push_right"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                        .stopAnimation();
             } else if (diff.equals(Position.getLeft())) {
                 updatable.startAnimation(this.animation.getAnimationByName("push_left"), PlayMode.ONCE)
-                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base);
+                        .moveToRelative(new Vector3(diff.getY(), diff.getX(), 0), AnimationTime.base)
+                        .stopAnimation();
             }
         } else if (type == MoveType.WAIT) { // Wait animation
             if (diff.equals(Position.getUp())) {
