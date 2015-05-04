@@ -91,7 +91,7 @@ public class DrawSystem extends EntitySystem implements IDrawSystem {
     };
     private SpriteProjector spriteProjector;
     private final Viewport viewPort = new Viewport();
-    private static final float spriteGlobalScale = 1.2f;
+    private static final float spriteGlobalScale = 1.0f;
     private final Bag<Entity> backgrounds = new Bag<Entity>();
     private final Bag<Entity> sprites = new Bag<Entity>();
     private final Bag<Entity> uis = new Bag<Entity>();

@@ -60,7 +60,7 @@ public class LevelSelector extends Container {
         this.showMenuTrigger = showMenuTrigger;
         bulleAnimations = assets.getAnimations("animation/bulle/bulle.json");
         setBackground(new TexturedBackground(assets.getAnimations("tour.png").getFirst().start(PlayMode.LOOP)));
-        setFocusedChild(addButton("level.01.name", "levels/t1/lvl01.tmx", 1087, 938, 1));
+        setFocusedChild(addButton("level.01.name", "levels/t1/lvl01.tmx", 1045, 855, 1));
         addButton("level.02.name", "levels/t1/lvl02.tmx", 825, 910, -1);
         addButton("level.03.name", "levels/t1/lvl03.tmx", 1087, 881, 1);
         addButton("level.04.name", "levels/t1/lvl04.tmx", 825, 853, -1);
@@ -102,10 +102,10 @@ public class LevelSelector extends Container {
         backButton.setFocusCursor(NullFocusCursor.INSTANCE);
         backButton.setBackground(new TexturedBackground(assets.getAnimations("animation/portail/portail.json").getAnimationByName("normal").start(PlayMode.LOOP)));
         backButton.setFocusedBackground(new TexturedBackground(assets.getAnimations("animation/portail/portail.json").getAnimationByName("survol").start(PlayMode.LOOP)));
-        backButton.setX(555);
-        backButton.setY(406);
-        backButton.setWidth(195);
-        backButton.setHeight(267);
+        backButton.setX(526);
+        backButton.setY(383);
+        backButton.setWidth(131);
+        backButton.setHeight(199);
         this.add(backButton);
     }
 
@@ -131,7 +131,7 @@ public class LevelSelector extends Container {
         button.setBackground(background);
         final TexturedBackground focusedBackground = new TexturedBackground(bulleAnimations.getAnimationByName("bulle_selectionnee").start(PlayMode.LOOP));
         button.setFocusedBackground(focusedBackground);
-        button.setWidth(button.getMinWidth() * 1.8f);
+        button.setWidth(button.getMinWidth());
         button.setHeight(button.getMinHeight());
         if (orientation < 0) {
             button.setX(x - button.getWidth());

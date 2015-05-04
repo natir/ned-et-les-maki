@@ -4,8 +4,8 @@
       "name": "survol",
       "frames": [
         {
-          "duration": 100,
-          "image": "portail0.png",
+          "duration": 150,
+          "image": "portail00.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -13,7 +13,63 @@
         },
         {
           "duration": 100,
-          "image": "portail1.png",
+          "image": "portail01.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "portail02.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "portail03.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 300,
+          "image": "portail04.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "portail03.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "portail02.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 100,
+          "image": "portail01.png",
+          "u1": 0.0,
+          "v1": 0.0,
+          "u2": 1.0,
+          "v2": 1.0
+        },
+        {
+          "duration": 150,
+          "image": "portail00.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -26,7 +82,7 @@
       "frames": [
         {
           "duration": 100,
-          "image": "portail1.png",
+          "image": "portail04.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -34,7 +90,7 @@
         },
         {
           "duration": 100,
-          "image": "portail3.png",
+          "image": "portail05.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
@@ -46,8 +102,8 @@
       "name": "normal",
       "frames": [
         {
-          "duration": 100000,
-          "image": "portail0.png",
+          "duration": 100,
+          "image": "portail00.png",
           "u1": 0.0,
           "v1": 0.0,
           "u2": 1.0,
