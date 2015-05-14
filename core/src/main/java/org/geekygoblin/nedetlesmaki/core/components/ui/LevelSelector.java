@@ -25,17 +25,25 @@ package org.geekygoblin.nedetlesmaki.core.components.ui;
 
 import im.bci.jnuit.NuitToolkit;
 import im.bci.jnuit.widgets.Button;
+import im.bci.jnuit.widgets.NullWidget;
+import im.bci.jnuit.widgets.Table;
+import im.bci.jnuit.widgets.TableLayout;
+import im.bci.jnuit.widgets.Widget;
+import im.bci.jnuit.animation.IAnimation;
 import im.bci.jnuit.animation.IAnimationCollection;
 import im.bci.jnuit.animation.PlayMode;
+
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
+
 import im.bci.jnuit.background.TexturedBackground;
 import im.bci.jnuit.focus.NullFocusCursor;
-import im.bci.jnuit.widgets.Container;
+
 import org.geekygoblin.nedetlesmaki.core.NedGame;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.components.Triggerable;
+import org.geekygoblin.nedetlesmaki.core.constants.VirtualResolution;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 
@@ -44,69 +52,98 @@ import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
  * @author devnewton
  */
 @Singleton
-public class LevelSelector extends Container {
+public class LevelSelector extends Table {
 
     private final NedGame game;
     private final IAnimationCollection bulleAnimations;
     private final NuitToolkit toolkit;
     private final Provider<IStartGameTrigger> startGameTrigger;
     private final Provider<ShowMenuTrigger> showMenuTrigger;
+    private final Table buttonsTable;
+    private NullWidget portail;
+    private Button backButton;
+    private TexturedBackground portailFocusedBackground;
+    private TexturedBackground portailBackground;
 
     @Inject
     public LevelSelector(NedGame game, NuitToolkit toolkit, final IAssets assets, Provider<IStartGameTrigger> startGameTrigger, Provider<ShowMenuTrigger> showMenuTrigger) {
+        super(toolkit);
         this.game = game;
         this.toolkit = toolkit;
         this.startGameTrigger = startGameTrigger;
         this.showMenuTrigger = showMenuTrigger;
+        buttonsTable = this;
+        buttonsTable.setX(0);
+        buttonsTable.setY(0);
+        buttonsTable.setWidth(320);
+        buttonsTable.setHeight(VirtualResolution.HEIGHT);
+        buttonsTable.defaults().expandY().align(TableLayout.CENTER);
+        buttonsTable.columnDefaults(0).width(80.0f).pad(20.0f);
+        buttonsTable.columnDefaults(1).width(80.0f).pad(20.0f);
         bulleAnimations = assets.getAnimations("animation/bulle/bulle.json");
         setBackground(new TexturedBackground(assets.getAnimations("tour.png").getFirst().start(PlayMode.LOOP)));
-        setFocusedChild(addButton("level.01.name", "levels/t1/lvl01.tmx", 1045, 855, 1));
-        addButton("level.02.name", "levels/t1/lvl02.tmx", 870, 832, -1);
-        addButton("level.03.name", "levels/t1/lvl03.tmx", 1045, 809, 1);
-        addButton("level.04.name", "levels/t1/lvl04.tmx", 870, 786, -1);
-        addButton("level.05.name", "levels/t1/lvl05.tmx", 1045, 763, 1);
-        addButton("level.06.name", "levels/t1/lvl06.tmx", 870, 740, -1);
-        addButton("level.07.name", "levels/t1/lvl07.tmx", 1045, 717, 1);
-        addButton("level.08.name", "levels/t2/lvl01.tmx", 870, 694, -1);
-        addButton("level.09.name", "levels/t2/lvl02.tmx", 1045, 671, 1);
-        addButton("level.10.name", "levels/t2/lvl03.tmx", 870, 648, -1);
-        addButton("level.11.name", "levels/t2/lvl04.tmx", 1045, 625, 1);
-        addButton("level.12.name", "levels/t2/lvl05.tmx", 870, 602, -1);
-        addButton("level.13.name", "levels/t2/lvlAA.tmx", 1045, 579, 1);
-        addButton("level.14.name", "levels/t2/lvlAB.tmx", 870, 556, -1);
-        /*addButton("level.15.name", "levels/lvl15.tmx", 1087, 540, 1);
-         addButton("level.16.name", "levels/lvl16.tmx", 825, 512, -1);
-         addButton("level.17.name", "levels/lvl17.tmx", 1087, 483, 1);
-         addButton("level.18.name", "levels/lvl18.tmx", 825, 454, -1);
-         addButton("level.19.name", "levels/lvl19.tmx", 1087, 426, 1);
-         addButton("level.20.name", "levels/lvl20.tmx", 825, 398, -1);
-         addButton("level.21.name", "levels/lvl21.tmx", 1087, 369, 1);
-         addButton("level.22.name", "levels/lvl22.tmx", 825, 340, -1);
-         addButton("level.23.name", "levels/lvl23.tmx", 1087, 312, 1);
-         addButton("level.24.name", "levels/lvl24.tmx", 825, 284, -1);
-         addButton("level.25.name", "levels/lvl25.tmx", 1087, 256, 1);
-         addButton("level.26.name", "levels/lvl26.tmx", 825, 227, -1);
-         addButton("level.27.name", "levels/lvl27.tmx", 1087, 198, 1);
-         addButton("level.28.name", "levels/lvl28.tmx", 825, 170, -1);*/
-        addButton("level.29.name", "levels/test2020.tmx", 1087, 142, 1);
-        addButton("level.30.name", "levels/test.tmx", 825, 117, -1);
+        buttonsTable.setFocusedChild(addButton("level.01.name", "levels/t1/lvl01.tmx"));
+        addButton("level.02.name", "levels/t1/lvl02.tmx");
+        buttonsTable.row();
+        addButton("level.03.name", "levels/t1/lvl03.tmx");
+        addButton("level.04.name", "levels/t1/lvl04.tmx");
+        buttonsTable.row();
+        addButton("level.05.name", "levels/t1/lvl05.tmx");
+        addButton("level.06.name", "levels/t1/lvl06.tmx");
+        buttonsTable.row();
+        addButton("level.07.name", "levels/t1/lvl07.tmx");
+        addButton("level.08.name", "levels/t2/lvl01.tmx");
+        buttonsTable.row();
+        addButton("level.09.name", "levels/t2/lvl02.tmx");
+        addButton("level.10.name", "levels/t2/lvl03.tmx");
+        buttonsTable.row();
+        addButton("level.11.name", "levels/t2/lvl04.tmx");
+        addButton("level.12.name", "levels/t2/lvl05.tmx");
+        buttonsTable.row();
+        addButton("level.13.name", "levels/t2/lvlAA.tmx");
+        addButton("level.14.name", "levels/t2/lvlAB.tmx");
+        buttonsTable.row();
+        addButton("level.29.name", "levels/test2020.tmx");
+        addButton("level.30.name", "levels/test.tmx");
+        buttonsTable.row();
 
-        Button backButton = new Button(toolkit, "options.menu.button.back") {
+        IAnimation buttonSmallBackgroundAnimation = assets.getAnimations("animation/menu_buttons/menu_buttons.json").getAnimationByName("1_normal");
+        IAnimation buttonSmallFocusedBackgroundAnimation = assets.getAnimations("animation/menu_buttons/menu_buttons.json").getAnimationByName("1_survol");
 
+        backButton = new Button(toolkit, "options.menu.button.back") {
             @Override
             public void onOK() {
                 LevelSelector.this.onCancel();
             }
-
         };
         backButton.setFocusCursor(NullFocusCursor.INSTANCE);
-        backButton.setBackground(new TexturedBackground(assets.getAnimations("animation/portail/portail.json").getAnimationByName("normal").start(PlayMode.LOOP)));
-        backButton.setFocusedBackground(new TexturedBackground(assets.getAnimations("animation/portail/portail.json").getAnimationByName("survol").start(PlayMode.LOOP)));
-        backButton.setX(526);
-        backButton.setY(383);
-        backButton.setWidth(131);
-        backButton.setHeight(199);
-        this.add(backButton);
+        backButton.setBackground(new TexturedBackground(buttonSmallBackgroundAnimation.start(PlayMode.LOOP)));
+        backButton.setFocusedBackground(new TexturedBackground(buttonSmallFocusedBackgroundAnimation.start(PlayMode.LOOP)));
+        buttonsTable.cell(backButton).colspan(2).fill();
+        buttonsTable.cell(new NullWidget()).expand();
+
+        portail = new NullWidget();
+        portailBackground = new TexturedBackground(assets.getAnimations("animation/portail/portail.json").getAnimationByName("normal").start(PlayMode.LOOP));
+        portailFocusedBackground = new TexturedBackground(assets.getAnimations("animation/portail/portail.json").getAnimationByName("survol").start(PlayMode.LOOP));
+        portail.setBackground(portailBackground);
+        portail.setX(526);
+        portail.setY(383);
+        portail.setWidth(131);
+        portail.setHeight(199);
+        buttonsTable.add(portail);
+
+    }
+
+    @Override
+    public void setFocusedChild(Widget focusedChild) {
+        super.setFocusedChild(focusedChild);
+        if (null != portail) {
+            if (focusedChild == backButton) {
+                portail.setBackground(portailFocusedBackground);
+            } else {
+                portail.setBackground(portailBackground);
+            }
+        }
     }
 
     private class LevelSelectorButton extends Button {
@@ -125,23 +162,13 @@ public class LevelSelector extends Container {
         }
     }
 
-    private LevelSelectorButton addButton(String label, String levelName, int x, int y, int orientation) {
+    private LevelSelectorButton addButton(String label, String levelName) {
         LevelSelectorButton button = new LevelSelectorButton(toolkit, label, levelName);
         final TexturedBackground background = new TexturedBackground(bulleAnimations.getAnimationByName("bulle").start(PlayMode.LOOP));
         button.setBackground(background);
         final TexturedBackground focusedBackground = new TexturedBackground(bulleAnimations.getAnimationByName("bulle_selectionnee").start(PlayMode.LOOP));
         button.setFocusedBackground(focusedBackground);
-        button.setWidth(button.getMinWidth());
-        button.setHeight(button.getMinHeight());
-        if (orientation < 0) {
-            button.setX(x - button.getWidth());
-        } else {
-            button.setX(x);
-            background.setMirrorX(true);
-            focusedBackground.setMirrorX(true);
-        }
-        button.setY(y - button.getHeight() / 2);
-        this.add(button);
+        buttonsTable.cell(button);
         return button;
     }
 
