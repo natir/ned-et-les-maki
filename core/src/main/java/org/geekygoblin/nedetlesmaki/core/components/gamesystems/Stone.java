@@ -46,7 +46,7 @@ public class Stone extends GameObject {
     public Stone(PositionIndexed pos, Entity entity, LevelIndex index, IAssets assets) {
         super(pos, entity, index);
 
-        this.animation = assets.getAnimations("animation/stones/steles.json");
+        this.animation = assets.getAnimations("animation/steles/steles.json");
         this.pushed = false;
     }
 
@@ -110,5 +110,8 @@ public class Stone extends GameObject {
                 updatable.startAnimation(this.animation.getAnimationByName("stele_blue_pushed"), PlayMode.ONCE);
             }
         }
+
+        this.entity.addComponent(updatable);
+        this.entity.changedInWorld();
     }
 }
