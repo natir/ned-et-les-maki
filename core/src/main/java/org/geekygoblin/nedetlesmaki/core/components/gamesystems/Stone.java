@@ -23,6 +23,9 @@ package org.geekygoblin.nedetlesmaki.core.components.gamesystems;
 
 import com.artemis.Entity;
 import im.bci.jnuit.animation.IAnimationCollection;
+import im.bci.jnuit.animation.PlayMode;
+import im.bci.jnuit.artemis.sprite.Sprite;
+import im.bci.jnuit.artemis.sprite.SpritePuppetControls;
 import org.geekygoblin.nedetlesmaki.core.IAssets;
 import org.geekygoblin.nedetlesmaki.core.backend.LevelIndex;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
@@ -54,25 +57,25 @@ public class Stone extends GameObject {
     public void setColorType(ColorType c) {
         this.color = c;
     }
-    
+
     public boolean isPushed() {
         return this.pushed;
     }
 
     public void setState(boolean new_state) {
-        if(new_state == this.pushed) {
+        if (new_state == this.pushed) {
             return;
         }
-        
+
         this.pushed = new_state;
-        
-        if(this.pushed) {
+
+        if (this.pushed) {
             this.run_animations(MoveType.PUSH);
         } else {
             this.run_animations(MoveType.OUT);
         }
     }
-    
+
     @Override
     public Position moveTo(Position diff, float wait_time) {
         return this.pos;
@@ -81,8 +84,31 @@ public class Stone extends GameObject {
     @Override
     public void undo() {
     }
-    
+
     private void run_animations(MoveType type) {
-    
+        Sprite sprite = this.entity.getComponent(Sprite.class);
+        SpritePuppetControls updatable = this.entity.getComponent(SpritePuppetControls.class);
+
+        if (updatable == null) {
+            updatable = new SpritePuppetControls(sprite);
+        }
+
+        if (type == MoveType.OUT) {
+            if (color == ColorType.green) {
+                updatable.startAnimation(this.animation.getAnimationByName("stele_green_out"), PlayMode.ONCE);
+            } else if (color == ColorType.orange) {
+                updatable.startAnimation(this.animation.getAnimationByName("stele_orange_out"), PlayMode.ONCE);
+            } else {
+                updatable.startAnimation(this.animation.getAnimationByName("stele_blue_out"), PlayMode.ONCE);
+            }
+        } else if (type == MoveType.PUSH) {
+            if (color == ColorType.green) {
+                updatable.startAnimation(this.animation.getAnimationByName("stele_green_pushed"), PlayMode.ONCE);
+            } else if (color == ColorType.orange) {
+                updatable.startAnimation(this.animation.getAnimationByName("stele_orange_pushed"), PlayMode.ONCE);
+            } else {
+                updatable.startAnimation(this.animation.getAnimationByName("stele_blue_pushed"), PlayMode.ONCE);
+            }
+        }
     }
 }
