@@ -47,14 +47,17 @@ public abstract class GameObject extends Component {
         UNDESTROY,
         //Ned
         WALK,
-        PUSH,
         FLY,
         MOUNT,
+        //Ned and Stone
+        PUSH,
         //Stairs
         OPEN,
         CLOSE,
         //Orange Maki and Ned
         WAIT,
+        //Stone
+        OUT,
     }
 
     protected Entity entity;

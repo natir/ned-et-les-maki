@@ -35,8 +35,10 @@ import im.bci.tmxloader.TmxTileInstance;
 import im.bci.tmxloader.TmxTileInstanceEffect;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import org.geekygoblin.nedetlesmaki.core.components.LevelBackground;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
@@ -212,8 +214,20 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
         if ("dark_stairs_close_left".equals(type)) {
             return createStairs(tile, game, x, y, l, layer, Position.getLeft());
         }
+        if ("dark_stairs_close_right".equals(type)) {
+            return createStairs(tile, game, x, y, l, layer, Position.getRight());
+        }
         if ("low_stairs".equals(type)) {
             return createLowStairs(tile, game, x, y, l, layer);
+        }
+        if ("green_stele_out".equals(type)) {
+            return createStone(tile, game, x, y, l, layer, ColorType.green, true);
+        }
+        if ("orange_stele_out".equals(type)) {
+            return createStone(tile, game, x, y, l, layer, ColorType.orange, true);
+        }
+        if ("blue_stele_out".equals(type)) {
+            return createStone(tile, game, x, y, l, layer, ColorType.blue, true);
         }
         return createDecoration(tile, game, x, y, l, layer);
     }
@@ -400,6 +414,17 @@ public abstract class AbstractStartGameTrigger implements IStartGameTrigger {
 
     protected Entity createLowStairs(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer) {
         return this.createWall(tile, game, x, y, l, layer);
+    }
+
+    protected Entity createStone(TmxTileInstance tile, NedGame game, int x, int y, int l, TmxLayer layer, ColorType c, boolean pushed) {
+        Entity stone = game.createEntity();
+        Stone obj = new Stone(new PositionIndexed(x, y, index), stone, index, assets);
+        obj.setColorType(c);
+        stone.addComponent(obj);
+        createSprite(x, y, l, tile, ApparitionEffect.FROM_ABOVE, stone);
+        game.addEntity(stone);
+        index.addStone(obj, new Position(x, y));
+        return stone;
     }
 
     protected abstract void createProjector(NedGame game);

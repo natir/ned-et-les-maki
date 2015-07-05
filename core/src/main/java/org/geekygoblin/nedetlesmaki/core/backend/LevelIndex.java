@@ -29,6 +29,8 @@ import org.geekygoblin.nedetlesmaki.core.components.gamesystems.GameObject;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Plate;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Stairs;
 import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Wall;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Stone;
+import org.geekygoblin.nedetlesmaki.core.constants.ColorType;
 
 /**
  *
@@ -42,12 +44,24 @@ public class LevelIndex {
     private Entity ned;
     private Stairs stairs;
     private final ArrayList<Plate> allPlate;
+    private final ArrayList<Plate> greenPlate;
+    private final ArrayList<Plate> orangePlate;
+    private final ArrayList<Plate> bluePlate;
+    private final ArrayList<Stone> greenStone;
+    private final ArrayList<Stone> orangeStone;
+    private final ArrayList<Stone> blueStone;
 
     @Inject
     public LevelIndex() {
         this.height = -1;
         this.width = -1;
         this.allPlate = new ArrayList<Plate>();
+        this.greenPlate = new ArrayList<Plate>();
+        this.orangePlate = new ArrayList<Plate>();
+        this.bluePlate = new ArrayList<Plate>();
+        this.greenStone = new ArrayList<Stone>();
+        this.orangeStone = new ArrayList<Stone>();
+        this.blueStone = new ArrayList<Stone>();
     }
 
     public void initialize(int height, int width) {
@@ -93,11 +107,30 @@ public class LevelIndex {
 
             this.index[p.getX()][p.getY()].setPlate(e);
             this.allPlate.add(e);
+
+            if (e.getColorType() == ColorType.green) {
+                this.greenPlate.add(e);
+            } else if (e.getColorType() == ColorType.orange) {
+                this.orangePlate.add(e);
+            } else {
+                this.bluePlate.add(e);
+            }
+        }
+    }
+
+    public void addStone(Stone e, Position p) {
+        this.added(e, p);
+        if (e.getColorType() == ColorType.green) {
+            this.greenStone.add(e);
+        } else if (e.getColorType() == ColorType.orange) {
+            this.orangeStone.add(e);
+        } else if (e.getColorType() == ColorType.blue) {
+            this.blueStone.add(e);
         }
     }
 
     public GameObject getGameObject(int x, int y) {
-        if(this.outOfBounds(x, y)) {
+        if (this.outOfBounds(x, y)) {
             return new Wall(new PositionIndexed(x, y, null), null, null);
         }
 
@@ -190,6 +223,10 @@ public class LevelIndex {
         if (p != null) {
             p.setMaki(b);
 
+            this.checkStone(this.greenPlate, this.greenStone);
+            this.checkStone(this.orangePlate, this.orangeStone);
+            this.checkStone(this.bluePlate, this.blueStone);
+
             if (this.checkEndLevel()) {
                 this.stairs.setOpen(true);
             } else if (this.stairs.isOpen()) {
@@ -199,8 +236,26 @@ public class LevelIndex {
     }
 
     private boolean checkEndLevel() {
-        for (int i = 0; i < this.allPlate.size(); i++) {
-            if (!this.allPlate.get(i).haveMaki()) {
+        return this.checkPlateGroup(this.allPlate);
+    }
+
+    private void checkStone(ArrayList<Plate> plate, ArrayList<Stone> stone) {
+        if (this.checkPlateGroup(plate)) {
+            for (Stone s : stone) {
+                s.setState(true);
+                this.deleted(s.getPos());
+            }
+        } else {
+            for (Stone s : stone) {
+                s.setState(false);
+                this.enabled(s, s.getPos());
+            }
+        }
+    }
+
+    private boolean checkPlateGroup(ArrayList<Plate> list_plate) {
+        for (int i = 0; i < list_plate.size(); i++) {
+            if (!list_plate.get(i).haveMaki()) {
                 return false;
             }
         }
