@@ -58,6 +58,7 @@ import pythagoras.f.Vector3;
 public class IngameInputSystem extends EntityProcessingSystem {
 
     private final Provider<ShowMenuTrigger> showMenuTrigger;
+    private final Provider<ShowLevelMenuTrigger> showLevelMenuTrigger;
     private final Provider<IStartGameTrigger> startGameTrigger;
     private final ActionActivatedDetector mouseClick;
 
@@ -69,6 +70,7 @@ public class IngameInputSystem extends EntityProcessingSystem {
     public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, Provider<IStartGameTrigger> startGameTrigger, IDefaultControls defaultControls, InGameUI inGameUI) {
         super(Aspect.getAspectForAll(IngameControls.class));
         this.showMenuTrigger = showMenuTrigger;
+        this.showLevelMenuTrigger = showLevelMenuTrigger;
         this.mouseClick = new ActionActivatedDetector(new Action("click", defaultControls.getMouseClickControls()));
         this.inGameUI = inGameUI;
         this.startGameTrigger = startGameTrigger;
@@ -88,13 +90,13 @@ public class IngameInputSystem extends EntityProcessingSystem {
             IngameControls controls = e.getComponent(IngameControls.class);
             controls.getShowMenu().poll();
             if (controls.getShowMenu().isActivated() || inGameUI.getShowMenu().pollActivation()) {
-                world.addEntity(world.createEntity().addComponent(new Triggerable(showMenuTrigger.get())));
+                world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
             }
             if (canMoveNed()) {
                 Entity ned = game.getNed();
 
                 if (this.nedMapper.getSafe(ned).isEnd()) {
-                    world.addEntity(world.createEntity().addComponent(new Triggerable(showMenuTrigger.get())));
+                    world.addEntity(world.createEntity().addComponent(new Triggerable(showLevelMenuTrigger.get())));
                 }
 
                 if (controls.getRewind().isPressed() || inGameUI.getRewind().pollActivation()) {
