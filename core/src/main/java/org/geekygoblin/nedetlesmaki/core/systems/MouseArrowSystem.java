@@ -46,10 +46,10 @@ public class MouseArrowSystem extends EntityProcessingSystem {
     private Vector3 mousePos;
     private float nearestSpriteDistance;
     private Sprite nearestSprite;
-    private Entity arrow;
     private final NedGame game;
     private final IAssets assets;
     private final IDrawSystem drawSystem;
+    private Sprite target;
 
     public MouseArrowSystem(NedGame game, IAssets assets, IDrawSystem drawSystem) {
         super(Aspect.getAspectForAll(Sprite.class));
@@ -61,7 +61,6 @@ public class MouseArrowSystem extends EntityProcessingSystem {
     @Override
     protected void initialize() {
         spriteMapper = world.getMapper(Sprite.class);
-        arrowAnimations = assets.getAnimations("animation/arrow/arrow.json");
     }
 
     @Override
@@ -75,24 +74,11 @@ public class MouseArrowSystem extends EntityProcessingSystem {
         }
         nearestSpriteDistance = Float.MAX_VALUE;
         mousePos = drawSystem.getMouseSpritePos(10);
-        if (null != mousePos) {
-            if (null == arrow) {
-                arrow = world.createEntity();
-                final Sprite arrowSprite = new Sprite();
-                arrowSprite.setWidth(56);
-                arrowSprite.setHeight(57);
-                arrowSprite.setZOrder(1);
-                arrow.addComponent(arrowSprite);
-                world.addEntity(arrow);
-            }
-            final Sprite arrowSprite = spriteMapper.get(arrow);
-            arrowSprite.setPosition(new Vector3(mousePos));
-        }
     }
 
     @Override
     protected void process(Entity entity) {
-        if (null != mousePos && entity != arrow) {
+        if (null != mousePos) {
             Sprite sprite = spriteMapper.get(entity);
             Vector3 v = mousePos.subtract(sprite.getPosition());
             float distance = v.lengthSquared();
@@ -111,8 +97,12 @@ public class MouseArrowSystem extends EntityProcessingSystem {
             nearestSprite.setBlue(0f);
             nearestSprite.setAlpha(1.0f);
         }
-        if (null != arrow) {
-            updateArrowPlay(spriteMapper.get(arrow));
+
+        if (null != target) {
+            target.setRed(0f);
+            target.setGreen(0.5f);
+            target.setBlue(1.0f);
+            target.setAlpha(1.0f);
         }
     }
 
@@ -120,43 +110,14 @@ public class MouseArrowSystem extends EntityProcessingSystem {
         return nearestSprite;
     }
 
-    private void updateArrowPlay(Sprite sprite) {
-        IAnimation animation = null;
-        if (null != nearestSprite) {
-            Vector3 selectedPosition = nearestSprite.getPosition();
-            Vector3 nedPosition = spriteMapper.get(game.getNed()).getPosition();
-            int nedX = Math.round(nedPosition.x);
-            int nedY = Math.round(nedPosition.y);
-            int selectedX = Math.round(selectedPosition.x);
-            int selectedY = Math.round(selectedPosition.y);
-
-            if (nedX == selectedX) {
-                if (nedY < selectedY) {
-                    animation = arrowAnimations.getAnimationByName("arrow_right");
-                } else if (nedY > selectedY) {
-                    animation = assets.getAnimations("animation/arrow/arrow.json").getAnimationByName("arrow_left");
-                }
-            } else if (nedY == selectedY) {
-                if (nedX < selectedX) {
-                    animation = assets.getAnimations("animation/arrow/arrow.json").getAnimationByName("arrow_down");
-                } else if (nedX > selectedX) {
-                    animation = assets.getAnimations("animation/arrow/arrow.json").getAnimationByName("arrow_up");
-                }
-            }
+    public void setTarget(Sprite target) {
+        // remove the color from previous target
+        if (this.target != null) {
+            this.target.setRed(1.0f);
+            this.target.setGreen(1.0f);
+            this.target.setBlue(1.0f);
+            this.target.setAlpha(1.0f);
         }
-
-        if (null == animation) {
-            if (null != sprite.getPlay()) {
-                sprite.setPlay(null);
-                drawSystem.setDefaultCursor();
-            }
-        } else {
-            if (null == sprite.getPlay() || sprite.getPlay().getName().equals(animation.getName())) {
-                sprite.setPlay(animation.start(PlayMode.LOOP));
-                drawSystem.hideCursor();
-            }
-        }
-
+        this.target = target;
     }
-    private IAnimationCollection arrowAnimations;
 }

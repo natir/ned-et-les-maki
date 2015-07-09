@@ -45,9 +45,11 @@ import org.geekygoblin.nedetlesmaki.core.events.ShowMenuTrigger;
 import org.geekygoblin.nedetlesmaki.core.components.IngameControls;
 import org.geekygoblin.nedetlesmaki.core.backend.Position;
 import org.geekygoblin.nedetlesmaki.core.components.ui.InGameUI;
+import org.geekygoblin.nedetlesmaki.core.components.gamesystems.Path;
 import org.geekygoblin.nedetlesmaki.core.events.IStartGameTrigger;
 import org.geekygoblin.nedetlesmaki.core.events.ShowLevelMenuTrigger;
 
+import pythagoras.f.Vector;
 import pythagoras.f.Vector3;
 
 /**
@@ -65,6 +67,8 @@ public class IngameInputSystem extends EntityProcessingSystem {
     private ComponentMapper<Sprite> spriteMapper;
     private ComponentMapper<Ned> nedMapper;
     private final InGameUI inGameUI;
+
+    private Path nedPath;
 
     @Inject
     public IngameInputSystem(Provider<ShowMenuTrigger> showMenuTrigger, Provider<ShowLevelMenuTrigger> showLevelMenuTrigger, Provider<IStartGameTrigger> startGameTrigger, IDefaultControls defaultControls, InGameUI inGameUI) {
@@ -102,6 +106,9 @@ public class IngameInputSystem extends EntityProcessingSystem {
                 if (controls.getRewind().isPressed() || inGameUI.getRewind().pollActivation()) {
                     this.nedMapper.getSafe(ned).undo();
                     ned.changedInWorld();
+
+                    // disable pathfinding when rewind is used
+                    nedPath = null;
                 } else if (inGameUI.getReset().pollActivation()) {
                     game.addEntity(world.createEntity().addComponent(new Triggerable(startGameTrigger.get().withLevelName(game.getCurrentLevel()))));
                 } else {
@@ -115,32 +122,56 @@ public class IngameInputSystem extends EntityProcessingSystem {
                     boolean downPressed = controls.getDown().isPressed();
                     boolean leftPressed = controls.getLeft().isPressed();
                     boolean rightPressed = controls.getRight().isPressed();
+
+                    // the user has made some action, stop following the current path
+                    if (mouseClick.isPressed() || upPressed || downPressed || leftPressed || rightPressed) {
+                        nedPath = null;
+                    }
+
+                    // search a path on click
                     if (!inGameUI.isMouseHoverHoverAButton() && mouseClick.isPressed()) {
                         final Sprite selectedSprite = game.getSystem(MouseArrowSystem.class).getSelectedSprite();
+                        game.getSystem(MouseArrowSystem.class).setTarget(selectedSprite);
                         if (null != selectedSprite) {
                             Vector3 selectedPosition = selectedSprite.getPosition();
-
                             Vector3 nedPosition = spriteMapper.get(ned).getPosition();
-                            int nedX = Math.round(nedPosition.x);
-                            int nedY = Math.round(nedPosition.y);
-                            int selectedX = Math.round(selectedPosition.x);
-                            int selectedY = Math.round(selectedPosition.y);
 
-                            if (nedX == selectedX) {
-                                if (nedY < selectedY) {
-                                    rightPressed = true;
-                                } else if (nedY > selectedY) {
-                                    leftPressed = true;
-                                }
-                            } else if (nedY == selectedY) {
-                                if (nedX < selectedX) {
-                                    downPressed = true;
-                                } else if (nedX > selectedX) {
-                                    upPressed = true;
-                                }
+                            nedPath = new AStar(this.nedMapper.getSafe(ned).getIndex(), new Vector(nedPosition.x, nedPosition.y), new Vector(selectedPosition.x, selectedPosition.y)).getPath();
+                        }
+                    }
+
+                    // make Ned follow the current path
+                    if (nedPath == null || nedPath.isEmpty()) {
+                        nedPath = null;
+                        game.getSystem(MouseArrowSystem.class).setTarget(null);
+                    } else {
+                        Vector3 nedPosition = spriteMapper.get(ned).getPosition();
+                        Vector nextPosition = nedPath.popStep();
+                        if (nedPath.isEmpty()) {
+                            ned.removeComponent(Path.class);
+                            ned.changedInWorld();
+                        }
+
+                        int nedX = Math.round(nedPosition.x);
+                        int nedY = Math.round(nedPosition.y);
+                        int nextX = Math.round(nextPosition.x);
+                        int nextY = Math.round(nextPosition.y);
+
+                        if (nedX == nextX) {
+                            if (nedY < nextY) {
+                                rightPressed = true;
+                            } else if (nedY > nextY) {
+                                leftPressed = true;
+                            }
+                        } else if (nedY == nextY) {
+                            if (nedX < nextX) {
+                                downPressed = true;
+                            } else if (nedX > nextX) {
+                                upPressed = true;
                             }
                         }
                     }
+
                     if (upPressed) {
                         this.nedMapper.getSafe(ned).moveTo(Position.getUp(), 0.0f);
                         ned.changedInWorld();

@@ -239,4 +239,9 @@ public class Ned extends GameObject {
     public boolean isEnd() {
         return end;
     }
+    
+    public LevelIndex getIndex()
+    {
+        return this.index;
+    }
 }
